@@ -1,0 +1,17 @@
+2023-06-29T16:39:17.854+05:00  INFO 11116 --- [restartedMain] com.example.demo.StartupApplication      : Starting StartupApplication using Java 17.0.7 with PID 11116 (C:\Program Files\learn-spring-framework\startUp\demo\build\classes\java\main started by Asus in C:\Program Files\learn-spring-framework\startUp)
+2023-06-29T16:39:17.857+05:00  INFO 11116 --- [restartedMain] com.example.demo.StartupApplication      : No active profile set, falling back to 1 default profile: "default"
+2023-06-29T16:39:19.033+05:00  INFO 11116 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-06-29T16:39:19.035+05:00  INFO 11116 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.10]
+2023-06-29T16:39:19.098+05:00  INFO 11116 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-06-29T16:39:19.247+05:00  INFO 11116 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-06-29T16:39:19.312+05:00  INFO 11116 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.5.Final
+2023-06-29T16:39:19.315+05:00  INFO 11116 --- [restartedMain] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-06-29T16:39:19.449+05:00  INFO 11116 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-06-29T16:39:19.606+05:00  INFO 11116 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-06-29T16:39:19.754+05:00  INFO 11116 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@49f32eee
+2023-06-29T16:39:19.756+05:00  INFO 11116 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-06-29T16:39:19.878+05:00  INFO 11116 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-06-29T16:39:20.096+05:00  INFO 11116 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-29T16:39:20.492+05:00  INFO 11116 --- [restartedMain] com.example.demo.StartupApplication      : Started StartupApplication in 3.022 seconds (process running for 3.569)
+2023-06-29T16:42:11.359+05:00  INFO 11116 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-06-29T16:42:11.364+05:00  INFO 11116 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
