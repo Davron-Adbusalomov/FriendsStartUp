@@ -39,6 +39,17 @@ public class StudentService {
         }
         else {
             Student student = studentOptional.get();
+            student.setId(studentDTO.getId());
+            student.setUsername(studentDTO.getUsername());
+            student.setName(studentDTO.getName());
+            student.setRole(studentDTO.getRole());
+            student.setEmail(studentDTO.getEmail());
+            student.setNumber(studentDTO.getNumber());
+            student.setPassword(studentDTO.getPassword());
+            student.setAge(studentDTO.getAge());
+            student.setTeachers(studentDTO.getTeacherDTOS());
+            student.setGroupings(studentDTO.getGrouping());
+
             return studentRepository.save(StudentMapper.INSTANCE.toModel(studentDTO));
         }
     }
