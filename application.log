@@ -723,3 +723,60 @@ java.lang.NullPointerException: Cannot invoke "com.example.demo.management.model
 2023-12-16T16:03:57.382+05:00  WARN 18300 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
 2023-12-16T16:03:57.382+05:00  WARN 18300 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "test_results" does not exist, skipping
 2023-12-16T16:03:58.477+05:00  INFO 18300 --- [restartedMain] com.example.demo.StartupApplication      : Started StartupApplication in 6.469 seconds (process running for 7.33)
+2023-12-16T16:17:56.251+05:00  INFO 18300 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-12-16T16:17:56.267+05:00  INFO 18300 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-12-16T16:19:43.219+05:00  INFO 21352 --- [restartedMain] com.example.demo.StartupApplication      : Starting StartupApplication using Java 17.0.7 with PID 21352 (C:\Program Files\learn-spring-framework\startUp\demo\build\classes\java\main started by Asus in C:\Program Files\learn-spring-framework\startUp)
+2023-12-16T16:19:43.223+05:00  INFO 21352 --- [restartedMain] com.example.demo.StartupApplication      : No active profile set, falling back to 1 default profile: "default"
+2023-12-16T16:19:44.745+05:00  INFO 21352 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-12-16T16:19:44.745+05:00  INFO 21352 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.10]
+2023-12-16T16:19:44.812+05:00  INFO 21352 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-12-16T16:19:44.982+05:00  INFO 21352 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-12-16T16:19:45.052+05:00  INFO 21352 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.5.Final
+2023-12-16T16:19:45.055+05:00  INFO 21352 --- [restartedMain] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-12-16T16:19:45.245+05:00  INFO 21352 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-12-16T16:19:45.419+05:00  INFO 21352 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-12-16T16:19:45.639+05:00  INFO 21352 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4218a48a
+2023-12-16T16:19:45.640+05:00  INFO 21352 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-12-16T16:19:45.982+05:00  INFO 21352 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-12-16T16:19:46.766+05:00  INFO 21352 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-12-16T16:19:46.790+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.791+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "answer" does not exist, skipping
+2023-12-16T16:19:46.792+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.793+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "group_student" does not exist, skipping
+2023-12-16T16:19:46.793+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.793+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "group_student" does not exist, skipping
+2023-12-16T16:19:46.794+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.794+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "groups" does not exist, skipping
+2023-12-16T16:19:46.795+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.796+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "student" does not exist, skipping
+2023-12-16T16:19:46.796+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.797+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "student" does not exist, skipping
+2023-12-16T16:19:46.797+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.797+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "teacher_student" does not exist, skipping
+2023-12-16T16:19:46.797+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.798+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "teacher_student" does not exist, skipping
+2023-12-16T16:19:46.798+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.798+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "test" does not exist, skipping
+2023-12-16T16:19:46.800+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.801+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "admin" does not exist, skipping
+2023-12-16T16:19:46.801+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.801+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "answer" does not exist, skipping
+2023-12-16T16:19:46.802+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.803+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "group_student" does not exist, skipping
+2023-12-16T16:19:46.804+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.805+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "groups" does not exist, skipping
+2023-12-16T16:19:46.806+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.806+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "parent" does not exist, skipping
+2023-12-16T16:19:46.807+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.807+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "question" does not exist, skipping
+2023-12-16T16:19:46.807+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.808+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "student" does not exist, skipping
+2023-12-16T16:19:46.808+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.808+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "teacher" does not exist, skipping
+2023-12-16T16:19:46.809+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.809+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "teacher_student" does not exist, skipping
+2023-12-16T16:19:46.810+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.811+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "test" does not exist, skipping
+2023-12-16T16:19:46.811+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-16T16:19:46.811+05:00  WARN 21352 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "test_results" does not exist, skipping
+2023-12-16T16:19:47.843+05:00  INFO 21352 --- [restartedMain] com.example.demo.StartupApplication      : Started StartupApplication in 5.095 seconds (process running for 5.796)
