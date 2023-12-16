@@ -1,5 +1,6 @@
 package com.example.demo.management.dto;
 
+import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class TeacherDTO {
 
     private String password;
 
-    private List<Group> groupDTOS;
+    private List<Grouping> groupDTOS;
 
     private List<Student> studentDTOList;
 

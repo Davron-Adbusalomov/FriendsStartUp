@@ -1,14 +1,14 @@
 package com.example.demo.management.service;
 
 import com.example.demo.management.dto.StudentDTO;
-import com.example.demo.management.mapper.StudentMapper;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.repository.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -16,23 +16,22 @@ public class StudentService {
     @Autowired
     StudentRepository studentRepository;
 
-    public ArrayList<Student> getGroups(){return (ArrayList<Student>) studentRepository.findAll();}
+    public ResponseEntity<?> getStudents(){return ResponseEntity.status(HttpStatus.OK).body(studentRepository.findAll());}
 
-    public Student getGroupById(Long studentID){
+    public ResponseEntity<?> getStudentById(Long studentID){
         Student student = studentRepository.findById(studentID)
-                .orElseThrow(() -> new EntityNotFoundException("Not found group with id: "+studentID));
-        return student;
+                .orElseThrow(() -> new EntityNotFoundException("Not found student with id: "+studentID));
+        return ResponseEntity.status(HttpStatus.OK).body(student);
     }
 
-    public Student addStudent(StudentDTO studentDTO){return studentRepository.save(StudentMapper.INSTANCE.toModel(studentDTO));}
-
-    public void deleteStudent(Long studentID){
+    public ResponseEntity<?> deleteStudent(Long studentID){
         Student student = studentRepository.findById(studentID)
                 .orElseThrow(() -> new EntityNotFoundException("Not found group with id: "+studentID));
         studentRepository.delete(student);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Successfully deleted!");
     }
 
-    public Student updateStudent(StudentDTO studentDTO, Long studentID){
+    public ResponseEntity<?> updateStudent(StudentDTO studentDTO, Long studentID){
         Optional<Student> studentOptional = studentRepository.findById(studentID);
         if (studentOptional.isEmpty()){
             throw new EntityNotFoundException("Not found group with id: "+studentID);
@@ -50,7 +49,8 @@ public class StudentService {
             student.setTeachers(studentDTO.getTeacherDTOS());
             student.setGroupings(studentDTO.getGrouping());
 
-            return studentRepository.save(StudentMapper.INSTANCE.toModel(studentDTO));
+            studentRepository.save(student);
+            return ResponseEntity.status(HttpStatus.OK).body(student);
         }
     }
 
