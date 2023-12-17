@@ -1,6 +1,6 @@
 package com.example.demo.management.model;
 
-import com.example.demo.test.model.Test_Results;
+import com.example.demo.test.model.Quiz_Results;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class Student {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -40,9 +41,8 @@ public class Student {
     @JoinColumn(name="parent_id")
     private Parent parent;
 
-    @OneToOne
-    @JoinColumn(name = "marks")
-    private Test_Results testResults;
+    @OneToMany(mappedBy = "student")
+    private List<Quiz_Results> testResults;
 
 
 }

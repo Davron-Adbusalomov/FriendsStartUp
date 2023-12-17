@@ -1,24 +1,37 @@
 package com.example.demo.test.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.example.demo.management.model.Teacher;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
 @Data
 public class Question{
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
-    private List<Answer> answers;
-
     @Id
-    private Long question_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String question;
+    private String title;
+
+    private String type;
+
+    private String right_answer;
+
+    private int mark;
+
+    // option
+
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
+
+    @ManyToMany(mappedBy = "questions")
+    private Set<Quiz> quizzes;
 
 }

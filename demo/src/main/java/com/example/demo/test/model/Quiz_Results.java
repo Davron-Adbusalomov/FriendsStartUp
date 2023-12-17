@@ -1,9 +1,7 @@
 package com.example.demo.test.model;
 
 import com.example.demo.management.model.Student;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,11 +10,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Test_Results{
-
+public class Quiz_Results {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "testResults")
+    private Long mark;
+
+    @OneToOne
+    @JoinColumn(name = "quiz_id")
+    private Quiz quiz;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id")
     private Student student;
 }

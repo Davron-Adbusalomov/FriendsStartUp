@@ -1,5 +1,7 @@
 package com.example.demo.management.model;
 
+import com.example.demo.test.model.Question;
+import com.example.demo.test.model.Quiz;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -26,11 +28,18 @@ public class Teacher {
     @OneToMany(mappedBy = "teacher")
     private List<Grouping> groupings;
 
+    @OneToMany(mappedBy = "teacher")
+    private List<Quiz> quizzes;
+
+    @OneToMany(mappedBy = "teacher")
+    private List<Question> questions;
+
     @ManyToMany
     @JoinTable(
     name = "teacher_student",
     joinColumns = @JoinColumn(name = "teacher_id"),
     inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<Student> students;
+
 
 }

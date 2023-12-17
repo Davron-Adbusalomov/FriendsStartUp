@@ -44,7 +44,7 @@ public class GroupService {
             grouping1.setSubject(groupDTO.getSubject());
             grouping1.setTeacher(groupDTO.getTeacherDTO());
             grouping1.setStudents(groupDTO.getStudentDTOList());
-            grouping1.setTests(groupDTO.getTests());
+            grouping1.setQuizzes(groupDTO.getQuizzes());
 
             groupRepository.save(grouping1);
             return ResponseEntity.status(HttpStatus.OK).body(grouping1);
