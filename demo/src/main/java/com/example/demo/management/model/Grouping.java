@@ -1,6 +1,6 @@
 package com.example.demo.management.model;
 
-import com.example.demo.test.model.Test;
+import com.example.demo.test.model.Quiz;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,6 +24,6 @@ public class Grouping {
     @ManyToMany(mappedBy = "groupings")
     private List<Student> students;
 
-    @OneToMany(mappedBy = "grouping")
-    private List<Test> tests;
+    @OneToMany()
+    private List<Quiz> quizzes;
 }

@@ -665,3 +665,227 @@ java.lang.NullPointerException: Cannot invoke "com.example.demo.management.model
 2023-12-16T15:39:25.776+05:00  WARN 7724 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
 2023-12-16T15:39:25.776+05:00  WARN 7724 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "test_results" does not exist, skipping
 2023-12-16T15:39:26.795+05:00  INFO 7724 --- [restartedMain] com.example.demo.StartupApplication      : Started StartupApplication in 5.213 seconds (process running for 6.018)
+2023-12-18T19:58:39.186+05:00  INFO 9664 --- [restartedMain] com.example.demo.StartupApplication      : Starting StartupApplication using Java 17.0.9 with PID 9664 (C:\Users\Jahongir\IdeaProjects\FriendsStartUp\demo\build\classes\java\main started by Jahongir in C:\Users\Jahongir\IdeaProjects\FriendsStartUp)
+2023-12-18T19:58:39.189+05:00  INFO 9664 --- [restartedMain] com.example.demo.StartupApplication      : No active profile set, falling back to 1 default profile: "default"
+2023-12-18T19:58:40.941+05:00  INFO 9664 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-12-18T19:58:40.941+05:00  INFO 9664 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.10]
+2023-12-18T19:58:41.006+05:00  INFO 9664 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-12-18T19:58:41.180+05:00  INFO 9664 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-12-18T19:58:41.274+05:00  INFO 9664 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.5.Final
+2023-12-18T19:58:41.278+05:00  INFO 9664 --- [restartedMain] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-12-18T19:58:41.512+05:00  INFO 9664 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-12-18T19:58:41.815+05:00  INFO 9664 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-12-18T19:58:42.011+05:00  INFO 9664 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@20ab1709
+2023-12-18T19:58:42.012+05:00  INFO 9664 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-12-18T19:58:42.450+05:00  INFO 9664 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-12-18T19:58:43.470+05:00  INFO 9664 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-12-18T19:58:43.495+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.495+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "group_student" does not exist, skipping
+2023-12-18T19:58:43.497+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.498+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "group_student" does not exist, skipping
+2023-12-18T19:58:43.498+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.499+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "groups" does not exist, skipping
+2023-12-18T19:58:43.499+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.499+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "groups_quizzes" does not exist, skipping
+2023-12-18T19:58:43.500+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.500+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "groups_quizzes" does not exist, skipping
+2023-12-18T19:58:43.501+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.501+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "option" does not exist, skipping
+2023-12-18T19:58:43.502+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.502+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "question" does not exist, skipping
+2023-12-18T19:58:43.503+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.503+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "quiz" does not exist, skipping
+2023-12-18T19:58:43.504+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.505+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "student" does not exist, skipping
+2023-12-18T19:58:43.505+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.506+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "student" does not exist, skipping
+2023-12-18T19:58:43.506+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.507+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "teacher_student" does not exist, skipping
+2023-12-18T19:58:43.507+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.508+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "teacher_student" does not exist, skipping
+2023-12-18T19:58:43.508+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.508+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T19:58:43.509+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.509+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T19:58:43.510+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.510+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T19:58:43.511+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.511+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T19:58:43.512+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.512+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "admin" does not exist, skipping
+2023-12-18T19:58:43.513+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.513+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "group_student" does not exist, skipping
+2023-12-18T19:58:43.513+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.513+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "groups" does not exist, skipping
+2023-12-18T19:58:43.515+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.515+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "groups_quizzes" does not exist, skipping
+2023-12-18T19:58:43.515+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.515+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "option" does not exist, skipping
+2023-12-18T19:58:43.516+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.516+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "parent" does not exist, skipping
+2023-12-18T19:58:43.517+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.517+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "question" does not exist, skipping
+2023-12-18T19:58:43.517+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.517+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "quiz" does not exist, skipping
+2023-12-18T19:58:43.519+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.519+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "student" does not exist, skipping
+2023-12-18T19:58:43.520+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.520+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "teacher" does not exist, skipping
+2023-12-18T19:58:43.521+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.521+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "teacher_student" does not exist, skipping
+2023-12-18T19:58:43.522+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.522+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "test_results" does not exist, skipping
+2023-12-18T19:58:43.523+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:58:43.523+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "user_response" does not exist, skipping
+2023-12-18T19:58:45.002+05:00  INFO 9664 --- [restartedMain] com.example.demo.StartupApplication      : Started StartupApplication in 6.416 seconds (process running for 8.026)
+2023-12-18T19:59:45.843+05:00  INFO 9664 --- [Thread-5] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-12-18T19:59:45.919+05:00  INFO 9664 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-12-18T19:59:45.921+05:00  INFO 9664 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-12-18T19:59:46.053+05:00  INFO 9664 --- [restartedMain] com.example.demo.StartupApplication      : Starting StartupApplication using Java 17.0.9 with PID 9664 (C:\Users\Jahongir\IdeaProjects\FriendsStartUp\demo\build\classes\java\main started by Jahongir in C:\Users\Jahongir\IdeaProjects\FriendsStartUp)
+2023-12-18T19:59:46.055+05:00  INFO 9664 --- [restartedMain] com.example.demo.StartupApplication      : No active profile set, falling back to 1 default profile: "default"
+2023-12-18T19:59:47.105+05:00  INFO 9664 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-12-18T19:59:47.105+05:00  INFO 9664 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.10]
+2023-12-18T19:59:47.124+05:00  INFO 9664 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-12-18T19:59:47.164+05:00  INFO 9664 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-12-18T19:59:47.172+05:00  INFO 9664 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-12-18T19:59:47.174+05:00  INFO 9664 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2023-12-18T19:59:47.236+05:00  INFO 9664 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@1c966f7
+2023-12-18T19:59:47.237+05:00  INFO 9664 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2023-12-18T19:59:47.283+05:00  INFO 9664 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-12-18T19:59:47.465+05:00  INFO 9664 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-12-18T19:59:47.466+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.467+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "group_student" does not exist, skipping
+2023-12-18T19:59:47.467+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.467+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "group_student" does not exist, skipping
+2023-12-18T19:59:47.468+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.468+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "groups" does not exist, skipping
+2023-12-18T19:59:47.470+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.470+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "groups_quizzes" does not exist, skipping
+2023-12-18T19:59:47.471+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.471+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "groups_quizzes" does not exist, skipping
+2023-12-18T19:59:47.472+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.472+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "option" does not exist, skipping
+2023-12-18T19:59:47.472+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.473+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "question" does not exist, skipping
+2023-12-18T19:59:47.473+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.473+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "quiz" does not exist, skipping
+2023-12-18T19:59:47.474+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.474+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "student" does not exist, skipping
+2023-12-18T19:59:47.475+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.475+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "student" does not exist, skipping
+2023-12-18T19:59:47.475+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.475+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "teacher_student" does not exist, skipping
+2023-12-18T19:59:47.476+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.476+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "teacher_student" does not exist, skipping
+2023-12-18T19:59:47.477+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.477+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T19:59:47.477+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.478+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T19:59:47.479+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.479+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T19:59:47.480+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.480+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T19:59:47.481+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.482+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "admin" does not exist, skipping
+2023-12-18T19:59:47.482+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.482+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "group_student" does not exist, skipping
+2023-12-18T19:59:47.483+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.483+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "groups" does not exist, skipping
+2023-12-18T19:59:47.484+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.484+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "groups_quizzes" does not exist, skipping
+2023-12-18T19:59:47.485+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.485+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "option" does not exist, skipping
+2023-12-18T19:59:47.486+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.486+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "parent" does not exist, skipping
+2023-12-18T19:59:47.487+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.487+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "question" does not exist, skipping
+2023-12-18T19:59:47.488+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.488+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "quiz" does not exist, skipping
+2023-12-18T19:59:47.489+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.489+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "student" does not exist, skipping
+2023-12-18T19:59:47.490+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.490+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "teacher" does not exist, skipping
+2023-12-18T19:59:47.491+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.491+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "teacher_student" does not exist, skipping
+2023-12-18T19:59:47.491+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.492+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "test_results" does not exist, skipping
+2023-12-18T19:59:47.492+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T19:59:47.492+05:00  WARN 9664 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "user_response" does not exist, skipping
+2023-12-18T19:59:48.119+05:00  INFO 9664 --- [restartedMain] com.example.demo.StartupApplication      : Started StartupApplication in 2.152 seconds (process running for 71.142)
+2023-12-18T19:59:52.108+05:00  INFO 9664 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-12-18T19:59:53.328+05:00  INFO 9664 --- [http-nio-8080-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 784 ms
+2023-12-18T20:00:04.166+05:00  INFO 9664 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2023-12-18T20:00:04.171+05:00  INFO 9664 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2023-12-18T20:00:07.919+05:00  INFO 4960 --- [restartedMain] com.example.demo.StartupApplication      : Starting StartupApplication using Java 17.0.9 with PID 4960 (C:\Users\Jahongir\IdeaProjects\FriendsStartUp\demo\build\classes\java\main started by Jahongir in C:\Users\Jahongir\IdeaProjects\FriendsStartUp)
+2023-12-18T20:00:07.922+05:00  INFO 4960 --- [restartedMain] com.example.demo.StartupApplication      : No active profile set, falling back to 1 default profile: "default"
+2023-12-18T20:00:09.393+05:00  INFO 4960 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-12-18T20:00:09.393+05:00  INFO 4960 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.10]
+2023-12-18T20:00:09.457+05:00  INFO 4960 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-12-18T20:00:09.610+05:00  INFO 4960 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-12-18T20:00:09.683+05:00  INFO 4960 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.5.Final
+2023-12-18T20:00:09.686+05:00  INFO 4960 --- [restartedMain] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-12-18T20:00:09.868+05:00  INFO 4960 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-12-18T20:00:10.051+05:00  INFO 4960 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-12-18T20:00:10.212+05:00  INFO 4960 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1409c23d
+2023-12-18T20:00:10.213+05:00  INFO 4960 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-12-18T20:00:10.592+05:00  INFO 4960 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-12-18T20:00:11.487+05:00  INFO 4960 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-12-18T20:00:11.508+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.508+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "group_student" does not exist, skipping
+2023-12-18T20:00:11.508+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.509+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "group_student" does not exist, skipping
+2023-12-18T20:00:11.509+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.509+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "groups" does not exist, skipping
+2023-12-18T20:00:11.510+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.510+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "groups_quizzes" does not exist, skipping
+2023-12-18T20:00:11.511+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.511+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "groups_quizzes" does not exist, skipping
+2023-12-18T20:00:11.512+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.512+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "option" does not exist, skipping
+2023-12-18T20:00:11.513+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.513+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "question" does not exist, skipping
+2023-12-18T20:00:11.514+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.514+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "quiz" does not exist, skipping
+2023-12-18T20:00:11.514+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.515+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "student" does not exist, skipping
+2023-12-18T20:00:11.515+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.515+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "student" does not exist, skipping
+2023-12-18T20:00:11.517+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.517+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "teacher_student" does not exist, skipping
+2023-12-18T20:00:11.517+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.518+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "teacher_student" does not exist, skipping
+2023-12-18T20:00:11.518+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.518+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T20:00:11.519+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.519+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T20:00:11.520+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.520+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T20:00:11.520+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.520+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : relation "user_response" does not exist, skipping
+2023-12-18T20:00:11.521+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.521+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "admin" does not exist, skipping
+2023-12-18T20:00:11.522+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.522+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "group_student" does not exist, skipping
+2023-12-18T20:00:11.522+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.523+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "groups" does not exist, skipping
+2023-12-18T20:00:11.523+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.523+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "groups_quizzes" does not exist, skipping
+2023-12-18T20:00:11.524+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.524+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "option" does not exist, skipping
+2023-12-18T20:00:11.524+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.524+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "parent" does not exist, skipping
+2023-12-18T20:00:11.525+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.525+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "question" does not exist, skipping
+2023-12-18T20:00:11.527+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.527+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "quiz" does not exist, skipping
+2023-12-18T20:00:11.527+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.528+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "student" does not exist, skipping
+2023-12-18T20:00:11.528+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.528+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "teacher" does not exist, skipping
+2023-12-18T20:00:11.529+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.529+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "teacher_student" does not exist, skipping
+2023-12-18T20:00:11.530+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.530+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "test_results" does not exist, skipping
+2023-12-18T20:00:11.530+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2023-12-18T20:00:11.530+05:00  WARN 4960 --- [restartedMain] o.h.engine.jdbc.spi.SqlExceptionHelper   : table "user_response" does not exist, skipping
+2023-12-18T20:00:12.768+05:00  INFO 4960 --- [restartedMain] com.example.demo.StartupApplication      : Started StartupApplication in 5.258 seconds (process running for 5.961)

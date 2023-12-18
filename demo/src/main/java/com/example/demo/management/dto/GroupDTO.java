@@ -3,7 +3,7 @@ package com.example.demo.management.dto;
 
 import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
-import com.example.demo.test.model.Test;
+import com.example.demo.test.model.Quiz;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,5 +25,5 @@ public class GroupDTO {
 
     private List<Student> studentDTOList;
 
-    private List<Test> tests;
+    private List<Quiz> quizzes;
 }

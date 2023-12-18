@@ -1,5 +1,6 @@
 package com.example.demo.test.model;
 
+import com.example.demo.management.model.Teacher;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,27 +17,24 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Question {
+public class Quiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String text;
-
-    private Double mark;
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Option> options = new ArrayList<>();
+    private String title;
 
     @ManyToOne
-    @JoinColumn(name = "quiz_id")
-    private Quiz quiz;
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions = new ArrayList<>();
 
     // Additional properties
     private LocalDateTime createdAt;

@@ -1,5 +1,6 @@
 package com.example.demo.test.dto;
 
+import com.example.demo.test.model.Question;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -7,16 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class QuestionDTO {
+public class QuizDTO {
     private Long id;
 
-    private String text;
+    private String title;
 
-    private Double mark;
+    private Long teacherId;
 
-    private List<OptionDTO> options = new ArrayList<>();
-
-    private Long quizId;
+    private List<Question> questions = new ArrayList<>();
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
