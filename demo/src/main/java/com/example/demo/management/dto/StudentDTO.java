@@ -1,36 +1,35 @@
-    package com.example.demo.management.dto;
+package com.example.demo.management.dto;
 
-    import com.example.demo.management.model.Grouping;
-    import com.example.demo.management.model.Teacher;
-    import lombok.AllArgsConstructor;
-    import lombok.Data;
-    import lombok.NoArgsConstructor;
+import lombok.*;
 
-    import java.util.List;
+import java.util.List;
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class StudentDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class StudentDTO {
 
-        private Long id;
+    private Long id;
 
-        private String name;
+    private String name;
 
-        private Long age;
+    private Long age;
 
-        private Long number;
+    private Long number;
 
-        private String email;
+    private String email;
 
-        private String username;
+    private String username;
 
-        private String password;
+    private String password;
 
-        private String role;
+    private String role;
 
-        private List<Grouping> grouping;
+    private String parent_email;
 
-        private List<Teacher> teacherDTOS;
+    private String parent_contact;
 
-    }
+    private String relationship;
+
+}

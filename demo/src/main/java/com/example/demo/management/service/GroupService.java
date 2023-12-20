@@ -2,7 +2,11 @@ package com.example.demo.management.service;
 
 import com.example.demo.management.dto.GroupDTO;
 import com.example.demo.management.model.Grouping;
+import com.example.demo.management.model.Student;
+import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
+import com.example.demo.management.repository.StudentRepository;
+import com.example.demo.management.repository.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,11 +15,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class GroupService {
     @Autowired
     GroupRepository groupRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     public ResponseEntity<List<Grouping>> getGroups(){return ResponseEntity.status(HttpStatus.OK).body( groupRepository.findAll());}
 
@@ -42,12 +53,28 @@ public class GroupService {
             grouping1.setId(groupId);
             grouping1.setName(groupDTO.getName());
             grouping1.setSubject(groupDTO.getSubject());
-            grouping1.setTeacher(groupDTO.getTeacherDTO());
-            grouping1.setStudents(groupDTO.getStudentDTOList());
+         //   grouping1.setTeacher(groupDTO.getTeacherDTO());
+           // grouping1.setStudents((Set<Student>) groupDTO.getStudentDTOList());
             grouping1.setQuizzes(groupDTO.getQuizzes());
 
             groupRepository.save(grouping1);
             return ResponseEntity.status(HttpStatus.OK).body(grouping1);
         }
     }
+
+    public ResponseEntity<?> assignStudentToGroup(Long groupId, Long studentId){
+        Student student = studentRepository.findById(studentId).get();
+        Grouping grouping = groupRepository.findById(groupId).get();
+        grouping.assignStudent(student);
+        return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
+    }
+
+    public ResponseEntity<?> assignTeacherToGroup(Long groupId, Long teacherId){
+        Teacher teacher = teacherRepository.findById(teacherId).get();
+        Grouping grouping = groupRepository.findById(groupId).get();
+        grouping.assignTeacher(teacher);
+        return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
+    }
+
+
 }

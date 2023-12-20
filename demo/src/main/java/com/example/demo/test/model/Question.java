@@ -1,10 +1,13 @@
 package com.example.demo.test.model;
 
+import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -25,13 +28,19 @@ public class Question{
 
     private int mark;
 
-    // option
-
     @ManyToOne
     @JoinColumn(name = "teacher_id")
+    @JsonIgnoreProperties("questions")
     private Teacher teacher;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "questions")
     private Set<Quiz> quizzes;
 
+    @OneToMany(mappedBy = "question")
+    private List<Option> options = new ArrayList<>();
+
+    public void assignOption(Option option) {
+        options.add(option);
+    }
 }

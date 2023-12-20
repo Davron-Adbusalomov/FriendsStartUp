@@ -31,4 +31,6 @@ public class StudentController {
     public ResponseEntity<?> updateStudent(@RequestBody StudentDTO studentDTO, @PathVariable Long id){
         return studentService.updateStudent(studentDTO,id);
     }
+
+
 }

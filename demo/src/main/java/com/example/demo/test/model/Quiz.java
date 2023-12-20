@@ -2,15 +2,16 @@ package com.example.demo.test.model;
 
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Quiz {
@@ -19,7 +20,9 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private boolean duration;
+    private int questions_num;
+
+    private Long duration;
 
     @ManyToOne
     @JoinColumn(name = "grouping_id")
@@ -27,6 +30,7 @@ public class Quiz {
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
+    @JsonIgnoreProperties("quizzes")
     private Teacher teacher;
 
     @ManyToMany
@@ -35,8 +39,12 @@ public class Quiz {
             joinColumns = @JoinColumn(name = "quiz_id"),
             inverseJoinColumns = @JoinColumn(name = "question_id")
     )
-    private Set<Question> questions;
+    private Set<Question> questions = new HashSet<>();
 
     @OneToOne(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
     private Quiz_Results quizResult;
+
+    public void assignQuestion(Question question) {
+        questions.add(question);
+    }
 }

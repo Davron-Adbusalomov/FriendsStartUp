@@ -14,11 +14,30 @@ public interface QuestionMapper {
 
         QuestionMapper INSTANCE = Mappers.getMapper(QuestionMapper.class);
 
-        QuestionDTO toDTO(Question question);
+        static QuestionDTO toDTO(Question question){
+                QuestionDTO questionDTO = new QuestionDTO();
+                questionDTO.setId(question.getId());
+                questionDTO.setMark(question.getMark());
+                questionDTO.setTitle(question.getTitle());
+                questionDTO.setType(question.getType());
+                questionDTO.setRight_answer(question.getRight_answer());
+                questionDTO.setTeacher(question.getTeacher());
+               // questionDTO.setOptions(question.getOptions());
+                return questionDTO;
+        }
 
         ArrayList<QuestionDTO> toDTO(ArrayList<Question> questions);
 
-        Question toModel(QuestionDTO questionDTO);
+        static Question toModel(QuestionDTO questionDTO){
+                Question question = new Question();
+                question.setId(questionDTO.getId());
+                question.setTitle(questionDTO.getTitle());
+                question.setType(questionDTO.getType());
+                question.setMark(questionDTO.getMark());
+                question.setRight_answer(questionDTO.getRight_answer());
+                question.setTeacher(questionDTO.getTeacher());
+                return question;
+        };
 
 
 }

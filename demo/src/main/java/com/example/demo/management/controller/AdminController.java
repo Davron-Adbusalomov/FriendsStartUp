@@ -48,11 +48,6 @@ public class AdminController {
         return adminService.registerGroup(groupDTO);
     }
 
-    @PostMapping("registerParent")
-    public ResponseEntity<?> registerParent(@RequestBody ParentDTO parentDTO){
-        return adminService.registerParent(parentDTO);
-    }
-
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody AdminDTO adminDTO){
         return adminService.loginAdmin(adminDTO);

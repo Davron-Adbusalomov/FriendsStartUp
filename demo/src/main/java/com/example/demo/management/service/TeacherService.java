@@ -43,10 +43,11 @@ public class TeacherService {
         teacher.setUsername(teacherDTO.getUsername());
         teacher.setPassword(teacherDTO.getPassword());
         teacher.setPhone_num(teacherDTO.getPhone_num());
-        teacher.setStudents(teacherDTO.getStudentDTOList());
-        teacher.setGroupings(teacherDTO.getGroupDTOS());
+        //teacher.setGroupings(teacherDTO.getGroupDTOS());
 
         teacherRepository.save(teacher);
         return ResponseEntity.status(HttpStatus.OK).body(teacher);
     }
+
+
 }

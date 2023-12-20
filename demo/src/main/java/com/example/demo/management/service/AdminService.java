@@ -27,8 +27,6 @@ public class AdminService {
     @Autowired
     private GroupRepository groupRepository;
 
-    @Autowired
-    private ParentRepository parentRepository;
 
     public ArrayList<Admin> getAdmins(){
         return (ArrayList<Admin>) adminRepository.findAll();
@@ -87,11 +85,6 @@ public class AdminService {
         }
         Grouping group = groupRepository.save(GroupMapper.INSTANCE.toModel(groupDTO));
         return ResponseEntity.status(HttpStatus.OK).body(group);
-    }
-
-    public ResponseEntity<?> registerParent(ParentDTO parentDTO){
-        Parent parent = parentRepository.save(ParentMapper.INSTANCE.toModel(parentDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(parent);
     }
 
 

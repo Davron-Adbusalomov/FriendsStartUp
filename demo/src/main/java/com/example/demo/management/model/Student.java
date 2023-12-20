@@ -1,10 +1,13 @@
 package com.example.demo.management.model;
 
 import com.example.demo.test.model.Quiz_Results;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,22 +30,17 @@ public class Student {
 
     private String role;
 
-    @ManyToMany
-    @JoinTable(
-            name = "group_student",
-            joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
-    private List<Grouping> groupings;
+    private String parent_email;
 
+    private String parent_contact;
+
+    private String relationship;
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "students")
-    private List<Teacher> teachers;
-
-    @ManyToOne
-    @JoinColumn(name="parent_id")
-    private Parent parent;
+    private Set<Grouping> groupings = new HashSet<>();
 
     @OneToMany(mappedBy = "student")
     private List<Quiz_Results> testResults;
-
 
 }

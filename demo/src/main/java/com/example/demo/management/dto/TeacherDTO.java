@@ -2,16 +2,16 @@ package com.example.demo.management.dto;
 
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.catalina.Group;
 
 import java.util.List;
 
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class TeacherDTO {
     private Long id;
 
@@ -26,9 +26,5 @@ public class TeacherDTO {
     private String username;
 
     private String password;
-
-    private List<Grouping> groupDTOS;
-
-    private List<Student> studentDTOList;
 
 }
