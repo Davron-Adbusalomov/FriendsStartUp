@@ -2,6 +2,7 @@ package com.example.demo.test.model;
 
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,6 +26,7 @@ public class Quiz {
     private Long duration;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "grouping_id")
     private Grouping grouping;
 

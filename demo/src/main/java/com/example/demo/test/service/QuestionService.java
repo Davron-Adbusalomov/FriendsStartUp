@@ -1,9 +1,7 @@
 package com.example.demo.test.service;
 
-import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.TeacherRepository;
-import com.example.demo.test.dto.OptionDTO;
 import com.example.demo.test.dto.QuestionDTO;
 import com.example.demo.test.mapper.QuestionMapper;
 import com.example.demo.test.model.Option;
@@ -45,11 +43,13 @@ public class QuestionService {
 
     public ResponseEntity<?> createQuestion(QuestionDTO questionDTO) {
         List<Option> arrayList = new ArrayList<>();
+
         for(int i=0; i<questionDTO.getOptions().size(); i++) {
             Option option = new Option();
             option.setText(questionDTO.getOptions().get(i));
             arrayList.add(option);
         }
+
         try {
             Optional<Teacher> optionalTeacher = teacherRepository.findById(questionDTO.getTeacher().getId());
 

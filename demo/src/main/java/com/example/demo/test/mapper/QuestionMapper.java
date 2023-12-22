@@ -18,6 +18,7 @@ public interface QuestionMapper {
                 QuestionDTO questionDTO = new QuestionDTO();
                 questionDTO.setId(question.getId());
                 questionDTO.setMark(question.getMark());
+                questionDTO.setGroup_name(question.getGroup_name());
                 questionDTO.setTitle(question.getTitle());
                 questionDTO.setType(question.getType());
                 questionDTO.setRight_answer(question.getRight_answer());
@@ -31,6 +32,7 @@ public interface QuestionMapper {
         static Question toModel(QuestionDTO questionDTO){
                 Question question = new Question();
                 question.setId(questionDTO.getId());
+                question.setGroup_name(questionDTO.getGroup_name());
                 question.setTitle(questionDTO.getTitle());
                 question.setType(questionDTO.getType());
                 question.setMark(questionDTO.getMark());

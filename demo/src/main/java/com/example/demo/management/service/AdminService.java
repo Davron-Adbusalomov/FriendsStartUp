@@ -81,7 +81,7 @@ public class AdminService {
 
     public ResponseEntity<?> registerGroup(GroupDTO groupDTO){
         if (groupRepository.findByName(groupDTO.getName()).isPresent()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already existed!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Group already existed!");
         }
         Grouping group = groupRepository.save(GroupMapper.INSTANCE.toModel(groupDTO));
         return ResponseEntity.status(HttpStatus.OK).body(group);

@@ -19,6 +19,8 @@ public class QuestionDTO {
 
     private String title;
 
+    private String group_name;
+
     private String type;
 
     private String right_answer;

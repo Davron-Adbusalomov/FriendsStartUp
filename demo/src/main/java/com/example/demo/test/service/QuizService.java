@@ -5,9 +5,15 @@ import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.TeacherRepository;
+import com.example.demo.test.dto.CheckingMultipleChoiceDTO;
+import com.example.demo.test.dto.QuestionDTO;
 import com.example.demo.test.dto.QuizDTO;
+import com.example.demo.test.dto.Quiz_ResultsDTO;
 import com.example.demo.test.model.Question;
 import com.example.demo.test.model.Quiz;
+import com.example.demo.test.model.Quiz_Results;
+import com.example.demo.test.model.Response;
+import com.example.demo.test.repository.QuestionRepository;
 import com.example.demo.test.repository.QuizRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +34,9 @@ public class QuizService {
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private QuestionRepository questionRepository;
+
 
     public ResponseEntity<?> createQuiz(QuizDTO quizDTO) {
         Optional<Teacher> teacher = teacherRepository.findById(quizDTO.getTeacherId());
@@ -42,7 +51,7 @@ public class QuizService {
 
         Quiz quiz = new Quiz();
         quiz.setTeacher(teacher.get());
-        quiz.setDuration(quiz.getDuration());
+        quiz.setDuration(quizDTO.getDuration());
         quiz.setGrouping(group.get());
         quiz.setQuestions_num(quizDTO.getQuestions_num());
         for (Question question : quizDTO.getQuestions()) {
@@ -83,15 +92,34 @@ public class QuizService {
         return quiz;
     }
 
+    public CheckingMultipleChoiceDTO checkingMultipleChoiceQuestions(List<Response> responseList, Long id){
+        CheckingMultipleChoiceDTO dto = new CheckingMultipleChoiceDTO();
+        Long mark = 0L;
+        List<Response> wrong_answers = new ArrayList<>();
+        List<Response> written_questions = new ArrayList<>();
 
+        for (Response response : responseList) {
+            Optional<Question> optionalQuestion = questionRepository.findById(response.getQuestion_id());
+            if (optionalQuestion.isEmpty()){
+                throw  new EntityNotFoundException("There is no this question in this quiz!");
+            }
+            Question question = optionalQuestion.get();
 
-//    public Quiz getQuizById(Long quizId) {
-//        Optional<Quiz> quizOptional = quizRepository.findById(quizId);
-//
-//        if (quizOptional.isPresent()) {
-//            Quiz quiz = quizOptional.get();
-//            return quiz;
-//        }
-//        throw new EntityNotFoundException("Quiz not found with ID: " + quizId);
-//    }
+            if (!question.getType().equals("Multiple Choice")){
+                written_questions.add(response);
+            }
+            else if (question.getRight_answer().equals(response.getAnswer())){
+                mark++;
+            }
+            else wrong_answers.add(response);
+
+        }
+
+        dto.setWrong_answers(wrong_answers);
+        dto.setWritten_questions(written_questions);
+        dto.setCurrent_mark(mark);
+        dto.setStudent_id(id);
+
+        return dto;
+    }
 }

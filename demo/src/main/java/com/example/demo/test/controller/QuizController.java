@@ -1,14 +1,18 @@
 package com.example.demo.test.controller;
 
+import com.example.demo.test.dto.CheckingMultipleChoiceDTO;
 import com.example.demo.test.dto.QuizDTO;
 import com.example.demo.test.mapper.QuizMapper;
 import com.example.demo.test.model.Quiz;
+import com.example.demo.test.model.Response;
 import com.example.demo.test.service.QuizService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class QuizController {
@@ -32,5 +36,14 @@ public class QuizController {
         }
     }
 
+    @PostMapping("checkMultipleChoice/{id}")
+    public ResponseEntity<?> checkMultipleChoice(@RequestBody List<Response> responseList, @PathVariable Long id){
+        try {
+            CheckingMultipleChoiceDTO checkingMultipleChoiceDTO=quizService.checkingMultipleChoiceQuestions(responseList, id);
+            return ResponseEntity.status(HttpStatus.OK).body(checkingMultipleChoiceDTO);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
 }
