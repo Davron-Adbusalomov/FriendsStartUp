@@ -1,11 +1,9 @@
 package com.example.demo.management.dto;
 
-import com.example.demo.management.model.Grouping;
-import com.example.demo.management.model.Student;
-import lombok.*;
-import org.apache.catalina.Group;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @AllArgsConstructor

@@ -1,6 +1,5 @@
 package com.example.demo.test.model;
 
-import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

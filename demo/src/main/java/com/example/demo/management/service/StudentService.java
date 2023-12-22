@@ -1,7 +1,6 @@
 package com.example.demo.management.service;
 
 import com.example.demo.management.dto.StudentDTO;
-import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.repository.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class StudentService {

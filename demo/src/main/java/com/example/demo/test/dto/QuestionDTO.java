@@ -1,15 +1,11 @@
 package com.example.demo.test.dto;
 
 import com.example.demo.management.model.Teacher;
-import com.example.demo.test.model.Option;
-import com.example.demo.test.model.Quiz;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor

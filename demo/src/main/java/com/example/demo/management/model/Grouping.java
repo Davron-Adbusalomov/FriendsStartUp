@@ -2,7 +2,6 @@ package com.example.demo.management.model;
 
 import com.example.demo.test.model.Quiz;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

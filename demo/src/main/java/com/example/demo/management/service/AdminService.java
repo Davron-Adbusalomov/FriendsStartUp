@@ -1,11 +1,22 @@
 package com.example.demo.management.service;
 
-import com.example.demo.management.dto.*;
-import com.example.demo.management.mapper.*;
-import com.example.demo.management.model.*;
-import com.example.demo.management.repository.*;
+import com.example.demo.management.dto.AdminDTO;
+import com.example.demo.management.dto.GroupDTO;
+import com.example.demo.management.dto.StudentDTO;
+import com.example.demo.management.dto.TeacherDTO;
+import com.example.demo.management.mapper.AdminMapper;
+import com.example.demo.management.mapper.GroupMapper;
+import com.example.demo.management.mapper.StudentMapper;
+import com.example.demo.management.mapper.TeacherMapper;
+import com.example.demo.management.model.Admin;
+import com.example.demo.management.model.Grouping;
+import com.example.demo.management.model.Student;
+import com.example.demo.management.model.Teacher;
+import com.example.demo.management.repository.AdminRepository;
+import com.example.demo.management.repository.GroupRepository;
+import com.example.demo.management.repository.StudentRepository;
+import com.example.demo.management.repository.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.apache.catalina.Group;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

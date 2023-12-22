@@ -1,17 +1,13 @@
 package com.example.demo.test.service;
 
 import com.example.demo.management.model.Grouping;
-import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.test.dto.CheckingMultipleChoiceDTO;
-import com.example.demo.test.dto.QuestionDTO;
 import com.example.demo.test.dto.QuizDTO;
-import com.example.demo.test.dto.Quiz_ResultsDTO;
 import com.example.demo.test.model.Question;
 import com.example.demo.test.model.Quiz;
-import com.example.demo.test.model.Quiz_Results;
 import com.example.demo.test.model.Response;
 import com.example.demo.test.repository.QuestionRepository;
 import com.example.demo.test.repository.QuizRepository;
