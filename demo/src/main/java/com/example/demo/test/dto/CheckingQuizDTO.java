@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckingMultipleChoiceDTO {
+public class CheckingQuizDTO {
     private Long student_id;
 
     private List<Response> wrong_answers;

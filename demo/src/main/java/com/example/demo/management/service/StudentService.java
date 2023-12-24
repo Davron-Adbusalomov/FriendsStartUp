@@ -1,7 +1,9 @@
 package com.example.demo.management.service;
 
 import com.example.demo.management.dto.StudentDTO;
+import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
+import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class StudentService {
     @Autowired
-    StudentRepository studentRepository;
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     public ResponseEntity<?> getStudents(){return ResponseEntity.status(HttpStatus.OK).body(studentRepository.findAll());}
 
@@ -24,12 +30,21 @@ public class StudentService {
         return ResponseEntity.status(HttpStatus.OK).body(student);
     }
 
-    public ResponseEntity<?> deleteStudent(Long studentID){
-        Student student = studentRepository.findById(studentID)
-                .orElseThrow(() -> new EntityNotFoundException("Not found group with id: "+studentID));
+    public ResponseEntity<?> deleteStudent(Long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + studentId));
+
+        List<Grouping> groupings = groupRepository.findByStudentId(studentId);
+
+        for (Grouping grouping : groupings) {
+            grouping.getStudents().remove(student);
+        }
+
         studentRepository.delete(student);
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Successfully deleted!");
     }
+
 
     public ResponseEntity<?> updateStudent(StudentDTO studentDTO, Long studentID){
         Optional<Student> studentOptional = studentRepository.findById(studentID);

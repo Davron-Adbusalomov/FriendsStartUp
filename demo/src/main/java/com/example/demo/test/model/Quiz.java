@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,8 +44,8 @@ public class Quiz {
     )
     private Set<Question> questions = new HashSet<>();
 
-    @OneToOne(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Quiz_Results quizResult;
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Quiz_Results> quizResult;
 
     public void assignQuestion(Question question) {
         questions.add(question);

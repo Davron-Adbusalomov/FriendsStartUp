@@ -41,6 +41,7 @@ public class Student {
     private Set<Grouping> groupings = new HashSet<>();
 
     @OneToMany(mappedBy = "student")
-    private List<Quiz_Results> testResults;
+    @JsonIgnore
+    private List<Quiz_Results> quizResults;
 
 }

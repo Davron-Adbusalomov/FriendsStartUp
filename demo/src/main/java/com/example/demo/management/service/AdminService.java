@@ -43,9 +43,9 @@ public class AdminService {
         return (ArrayList<Admin>) adminRepository.findAll();
     }
 
-    public ResponseEntity<?> getAdminById(AdminDTO adminDTO){
-        Admin admin = adminRepository.findById(adminDTO.getId())
-                .orElseThrow(()->new EntityNotFoundException("There is no admin with this id: "+adminDTO.getId()));
+    public ResponseEntity<?> getAdminById(Long adminId){
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(()->new EntityNotFoundException("There is no admin with this id: "+adminId));
         return ResponseEntity.status(HttpStatus.OK).body(admin);
     }
 

@@ -18,9 +18,9 @@ public class AdminController {
         return adminService.addAdmin(adminDTO);
     }
 
-    @GetMapping("/getById")
-    public ResponseEntity<?> getById(@RequestBody AdminDTO adminDTO){
-        return adminService.getAdminById(adminDTO);
+    @GetMapping("/getById/{adminID}")
+    public ResponseEntity<?> getById(@PathVariable Long adminID){
+        return adminService.getAdminById(adminID);
     }
 
     @DeleteMapping("/deleteById/{id}")

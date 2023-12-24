@@ -1,13 +1,17 @@
 package com.example.demo.test.service;
 
+import com.example.demo.management.model.Grouping;
+import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.test.dto.QuestionDTO;
 import com.example.demo.test.mapper.QuestionMapper;
 import com.example.demo.test.model.Option;
 import com.example.demo.test.model.Question;
+import com.example.demo.test.model.Quiz;
 import com.example.demo.test.repository.OptionRepository;
 import com.example.demo.test.repository.QuestionRepository;
+import com.example.demo.test.repository.QuizRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +32,9 @@ public class QuestionService {
 
     @Autowired
     private OptionRepository optionRepository;
+
+    @Autowired
+    private QuizRepository quizRepository;
 
     public Question getQuestionById(Long id){
         Optional<Question> question = questionRepository.findById(id);
@@ -78,15 +85,21 @@ public class QuestionService {
         }
     }
 
+    public ResponseEntity<?> deleteQuestion(Long questionId){
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(()-> new EntityNotFoundException("Question not found with this id:" + questionId));
 
+        List<Quiz> quizzes = quizRepository.findByQuestionId(questionId);
 
+        for (Quiz quiz: quizzes) {
+            quiz.getQuestions().remove(question);
+        }
 
+        questionRepository.delete(question);
 
-
-    public ResponseEntity<?> deleteQuestion(Long id){
-        questionRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Successfully deleted");
     }
+
 
     public ResponseEntity<?> updateQuestion(QuestionDTO questionDTO,Long id){
         Optional<Question> question = questionRepository.findById(id);

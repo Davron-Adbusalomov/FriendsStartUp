@@ -1,5 +1,7 @@
 package com.example.demo.test.dto;
 
+import com.example.demo.management.model.Student;
+import com.example.demo.test.model.Quiz;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +14,7 @@ public class Quiz_ResultsDTO {
 
     private Long mark;
 
-    private Long quiz_id;
+    private Quiz quiz;
 
-    private Long student_id;
+    private Student student;
 }

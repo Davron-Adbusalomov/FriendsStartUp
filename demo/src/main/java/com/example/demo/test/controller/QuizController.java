@@ -1,6 +1,6 @@
 package com.example.demo.test.controller;
 
-import com.example.demo.test.dto.CheckingMultipleChoiceDTO;
+import com.example.demo.test.dto.CheckingQuizDTO;
 import com.example.demo.test.dto.QuizDTO;
 import com.example.demo.test.mapper.QuizMapper;
 import com.example.demo.test.model.Quiz;
@@ -39,8 +39,8 @@ public class QuizController {
     @PostMapping("checkMultipleChoice/{id}")
     public ResponseEntity<?> checkMultipleChoice(@RequestBody List<Response> responseList, @PathVariable Long id){
         try {
-            CheckingMultipleChoiceDTO checkingMultipleChoiceDTO=quizService.checkingMultipleChoiceQuestions(responseList, id);
-            return ResponseEntity.status(HttpStatus.OK).body(checkingMultipleChoiceDTO);
+            CheckingQuizDTO checkingQuizDTO =quizService.checkingMultipleChoiceQuestions(responseList, id);
+            return ResponseEntity.status(HttpStatus.OK).body(checkingQuizDTO);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

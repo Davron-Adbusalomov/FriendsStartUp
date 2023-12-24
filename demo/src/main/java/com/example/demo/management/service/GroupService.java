@@ -7,6 +7,8 @@ import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.repository.TeacherRepository;
+import com.example.demo.test.model.Quiz;
+import com.example.demo.test.repository.QuizRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,9 @@ public class GroupService {
     @Autowired
     private TeacherRepository teacherRepository;
 
+    @Autowired
+    private QuizRepository quizRepository;
+
     public ResponseEntity<List<Grouping>> getGroups(){return ResponseEntity.status(HttpStatus.OK).body( groupRepository.findAll());}
 
     public ResponseEntity<?> getGroupById(Long groupID){
@@ -35,12 +40,29 @@ public class GroupService {
         return ResponseEntity.status(HttpStatus.OK).body(grouping);
     }
 
-    public ResponseEntity<?> deleteGroup(Long groupId){
+    public ResponseEntity<?> deleteGroup(Long groupId) {
         Grouping grouping = groupRepository.findById(groupId)
-                .orElseThrow(() -> new EntityNotFoundException("Not found group with id: "+groupId));
+                .orElseThrow(() -> new EntityNotFoundException("Not found group with id: " + groupId));
+
+        List<Grouping> groupings = studentRepository.findByGroupId(groupId);
+
+        for (Grouping grouping1 : groupings) {
+            for (Student student : grouping1.getStudents()) {
+                student.getGroupings().remove(grouping1);
+            }
+        }
+
+        List<Quiz> quizzes = quizRepository.findByGroupingId(groupId);
+
+        for (Quiz quiz: quizzes) {
+            quiz.setGrouping(null);
+        }
+
         groupRepository.delete(grouping);
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Successfully deleted!");
     }
+
 
     public ResponseEntity<?> updateGroup(GroupDTO groupDTO, Long groupId){
         Optional<Grouping> group =groupRepository.findById(groupId);
@@ -52,8 +74,6 @@ public class GroupService {
             grouping1.setId(groupId);
             grouping1.setName(groupDTO.getName());
             grouping1.setSubject(groupDTO.getSubject());
-         //   grouping1.setTeacher(groupDTO.getTeacherDTO());
-           // grouping1.setStudents((Set<Student>) groupDTO.getStudentDTOList());
             grouping1.setQuizzes(groupDTO.getQuizzes());
 
             groupRepository.save(grouping1);

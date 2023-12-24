@@ -4,7 +4,7 @@ import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.TeacherRepository;
-import com.example.demo.test.dto.CheckingMultipleChoiceDTO;
+import com.example.demo.test.dto.CheckingQuizDTO;
 import com.example.demo.test.dto.QuizDTO;
 import com.example.demo.test.model.Question;
 import com.example.demo.test.model.Quiz;
@@ -88,8 +88,8 @@ public class QuizService {
         return quiz;
     }
 
-    public CheckingMultipleChoiceDTO checkingMultipleChoiceQuestions(List<Response> responseList, Long id){
-        CheckingMultipleChoiceDTO dto = new CheckingMultipleChoiceDTO();
+    public CheckingQuizDTO checkingMultipleChoiceQuestions(List<Response> responseList, Long id){
+        CheckingQuizDTO dto = new CheckingQuizDTO();
         Long mark = 0L;
         List<Response> wrong_answers = new ArrayList<>();
         List<Response> written_questions = new ArrayList<>();
@@ -108,7 +108,6 @@ public class QuizService {
                 mark++;
             }
             else wrong_answers.add(response);
-
         }
 
         dto.setWrong_answers(wrong_answers);

@@ -38,7 +38,7 @@ public class Question{
     @ManyToMany(mappedBy = "questions")
     private Set<Quiz> quizzes;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Option> options = new ArrayList<>();
 
     public void assignOption(Option option) {
