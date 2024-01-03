@@ -1,5 +1,6 @@
 package com.example.demo.management.dto;
 
+import com.example.demo.management.security.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ public class StudentDTO {
 
     private String password;
 
-    private String role;
+    private Role role;
 
     private String parent_email;
 

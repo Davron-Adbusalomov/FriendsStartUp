@@ -32,5 +32,9 @@ public class StudentController {
         return studentService.updateStudent(studentDTO,id);
     }
 
+    @PostMapping("loginStudent")
+    public String loginStudent(@RequestBody StudentDTO studentDTO){
+        return studentService.loginStudent(studentDTO);
+    }
 
 }

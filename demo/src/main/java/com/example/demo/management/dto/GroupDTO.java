@@ -21,9 +21,5 @@ public class GroupDTO {
 
     private String subject;
 
-  //  private Teacher teacherDTO;
-
-  //  private List<Student> studentDTOList;
-
     private List<Quiz> quizzes;
 }

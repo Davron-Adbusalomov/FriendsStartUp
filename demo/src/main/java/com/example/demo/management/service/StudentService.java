@@ -1,6 +1,8 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.JwtService;
 import com.example.demo.management.dto.StudentDTO;
+import com.example.demo.management.mapper.StudentMapper;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.repository.GroupRepository;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,12 +25,18 @@ public class StudentService {
     @Autowired
     private GroupRepository groupRepository;
 
+    private final JwtService jwtService;
+
+    public StudentService(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
+
     public ResponseEntity<?> getStudents(){return ResponseEntity.status(HttpStatus.OK).body(studentRepository.findAll());}
 
     public ResponseEntity<?> getStudentById(Long studentID){
         Student student = studentRepository.findById(studentID)
                 .orElseThrow(() -> new EntityNotFoundException("Not found student with id: "+studentID));
-        return ResponseEntity.status(HttpStatus.OK).body(student);
+        return ResponseEntity.status(HttpStatus.OK).body(StudentMapper.toDTO(student));
     }
 
     public ResponseEntity<?> deleteStudent(Long studentId) {
@@ -67,4 +76,18 @@ public class StudentService {
         }
     }
 
+    public String loginStudent(StudentDTO studentDTO) {
+        try {
+            if (studentRepository.findByUsername(studentDTO.getUsername()).isEmpty() || !Objects.equals(studentRepository.findByUsername(studentDTO.getUsername()).get().getPassword(), studentDTO.getPassword())){
+                throw new EntityNotFoundException("There is no student with this credentials!");
+            }
+            var student = studentRepository.findByUsername(studentDTO.getUsername())
+                    .orElseThrow(() -> new RuntimeException("Student not found"));
+
+            return jwtService.generateToken(student);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Authentication failed: " + e.getMessage(), e);
+        }
+    }
 }

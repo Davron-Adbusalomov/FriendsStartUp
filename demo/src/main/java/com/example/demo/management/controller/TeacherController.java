@@ -31,4 +31,10 @@ public class TeacherController {
     public ResponseEntity<?> updateStudent(@RequestBody TeacherDTO teacherDTO, @PathVariable Long id){
         return teacherService.updateTeacher(teacherDTO,id);
     }
+
+    @PostMapping("/loginTeacher")
+    public String loginTeacher(@RequestBody TeacherDTO teacherDTO){
+        return teacherService.loginTeacher(teacherDTO);
+    }
+
 }

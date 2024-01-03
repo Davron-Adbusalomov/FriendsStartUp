@@ -11,9 +11,35 @@ import java.util.ArrayList;
 public interface StudentMapper {
     StudentMapper INSTANCE = Mappers.getMapper(StudentMapper.class);
 
-    StudentDTO toDTO(Student student);
+    static StudentDTO toDTO(Student student){
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setId(student.getId());
+        studentDTO.setNumber(student.getNumber());
+        studentDTO.setName(student.getName());
+        studentDTO.setAge(student.getAge());
+        studentDTO.setEmail(student.getEmail());
+        studentDTO.setRole(student.getRole());
+        studentDTO.setParent_contact(student.getParent_contact());
+        studentDTO.setUsername(student.getUsername());
+        studentDTO.setPassword(student.getPassword());
+        studentDTO.setRelationship(student.getRelationship());
+        return studentDTO;
+    };
 
     ArrayList<StudentDTO> toDTO(ArrayList<Student> students);
 
-    Student toModel(StudentDTO studentDTO);
+    static Student toModel(StudentDTO studentDTO){
+        Student student = new Student();
+        student.setId(studentDTO.getId());
+        student.setNumber(studentDTO.getNumber());
+        student.setName(studentDTO.getName());
+        student.setAge(studentDTO.getAge());
+        student.setEmail(studentDTO.getEmail());
+        student.setRole(studentDTO.getRole());
+        student.setParent_contact(studentDTO.getParent_contact());
+        student.setUsername(studentDTO.getUsername());
+        student.setPassword(studentDTO.getPassword());
+        student.setRelationship(studentDTO.getRelationship());
+        return student;
     }
+}

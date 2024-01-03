@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.JwtService;
 import com.example.demo.management.dto.TeacherDTO;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
@@ -14,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @Service
 public class TeacherService {
@@ -27,6 +28,12 @@ public class TeacherService {
 
     @Autowired
     private QuizRepository quizRepository;
+
+    private final JwtService jwtService;
+
+    public TeacherService(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
 
     public ResponseEntity<?> getTeachers(){return ResponseEntity.status(HttpStatus.OK).body(teacherRepository.findAll());}
 
@@ -71,6 +78,21 @@ public class TeacherService {
 
         teacherRepository.save(teacher);
         return ResponseEntity.status(HttpStatus.OK).body(teacher);
+    }
+
+    public String loginTeacher(TeacherDTO teacherDTO){
+        try {
+            if (teacherRepository.findByUsername(teacherDTO.getUsername()).isEmpty() || !Objects.equals(teacherRepository.findByUsername(teacherDTO.getUsername()).get().getPassword(), teacherDTO.getPassword())){
+                throw new EntityNotFoundException("There is no teacher with this credentials!");
+            }
+            var teacher = teacherRepository.findByUsername(teacherDTO.getUsername())
+                    .orElseThrow(() -> new RuntimeException("Teacher not found"));
+
+            return jwtService.generateToken(teacher);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Authentication failed: " + e.getMessage(), e);
+        }
     }
 
 }

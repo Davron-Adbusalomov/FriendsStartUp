@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.JwtService;
 import com.example.demo.management.dto.AdminDTO;
 import com.example.demo.management.dto.GroupDTO;
 import com.example.demo.management.dto.StudentDTO;
@@ -20,9 +21,13 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 @Service
 public class AdminService {
@@ -38,6 +43,14 @@ public class AdminService {
     @Autowired
     private GroupRepository groupRepository;
 
+    private final AuthenticationManager authenticationManager;
+
+    private final JwtService jwtService;
+
+    public AdminService(AuthenticationManager authenticationManager, JwtService jwtService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
+    }
 
     public ArrayList<Admin> getAdmins(){
         return (ArrayList<Admin>) adminRepository.findAll();
@@ -75,15 +88,15 @@ public class AdminService {
     }
 
     public ResponseEntity<?> registerStudent(StudentDTO studentDTO){
-        if (studentRepository.findByUsername(studentDTO.getName()).isPresent()){
+        if (studentRepository.findByUsername(studentDTO.getUsername()).isPresent()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already existed!");
         }
-        Student student = studentRepository.save(StudentMapper.INSTANCE.toModel(studentDTO));
+        Student student = studentRepository.save(StudentMapper.toModel(studentDTO));
         return ResponseEntity.status(HttpStatus.OK).body(student);
     }
 
     public ResponseEntity<?> registerTeacher(TeacherDTO teacherDTO){
-        if (teacherRepository.findByUsername(teacherDTO.getName()).isPresent()){
+        if (teacherRepository.findByUsername(teacherDTO.getUsername()).isPresent()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already existed!");
         }
         Teacher teacher = teacherRepository.save(TeacherMapper.INSTANCE.toModel(teacherDTO));
@@ -99,11 +112,18 @@ public class AdminService {
     }
 
 
-    public ResponseEntity<?> loginAdmin(AdminDTO adminDTO){
-        if (adminRepository.findByUsernameAndPassword(adminDTO.getUsername(), adminDTO.getPassword()).isPresent()){
-            return ResponseEntity.status(HttpStatus.OK).body("Successful login!");
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Login failed! Admin credentials are wrong");
-    }
+    public String loginAdmin(AdminDTO adminDTO){
+        try {
+            if (adminRepository.findByUsername(adminDTO.getUsername()).isEmpty() || !Objects.equals(adminRepository.findByUsername(adminDTO.getUsername()).get().getPassword(), adminDTO.getPassword())){
+                throw new EntityNotFoundException("There is no admin with this credentials!");
+            }
+            var admin = adminRepository.findByUsername(adminDTO.getUsername())
+                    .orElseThrow(() -> new RuntimeException("Admin not found"));
 
+            return jwtService.generateToken(admin);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Authentication failed: " + e.getMessage(), e);
+        }
+    }
 }

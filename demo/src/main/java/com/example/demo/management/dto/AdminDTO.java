@@ -1,5 +1,6 @@
 package com.example.demo.management.dto;
 
+import com.example.demo.management.security.Role;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminDTO {
-    @Id
+
     private Long id;
 
     private String name;
@@ -17,4 +18,6 @@ public class AdminDTO {
     private String username;
 
     private String password;
+
+    private Role role;
 }
