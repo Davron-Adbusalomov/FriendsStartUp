@@ -7,6 +7,8 @@ import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
+import com.example.demo.test.model.Quiz_Results;
+import com.example.demo.test.repository.Quiz_ResultsRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,9 @@ public class StudentService {
 
     @Autowired
     private GroupRepository groupRepository;
+
+    @Autowired
+    private Quiz_ResultsRepository quizResultsRepository;
 
     private final JwtService jwtService;
 
@@ -44,9 +49,13 @@ public class StudentService {
                 .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + studentId));
 
         List<Grouping> groupings = groupRepository.findByStudentId(studentId);
-
         for (Grouping grouping : groupings) {
             grouping.getStudents().remove(student);
+        }
+
+        List<Quiz_Results> quizResults = quizResultsRepository.findByStudentId(studentId);
+        for (Quiz_Results quizResult: quizResults){
+            quizResult.setStudent(null);
         }
 
         studentRepository.delete(student);
@@ -62,7 +71,6 @@ public class StudentService {
         }
         else {
             Student student = studentOptional.get();
-            student.setId(studentDTO.getId());
             student.setUsername(studentDTO.getUsername());
             student.setName(studentDTO.getName());
             student.setRole(studentDTO.getRole());
@@ -70,6 +78,8 @@ public class StudentService {
             student.setNumber(studentDTO.getNumber());
             student.setPassword(studentDTO.getPassword());
             student.setAge(studentDTO.getAge());
+            student.setParent_contact(studentDTO.getParent_contact());
+            student.setParent_chatId(studentDTO.getParent_chatId());
 
             studentRepository.save(student);
             return ResponseEntity.status(HttpStatus.OK).body(student);

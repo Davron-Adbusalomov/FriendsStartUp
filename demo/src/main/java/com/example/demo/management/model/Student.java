@@ -34,6 +34,8 @@ public class Student implements UserDetails {
 
     private String parent_contact;
 
+    private String parent_chatId;
+
     private String relationship;
 
     @Enumerated(EnumType.STRING)

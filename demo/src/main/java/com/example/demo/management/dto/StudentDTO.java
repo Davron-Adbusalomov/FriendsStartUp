@@ -32,6 +32,8 @@ public class StudentDTO {
 
     private String parent_contact;
 
+    private String parent_chatId;
+
     private String relationship;
 
 }

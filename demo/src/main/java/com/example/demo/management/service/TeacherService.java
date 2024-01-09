@@ -6,7 +6,9 @@ import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.TeacherRepository;
+import com.example.demo.test.model.Question;
 import com.example.demo.test.model.Quiz;
+import com.example.demo.test.repository.QuestionRepository;
 import com.example.demo.test.repository.QuizRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class TeacherService {
 
     @Autowired
     private QuizRepository quizRepository;
+
+    @Autowired
+    private QuestionRepository questionRepository;
 
     private final JwtService jwtService;
 
@@ -61,7 +66,13 @@ public class TeacherService {
             quiz.setTeacher(null);
         }
 
-        teacherRepository.delete(teacher);
+        List<Question> questions = questionRepository.findByTeacherId(id);
+        for (Question question:questions){
+            question.setTeacher(null);
+        }
+
+
+                teacherRepository.delete(teacher);
         return ResponseEntity.status(HttpStatus.OK).body("Successfully deleted!");
     }
 

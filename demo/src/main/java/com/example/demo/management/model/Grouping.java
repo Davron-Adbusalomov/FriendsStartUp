@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,7 @@ public class Grouping {
             name = "group_student",
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
-    private Set<Student> students = new HashSet<>();
+    private List<Student> students = new ArrayList<>();
 
     @OneToMany(mappedBy = "grouping")
     private List<Quiz> quizzes;

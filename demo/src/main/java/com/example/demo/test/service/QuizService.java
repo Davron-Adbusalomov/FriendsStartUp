@@ -8,9 +8,11 @@ import com.example.demo.test.dto.CheckingQuizDTO;
 import com.example.demo.test.dto.QuizDTO;
 import com.example.demo.test.model.Question;
 import com.example.demo.test.model.Quiz;
+import com.example.demo.test.model.Quiz_Results;
 import com.example.demo.test.model.Response;
 import com.example.demo.test.repository.QuestionRepository;
 import com.example.demo.test.repository.QuizRepository;
+import com.example.demo.test.repository.Quiz_ResultsRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,7 @@ public class QuizService {
 
     @Autowired
     private QuestionRepository questionRepository;
+
 
 
     public ResponseEntity<?> createQuiz(QuizDTO quizDTO) {
@@ -56,6 +59,7 @@ public class QuizService {
         quizRepository.save(quiz);
         return ResponseEntity.status(HttpStatus.OK).body("Quiz created successfully!");
     }
+
 
 
     public Quiz beginQuiz(Long quizId) {
@@ -84,20 +88,19 @@ public class QuizService {
 
             return shuffledQuiz;
         }
-
         return quiz;
     }
 
     public CheckingQuizDTO checkingMultipleChoiceQuestions(List<Response> responseList, Long id){
         CheckingQuizDTO dto = new CheckingQuizDTO();
-        Long mark = 0L;
+        long mark = 0L;
         List<Response> wrong_answers = new ArrayList<>();
         List<Response> written_questions = new ArrayList<>();
 
         for (Response response : responseList) {
             Optional<Question> optionalQuestion = questionRepository.findById(response.getQuestion_id());
             if (optionalQuestion.isEmpty()){
-                throw  new EntityNotFoundException("There is no this question in this quiz!");
+                throw new EntityNotFoundException("There is no this question in this quiz!");
             }
             Question question = optionalQuestion.get();
 
@@ -105,7 +108,7 @@ public class QuizService {
                 written_questions.add(response);
             }
             else if (question.getRight_answer().equals(response.getAnswer())){
-                mark++;
+                mark+=question.getMark();
             }
             else wrong_answers.add(response);
         }

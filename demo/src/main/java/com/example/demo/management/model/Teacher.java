@@ -37,6 +37,12 @@ public class Teacher implements UserDetails {
 
     private String password;
 
+//    private String image;
+//
+//    private Long experience;
+//
+//    private String subject;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

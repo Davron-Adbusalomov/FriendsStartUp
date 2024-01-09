@@ -62,7 +62,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String allowUserToEndpoint(UserDetails userData, HttpServletRequest request) {
         String endpoint = request.getRequestURI();
-        String requestMethodType = request.getMethod();
         List<String> roles = userData.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
@@ -114,7 +113,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        if (endpoint.contains("api/quiz_results/recordingResult")){
+        if (endpoint.contains("api/quiz_results")){
             if (roles.contains("TEACHER")){
                 return "allow";
             }
