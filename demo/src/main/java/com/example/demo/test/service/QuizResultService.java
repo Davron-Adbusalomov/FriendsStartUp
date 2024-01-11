@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,7 +52,6 @@ public class QuizResultService {
         Optional<Quiz> quiz = quizRepository.findById(quizId);
 
         int maxMark = 0;
-        int place=1;
 
         for (Question question:quiz.get().getQuestions()) {
             maxMark+=question.getMark();
@@ -61,11 +60,21 @@ public class QuizResultService {
         for (Student student:quiz.get().getGrouping().getStudents()) {
             Quiz_Results quizResults = student.getQuizResults().get(student.getQuizResults().size()-1);
 
-            for (int i=0; i<quiz.get().getGrouping().getStudents().size()-1; i++){
+            int place=1;
+
+            for (int i=0; i<quiz.get().getGrouping().getStudents().size(); i++){
                 Student otherStudent = quiz.get().getGrouping().getStudents().get(i);
-                if (quizResults.getMark()<otherStudent.getQuizResults().get(otherStudent.getQuizResults().size()-1).getMark()){
+                List<Quiz_Results> otherStudentQuizResults = otherStudent.getQuizResults();
+
+                Quiz_Results otherStudentLastResult = otherStudentQuizResults.get(otherStudentQuizResults.size() - 1);
+                if (quizId.equals(otherStudentLastResult.getQuiz().getId()) &&
+                        quizResults.getMark() < otherStudentLastResult.getMark()){
                     place++;
                 }
+            }
+
+            if (student.getParent_chatId().isEmpty()){
+                continue;
             }
 
             SendMessage sendMessage = new SendMessage();
