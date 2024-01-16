@@ -63,6 +63,9 @@ public class AdminService {
     }
 
     public ResponseEntity<?> addAdmin(AdminDTO adminDTO){
+        if (adminRepository.findByUsername(adminDTO.getUsername()).isPresent()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already existed!");
+        }
         Admin admin = adminRepository.save(AdminMapper.INSTANCE.toModel(adminDTO));
         return ResponseEntity.status(HttpStatus.OK).body(admin);
     }
