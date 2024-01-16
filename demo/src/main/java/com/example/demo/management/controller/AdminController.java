@@ -19,7 +19,11 @@ public class AdminController {
 
     @PostMapping("/createAdmin")
     public ResponseEntity<?> createAdmin(@RequestBody AdminDTO adminDTO){
-        return adminService.addAdmin(adminDTO);
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.addAdmin(adminDTO));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping("/getById/{adminID}")
@@ -40,24 +44,40 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/registerStudent")
     public ResponseEntity<?> registerUser(@RequestBody StudentDTO studentDTO){
-        return adminService.registerStudent(studentDTO);
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.registerStudent(studentDTO));
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/registerTeacher")
     public ResponseEntity<?> registerTeacher(@RequestBody TeacherDTO teacherDTO){
-        return adminService.registerTeacher(teacherDTO);
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.registerTeacher(teacherDTO));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/registerGroup")
     public ResponseEntity<?> registerGroup(@RequestBody GroupDTO groupDTO){
-        return adminService.registerGroup(groupDTO);
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.registerGroup(groupDTO));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody AdminDTO adminDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(adminService.loginAdmin(adminDTO));
+    public ResponseEntity<?> login(@RequestBody AdminDTO adminDTO){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.loginAdmin(adminDTO));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
 }

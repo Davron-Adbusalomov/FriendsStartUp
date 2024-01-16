@@ -1,8 +1,11 @@
 package com.example.demo.management.controller;
 
 import com.example.demo.management.dto.StudentDTO;
+import com.example.demo.management.model.Student;
 import com.example.demo.management.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +37,12 @@ public class StudentController {
     }
 
     @PostMapping("loginStudent")
-    public String loginStudent(@RequestBody StudentDTO studentDTO){
-        return studentService.loginStudent(studentDTO);
+    public ResponseEntity<?> loginStudent(@RequestBody StudentDTO studentDTO){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(studentService.loginStudent(studentDTO));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
 }

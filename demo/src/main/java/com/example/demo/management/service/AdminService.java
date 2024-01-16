@@ -1,10 +1,7 @@
 package com.example.demo.management.service;
 
 import com.example.demo.config.JwtService;
-import com.example.demo.management.dto.AdminDTO;
-import com.example.demo.management.dto.GroupDTO;
-import com.example.demo.management.dto.StudentDTO;
-import com.example.demo.management.dto.TeacherDTO;
+import com.example.demo.management.dto.*;
 import com.example.demo.management.mapper.AdminMapper;
 import com.example.demo.management.mapper.GroupMapper;
 import com.example.demo.management.mapper.StudentMapper;
@@ -62,12 +59,12 @@ public class AdminService {
         return ResponseEntity.status(HttpStatus.OK).body(admin);
     }
 
-    public ResponseEntity<?> addAdmin(AdminDTO adminDTO){
+    public AdminDTO addAdmin(AdminDTO adminDTO) throws Exception {
         if (adminRepository.findByUsername(adminDTO.getUsername()).isPresent()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already existed!");
+            throw new Exception("Username already taken!");
         }
-        Admin admin = adminRepository.save(AdminMapper.INSTANCE.toModel(adminDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(admin);
+        adminRepository.save(AdminMapper.INSTANCE.toModel(adminDTO));
+        return adminDTO;
     }
 
     public ResponseEntity<?> deleteById(Long id){
@@ -115,7 +112,7 @@ public class AdminService {
     }
 
 
-    public String loginAdmin(AdminDTO adminDTO){
+    public AdminLoginDTO loginAdmin(AdminDTO adminDTO){
         try {
             if (adminRepository.findByUsername(adminDTO.getUsername()).isEmpty() || !Objects.equals(adminRepository.findByUsername(adminDTO.getUsername()).get().getPassword(), adminDTO.getPassword())){
                 throw new EntityNotFoundException("There is no admin with this credentials!");
@@ -123,7 +120,13 @@ public class AdminService {
             var admin = adminRepository.findByUsername(adminDTO.getUsername())
                     .orElseThrow(() -> new RuntimeException("Admin not found"));
 
-            return jwtService.generateToken(admin);
+            String token = jwtService.generateToken(admin);
+
+            AdminLoginDTO adminLoginDTO = new AdminLoginDTO();
+            adminLoginDTO.setAdminDTO(AdminMapper.INSTANCE.toDTO(admin));
+            adminLoginDTO.setToken(token);
+
+            return adminLoginDTO;
         }
         catch (Exception e) {
             throw new RuntimeException("Authentication failed: " + e.getMessage(), e);

@@ -2,6 +2,8 @@ package com.example.demo.management.service;
 
 import com.example.demo.config.JwtService;
 import com.example.demo.management.dto.TeacherDTO;
+import com.example.demo.management.dto.TeacherLoginDTO;
+import com.example.demo.management.mapper.TeacherMapper;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
@@ -16,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -91,7 +95,7 @@ public class TeacherService {
         return ResponseEntity.status(HttpStatus.OK).body(teacher);
     }
 
-    public String loginTeacher(TeacherDTO teacherDTO){
+    public TeacherLoginDTO loginTeacher(TeacherDTO teacherDTO){
         try {
             if (teacherRepository.findByUsername(teacherDTO.getUsername()).isEmpty() || !Objects.equals(teacherRepository.findByUsername(teacherDTO.getUsername()).get().getPassword(), teacherDTO.getPassword())){
                 throw new EntityNotFoundException("There is no teacher with this credentials!");
@@ -99,7 +103,13 @@ public class TeacherService {
             var teacher = teacherRepository.findByUsername(teacherDTO.getUsername())
                     .orElseThrow(() -> new RuntimeException("Teacher not found"));
 
-            return jwtService.generateToken(teacher);
+            String token = jwtService.generateToken(teacher);
+
+            TeacherLoginDTO teacherLoginDTO = new TeacherLoginDTO();
+            teacherLoginDTO.setTeacherDTO(TeacherMapper.toDTO(teacher));
+            teacherLoginDTO.setToken(token);
+
+            return teacherLoginDTO;
         }
         catch (Exception e) {
             throw new RuntimeException("Authentication failed: " + e.getMessage(), e);

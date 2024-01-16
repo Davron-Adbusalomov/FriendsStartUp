@@ -36,4 +36,6 @@ public class StudentDTO {
 
     private String relationship;
 
+    private String token;
+
 }

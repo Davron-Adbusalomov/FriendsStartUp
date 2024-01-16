@@ -1,10 +1,14 @@
 package com.example.demo.management.controller;
 
 import com.example.demo.management.dto.TeacherDTO;
+import com.example.demo.management.model.Teacher;
 import com.example.demo.management.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -34,8 +38,12 @@ public class TeacherController {
     }
 
     @PostMapping("/loginTeacher")
-    public String loginTeacher(@RequestBody TeacherDTO teacherDTO){
-        return teacherService.loginTeacher(teacherDTO);
+    public ResponseEntity<?> loginTeacher(@RequestBody TeacherDTO teacherDTO){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(teacherService.loginTeacher(teacherDTO));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.demo.management.service;
 
 import com.example.demo.config.JwtService;
 import com.example.demo.management.dto.StudentDTO;
+import com.example.demo.management.dto.StudentLoginDTO;
 import com.example.demo.management.mapper.StudentMapper;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
@@ -10,6 +11,7 @@ import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.test.model.Quiz_Results;
 import com.example.demo.test.repository.Quiz_ResultsRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.hibernate.loader.ast.spi.Loadable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -86,7 +88,7 @@ public class StudentService {
         }
     }
 
-    public String loginStudent(StudentDTO studentDTO) {
+    public StudentLoginDTO loginStudent(StudentDTO studentDTO) {
         try {
             if (studentRepository.findByUsername(studentDTO.getUsername()).isEmpty() || !Objects.equals(studentRepository.findByUsername(studentDTO.getUsername()).get().getPassword(), studentDTO.getPassword())){
                 throw new EntityNotFoundException("There is no student with this credentials!");
@@ -94,7 +96,10 @@ public class StudentService {
             var student = studentRepository.findByUsername(studentDTO.getUsername())
                     .orElseThrow(() -> new RuntimeException("Student not found"));
 
-            return jwtService.generateToken(student);
+            StudentLoginDTO studentDTO1 = new StudentLoginDTO();
+            String token = jwtService.generateToken(student);
+            studentDTO1.setToken(token);
+            return studentDTO1;
         }
         catch (Exception e) {
             throw new RuntimeException("Authentication failed: " + e.getMessage(), e);
