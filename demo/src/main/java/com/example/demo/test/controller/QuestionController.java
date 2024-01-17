@@ -26,12 +26,14 @@ public class QuestionController {
         }
     }
 
-//    @GetMapping("getQuestionsByGroupName/{}")
-//    public ResponseEntity<?> getByGroup(){
-//        try{
-//
-//        }
-//    }
+    @GetMapping("getQuestionsByGroupName/{groupName}")
+    public ResponseEntity<?> getByGroup(@PathVariable String groupName){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(questionService.getQuestionByGroupName(groupName));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
     @GetMapping("getAll")
     public ResponseEntity<?> getAll(){

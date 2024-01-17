@@ -1,7 +1,5 @@
 package com.example.demo.test.service;
 
-import com.example.demo.management.model.Grouping;
-import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.test.dto.QuestionDTO;
@@ -43,10 +41,6 @@ public class QuestionService {
         }
         return question.get();
     }
-
-//    public List<Question> getQuestionByGroupName(String groupName){
-//        return questionRepository.findQuestionByGroup_name(groupName);
-//    }
 
     public ResponseEntity<?> getAllQuestions(){
         return ResponseEntity.status(HttpStatus.OK).body(questionRepository.findAll());
@@ -120,4 +114,9 @@ public class QuestionService {
         questionRepository.save(updatedQuestion);
         return ResponseEntity.status(HttpStatus.OK).body(updatedQuestion);
     }
+
+    public List<Question> getQuestionByGroupName(String groupName) {
+        return questionRepository.findQuestionByGroup_name(groupName);
+    }
+
 }
