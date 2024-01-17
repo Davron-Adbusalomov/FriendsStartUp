@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -27,6 +29,8 @@ public class StudentDTO {
     private String password;
 
     private Role role;
+
+    private LocalDate dateOfBirth;
 
     private String parent_email;
 

@@ -36,6 +36,7 @@ public interface StudentMapper {
         student.setAge(studentDTO.getAge());
         student.setEmail(studentDTO.getEmail());
         student.setRole(studentDTO.getRole());
+        student.setDateOfBirth(studentDTO.getDateOfBirth());
         student.setParent_contact(studentDTO.getParent_contact());
         student.setParent_chatId(studentDTO.getParent_chatId());
         student.setUsername(studentDTO.getUsername());

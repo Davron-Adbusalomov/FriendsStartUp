@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -29,6 +30,8 @@ public class Student implements UserDetails {
     private String username;
 
     private String password;
+
+    private LocalDate dateOfBirth;
 
     private String parent_email;
 

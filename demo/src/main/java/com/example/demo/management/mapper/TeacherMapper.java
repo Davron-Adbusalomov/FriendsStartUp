@@ -18,6 +18,7 @@ public interface TeacherMapper {
         teacherDTO.setName(teacher.getName());
         teacherDTO.setEmail(teacher.getEmail());
         teacherDTO.setAge(teacher.getAge());
+        teacherDTO.setDateOfBirth(teacher.getDateOfBirth());
         teacherDTO.setPhone_num(teacher.getPhone_num());
         teacherDTO.setUsername(teacher.getUsername());
         teacherDTO.setRole(teacher.getRole());
