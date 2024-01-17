@@ -26,6 +26,13 @@ public class QuestionController {
         }
     }
 
+//    @GetMapping("getQuestionsByGroupName/{}")
+//    public ResponseEntity<?> getByGroup(){
+//        try{
+//
+//        }
+//    }
+
     @GetMapping("getAll")
     public ResponseEntity<?> getAll(){
         return questionService.getAllQuestions();

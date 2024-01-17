@@ -11,4 +11,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     List<Question> findByTeacherId(Long id);
 
+  //  List<Question> findQuestionByGroup_name(String groupName);
+
 }

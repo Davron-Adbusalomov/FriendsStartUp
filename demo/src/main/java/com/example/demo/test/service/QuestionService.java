@@ -44,6 +44,10 @@ public class QuestionService {
         return question.get();
     }
 
+//    public List<Question> getQuestionByGroupName(String groupName){
+//        return questionRepository.findQuestionByGroup_name(groupName);
+//    }
+
     public ResponseEntity<?> getAllQuestions(){
         return ResponseEntity.status(HttpStatus.OK).body(questionRepository.findAll());
     }
