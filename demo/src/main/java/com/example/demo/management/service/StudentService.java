@@ -93,7 +93,7 @@ public class StudentService {
             if (studentRepository.findByUsername(studentDTO.getUsername()).isEmpty() || !Objects.equals(studentRepository.findByUsername(studentDTO.getUsername()).get().getPassword(), studentDTO.getPassword())){
                 throw new EntityNotFoundException("There is no student with this credentials!");
             }
-            var student = studentRepository.findByUsername(studentDTO.getUsername())
+            Student student = studentRepository.findByUsername(studentDTO.getUsername())
                     .orElseThrow(() -> new RuntimeException("Student not found"));
 
             StudentLoginDTO studentDTO1 = new StudentLoginDTO();

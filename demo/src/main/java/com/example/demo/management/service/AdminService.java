@@ -63,8 +63,8 @@ public class AdminService {
         if (adminRepository.findByUsername(adminDTO.getUsername()).isPresent()){
             throw new Exception("Username already taken!");
         }
-        adminRepository.save(AdminMapper.INSTANCE.toModel(adminDTO));
-        return adminDTO;
+        Admin admin = adminRepository.save(AdminMapper.INSTANCE.toModel(adminDTO));
+        return AdminMapper.INSTANCE.toDTO(admin);
     }
 
     public ResponseEntity<?> deleteById(Long id){

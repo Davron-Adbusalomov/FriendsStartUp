@@ -31,7 +31,6 @@ public interface StudentMapper {
 
     static Student toModel(StudentDTO studentDTO){
         Student student = new Student();
-        student.setId(studentDTO.getId());
         student.setNumber(studentDTO.getNumber());
         student.setName(studentDTO.getName());
         student.setAge(studentDTO.getAge());
