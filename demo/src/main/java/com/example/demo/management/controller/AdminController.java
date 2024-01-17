@@ -17,7 +17,7 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @PostMapping("/createAdmin")
+    @PostMapping("/createADMIN")
     public ResponseEntity<?> createAdmin(@RequestBody AdminDTO adminDTO){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(adminService.addAdmin(adminDTO));
@@ -42,7 +42,7 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/registerStudent")
+    @PostMapping("/createSTUDENT")
     public ResponseEntity<?> registerUser(@RequestBody StudentDTO studentDTO){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.registerStudent(studentDTO));
@@ -52,7 +52,7 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/registerTeacher")
+    @PostMapping("/createTEACHER")
     public ResponseEntity<?> registerTeacher(@RequestBody TeacherDTO teacherDTO){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.registerTeacher(teacherDTO));
@@ -62,7 +62,7 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/registerGroup")
+    @PostMapping("/createGROUP")
     public ResponseEntity<?> registerGroup(@RequestBody GroupDTO groupDTO){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(adminService.registerGroup(groupDTO));
