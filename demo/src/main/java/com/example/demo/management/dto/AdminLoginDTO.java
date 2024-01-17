@@ -11,7 +11,8 @@ import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 @Getter
 @Setter
 public class AdminLoginDTO {
-    private AdminDTO adminDTO;
+    private AdminDTO user;
 
     private String token;
+
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TeacherLoginDTO {
-    private TeacherDTO teacherDTO;
+    private TeacherDTO user;
 
     private String token;
 }

@@ -99,7 +99,7 @@ public class StudentService {
             StudentLoginDTO studentDTO1 = new StudentLoginDTO();
             String token = jwtService.generateToken(student);
             studentDTO1.setToken(token);
-            studentDTO1.setStudentDTO(studentDTO);
+            studentDTO1.setUser(studentDTO);
             return studentDTO1;
         }
         catch (Exception e) {

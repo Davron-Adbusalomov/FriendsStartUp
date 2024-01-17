@@ -106,7 +106,7 @@ public class TeacherService {
             String token = jwtService.generateToken(teacher);
 
             TeacherLoginDTO teacherLoginDTO = new TeacherLoginDTO();
-            teacherLoginDTO.setTeacherDTO(TeacherMapper.toDTO(teacher));
+            teacherLoginDTO.setUser(TeacherMapper.toDTO(teacher));
             teacherLoginDTO.setToken(token);
 
             return teacherLoginDTO;

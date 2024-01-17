@@ -123,7 +123,7 @@ public class AdminService {
             String token = jwtService.generateToken(admin);
 
             AdminLoginDTO adminLoginDTO = new AdminLoginDTO();
-            adminLoginDTO.setAdminDTO(AdminMapper.INSTANCE.toDTO(admin));
+            adminLoginDTO.setUser(AdminMapper.INSTANCE.toDTO(admin));
             adminLoginDTO.setToken(token);
 
             return adminLoginDTO;
