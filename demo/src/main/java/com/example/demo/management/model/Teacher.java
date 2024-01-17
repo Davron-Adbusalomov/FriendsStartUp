@@ -32,6 +32,8 @@ public class Teacher implements UserDetails {
 
     private String email;
 
+    private String subject;
+
     private Long phone_num;
 
     private LocalDate dateOfBirth;
