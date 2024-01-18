@@ -71,22 +71,51 @@ public class QuizService {
 
         Quiz quiz = optionalQuiz.get();
         Set<Question> allQuestions = quiz.getQuestions();
+        List<Question> easyQuestions = new ArrayList<>();
+        List<Question> mediumQuestions = new ArrayList<>();
+        List<Question> hardQuestions = new ArrayList<>();
+
+        int numOfEasyQuestions = (int) (optionalQuiz.get().getQuestions_num()*0.4);
+        int numOfMediumQuestions = (int) (optionalQuiz.get().getQuestions_num()*0.3);
+        int numOfHardQuestions = quiz.getQuestions_num()-numOfMediumQuestions-numOfEasyQuestions;
+
+        for(Question question:allQuestions){
+            if (question.getMark()==1){
+                easyQuestions.add(question);
+            }
+            else if (question.getMark()==2){
+                mediumQuestions.add(question);
+            }
+            else{
+                hardQuestions.add(question);
+            }
+        }
 
         if (quiz.getQuestions_num() > 0 && quiz.getQuestions_num() < allQuestions.size()) {
-            List<Question> questionsList = new ArrayList<>(allQuestions);
-            Collections.shuffle(questionsList);
+//            List<Question> questionsList = new ArrayList<>(allQuestions);
+//            Collections.shuffle(questionsList);
+//
+//            Set<Question> selectedQuestions = new HashSet<>(questionsList.subList(0, quiz.getQuestions_num()));
+//
+//            Quiz shuffledQuiz = new Quiz();
+//            shuffledQuiz.setId(quiz.getId());
+//            shuffledQuiz.setQuestions_num(quiz.getQuestions_num());
+//            shuffledQuiz.setDuration(quiz.getDuration());
+//            shuffledQuiz.setGrouping(quiz.getGrouping());
+//            shuffledQuiz.setTeacher(quiz.getTeacher());
+//            shuffledQuiz.setQuestions(selectedQuestions);
+//
+//            return shuffledQuiz;
 
-            Set<Question> selectedQuestions = new HashSet<>(questionsList.subList(0, quiz.getQuestions_num()));
+            Collections.shuffle(easyQuestions);
+            Collections.shuffle(mediumQuestions);
+            Collections.shuffle(hardQuestions);
 
-            Quiz shuffledQuiz = new Quiz();
-            shuffledQuiz.setId(quiz.getId());
-            shuffledQuiz.setQuestions_num(quiz.getQuestions_num());
-            shuffledQuiz.setDuration(quiz.getDuration());
-            shuffledQuiz.setGrouping(quiz.getGrouping());
-            shuffledQuiz.setTeacher(quiz.getTeacher());
-            shuffledQuiz.setQuestions(selectedQuestions);
+            List<Question> selectedQuestions = new ArrayList<>();
 
-            return shuffledQuiz;
+//            for (int i=0; i<; i++){
+//
+//            }
         }
         return quiz;
     }
