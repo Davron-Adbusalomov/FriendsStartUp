@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -22,7 +23,7 @@ public class QuizDTO {
 
         private Long teacherId;
 
-        private Set<Question> questions;
+        private List<Question> questions;
 
        // private Quiz_Results quizResult;
     }

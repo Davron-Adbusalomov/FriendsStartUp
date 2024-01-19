@@ -31,8 +31,8 @@ public class QuizController {
     @GetMapping("beginQuiz/{quizId}")
     public ResponseEntity<?> beginQuiz(@PathVariable Long quizId) {
         try {
-            Quiz quiz = quizService.beginQuiz(quizId);
-            return ResponseEntity.status(HttpStatus.OK).body(QuizMapper.toDTO(quiz));
+            QuizDTO quiz = quizService.beginQuiz(quizId);
+            return ResponseEntity.status(HttpStatus.OK).body(quiz);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

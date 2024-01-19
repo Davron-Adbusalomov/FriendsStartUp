@@ -6,6 +6,7 @@ import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.test.dto.CheckingQuizDTO;
 import com.example.demo.test.dto.QuizDTO;
+import com.example.demo.test.mapper.QuizMapper;
 import com.example.demo.test.model.Question;
 import com.example.demo.test.model.Quiz;
 import com.example.demo.test.model.Quiz_Results;
@@ -62,7 +63,7 @@ public class QuizService {
 
 
 
-    public Quiz beginQuiz(Long quizId) {
+    public QuizDTO beginQuiz(Long quizId) {
         Optional<Quiz> optionalQuiz = quizRepository.findById(quizId);
 
         if (optionalQuiz.isEmpty()) {
@@ -70,7 +71,7 @@ public class QuizService {
         }
 
         Quiz quiz = optionalQuiz.get();
-        Set<Question> allQuestions = quiz.getQuestions();
+        List<Question> allQuestions = quiz.getQuestions();
         List<Question> easyQuestions = new ArrayList<>();
         List<Question> mediumQuestions = new ArrayList<>();
         List<Question> hardQuestions = new ArrayList<>();
@@ -113,11 +114,30 @@ public class QuizService {
 
             List<Question> selectedQuestions = new ArrayList<>();
 
-//            for (int i=0; i<; i++){
-//
-//            }
+            for (int i=0; i<numOfEasyQuestions; i++){
+                selectedQuestions.add(easyQuestions.get(i));
+            }
+
+            for (int i=0; i<numOfMediumQuestions; i++){
+                selectedQuestions.add(mediumQuestions.get(i));
+            }
+
+            for (int i=0; i<numOfHardQuestions; i++){
+                selectedQuestions.add(hardQuestions.get(i));
+            }
+
+            QuizDTO shuffledQuiz = new QuizDTO();
+            shuffledQuiz.setId(quiz.getId());
+            shuffledQuiz.setQuestions_num(quiz.getQuestions_num());
+            shuffledQuiz.setDuration(quiz.getDuration());
+            shuffledQuiz.setGroupingId(quiz.getGrouping().getId());
+            shuffledQuiz.setTeacherId(quiz.getTeacher().getId());
+            shuffledQuiz.setQuestions(selectedQuestions);
+
+            return shuffledQuiz;
         }
-        return quiz;
+
+        return QuizMapper.toDTO(quiz);
     }
 
     public CheckingQuizDTO checkingMultipleChoiceQuestions(List<Response> responseList, Long id){
@@ -149,4 +169,5 @@ public class QuizService {
 
         return dto;
     }
+
 }
