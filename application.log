@@ -2873,3 +2873,959 @@ org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error exe
 	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
 	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
 
+2024-01-19T11:49:23.747+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:49:27.987+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:49:32.291+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:49:36.872+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:49:41.667+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:49:46.165+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:49:50.474+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:49:55.081+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:49:59.486+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:50:03.816+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:01.665+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:06.464+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:11.068+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:15.368+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:19.994+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:24.314+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:28.597+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:33.215+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:37.803+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:42.411+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:46.752+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:51.321+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:52:55.641+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:53:00.529+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:53:05.148+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:53:09.748+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:58:13.438+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:58:17.788+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:58:22.087+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:58:23.138+05:00  WARN 23824 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m3s993ms323µs301ns).
+2024-01-19T11:58:26.536+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:58:30.825+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:58:35.199+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:58:39.572+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:58:43.893+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:58:48.265+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:58:52.873+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:58:57.214+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:01.704+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:06.630+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:11.002+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:15.399+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:19.815+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:24.422+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:28.823+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:33.345+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:37.693+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:42.028+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:46.397+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:50.946+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T11:59:55.553+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:00.061+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:04.454+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:08.851+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:13.236+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:18.076+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:22.442+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:26.799+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:31.397+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:36.900+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:41.214+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:45.547+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:49.829+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:54.142+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:00:58.501+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:02.752+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:07.331+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:11.684+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:16.231+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:20.851+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:25.455+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:30.363+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:34.989+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:39.304+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:43.885+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:48.683+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:53.105+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:01:57.716+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:02.020+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:06.479+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:10.791+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:15.106+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:19.548+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:24.139+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:28.740+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:33.340+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:37.962+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:43.180+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:47.779+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:52.075+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:02:56.323+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:03:00.990+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:03:05.283+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:03:09.594+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:05:13.784+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:05:19.112+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:05:23.519+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:05:25.579+05:00  WARN 23824 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m32s331ms378µs500ns).
+2024-01-19T12:05:27.883+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:05:32.428+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:05:36.834+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:05:41.234+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:05:45.646+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:05:50.250+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:05:54.675+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:05:58.999+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:06:03.454+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
+2024-01-19T12:06:08.072+05:00 ERROR 23824 --- [https://t.me/best_academy_bot Telegram Connection] o.t.t.u.DefaultBotSession                : Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error executing org.telegram.telegrambots.meta.api.methods.updates.GetUpdates query: [409] Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseInternal(PartialBotApiMethod.java:54) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod.deserializeResponseArray(PartialBotApiMethod.java:39) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.meta.api.methods.updates.GetUpdates.deserializeResponse(GetUpdates.java:83) ~[telegrambots-meta-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:258) ~[telegrambots-6.5.0.jar:na]
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:188) ~[telegrambots-6.5.0.jar:na]
+
