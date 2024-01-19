@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-//@CrossOrigin(origins = "*")
+@CrossOrigin
 @RequestMapping("api/teacher")
 public class TeacherController {
     @Autowired

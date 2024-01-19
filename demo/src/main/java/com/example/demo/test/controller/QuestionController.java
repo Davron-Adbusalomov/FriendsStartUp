@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "*")
-//@RequestMapping("api/question")
+@CrossOrigin
+@RequestMapping("api/question")
 public class QuestionController {
     @Autowired
     public QuestionService questionService;
