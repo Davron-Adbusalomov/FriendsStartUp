@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("api/question")
+//@RequestMapping("api/question")
 public class QuestionController {
     @Autowired
     public QuestionService questionService;
