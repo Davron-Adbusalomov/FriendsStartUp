@@ -26,6 +26,15 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/getAdmins")
+    public ResponseEntity<?> getAdmins(){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(adminService.getAdmins());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
     @GetMapping("/getById/{adminID}")
     public ResponseEntity<?> getById(@PathVariable Long adminID){
         return adminService.getAdminById(adminID);
