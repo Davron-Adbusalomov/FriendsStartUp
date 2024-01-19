@@ -23,6 +23,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests((request)->request
                         .requestMatchers("/api/admin/createADMIN", "/api/admin/login", "/api/student/loginStudent", "/api/teacher/loginTeacher").permitAll()
