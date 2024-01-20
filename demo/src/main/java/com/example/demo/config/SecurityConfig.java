@@ -25,17 +25,17 @@ public class SecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
 
-    @Bean
-    @Order(0)
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
+//    @Bean
+//    @Order(0)
+//    public CorsFilter corsFilter() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.addAllowedOrigin("http://localhost");
+//        config.addAllowedHeader("*");
+//        config.addAllowedMethod("*");
+//        source.registerCorsConfiguration("/**", config);
+//        return new CorsFilter(source);
+//    }
 
     @Bean
     @Order(1)
@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests((request)->request
-                        .requestMatchers("/api/admin/createADMIN", "/api/admin/login", "/api/student/loginStudent", "/api/teacher/loginTeacher").permitAll()
+                        .requestMatchers("/api").permitAll()
                         .anyRequest()
                         .authenticated())
 
