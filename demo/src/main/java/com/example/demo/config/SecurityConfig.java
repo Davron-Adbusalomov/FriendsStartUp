@@ -38,15 +38,14 @@ public class SecurityConfig {
 //    }
 
     @Bean
-    @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests((request)->request
-                        .requestMatchers("/api").permitAll()
-                        .anyRequest()
-                        .authenticated())
+                        .requestMatchers("/**").permitAll())
+//                        .anyRequest()
+//                        .authenticated())
 
                 .sessionManagement((session)->session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
