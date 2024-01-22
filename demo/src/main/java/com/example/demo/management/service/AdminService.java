@@ -93,14 +93,15 @@ public class AdminService {
         }
         Student student = studentRepository.save(StudentMapper.toModel(studentDTO));
         return ResponseEntity.status(HttpStatus.OK).body(student);
+
     }
 
-    public ResponseEntity<?> registerTeacher(TeacherDTO teacherDTO){
+    public TeacherDTO registerTeacher(TeacherDTO teacherDTO) throws Exception {
         if (teacherRepository.findByUsername(teacherDTO.getUsername()).isPresent()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already existed!");
+            throw new Exception("User already exists");
         }
         Teacher teacher = teacherRepository.save(TeacherMapper.INSTANCE.toModel(teacherDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(teacher);
+        return TeacherMapper.toDTO(teacher);
     }
 
     public ResponseEntity<?> registerGroup(GroupDTO groupDTO){
