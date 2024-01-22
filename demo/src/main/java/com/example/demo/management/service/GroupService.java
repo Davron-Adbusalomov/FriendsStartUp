@@ -32,7 +32,7 @@ public class GroupService {
     @Autowired
     private QuizRepository quizRepository;
 
-    public ResponseEntity<List<Grouping>> getGroups(){return ResponseEntity.status(HttpStatus.OK).body( groupRepository.findAll());}
+    public List<Grouping> getGroups(){return groupRepository.findAll();}
 
     public ResponseEntity<?> getGroupById(Long groupID){
         Grouping grouping = groupRepository.findById(groupID)

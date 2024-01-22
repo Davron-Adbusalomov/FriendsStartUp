@@ -3,6 +3,7 @@ package com.example.demo.management.controller;
 import com.example.demo.management.dto.GroupDTO;
 import com.example.demo.management.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,11 @@ public class GroupController {
 
     @GetMapping("/getAllGroups")
     public ResponseEntity<?> getAll(){
-        return groupService.getGroups();
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroups());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error occurred!");
+        }
     }
 
     @GetMapping("/getById/{id}")
