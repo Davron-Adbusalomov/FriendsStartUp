@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import javax.naming.AuthenticationException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AdminService {
@@ -87,12 +88,22 @@ public class AdminService {
         return ResponseEntity.status(HttpStatus.OK).body(admin1);
     }
 
-    public ResponseEntity<?> registerStudent(StudentDTO studentDTO){
+    public StudentDTO registerStudent(StudentDTO studentDTO) throws Exception {
         if (studentRepository.findByUsername(studentDTO.getUsername()).isPresent()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already existed!");
+            throw new Exception("User already exists!");
         }
         Student student = studentRepository.save(StudentMapper.toModel(studentDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(student);
+
+        Optional<Grouping> grouping = groupRepository.findByName(studentDTO.getGroupName());
+        if (grouping.isEmpty()){
+            throw new EntityNotFoundException("No group found with is name!");
+        }
+
+        Grouping group=grouping.get();
+        group.assignStudent(student);
+        groupRepository.save(group);
+
+        return StudentMapper.toDTO(student);
 
     }
 
@@ -101,15 +112,25 @@ public class AdminService {
             throw new Exception("User already exists");
         }
         Teacher teacher = teacherRepository.save(TeacherMapper.INSTANCE.toModel(teacherDTO));
+
+        Optional<Grouping> grouping = groupRepository.findByName(teacherDTO.getGroupName());
+        if (grouping.isEmpty()){
+            throw new EntityNotFoundException("No group found with is name!");
+        }
+
+        Grouping group=grouping.get();
+        group.assignTeacher(teacher);
+        teacherRepository.save(teacher);
+
         return TeacherMapper.toDTO(teacher);
     }
 
-    public ResponseEntity<?> registerGroup(GroupDTO groupDTO){
+    public GroupDTO registerGroup(GroupDTO groupDTO) throws Exception {
         if (groupRepository.findByName(groupDTO.getName()).isPresent()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Group already existed!");
+            throw new Exception("Group already existed!");
         }
         Grouping group = groupRepository.save(GroupMapper.INSTANCE.toModel(groupDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(group);
+        return GroupMapper.INSTANCE.toDTO(group);
     }
 
 

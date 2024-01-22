@@ -24,6 +24,8 @@ public class TeacherDTO {
 
     private String subject;
 
+    private String groupName;
+
     private LocalDate dateOfBirth;
 
     private Long phone_num;
