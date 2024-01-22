@@ -44,10 +44,9 @@ public class Student implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
     @JsonIgnore
     @ManyToMany(mappedBy = "students")
-    private Set<Grouping> groupings = new HashSet<>();
+    private List<Grouping> groupings = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "student")
