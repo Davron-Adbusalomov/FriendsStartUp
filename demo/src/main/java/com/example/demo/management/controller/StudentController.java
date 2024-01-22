@@ -18,7 +18,11 @@ public class StudentController {
 
     @GetMapping("/getStudents")
     public ResponseEntity<?> getAll(){
-        return studentService.getStudents();
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(studentService.getStudents());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping("/getById/{id}")

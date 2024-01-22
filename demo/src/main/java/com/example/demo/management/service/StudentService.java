@@ -38,7 +38,7 @@ public class StudentService {
         this.jwtService = jwtService;
     }
 
-    public ResponseEntity<?> getStudents(){return ResponseEntity.status(HttpStatus.OK).body(studentRepository.findAll());}
+    public List<StudentDTO> getStudents(){return StudentMapper.toDTO(studentRepository.findAll());}
 
     public ResponseEntity<?> getStudentById(Long studentID){
         Student student = studentRepository.findById(studentID)

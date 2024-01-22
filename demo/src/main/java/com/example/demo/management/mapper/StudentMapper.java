@@ -2,10 +2,12 @@ package com.example.demo.management.mapper;
 
 import com.example.demo.management.dto.StudentDTO;
 import com.example.demo.management.model.Student;
+import com.example.demo.management.repository.GroupRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 public interface StudentMapper {
@@ -19,6 +21,10 @@ public interface StudentMapper {
         studentDTO.setAge(student.getAge());
         studentDTO.setEmail(student.getEmail());
         studentDTO.setRole(student.getRole());
+//        List<String> groupList = new ArrayList<>();
+//        groupList.add(student.getGroupings().get(1).getName());
+
+        studentDTO.setGroupList(student.getGroupings());
         studentDTO.setParent_contact(student.getParent_contact());
         studentDTO.setParent_chatId(student.getParent_chatId());
         studentDTO.setUsername(student.getUsername());
@@ -27,7 +33,13 @@ public interface StudentMapper {
         return studentDTO;
     };
 
-    ArrayList<StudentDTO> toDTO(ArrayList<Student> students);
+    static ArrayList<StudentDTO> toDTO(List<Student> lessons) {
+        ArrayList<StudentDTO> lessonDTOs = new ArrayList<>();
+        for (Student lesson : lessons) {
+            lessonDTOs.add(toDTO(lesson));
+        }
+        return lessonDTOs;
+    }
 
     static Student toModel(StudentDTO studentDTO){
         Student student = new Student();

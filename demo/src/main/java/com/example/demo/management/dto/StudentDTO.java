@@ -1,5 +1,6 @@
 package com.example.demo.management.dto;
 
+import com.example.demo.management.model.Grouping;
 import com.example.demo.management.security.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,6 +39,8 @@ public class StudentDTO {
     private String parent_contact;
 
     private String groupName;
+
+    private List<Grouping> groupList;
 
     private String parent_chatId;
 
