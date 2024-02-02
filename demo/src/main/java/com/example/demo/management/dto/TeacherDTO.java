@@ -1,5 +1,6 @@
 package com.example.demo.management.dto;
 
+import com.example.demo.management.model.Grouping;
 import com.example.demo.management.security.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -25,6 +27,8 @@ public class TeacherDTO {
     private String subject;
 
     private String groupName;
+
+    private List<Grouping> groupList;
 
     private LocalDate dateOfBirth;
 

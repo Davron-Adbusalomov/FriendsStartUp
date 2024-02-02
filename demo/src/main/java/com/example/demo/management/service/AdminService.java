@@ -96,7 +96,7 @@ public class AdminService {
 
         Optional<Grouping> grouping = groupRepository.findByName(studentDTO.getGroupName());
         if (grouping.isEmpty()){
-            throw new EntityNotFoundException("No group found with is name!");
+            throw new EntityNotFoundException("No group found with this name!");
         }
 
         Grouping group=grouping.get();
@@ -104,7 +104,6 @@ public class AdminService {
         groupRepository.save(group);
 
         return StudentMapper.toDTO(student);
-
     }
 
     public TeacherDTO registerTeacher(TeacherDTO teacherDTO) throws Exception {
@@ -115,12 +114,12 @@ public class AdminService {
 
         Optional<Grouping> grouping = groupRepository.findByName(teacherDTO.getGroupName());
         if (grouping.isEmpty()){
-            throw new EntityNotFoundException("No group found with is name!");
+            throw new EntityNotFoundException("No group found with this name!");
         }
 
         Grouping group=grouping.get();
         group.assignTeacher(teacher);
-        teacherRepository.save(teacher);
+        groupRepository.save(group);
 
         return TeacherMapper.toDTO(teacher);
     }

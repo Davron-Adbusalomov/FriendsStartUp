@@ -1,11 +1,14 @@
 package com.example.demo.management.mapper;
 
+import com.example.demo.management.dto.StudentDTO;
 import com.example.demo.management.dto.TeacherDTO;
+import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 public interface TeacherMapper {
@@ -23,11 +26,17 @@ public interface TeacherMapper {
         teacherDTO.setUsername(teacher.getUsername());
         teacherDTO.setSubject(teacher.getSubject());
         teacherDTO.setRole(teacher.getRole());
-
+        teacherDTO.setGroupList(teacher.getGroupings());
         return teacherDTO;
     };
 
-    ArrayList<TeacherDTO> toDTO(ArrayList<Teacher> teachers);
+    static ArrayList<TeacherDTO> toDTO(List<Teacher> lessons) {
+        ArrayList<TeacherDTO> teacherDTOS = new ArrayList<>();
+        for (Teacher teacher : lessons) {
+            teacherDTOS.add(toDTO(teacher));
+        }
+        return teacherDTOS;
+    }
 
     Teacher toModel(TeacherDTO teacherDTO);
 }

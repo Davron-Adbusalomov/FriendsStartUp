@@ -11,10 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -53,7 +50,7 @@ public class Teacher implements UserDetails {
 
     @JsonIgnore
     @OneToMany(mappedBy = "teacher")
-    private Set<Grouping> groupings= new HashSet<>();
+    private List<Grouping> groupings= new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "teacher")

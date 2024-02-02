@@ -18,7 +18,11 @@ public class TeacherController {
 
     @GetMapping("/getTeachers")
     public ResponseEntity<?> getAll(){
-        return teacherService.getTeachers();
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(teacherService.getTeachers());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+        }
     }
 
     @GetMapping("/getById/{id}")
