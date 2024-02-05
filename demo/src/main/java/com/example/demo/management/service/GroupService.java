@@ -83,19 +83,19 @@ public class GroupService {
         }
     }
 
-//    public ResponseEntity<?> assignStudentToGroup(Long groupId, Long studentId){
-//        Student student = studentRepository.findById(studentId).get();
-//        Grouping grouping = groupRepository.findById(groupId).get();
-//        grouping.assignStudent(student);
-//        return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
-//    }
-//
-//    public ResponseEntity<?> assignTeacherToGroup(Long groupId, Long teacherId){
-//        Teacher teacher = teacherRepository.findById(teacherId).get();
-//        Grouping grouping = groupRepository.findById(groupId).get();
-//        grouping.assignTeacher(teacher);
-//        return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
-//    }
+    public ResponseEntity<?> assignStudentToGroup(String groupName, String studentUsername){
+        Student student = studentRepository.findByUsername(studentUsername).get();
+        Grouping grouping = groupRepository.findByName(groupName).get();
+        grouping.assignStudent(student);
+        return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
+    }
+
+    public ResponseEntity<?> assignTeacherToGroup(String groupName, String teacherUsername){
+        Teacher teacher = teacherRepository.findByUsername(teacherUsername).get();
+        Grouping grouping = groupRepository.findByName(groupName).get();
+        grouping.assignTeacher(teacher);
+        return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
+    }
 
 
 }

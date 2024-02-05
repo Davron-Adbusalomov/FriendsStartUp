@@ -40,14 +40,14 @@ public class GroupController {
         return groupService.updateGroup(groupDTO, id);
     }
 
-//    @PutMapping("{groupId}/studentToGroup/{studentId}")
-//    public ResponseEntity<?> assignStudentToGroup(@PathVariable Long groupId, @PathVariable Long studentId){
-//        return groupService.assignStudentToGroup(studentId, groupId);
-//    }
-//
-//    @PutMapping("{groupId}/teacherToGroup/{teacherId}")
-//    public ResponseEntity<?> assignTeacherToGroup(@PathVariable Long groupId, @PathVariable Long teacherId){
-//        return groupService.assignTeacherToGroup(teacherId, groupId);
-//    }
+    @PutMapping("{groupName}/studentToGroup/{studentUsername}")
+    public ResponseEntity<?> assignStudentToGroup(@PathVariable String groupName, @PathVariable String studentUsername){
+        return groupService.assignStudentToGroup(groupName, studentUsername);
+    }
+
+    @PutMapping("{groupName}/teacherToGroup/{teacherUserName}")
+    public ResponseEntity<?> assignTeacherToGroup(@PathVariable String groupName, @PathVariable String teacherUserName){
+        return groupService.assignTeacherToGroup(groupName, teacherUserName);
+    }
 
 }
