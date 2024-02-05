@@ -23,6 +23,8 @@ public class Grouping {
 
     private String subject;
 
+    private String time;
+
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;

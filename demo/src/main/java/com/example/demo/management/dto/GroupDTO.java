@@ -21,5 +21,7 @@ public class GroupDTO {
 
     private String subject;
 
+    private String time;
+
     private List<Quiz> quizzes;
 }
