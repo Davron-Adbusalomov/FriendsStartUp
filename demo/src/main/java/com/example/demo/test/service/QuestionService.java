@@ -3,7 +3,6 @@ package com.example.demo.test.service;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.test.dto.QuestionDTO;
-import com.example.demo.test.mapper.QuestionMapper;
 import com.example.demo.test.model.Option;
 import com.example.demo.test.model.Question;
 import com.example.demo.test.model.Quiz;
@@ -46,7 +45,7 @@ public class QuestionService {
         return ResponseEntity.status(HttpStatus.OK).body(questionRepository.findAll());
     }
 
-    public ResponseEntity<?> createQuestion(QuestionDTO questionDTO) {
+    public String createQuestion(QuestionDTO questionDTO) {
         List<Option> arrayList = new ArrayList<>();
 
         for(int i=0; i<questionDTO.getOptions().size(); i++) {
@@ -55,17 +54,21 @@ public class QuestionService {
             arrayList.add(option);
         }
 
-        try {
-            Optional<Teacher> optionalTeacher = teacherRepository.findById(questionDTO.getTeacher().getId());
+            Optional<Teacher> optionalTeacher = teacherRepository.findById(questionDTO.getTeacherId());
 
             if (optionalTeacher.isPresent()) {
                 Teacher teacher = optionalTeacher.get();
 
-                Question question = QuestionMapper.toModel(questionDTO);
+                    Question question = new Question();
+                    question.setGroup_name(questionDTO.getGroup_name());
+                    question.setTitle(questionDTO.getTitle());
+                    question.setType(questionDTO.getType());
+                    question.setMark(questionDTO.getMark());
+                    question.setRight_answer(questionDTO.getRight_answer());
+                    question.setTeacher(teacher);
                 for (Option option:arrayList) {
                     question.assignOption(option);
                 }
-                question.setTeacher(teacher);
 
                 questionRepository.save(question);
 
@@ -74,13 +77,10 @@ public class QuestionService {
                     optionRepository.save(option);
                 }
 
-                return ResponseEntity.status(HttpStatus.OK).body("Question created successfully.");
+                return "Question created successfully.";
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Teacher not found");
+                throw new EntityNotFoundException("No teacher found with this id!");
             }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating question.");
-        }
     }
 
     public ResponseEntity<?> deleteQuestion(Long questionId){

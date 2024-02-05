@@ -23,7 +23,7 @@ public class QuestionDTO {
 
     private int mark;
 
-    private Teacher teacher;
+    private Long teacherId;
 
     private List<String> options;
 }

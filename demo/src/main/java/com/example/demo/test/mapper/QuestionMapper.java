@@ -20,24 +20,24 @@ public interface QuestionMapper {
                 questionDTO.setTitle(question.getTitle());
                 questionDTO.setType(question.getType());
                 questionDTO.setRight_answer(question.getRight_answer());
-                questionDTO.setTeacher(question.getTeacher());
+                questionDTO.setTeacherId(question.getTeacher().getId());
                // questionDTO.setOptions(question.getOptions());
                 return questionDTO;
         }
 
         ArrayList<QuestionDTO> toDTO(ArrayList<Question> questions);
 
-        static Question toModel(QuestionDTO questionDTO){
-                Question question = new Question();
-                question.setId(questionDTO.getId());
-                question.setGroup_name(questionDTO.getGroup_name());
-                question.setTitle(questionDTO.getTitle());
-                question.setType(questionDTO.getType());
-                question.setMark(questionDTO.getMark());
-                question.setRight_answer(questionDTO.getRight_answer());
-                question.setTeacher(questionDTO.getTeacher());
-                return question;
-        };
+//        static Question toModel(QuestionDTO questionDTO){
+//                Question question = new Question();
+//                question.setId(questionDTO.getId());
+//                question.setGroup_name(questionDTO.getGroup_name());
+//                question.setTitle(questionDTO.getTitle());
+//                question.setType(questionDTO.getType());
+//                question.setMark(questionDTO.getMark());
+//                question.setRight_answer(questionDTO.getRight_answer());
+//                question.setTeacher(questionDTO.getTeacher());
+//                return question;
+//        };
 
 
 }

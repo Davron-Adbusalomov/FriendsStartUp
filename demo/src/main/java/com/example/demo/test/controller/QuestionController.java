@@ -42,7 +42,11 @@ public class QuestionController {
 
     @PostMapping("create")
     public ResponseEntity<?> creatQuestion(@RequestBody QuestionDTO questionDTO){
-        return questionService.createQuestion(questionDTO);
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(questionService.createQuestion(questionDTO));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PutMapping("update/{id}")
