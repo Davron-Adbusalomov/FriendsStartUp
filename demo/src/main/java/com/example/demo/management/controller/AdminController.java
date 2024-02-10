@@ -47,8 +47,12 @@ public class AdminController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateAdmin(@RequestBody AdminDTO adminDTO, @PathVariable Long id){
-        return adminService.updateAdmin(adminDTO,id);
+    public ResponseEntity<?> updateAdmin(@RequestBody AdminDTO adminDTO, @PathVariable Long id) throws Exception {
+        try {
+            return adminService.updateAdmin(adminDTO,id);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PreAuthorize("hasRole('ADMIN')")

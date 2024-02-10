@@ -75,9 +75,15 @@ public class AdminService {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<?> updateAdmin(AdminDTO adminDTO, Long id){
+    public ResponseEntity<?> updateAdmin(AdminDTO adminDTO, Long id) throws Exception {
         Admin admin = adminRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("There is no admin with this id: "+id));
+
+        Optional<Admin> admin2 = adminRepository.findByUsername(adminDTO.getUsername());
+        if (admin2.isPresent()){
+            throw new Exception("Username already taken!");
+        }
+
 
         admin.setName(adminDTO.getName());
         admin.setUsername(adminDTO.getUsername());
