@@ -35,7 +35,7 @@ public class TeacherController {
         return teacherService.deleteTeacher(id);
     }
 
-    @PutMapping("/updateTeacher/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateStudent(@RequestBody TeacherDTO teacherDTO, @PathVariable Long id){
         return teacherService.updateTeacher(teacherDTO,id);
     }
