@@ -43,6 +43,10 @@ public class Grouping {
         students.add(student);
     }
 
+    public void deassignStudent(Student student) {
+        students.remove(student);
+    }
+
     public void assignTeacher(Teacher teacher) {
         this.teacher=teacher;
     }

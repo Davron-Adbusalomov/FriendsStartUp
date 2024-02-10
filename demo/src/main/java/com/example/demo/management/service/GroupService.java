@@ -91,6 +91,13 @@ public class GroupService {
         return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
     }
 
+    public ResponseEntity<?> deassignStudentFromGroup(AssignUserToGroupDTO assignUserToGroupDTO){
+        Student student = studentRepository.findByUsername(assignUserToGroupDTO.getUsername()).get();
+        Grouping grouping = groupRepository.findByName(assignUserToGroupDTO.getGroupName()).get();
+        grouping.deassignStudent(student);
+        return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
+    }
+
     public ResponseEntity<?> assignTeacherToGroup(AssignUserToGroupDTO assignUserToGroupDTO){
         Teacher teacher = teacherRepository.findByUsername(assignUserToGroupDTO.getUsername()).get();
         Grouping grouping = groupRepository.findByName(assignUserToGroupDTO.getGroupName()).get();

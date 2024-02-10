@@ -46,6 +46,11 @@ public class GroupController {
         return groupService.assignStudentToGroup(assignUserToGroupDTO);
     }
 
+    @PutMapping("/deassignStudentFromGroup")
+    public ResponseEntity<?> deassignStudentToGroup(@RequestBody AssignUserToGroupDTO assignUserToGroupDTO){
+        return groupService.deassignStudentFromGroup(assignUserToGroupDTO);
+    }
+
     @PutMapping("/assignTeacherToGroup")
     public ResponseEntity<?> assignTeacherToGroup(@RequestBody AssignUserToGroupDTO assignUserToGroupDTO){
         return groupService.assignTeacherToGroup(assignUserToGroupDTO);
