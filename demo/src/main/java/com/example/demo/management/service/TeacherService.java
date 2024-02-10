@@ -18,10 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class TeacherService {
@@ -79,9 +76,14 @@ public class TeacherService {
         return ResponseEntity.status(HttpStatus.OK).body("Successfully deleted!");
     }
 
-    public ResponseEntity<?> updateTeacher(TeacherDTO teacherDTO, Long id){
+    public ResponseEntity<?> updateTeacher(TeacherDTO teacherDTO, Long id) throws Exception {
         Teacher teacher = teacherRepository.findById(id)
                 .orElseThrow(()->new EntityNotFoundException("No teacher found with this id: "+id));
+
+        Optional<Teacher> teacher2 = teacherRepository.findByUsername(teacherDTO.getUsername());
+        if (teacher2.isPresent()){
+            throw new Exception("Username already taken");
+        }
 
         teacher.setName(teacherDTO.getName());
         teacher.setEmail(teacherDTO.getEmail());
@@ -89,6 +91,7 @@ public class TeacherService {
         teacher.setUsername(teacherDTO.getUsername());
         teacher.setPassword(teacherDTO.getPassword());
         teacher.setPhone_num(teacherDTO.getPhone_num());
+        teacher.setSubject(teacherDTO.getSubject());
 
         teacherRepository.save(teacher);
         return ResponseEntity.status(HttpStatus.OK).body(teacher);

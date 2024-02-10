@@ -66,8 +66,13 @@ public class StudentService {
     }
 
 
-    public ResponseEntity<?> updateStudent(StudentDTO studentDTO, Long studentID){
+    public ResponseEntity<?> updateStudent(StudentDTO studentDTO, Long studentID) throws Exception {
         Optional<Student> studentOptional = studentRepository.findById(studentID);
+        Optional<Student> studentOptional1 = studentRepository.findByUsername(studentDTO.getUsername());
+        if (studentOptional1.isPresent()){
+            throw new Exception("Username already taken");
+        }
+
         if (studentOptional.isEmpty()){
             throw new EntityNotFoundException("Not found group with id: "+studentID);
         }

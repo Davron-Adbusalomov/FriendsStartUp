@@ -37,7 +37,11 @@ public class StudentController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateStudent(@RequestBody StudentDTO studentDTO, @PathVariable Long id){
-        return studentService.updateStudent(studentDTO,id);
+        try {
+            return studentService.updateStudent(studentDTO,id);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PostMapping("loginStudent")
