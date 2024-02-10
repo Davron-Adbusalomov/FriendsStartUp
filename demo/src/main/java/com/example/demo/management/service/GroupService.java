@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.management.dto.AssignStudentToGroupDTO;
 import com.example.demo.management.dto.GroupDTO;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
@@ -83,9 +84,9 @@ public class GroupService {
         }
     }
 
-    public ResponseEntity<?> assignStudentToGroup(String groupName, String studentUsername){
-        Student student = studentRepository.findByUsername(studentUsername).get();
-        Grouping grouping = groupRepository.findByName(groupName).get();
+    public ResponseEntity<?> assignStudentToGroup(AssignStudentToGroupDTO assignStudentToGroupDTO){
+        Student student = studentRepository.findByUsername(assignStudentToGroupDTO.getStudentUsername()).get();
+        Grouping grouping = groupRepository.findByName(assignStudentToGroupDTO.getGroupName()).get();
         grouping.assignStudent(student);
         return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
     }
@@ -96,6 +97,4 @@ public class GroupService {
         grouping.assignTeacher(teacher);
         return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
     }
-
-
 }

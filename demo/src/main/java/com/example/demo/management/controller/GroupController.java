@@ -1,5 +1,6 @@
 package com.example.demo.management.controller;
 
+import com.example.demo.management.dto.AssignStudentToGroupDTO;
 import com.example.demo.management.dto.GroupDTO;
 import com.example.demo.management.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,9 @@ public class GroupController {
         return groupService.updateGroup(groupDTO, id);
     }
 
-    @PutMapping("{groupName}/studentToGroup/{studentUsername}")
-    public ResponseEntity<?> assignStudentToGroup(@PathVariable String groupName, @PathVariable String studentUsername){
-        return groupService.assignStudentToGroup(groupName, studentUsername);
+    @PutMapping("assignStudentToGroup")
+    public ResponseEntity<?> assignStudentToGroup(@RequestBody AssignStudentToGroupDTO assignStudentToGroupDTO){
+        return groupService.assignStudentToGroup(assignStudentToGroupDTO);
     }
 
     @PutMapping("{groupName}/teacherToGroup/{teacherUserName}")
