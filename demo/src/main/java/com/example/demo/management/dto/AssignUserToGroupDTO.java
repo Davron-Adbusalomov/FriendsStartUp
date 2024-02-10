@@ -10,8 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class AssignStudentToGroupDTO {
+public class AssignUserToGroupDTO {
     private String groupName;
 
-    private String studentUsername;
+    private String username;
 }

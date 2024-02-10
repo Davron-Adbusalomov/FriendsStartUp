@@ -1,6 +1,6 @@
 package com.example.demo.management.service;
 
-import com.example.demo.management.dto.AssignStudentToGroupDTO;
+import com.example.demo.management.dto.AssignUserToGroupDTO;
 import com.example.demo.management.dto.GroupDTO;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
@@ -84,16 +84,16 @@ public class GroupService {
         }
     }
 
-    public ResponseEntity<?> assignStudentToGroup(AssignStudentToGroupDTO assignStudentToGroupDTO){
-        Student student = studentRepository.findByUsername(assignStudentToGroupDTO.getStudentUsername()).get();
-        Grouping grouping = groupRepository.findByName(assignStudentToGroupDTO.getGroupName()).get();
+    public ResponseEntity<?> assignStudentToGroup(AssignUserToGroupDTO assignUserToGroupDTO){
+        Student student = studentRepository.findByUsername(assignUserToGroupDTO.getUsername()).get();
+        Grouping grouping = groupRepository.findByName(assignUserToGroupDTO.getGroupName()).get();
         grouping.assignStudent(student);
         return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
     }
 
-    public ResponseEntity<?> assignTeacherToGroup(String groupName, String teacherUsername){
-        Teacher teacher = teacherRepository.findByUsername(teacherUsername).get();
-        Grouping grouping = groupRepository.findByName(groupName).get();
+    public ResponseEntity<?> assignTeacherToGroup(AssignUserToGroupDTO assignUserToGroupDTO){
+        Teacher teacher = teacherRepository.findByUsername(assignUserToGroupDTO.getUsername()).get();
+        Grouping grouping = groupRepository.findByName(assignUserToGroupDTO.getGroupName()).get();
         grouping.assignTeacher(teacher);
         return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
     }
