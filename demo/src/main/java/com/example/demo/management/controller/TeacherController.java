@@ -36,7 +36,7 @@ public class TeacherController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateStudent(@RequestBody TeacherDTO teacherDTO, @PathVariable Long id){
+    public ResponseEntity<?> updateTeacher(@RequestBody TeacherDTO teacherDTO, @PathVariable Long id){
         try {
             return teacherService.updateTeacher(teacherDTO,id);
         }catch (Exception e){

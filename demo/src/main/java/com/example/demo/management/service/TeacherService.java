@@ -71,8 +71,7 @@ public class TeacherService {
             question.setTeacher(null);
         }
 
-
-                teacherRepository.delete(teacher);
+        teacherRepository.delete(teacher);
         return ResponseEntity.status(HttpStatus.OK).body("Successfully deleted!");
     }
 
@@ -80,18 +79,21 @@ public class TeacherService {
         Teacher teacher = teacherRepository.findById(id)
                 .orElseThrow(()->new EntityNotFoundException("No teacher found with this id: "+id));
 
-        Optional<Teacher> teacher2 = teacherRepository.findByUsername(teacherDTO.getUsername());
-        if (teacher2.isPresent()){
-            throw new Exception("Username already taken");
+        if (teacher.getUsername().equals(teacherDTO.getUsername())){
+            teacher.setName(teacherDTO.getName());
+            teacher.setEmail(teacherDTO.getEmail());
+            teacher.setAge(teacherDTO.getAge());
+            teacher.setUsername(teacherDTO.getUsername());
+            teacher.setPassword(teacherDTO.getPassword());
+            teacher.setPhone_num(teacherDTO.getPhone_num());
+            teacher.setSubject(teacherDTO.getSubject());
         }
-
-        teacher.setName(teacherDTO.getName());
-        teacher.setEmail(teacherDTO.getEmail());
-        teacher.setAge(teacherDTO.getAge());
-        teacher.setUsername(teacherDTO.getUsername());
-        teacher.setPassword(teacherDTO.getPassword());
-        teacher.setPhone_num(teacherDTO.getPhone_num());
-        teacher.setSubject(teacherDTO.getSubject());
+        else {
+            Optional<Teacher> teacher2 = teacherRepository.findByUsername(teacherDTO.getUsername());
+            if (teacher2.isPresent()){
+                throw new Exception("Username already taken");
+            }
+        }
 
         teacherRepository.save(teacher);
         return ResponseEntity.status(HttpStatus.OK).body(teacher);

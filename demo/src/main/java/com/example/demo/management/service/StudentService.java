@@ -68,15 +68,12 @@ public class StudentService {
 
     public ResponseEntity<?> updateStudent(StudentDTO studentDTO, Long studentID) throws Exception {
         Optional<Student> studentOptional = studentRepository.findById(studentID);
-        Optional<Student> studentOptional1 = studentRepository.findByUsername(studentDTO.getUsername());
-        if (studentOptional1.isPresent()){
-            throw new Exception("Username already taken");
-        }
 
         if (studentOptional.isEmpty()){
             throw new EntityNotFoundException("Not found group with id: "+studentID);
         }
-        else {
+
+        if (studentOptional.get().getUsername().equals(studentDTO.getUsername())){
             Student student = studentOptional.get();
             student.setUsername(studentDTO.getUsername());
             student.setName(studentDTO.getName());
@@ -91,6 +88,13 @@ public class StudentService {
             studentRepository.save(student);
             return ResponseEntity.status(HttpStatus.OK).body(student);
         }
+        else {
+            Optional<Student> studentOptional1 = studentRepository.findByUsername(studentDTO.getUsername());
+            if (studentOptional1.isPresent()){
+                throw new Exception("Username already taken");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Something wrong happened!");
     }
 
     public StudentLoginDTO loginStudent(StudentDTO studentDTO) {
