@@ -78,6 +78,7 @@ public class GroupService {
             grouping1.setName(groupDTO.getName());
             grouping1.setSubject(groupDTO.getSubject());
             grouping1.setQuizzes(groupDTO.getQuizzes());
+            grouping1.setTime(groupDTO.getTime());
 
             groupRepository.save(grouping1);
             return ResponseEntity.status(HttpStatus.OK).body(grouping1);
