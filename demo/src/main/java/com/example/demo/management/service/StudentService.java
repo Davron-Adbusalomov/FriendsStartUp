@@ -73,17 +73,14 @@ public class StudentService {
             throw new EntityNotFoundException("Not found group with id: "+studentID);
         }
 
+        Student student = studentOptional.get();
+
         if (studentOptional.get().getUsername().equals(studentDTO.getUsername())){
-            Student student = studentOptional.get();
+
             student.setUsername(studentDTO.getUsername());
             student.setName(studentDTO.getName());
-            student.setRole(studentDTO.getRole());
-            student.setEmail(studentDTO.getEmail());
-            student.setNumber(studentDTO.getNumber());
             student.setPassword(studentDTO.getPassword());
-            student.setAge(studentDTO.getAge());
             student.setParent_contact(studentDTO.getParent_contact());
-            student.setParent_chatId(studentDTO.getParent_chatId());
 
             studentRepository.save(student);
             return ResponseEntity.status(HttpStatus.OK).body(student);
@@ -93,8 +90,16 @@ public class StudentService {
             if (studentOptional1.isPresent()){
                 throw new Exception("Username already taken");
             }
+            else {
+                student.setUsername(studentDTO.getUsername());
+                student.setName(studentDTO.getName());
+                student.setPassword(studentDTO.getPassword());
+                student.setParent_contact(studentDTO.getParent_contact());
+
+                studentRepository.save(student);
+                return ResponseEntity.status(HttpStatus.OK).body(student);
+            }
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Something wrong happened!");
     }
 
     public StudentLoginDTO loginStudent(StudentDTO studentDTO) {

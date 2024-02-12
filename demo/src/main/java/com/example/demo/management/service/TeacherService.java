@@ -81,17 +81,19 @@ public class TeacherService {
 
         if (teacher.getUsername().equals(teacherDTO.getUsername())){
             teacher.setName(teacherDTO.getName());
-            teacher.setEmail(teacherDTO.getEmail());
-            teacher.setAge(teacherDTO.getAge());
             teacher.setUsername(teacherDTO.getUsername());
             teacher.setPassword(teacherDTO.getPassword());
-            teacher.setPhone_num(teacherDTO.getPhone_num());
             teacher.setSubject(teacherDTO.getSubject());
         }
         else {
             Optional<Teacher> teacher2 = teacherRepository.findByUsername(teacherDTO.getUsername());
             if (teacher2.isPresent()){
                 throw new Exception("Username already taken");
+            }else {
+                teacher.setName(teacherDTO.getName());
+                teacher.setUsername(teacherDTO.getUsername());
+                teacher.setPassword(teacherDTO.getPassword());
+                teacher.setSubject(teacherDTO.getSubject());
             }
         }
 
