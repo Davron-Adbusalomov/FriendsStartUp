@@ -79,7 +79,6 @@ public class StudentService {
 
             student.setUsername(studentDTO.getUsername());
             student.setName(studentDTO.getName());
-            student.setPassword(studentDTO.getPassword());
             student.setParent_contact(studentDTO.getParent_contact());
 
             studentRepository.save(student);
@@ -93,7 +92,6 @@ public class StudentService {
             else {
                 student.setUsername(studentDTO.getUsername());
                 student.setName(studentDTO.getName());
-                student.setPassword(studentDTO.getPassword());
                 student.setParent_contact(studentDTO.getParent_contact());
 
                 studentRepository.save(student);

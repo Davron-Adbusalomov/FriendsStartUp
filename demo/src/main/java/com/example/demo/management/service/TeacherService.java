@@ -82,7 +82,6 @@ public class TeacherService {
         if (teacher.getUsername().equals(teacherDTO.getUsername())){
             teacher.setName(teacherDTO.getName());
             teacher.setUsername(teacherDTO.getUsername());
-            teacher.setPassword(teacherDTO.getPassword());
             teacher.setSubject(teacherDTO.getSubject());
         }
         else {
@@ -92,7 +91,6 @@ public class TeacherService {
             }else {
                 teacher.setName(teacherDTO.getName());
                 teacher.setUsername(teacherDTO.getUsername());
-                teacher.setPassword(teacherDTO.getPassword());
                 teacher.setSubject(teacherDTO.getSubject());
             }
         }
