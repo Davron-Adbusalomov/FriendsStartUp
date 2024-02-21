@@ -18,12 +18,9 @@ public interface StudentMapper {
         studentDTO.setId(student.getId());
         studentDTO.setNumber(student.getNumber());
         studentDTO.setName(student.getName());
-        studentDTO.setAge(student.getAge());
-        studentDTO.setEmail(student.getEmail());
         studentDTO.setRole(student.getRole());
 //        List<String> groupList = new ArrayList<>();
 //        groupList.add(student.getGroupings().get(1).getName());
-
         studentDTO.setGroupList(student.getGroupings());
         studentDTO.setParent_contact(student.getParent_contact());
         studentDTO.setParent_chatId(student.getParent_chatId());
@@ -45,8 +42,6 @@ public interface StudentMapper {
         Student student = new Student();
         student.setNumber(studentDTO.getNumber());
         student.setName(studentDTO.getName());
-        student.setAge(studentDTO.getAge());
-        student.setEmail(studentDTO.getEmail());
         student.setRole(studentDTO.getRole());
         student.setDateOfBirth(studentDTO.getDateOfBirth());
         student.setParent_contact(studentDTO.getParent_contact());

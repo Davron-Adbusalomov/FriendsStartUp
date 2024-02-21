@@ -20,17 +20,15 @@ public class TeacherDTO {
 
     private String name;
 
-    private Long age;
+    private String image;
 
-    private String email;
+    private int experience;
 
     private String subject;
 
     private String groupName;
 
     private List<Grouping> groupList;
-
-    private LocalDate dateOfBirth;
 
     private Long phone_num;
 

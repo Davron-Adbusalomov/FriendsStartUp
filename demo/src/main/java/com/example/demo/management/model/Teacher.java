@@ -25,25 +25,17 @@ public class Teacher implements UserDetails {
 
     private String name;
 
-    private Long age;
-
-    private String email;
-
     private String subject;
 
-    private Long phone_num;
+    private int experience;
 
-    private LocalDate dateOfBirth;
+    private String image;
+
+    private Long phone_num;
 
     private String username;
 
     private String password;
-
-//    private String image;
-//
-//    private Long experience;
-//
-//    private String subject;
 
     @Enumerated(EnumType.STRING)
     private Role role;

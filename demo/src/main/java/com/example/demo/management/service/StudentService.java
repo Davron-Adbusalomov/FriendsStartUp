@@ -1,22 +1,25 @@
 package com.example.demo.management.service;
 
 import com.example.demo.config.JwtService;
+import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.dto.StudentDTO;
 import com.example.demo.management.dto.StudentLoginDTO;
 import com.example.demo.management.mapper.StudentMapper;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
+import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
+import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.test.model.Quiz_Results;
 import com.example.demo.test.repository.Quiz_ResultsRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.hibernate.loader.ast.spi.Loadable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,6 +34,9 @@ public class StudentService {
 
     @Autowired
     private Quiz_ResultsRepository quizResultsRepository;
+
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     private final JwtService jwtService;
 
@@ -98,6 +104,23 @@ public class StudentService {
                 return ResponseEntity.status(HttpStatus.OK).body(student);
             }
         }
+    }
+
+    public List<TeacherInfoDTO> getTeacherInfo(){
+        List<Teacher> teachers=teacherRepository.findAll();
+        List<TeacherInfoDTO> teacherInfoDTOS = new ArrayList<>();
+
+        for (Teacher teacher:teachers) {
+            TeacherInfoDTO teacherInfoDTO = new TeacherInfoDTO();
+            teacherInfoDTO.setId(teacher.getId());
+            teacherInfoDTO.setSubject(teacher.getSubject());
+            teacherInfoDTO.setExperience(teacher.getExperience());
+            teacherInfoDTO.setImage(teacher.getImage());
+            teacherInfoDTO.setName(teacher.getName());
+            teacherInfoDTOS.add(teacherInfoDTO);
+        }
+
+        return teacherInfoDTOS;
     }
 
     public StudentLoginDTO loginStudent(StudentDTO studentDTO) {

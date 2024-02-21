@@ -6,6 +6,7 @@ import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.test.dto.CheckingQuizDTO;
 import com.example.demo.test.dto.QuizDTO;
+import com.example.demo.test.dto.QuizDTOForRequest;
 import com.example.demo.test.mapper.QuizMapper;
 import com.example.demo.test.model.Question;
 import com.example.demo.test.model.Quiz;
@@ -36,7 +37,7 @@ public class QuizService {
 
 
 
-    public ResponseEntity<?> createQuiz(QuizDTO quizDTO) {
+    public ResponseEntity<?> createQuiz(QuizDTOForRequest quizDTO) {
         Optional<Teacher> teacher = teacherRepository.findById(quizDTO.getTeacherId());
         if (teacher.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No teacher with this id: " + quizDTO.getTeacherId());
@@ -52,8 +53,12 @@ public class QuizService {
         quiz.setDuration(quizDTO.getDuration());
         quiz.setGrouping(group.get());
         quiz.setQuestions_num(quizDTO.getQuestions_num());
-        for (Question question : quizDTO.getQuestions()) {
-            quiz.assignQuestion(question);
+        for (Long questionId : quizDTO.getQuestions()) {
+            Optional<Question> question = questionRepository.findById(questionId);
+            if (question.isEmpty()){
+                throw new EntityNotFoundException("No question found with this id: "+questionId);
+            }
+            quiz.assignQuestion(question.get());
         }
         quizRepository.save(quiz);
         return ResponseEntity.status(HttpStatus.OK).body("Quiz created successfully!");

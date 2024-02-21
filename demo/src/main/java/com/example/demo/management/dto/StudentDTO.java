@@ -20,11 +20,7 @@ public class StudentDTO {
 
     private String name;
 
-    private Long age;
-
     private Long number;
-
-    private String email;
 
     private String username;
 

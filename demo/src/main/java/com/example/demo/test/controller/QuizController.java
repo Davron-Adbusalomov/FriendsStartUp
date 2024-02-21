@@ -2,6 +2,7 @@ package com.example.demo.test.controller;
 
 import com.example.demo.test.dto.CheckingQuizDTO;
 import com.example.demo.test.dto.QuizDTO;
+import com.example.demo.test.dto.QuizDTOForRequest;
 import com.example.demo.test.mapper.QuizMapper;
 import com.example.demo.test.model.Quiz;
 import com.example.demo.test.model.Response;
@@ -23,7 +24,7 @@ public class QuizController {
     private QuizService quizService;
 
     @PostMapping("createQuiz")
-    public ResponseEntity<?> createQuiz(@RequestBody QuizDTO quizDTO){
+    public ResponseEntity<?> createQuiz(@RequestBody QuizDTOForRequest quizDTO){
         return quizService.createQuiz(quizDTO);
     }
 
