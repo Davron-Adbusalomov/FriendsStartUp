@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +23,8 @@ public class QuizDTO {
         private Long groupingId;
 
         private Long teacherId;
+
+        private LocalDateTime startTime;
 
         private List<Question> questions;
 

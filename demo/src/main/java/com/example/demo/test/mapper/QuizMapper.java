@@ -14,6 +14,7 @@ public interface QuizMapper {
         quizDTO.setQuestions(quiz.getQuestions());
         quizDTO.setGroupingId(quiz.getGrouping().getId());
         quizDTO.setTeacherId(quiz.getTeacher().getId());
+        quizDTO.setStartTime(quiz.getStartTime());
        // quizDTO.setQuizResult(quiz.getQuizResult());
         return quizDTO;
     }

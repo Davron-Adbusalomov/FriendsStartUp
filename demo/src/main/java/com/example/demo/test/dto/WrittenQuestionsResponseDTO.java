@@ -12,12 +12,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckingQuizDTO {
-    private Long student_id;
+public class WrittenQuestionsResponseDTO {
+    private Long id;
 
-    private List<Response> wrong_answers;
+    private Long quizId;
 
-    private List<Response> written_questions;
-
-    private Long current_mark;
+    private Long mark;
 }

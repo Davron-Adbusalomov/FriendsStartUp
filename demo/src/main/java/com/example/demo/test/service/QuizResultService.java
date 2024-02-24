@@ -1,22 +1,27 @@
 package com.example.demo.test.service;
 
 import com.example.demo.config.TelegramConfig;
-import com.example.demo.config.TelegramUsers;
-import com.example.demo.config.UserState;
+import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
+import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
-import com.example.demo.test.dto.CheckingQuizDTO;
+import com.example.demo.test.dto.WrittenQuestionsResponseDTO;
 import com.example.demo.test.dto.Quiz_ResultsDTO;
+import com.example.demo.test.dto.WrittenQuestionsDTO;
 import com.example.demo.test.model.Question;
 import com.example.demo.test.model.Quiz;
 import com.example.demo.test.model.Quiz_Results;
+import com.example.demo.test.model.WrittenQuestions;
 import com.example.demo.test.repository.QuizRepository;
 import com.example.demo.test.repository.Quiz_ResultsRepository;
+import com.example.demo.test.repository.WrittenQuestionsRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,21 +36,63 @@ public class QuizResultService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private GroupRepository groupRepository;
+
+    @Autowired
+    private WrittenQuestionsRepository writtenQuestionsRepository;
+
     TelegramConfig telegramConfig = new TelegramConfig(this);
 
     public Quiz_ResultsDTO getQuizResult(){
         return null;
     }
 
-    public void assignQuizResult(CheckingQuizDTO checkingQuizDTO, Long quizId) {
-        Optional<Quiz> quiz = quizRepository.findById(quizId);
+    public List<WrittenQuestionsDTO> getWrittenQuestions(String groupName, Long quizId){
+        Optional<Grouping> grouping = groupRepository.findByName(groupName);
+        if (grouping.isEmpty()){
+            throw new EntityNotFoundException("No group found with this id");
+        }
 
-        Quiz_Results quizResults = new Quiz_Results();
-        quizResults.setMark(checkingQuizDTO.getCurrent_mark());
-        quizResults.assignQuiz(quiz.get());
-        quizResults.assignStudent(studentRepository.findById(checkingQuizDTO.getStudent_id()).get());
+        List<WrittenQuestions> writtenQuestions = writtenQuestionsRepository.findByQuizId(quizId);
+        List<WrittenQuestionsDTO> writtenQuestionsDTOS = new ArrayList<>();
 
-        quizResultsRepository.save(quizResults);
+        for (WrittenQuestions w:writtenQuestions) {
+            WrittenQuestionsDTO writtenQuestionsDTO = new WrittenQuestionsDTO();
+            writtenQuestionsDTO.setId(w.getId());
+            writtenQuestionsDTO.setScore(w.getScore());
+            writtenQuestionsDTO.setQuizId(w.getQuizId());
+            writtenQuestionsDTO.setStudentAnswer(w.getStudentAnswer());
+            writtenQuestionsDTO.setCorrect_answer(w.getCorrect_answer());
+            writtenQuestionsDTO.setStudentId(w.getStudent().getId());
+            writtenQuestionsDTO.setQuestionTitle(w.getQuestionTitle());
+            writtenQuestionsDTO.setMax_score(w.getMax_score());
+            writtenQuestionsDTOS.add(writtenQuestionsDTO);
+        }
+
+        return writtenQuestionsDTOS;
+    }
+
+    public void assignQuizResult(List<WrittenQuestionsResponseDTO> writtenQuestionsResponseDTO) {
+        for (WrittenQuestionsResponseDTO w:writtenQuestionsResponseDTO) {
+            Optional<WrittenQuestions> writtenQuestion = writtenQuestionsRepository.findById(w.getId());
+            if (writtenQuestion.isEmpty()){
+                throw new EntityNotFoundException("Not found");
+            }
+
+            Long studentId = writtenQuestion.get().getStudent().getId();
+            Long quizId = writtenQuestion.get().getQuizId();
+
+            Quiz_Results quizResult = quizResultsRepository.findByStudentIdAndQuizId(studentId, quizId);
+
+            quizResult.setMark(quizResult.getMark()+w.getMark());
+
+            quizResultsRepository.save(quizResult);
+        }
+
+//        quizResults.setMark(writtenQuestionsResponseDTO.getMark());
+//
+//        quizResultsRepository.save(quizResults);
     }
 
     public void finalizeQuiz(Long quizId) throws TelegramApiException {

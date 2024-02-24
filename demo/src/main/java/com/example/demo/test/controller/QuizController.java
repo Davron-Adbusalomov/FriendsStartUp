@@ -1,10 +1,7 @@
 package com.example.demo.test.controller;
 
-import com.example.demo.test.dto.CheckingQuizDTO;
 import com.example.demo.test.dto.QuizDTO;
 import com.example.demo.test.dto.QuizDTOForRequest;
-import com.example.demo.test.mapper.QuizMapper;
-import com.example.demo.test.model.Quiz;
 import com.example.demo.test.model.Response;
 import com.example.demo.test.service.QuizService;
 import jakarta.persistence.EntityNotFoundException;
@@ -39,14 +36,13 @@ public class QuizController {
         }
     }
 
-    @PostMapping("checkMultipleChoice/{id}")
-    public ResponseEntity<?> checkMultipleChoice(@RequestBody List<Response> responseList, @PathVariable Long id){
+    @PostMapping("checkMultipleChoice/{studentId}/{quizId}")
+    public ResponseEntity<?> checkMultipleChoice(@RequestBody List<Response> responseList, @PathVariable Long studentId, @PathVariable Long quizId){
         try {
-            CheckingQuizDTO checkingQuizDTO =quizService.checkingMultipleChoiceQuestions(responseList, id);
+            String checkingQuizDTO =quizService.checkingMultipleChoiceQuestions(responseList, studentId, quizId);
             return ResponseEntity.status(HttpStatus.OK).body(checkingQuizDTO);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
 }

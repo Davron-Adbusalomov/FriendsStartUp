@@ -12,4 +12,6 @@ public interface Quiz_ResultsRepository  extends JpaRepository<Quiz_Results, Lon
 
     List<Quiz_Results> findByStudentId(Long studentId);
 
+    Quiz_Results findByStudentIdAndQuizId(Long studentId, Long quizId);
+
 }

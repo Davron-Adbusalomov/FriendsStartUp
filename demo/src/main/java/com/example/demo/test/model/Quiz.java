@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +27,8 @@ public class Quiz {
     private int questions_num;
 
     private Long duration;
+
+    private LocalDateTime startTime;
 
     @ManyToOne
     @JsonIgnore

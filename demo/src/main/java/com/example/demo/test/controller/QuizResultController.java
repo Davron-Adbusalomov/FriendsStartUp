@@ -1,12 +1,14 @@
 package com.example.demo.test.controller;
 
-import com.example.demo.test.dto.CheckingQuizDTO;
+import com.example.demo.test.dto.WrittenQuestionsResponseDTO;
 import com.example.demo.test.service.QuizResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -16,10 +18,19 @@ public class QuizResultController {
     @Autowired
     private QuizResultService quizResultsService;
 
-    @PostMapping("recordingResult/{quizId}")
-    public ResponseEntity<?> recordResult(@RequestBody CheckingQuizDTO checkingQuizDTO, @PathVariable Long quizId){
+    @GetMapping("getWrittenQuestions/{groupName}/{quizId}")
+    public ResponseEntity<?> getWrittenQuestions(@PathVariable String groupName,@PathVariable Long quizId){
         try {
-            quizResultsService.assignQuizResult(checkingQuizDTO, quizId);
+            return ResponseEntity.status(HttpStatus.OK).body(quizResultsService.getWrittenQuestions(groupName, quizId));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("recordingResult")
+    public ResponseEntity<?> recordResult(@RequestBody List<WrittenQuestionsResponseDTO> writtenQuestionsResponseDTO){
+        try {
+            quizResultsService.assignQuizResult(writtenQuestionsResponseDTO);
             return ResponseEntity.status(HttpStatus.OK).body("Successfully recorded!");
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
