@@ -16,7 +16,7 @@ public interface QuestionMapper {
                 QuestionDTO questionDTO = new QuestionDTO();
                 questionDTO.setId(question.getId());
                 questionDTO.setMark(question.getMark());
-                questionDTO.setGroup_name(question.getGroup_name());
+                questionDTO.setLevel(question.getLevel());
                 questionDTO.setTitle(question.getTitle());
                 questionDTO.setType(question.getType());
                 questionDTO.setRight_answer(question.getRight_answer());

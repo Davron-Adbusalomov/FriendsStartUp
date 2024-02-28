@@ -12,7 +12,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     List<Question> findByTeacherId(Long id);
 
-    @Query("SELECT q FROM Question q WHERE q.group_name = :groupName")
-    List<Question> findQuestionByGroup_name(String groupName);
+    @Query("SELECT q FROM Question q WHERE q.level = :level")
+    List<Question> findQuestionByLevel(String level);
 
 }

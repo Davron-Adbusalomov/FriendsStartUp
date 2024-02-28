@@ -26,10 +26,10 @@ public class QuestionController {
         }
     }
 
-    @GetMapping("getQuestionsByGroupName/{groupName}")
-    public ResponseEntity<?> getByGroup(@PathVariable String groupName){
+    @GetMapping("getQuestionsByLevel/{level}")
+    public ResponseEntity<?> getByGroup(@PathVariable String level){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(questionService.getQuestionByGroupName(groupName));
+            return ResponseEntity.status(HttpStatus.OK).body(questionService.getQuestionByLevel(level));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

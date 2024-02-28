@@ -60,7 +60,7 @@ public class QuestionService {
                 Teacher teacher = optionalTeacher.get();
 
                     Question question = new Question();
-                    question.setGroup_name(questionDTO.getGroup_name());
+                    question.setLevel(questionDTO.getLevel());
                     question.setTitle(questionDTO.getTitle());
                     question.setType(questionDTO.getType());
                     question.setMark(questionDTO.getMark());
@@ -115,8 +115,8 @@ public class QuestionService {
         return ResponseEntity.status(HttpStatus.OK).body(updatedQuestion);
     }
 
-    public List<Question> getQuestionByGroupName(String groupName) {
-        return questionRepository.findQuestionByGroup_name(groupName);
+    public List<Question> getQuestionByLevel(String level) {
+        return questionRepository.findQuestionByLevel(level);
     }
 
 }

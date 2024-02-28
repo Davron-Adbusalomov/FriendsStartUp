@@ -21,7 +21,7 @@ public class Question{
 
     private String title;
 
-    private String group_name;
+    private String level;
 
     private String type;
 
