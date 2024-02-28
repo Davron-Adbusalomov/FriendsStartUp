@@ -19,6 +19,8 @@ public class QuestionDTO {
 
     private String type;
 
+    private String subject;
+
     private String right_answer;
 
     private int mark;

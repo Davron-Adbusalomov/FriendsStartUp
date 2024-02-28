@@ -19,6 +19,7 @@ public interface QuestionMapper {
                 questionDTO.setLevel(question.getLevel());
                 questionDTO.setTitle(question.getTitle());
                 questionDTO.setType(question.getType());
+                questionDTO.setSubject(question.getSubject());
                 questionDTO.setRight_answer(question.getRight_answer());
                 questionDTO.setTeacherId(question.getTeacher().getId());
                // questionDTO.setOptions(question.getOptions());

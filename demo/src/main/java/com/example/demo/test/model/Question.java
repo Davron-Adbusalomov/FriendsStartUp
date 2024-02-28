@@ -23,6 +23,8 @@ public class Question{
 
     private String level;
 
+    private String subject;
+
     private String type;
 
     private String right_answer;
