@@ -21,6 +21,8 @@ public class QuestionDTO {
 
     private String subject;
 
+    private String image;
+
     private String right_answer;
 
     private int mark;

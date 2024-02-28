@@ -25,6 +25,8 @@ public class Question{
 
     private String subject;
 
+    public String image;
+
     private String type;
 
     private String right_answer;

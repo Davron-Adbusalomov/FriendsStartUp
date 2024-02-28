@@ -62,6 +62,7 @@ public class QuestionService {
                     Question question = new Question();
                     question.setLevel(questionDTO.getLevel());
                     question.setSubject(questionDTO.getSubject());
+                    question.setImage(questionDTO.getImage());
                     question.setTitle(questionDTO.getTitle());
                     question.setType(questionDTO.getType());
                     question.setMark(questionDTO.getMark());
