@@ -23,9 +23,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AdminService {
@@ -116,7 +114,19 @@ public class AdminService {
         if (teacherRepository.findByUsername(teacherDTO.getUsername()).isPresent()){
             throw new Exception("User already exists");
         }
-        Teacher teacher = teacherRepository.save(TeacherMapper.INSTANCE.toModel(teacherDTO));
+        byte[] imageBytes = Base64.getDecoder().decode(teacherDTO.getImage());
+
+        Teacher teacher = new Teacher();
+        teacher.setName(teacherDTO.getName());
+        teacher.setSubject(teacherDTO.getSubject());
+        teacher.setExperience(teacherDTO.getExperience());
+        teacher.setUsername(teacherDTO.getUsername());
+        teacher.setPassword(teacherDTO.getPassword());
+        teacher.setRole(teacherDTO.getRole());
+        teacher.setPhone_num(teacherDTO.getPhone_num());
+        teacher.setImage(imageBytes);
+
+        teacherRepository.save(teacher);
 
         Optional<Grouping> grouping = groupRepository.findByName(teacherDTO.getGroupName());
         if (grouping.isEmpty()){

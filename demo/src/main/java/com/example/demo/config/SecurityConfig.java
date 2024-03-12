@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
 
                 .authorizeHttpRequests((request)->request
-                        .requestMatchers("/api/admin/login", "/api/teacher/loginTeacher", "/api/student/loginStudent").permitAll()
+                        .requestMatchers("/api/admin/login", "/api/teacher/loginTeacher", "/api/student/loginStudent","/api/admin/createADMIN",  "http://localhost:8080/api/student/getTeachersInfo").permitAll()
                         .anyRequest()
                         .authenticated())
 

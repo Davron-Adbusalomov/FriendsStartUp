@@ -18,12 +18,17 @@ import com.example.demo.test.repository.WrittenQuestionsRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChat;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.jdbc.datasource.init.DatabasePopulatorUtils.execute;
 
 @Service
 public class QuizResultService {
@@ -100,34 +105,35 @@ public class QuizResultService {
 
         int maxMark = 0;
 
-        for (Question question:quiz.get().getQuestions()) {
-            maxMark+=question.getMark();
+        for (Question question : quiz.get().getQuestions()) {
+            maxMark += question.getMark();
         }
 
-        for (Student student:quiz.get().getGrouping().getStudents()) {
-            Quiz_Results quizResults = student.getQuizResults().get(student.getQuizResults().size()-1);
+        for (Student student : quiz.get().getGrouping().getStudents()) {
+            Quiz_Results quizResults = student.getQuizResults().get(student.getQuizResults().size() - 1);
 
-            int place=1;
+            int place = 1;
 
-            for (int i=0; i<quiz.get().getGrouping().getStudents().size(); i++){
+            for (int i = 0; i < quiz.get().getGrouping().getStudents().size(); i++) {
                 Student otherStudent = quiz.get().getGrouping().getStudents().get(i);
                 List<Quiz_Results> otherStudentQuizResults = otherStudent.getQuizResults();
 
                 Quiz_Results otherStudentLastResult = otherStudentQuizResults.get(otherStudentQuizResults.size() - 1);
                 if (quizId.equals(otherStudentLastResult.getQuiz().getId()) &&
-                        quizResults.getMark() < otherStudentLastResult.getMark()){
+                        quizResults.getMark() < otherStudentLastResult.getMark()) {
                     place++;
                 }
             }
 
-            if (student.getParent_chatId().isEmpty()){
+            if (student.getParent_chatId().isEmpty()) {
                 continue;
             }
 
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(student.getParent_chatId());
             sendMessage.setText("Assalomu alaykum! Farzandingiz, "+ student.getName()+" " + quiz.get().getGrouping().getSubject() + " fanidan oxirgi sinov natijasi bilan tanishing:\n o'zlashtirish foizi: " + (quizResults.getMark() * 100.0) / maxMark +"%\n guruhdagi o'rni: " + place + "-o'rin\n ");
-            telegramConfig.execute(sendMessage);
+
+        telegramConfig.execute(sendMessage);
         }
     }
 
@@ -135,6 +141,7 @@ public class QuizResultService {
         if (text.equals("/start")){
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(chatId);
+            System.out.println(chatId);
             sendMessage.setText("Assalomu alaykum. Xush kelibsiz! Iltimos, ro'yxatdan o'tish uchun telefon raqamingizni kiriting:\n(Masalan:934983233)!");
             telegramConfig.execute(sendMessage);
         }

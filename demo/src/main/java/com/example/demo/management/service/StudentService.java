@@ -19,10 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class StudentService {
@@ -111,11 +108,13 @@ public class StudentService {
         List<TeacherInfoDTO> teacherInfoDTOS = new ArrayList<>();
 
         for (Teacher teacher:teachers) {
+            String reencodedBase64String = Base64.getEncoder().encodeToString(teacher.getImage());
+
             TeacherInfoDTO teacherInfoDTO = new TeacherInfoDTO();
             teacherInfoDTO.setId(teacher.getId());
             teacherInfoDTO.setSubject(teacher.getSubject());
             teacherInfoDTO.setExperience(teacher.getExperience());
-            teacherInfoDTO.setImage(teacher.getImage());
+            teacherInfoDTO.setImage(reencodedBase64String);
             teacherInfoDTO.setName(teacher.getName());
             teacherInfoDTOS.add(teacherInfoDTO);
         }

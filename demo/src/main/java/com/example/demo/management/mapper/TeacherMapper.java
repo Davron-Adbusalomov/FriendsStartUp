@@ -19,7 +19,7 @@ public interface TeacherMapper {
         TeacherDTO teacherDTO = new TeacherDTO();
         teacherDTO.setId(teacher.getId());
         teacherDTO.setName(teacher.getName());
-        teacherDTO.setImage(teacher.getImage());
+     //   teacherDTO.setImage(teacher.getImage());
         teacherDTO.setExperience(teacher.getExperience());
         teacherDTO.setPhone_num(teacher.getPhone_num());
         teacherDTO.setUsername(teacher.getUsername());
@@ -36,6 +36,4 @@ public interface TeacherMapper {
         }
         return teacherDTOS;
     }
-
-    Teacher toModel(TeacherDTO teacherDTO);
 }

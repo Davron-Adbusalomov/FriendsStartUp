@@ -35,12 +35,12 @@ public class TelegramConfig extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "https://t.me/best_academy_bot";
+        return "t.me/admissions2023_bot";
     }
 
     @Override
     public String getBotToken(){
-        return "6361100274:AAHkENH4oXQQm788eXH4O3q_ZwHn5w3PQ-w";
+        return "6452390914:AAGo8c8y8Gq9oG3ihbZcmpAJWeW1ScCwBxY";
     }
 
 }

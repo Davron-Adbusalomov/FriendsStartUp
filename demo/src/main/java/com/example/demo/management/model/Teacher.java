@@ -29,7 +29,7 @@ public class Teacher implements UserDetails {
 
     private int experience;
 
-    private String image;
+    private byte[] image;
 
     private Long phone_num;
 
