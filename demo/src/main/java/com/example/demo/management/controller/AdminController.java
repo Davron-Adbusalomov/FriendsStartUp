@@ -2,6 +2,10 @@ package com.example.demo.management.controller;
 
 import com.example.demo.management.dto.*;
 import com.example.demo.management.service.AdminService;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -87,12 +91,28 @@ public class AdminController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestBody AdminDTO adminDTO){
+    public ResponseEntity<?> login(@RequestBody AdminDTO adminDTO, HttpServletResponse response){
         try {
+            AdminLoginDTO adminLoginDTO = adminService.loginAdmin(adminDTO);
+            Cookie cookie = new Cookie("jwt", adminLoginDTO.getToken());
+            cookie.setPath("/");
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+
             return ResponseEntity.status(HttpStatus.OK).body(adminService.loginAdmin(adminDTO));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @PostMapping("/logoutAdmin")
+    public ResponseEntity<?> logoutTeacher(HttpServletResponse httpServletResponse){
+        Cookie cookie = new Cookie("jwt", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        httpServletResponse.addCookie(cookie);
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully logout!");
     }
 
 }

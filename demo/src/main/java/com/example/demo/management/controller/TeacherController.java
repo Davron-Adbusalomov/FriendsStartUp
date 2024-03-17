@@ -1,7 +1,10 @@
 package com.example.demo.management.controller;
 
 import com.example.demo.management.dto.TeacherDTO;
+import com.example.demo.management.dto.TeacherLoginDTO;
 import com.example.demo.management.service.TeacherService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,12 +48,29 @@ public class TeacherController {
     }
 
     @PostMapping("/loginTeacher")
-    public ResponseEntity<?> loginTeacher(@RequestBody TeacherDTO teacherDTO){
+    public ResponseEntity<?> loginTeacher(@RequestBody TeacherDTO teacherDTO, HttpServletResponse response){
         try{
+            TeacherLoginDTO teacherLoginDTO = teacherService.loginTeacher(teacherDTO);
+            Cookie cookie = new Cookie("jwt", teacherLoginDTO.getToken());
+            cookie.setMaxAge(86400);
+            cookie.setPath("/");
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+
             return ResponseEntity.status(HttpStatus.OK).body(teacherService.loginTeacher(teacherDTO));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @PostMapping("/logoutTeacher")
+    public ResponseEntity<?> logoutTeacher(HttpServletResponse httpServletResponse){
+        Cookie cookie = new Cookie("jwt", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        httpServletResponse.addCookie(cookie);
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully logout!");
     }
 
 }
