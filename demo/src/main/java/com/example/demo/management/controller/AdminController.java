@@ -96,6 +96,7 @@ public class AdminController {
             AdminLoginDTO adminLoginDTO = adminService.loginAdmin(adminDTO);
             Cookie cookie = new Cookie("jwt", adminLoginDTO.getToken());
             cookie.setPath("/");
+            cookie.setMaxAge(86400);
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
 
