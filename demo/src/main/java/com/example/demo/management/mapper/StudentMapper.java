@@ -26,7 +26,6 @@ public interface StudentMapper {
         studentDTO.setParent_chatId(student.getParent_chatId());
         studentDTO.setUsername(student.getUsername());
         studentDTO.setPassword(student.getPassword());
-        studentDTO.setRelationship(student.getRelationship());
         return studentDTO;
     };
 
@@ -43,12 +42,10 @@ public interface StudentMapper {
         student.setNumber(studentDTO.getNumber());
         student.setName(studentDTO.getName());
         student.setRole(studentDTO.getRole());
-        student.setDateOfBirth(studentDTO.getDateOfBirth());
         student.setParent_contact(studentDTO.getParent_contact());
         student.setParent_chatId(studentDTO.getParent_chatId());
         student.setUsername(studentDTO.getUsername());
         student.setPassword(studentDTO.getPassword());
-        student.setRelationship(studentDTO.getRelationship());
         return student;
     }
 }

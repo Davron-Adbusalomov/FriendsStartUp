@@ -27,15 +27,9 @@ public class Student implements UserDetails {
 
     private String password;
 
-    private LocalDate dateOfBirth;
-
-    private String parent_email;
-
     private String parent_contact;
 
     private String parent_chatId;
-
-    private String relationship;
 
     @Enumerated(EnumType.STRING)
     private Role role;

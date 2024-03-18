@@ -28,8 +28,6 @@ public class Admin implements UserDetails {
 
     private String password;
 
-    private LocalDate dateOfBirth;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
