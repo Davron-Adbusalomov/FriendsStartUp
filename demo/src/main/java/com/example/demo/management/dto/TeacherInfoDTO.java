@@ -14,7 +14,7 @@ public class TeacherInfoDTO {
 
     private String name;
 
-    private int experience;
+    private String experience;
 
     private String subject;
 

@@ -27,7 +27,7 @@ public class Teacher implements UserDetails {
 
     private String subject;
 
-    private int experience;
+    private String experience;
 
     private byte[] image;
 

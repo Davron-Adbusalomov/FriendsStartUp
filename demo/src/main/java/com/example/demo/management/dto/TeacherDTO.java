@@ -22,7 +22,7 @@ public class TeacherDTO {
 
     private String image;
 
-    private int experience;
+    private String experience;
 
     private String subject;
 
