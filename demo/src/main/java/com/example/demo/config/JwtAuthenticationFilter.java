@@ -131,6 +131,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
+        if (endpoint.contains("/upload")){
+            if (roles.contains("TEACHER")){
+                return "allow";
+            }
+        }
+
         return "Restricted!";
     }
 }
