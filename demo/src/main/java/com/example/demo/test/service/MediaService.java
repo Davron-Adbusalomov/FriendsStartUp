@@ -12,10 +12,9 @@ import java.util.UUID;
 
 @Service
 public class MediaService {
-    String connectStr = System.getenv("DefaultEndpointsProtocol=https;AccountName=startupone;AccountKey=LkJQkvN2nWqD7sqn2K5dw4s5SwPFS9KNd3De7ubBeKsqfoAn2BvwDNO8Jsc0dPRJLqnLRbzd5ypT+ASt0ief4g==;EndpointSuffix=core.windows.net");
-
+    String connectionString = "DefaultEndpointsProtocol=https;AccountName=startupone;AccountKey=nVXUNnqSIKBVpdGhAp/qD8c22WECVTdDP6FLAxjLSp9sY9lwzryL3R07IqRuL1968YQcVUGeoWrL+ASt+HI22w==;EndpointSuffix=core.windows.net";
     private final BlobServiceClient blobServiceClient=new BlobServiceClientBuilder()
-            .connectionString(connectStr)
+            .connectionString(connectionString)
             .buildClient();;
 
     public String uploadMedia(MultipartFile file) {
