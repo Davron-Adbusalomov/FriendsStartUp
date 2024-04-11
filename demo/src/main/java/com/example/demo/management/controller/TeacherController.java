@@ -52,7 +52,7 @@ public class TeacherController {
         try{
             TeacherLoginDTO teacherLoginDTO = teacherService.loginTeacher(teacherDTO);
             Cookie cookie = new Cookie("jwt", teacherLoginDTO.getToken());
-            cookie.setMaxAge(86400);
+            cookie.setMaxAge(300);
             cookie.setPath("/");
             cookie.setHttpOnly(true);
             response.addCookie(cookie);

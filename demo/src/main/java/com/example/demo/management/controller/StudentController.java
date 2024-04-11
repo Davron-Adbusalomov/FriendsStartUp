@@ -53,7 +53,7 @@ public class StudentController {
             StudentLoginDTO loginDTO = studentService.loginStudent(studentDTO);
 
             Cookie cookie = new Cookie("jwt", loginDTO.getToken());
-            cookie.setMaxAge(86400);
+            cookie.setMaxAge(300);
             cookie.setPath("/");
             cookie.setHttpOnly(true);
             response.addCookie(cookie);

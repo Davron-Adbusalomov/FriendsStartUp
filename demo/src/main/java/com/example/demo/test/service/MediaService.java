@@ -18,7 +18,7 @@ public class MediaService {
             .buildClient();;
 
     public String uploadMedia(MultipartFile file) {
-        BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient("startup241850a30-bd53-4b82-822b-21f5a91c9277");
+        BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient("startup1");
 
         String mediaName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
 
