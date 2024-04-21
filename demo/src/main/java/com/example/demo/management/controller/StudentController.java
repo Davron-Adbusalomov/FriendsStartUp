@@ -64,7 +64,7 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/logoutStudent")
+    @PostMapping("/logout-student")
     public ResponseEntity<?> logoutTeacher(HttpServletResponse httpServletResponse){
         Cookie cookie = new Cookie("jwt", "");
         cookie.setMaxAge(0);

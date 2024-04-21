@@ -106,7 +106,7 @@ public class AdminController {
         }
     }
 
-    @PostMapping("/logoutAdmin")
+    @PostMapping("/logout-admin")
     public ResponseEntity<?> logoutTeacher(HttpServletResponse httpServletResponse){
         Cookie cookie = new Cookie("jwt", "");
         cookie.setMaxAge(0);

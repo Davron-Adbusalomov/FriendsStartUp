@@ -47,7 +47,7 @@ public class TeacherController {
         }
     }
 
-    @PostMapping("/loginTeacher")
+    @PostMapping("/login-teacher")
     public ResponseEntity<?> loginTeacher(@RequestBody TeacherDTO teacherDTO, HttpServletResponse response){
         try{
             TeacherLoginDTO teacherLoginDTO = teacherService.loginTeacher(teacherDTO);
