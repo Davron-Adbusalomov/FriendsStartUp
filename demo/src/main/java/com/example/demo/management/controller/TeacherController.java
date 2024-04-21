@@ -47,7 +47,7 @@ public class TeacherController {
         }
     }
 
-    @PostMapping("/login-teacher")
+    @PostMapping("/loginTeacher")
     public ResponseEntity<?> loginTeacher(@RequestBody TeacherDTO teacherDTO, HttpServletResponse response){
         try{
             TeacherLoginDTO teacherLoginDTO = teacherService.loginTeacher(teacherDTO);
@@ -63,7 +63,7 @@ public class TeacherController {
         }
     }
 
-    @PostMapping("/logoutTeacher")
+    @PostMapping("/logout-teacher")
     public ResponseEntity<?> logoutTeacher(HttpServletResponse httpServletResponse){
         Cookie cookie = new Cookie("jwt", "");
         cookie.setMaxAge(0);
