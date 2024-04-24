@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class QuestionService {
@@ -63,19 +64,19 @@ public class QuestionService {
             Optional<Teacher> optionalTeacher = teacherRepository.findById(questionDTO.getTeacherId());
 
             if (optionalTeacher.isPresent()) {
-                String base64Image = questionDTO.getImage().split(",")[1];
-                byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+                BufferedImage img = null;
+                if (!questionDTO.getImage().isEmpty()) {
+                    String base64Image = questionDTO.getImage().split(",")[1];
+                    byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
 
-                BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
-
-
+                    img = ImageIO.read(new ByteArrayInputStream(imageBytes));
+                }
 
                 Teacher teacher = optionalTeacher.get();
-
-                    Question question = new Question();
+                Question question = new Question();
                     question.setLevel(questionDTO.getLevel());
                     question.setSubject(questionDTO.getSubject());
-                    question.setImage( mediaService.uploadImageToAzureAndGetUrl(img, "question"+questionDTO.getId()));
+                    if (img!=null) question.setImage( mediaService.uploadImageToAzureAndGetUrl(img, "question"+ UUID.randomUUID()));
                     question.setTitle(questionDTO.getTitle());
                     question.setType(questionDTO.getType());
                     question.setMark(questionDTO.getMark());
