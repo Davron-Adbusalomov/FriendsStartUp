@@ -18,15 +18,15 @@ public class MediaController {
     @Autowired
     private MediaService mediaService;
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadMedia(MultipartFile file) {
-        try {
-            String url = mediaService.uploadMedia(file);
-            return ResponseEntity.ok(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload media.");
-        }
-    }
+//    @PostMapping("/upload")
+//    public ResponseEntity<String> uploadMedia(MultipartFile file) {
+//        try {
+//            String url = mediaService.uploadMedia(file);
+//            return ResponseEntity.ok(url);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload media.");
+//        }
+//    }
 }
 

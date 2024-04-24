@@ -15,6 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +37,9 @@ public class QuestionService {
     @Autowired
     private QuizRepository quizRepository;
 
+    @Autowired
+    private MediaService mediaService;
+
     public Question getQuestionById(Long id){
         Optional<Question> question = questionRepository.findById(id);
         if (question.isEmpty()){
@@ -45,32 +52,39 @@ public class QuestionService {
         return ResponseEntity.status(HttpStatus.OK).body(questionRepository.findAll());
     }
 
-    public String createQuestion(QuestionDTO questionDTO) {
+    public String createQuestion(QuestionDTO questionDTO) throws IOException {
         List<Option> arrayList = new ArrayList<>();
 
-        for(int i=0; i<questionDTO.getOptions().size(); i++) {
-            Option option = new Option();
-            option.setText(questionDTO.getOptions().get(i));
-            arrayList.add(option);
-        }
-
+            for (int i = 0; i < questionDTO.getOptions().size(); i++) {
+                Option option = new Option();
+                option.setText(questionDTO.getOptions().get(i));
+                arrayList.add(option);
+            }
             Optional<Teacher> optionalTeacher = teacherRepository.findById(questionDTO.getTeacherId());
 
             if (optionalTeacher.isPresent()) {
+                String base64Image = questionDTO.getImage().split(",")[1];
+                byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+
+                BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
+
+
+
                 Teacher teacher = optionalTeacher.get();
 
                     Question question = new Question();
                     question.setLevel(questionDTO.getLevel());
                     question.setSubject(questionDTO.getSubject());
-                    question.setImage(questionDTO.getImage());
+                    question.setImage( mediaService.uploadImageToAzureAndGetUrl(img, "question"+questionDTO.getId()));
                     question.setTitle(questionDTO.getTitle());
                     question.setType(questionDTO.getType());
                     question.setMark(questionDTO.getMark());
                     question.setRight_answer(questionDTO.getRight_answer());
                     question.setTeacher(teacher);
-                for (Option option:arrayList) {
-                    question.assignOption(option);
-                }
+                    if (questionDTO.getType().equals("Multiple Choice")){
+                        for (Option option:arrayList) {
+                            question.assignOption(option);
+                        }}
 
                 questionRepository.save(question);
 
