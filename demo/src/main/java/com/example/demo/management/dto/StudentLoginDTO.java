@@ -1,9 +1,12 @@
 package com.example.demo.management.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,5 +15,8 @@ import lombok.Setter;
 public class StudentLoginDTO {
     private StudentDTO user;
 
+    private LocalDateTime loginTime = LocalDateTime.now();
+
+    @JsonIgnore
     private String token;
 }
