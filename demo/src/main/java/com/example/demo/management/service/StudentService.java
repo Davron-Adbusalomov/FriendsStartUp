@@ -108,13 +108,12 @@ public class StudentService {
         List<TeacherInfoDTO> teacherInfoDTOS = new ArrayList<>();
 
         for (Teacher teacher:teachers) {
-            String reencodedBase64String = Base64.getEncoder().encodeToString(teacher.getImage());
 
             TeacherInfoDTO teacherInfoDTO = new TeacherInfoDTO();
             teacherInfoDTO.setId(teacher.getId());
             teacherInfoDTO.setSubject(teacher.getSubject());
             teacherInfoDTO.setExperience(teacher.getExperience());
-            teacherInfoDTO.setImage(reencodedBase64String);
+            teacherInfoDTO.setImage(teacher.getImage());
             teacherInfoDTO.setName(teacher.getName());
             teacherInfoDTOS.add(teacherInfoDTO);
         }
