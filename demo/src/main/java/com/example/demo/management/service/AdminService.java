@@ -14,6 +14,7 @@ import com.example.demo.management.repository.AdminRepository;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.repository.TeacherRepository;
+import com.example.demo.test.service.MediaService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
 import javax.naming.AuthenticationException;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.util.*;
 
 @Service
@@ -38,6 +42,9 @@ public class AdminService {
 
     @Autowired
     private GroupRepository groupRepository;
+
+    @Autowired
+    private MediaService mediaService;
 
     private final AuthenticationManager authenticationManager;
 
@@ -87,7 +94,7 @@ public class AdminService {
         admin.setUsername(adminDTO.getUsername());
         admin.setPassword(adminDTO.getPassword());
 
-        Admin admin1=  adminRepository.save(admin);
+        Admin admin1=adminRepository.save(admin);
 
         return ResponseEntity.status(HttpStatus.OK).body(admin1);
     }
@@ -114,7 +121,10 @@ public class AdminService {
         if (teacherRepository.findByUsername(teacherDTO.getUsername()).isPresent()){
             throw new Exception("User already exists");
         }
-        byte[] imageBytes = Base64.getDecoder().decode(teacherDTO.getImage());
+        String base64Image = teacherDTO.getImage().split(",")[1];
+        byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+
+        BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
 
         Teacher teacher = new Teacher();
         teacher.setName(teacherDTO.getName());
@@ -124,7 +134,7 @@ public class AdminService {
         teacher.setPassword(teacherDTO.getPassword());
         teacher.setRole(teacherDTO.getRole());
         teacher.setPhone_num(teacherDTO.getPhone_num());
-        teacher.setImage(imageBytes);
+        teacher.setImage(mediaService.uploadImageToAzureAndGetUrl(img, "question"+ UUID.randomUUID()));
 
         teacherRepository.save(teacher);
 
