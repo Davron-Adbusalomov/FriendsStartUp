@@ -19,7 +19,7 @@ public class QuizDTOForRequest {
 
     private int questions_num;
 
-    private LocalDateTime startTime;
+   // private LocalDateTime startTime;
 
     private Long groupingId;
 

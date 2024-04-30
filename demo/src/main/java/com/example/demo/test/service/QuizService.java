@@ -61,7 +61,7 @@ public class QuizService {
         Quiz quiz = new Quiz();
         quiz.setTeacher(teacher.get());
         quiz.setDuration(quizDTO.getDuration());
-        quiz.setStartTime(quizDTO.getStartTime());
+     //   quiz.setStartTime(quizDTO.getStartTime());
         quiz.setGrouping(group.get());
         quiz.setQuestions_num(quizDTO.getQuestions_num());
         for (Long questionId : quizDTO.getQuestions()) {
@@ -83,14 +83,14 @@ public class QuizService {
             throw new EntityNotFoundException("No quiz found with this id");
         }
 
-        LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime quizStartTime = optionalQuiz.get().getStartTime();
-        Long quizDuration = optionalQuiz.get().getDuration();
-        LocalDateTime quizEndTime = quizStartTime.plusMinutes(quizDuration+1);
-
-        if (currentTime.isBefore(quizStartTime) || currentTime.isAfter(quizEndTime)) {
-            throw new IllegalStateException("Quiz is not currently active or has ended");
-        }
+//        LocalDateTime currentTime = LocalDateTime.now();
+//        LocalDateTime quizStartTime = optionalQuiz.get().getStartTime();
+//        Long quizDuration = optionalQuiz.get().getDuration();
+//        LocalDateTime quizEndTime = quizStartTime.plusMinutes(quizDuration+1);
+//
+//        if (currentTime.isBefore(quizStartTime) || currentTime.isAfter(quizEndTime)) {
+//            throw new IllegalStateException("Quiz is not currently active or has ended");
+//        }
 
         Quiz quiz = optionalQuiz.get();
         List<Question> allQuestions = quiz.getQuestions();
