@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -132,6 +133,7 @@ public class StudentService {
             StudentLoginDTO studentDTO1 = new StudentLoginDTO();
             String token = jwtService.generateToken(student);
             studentDTO1.setToken(token);
+            studentDTO1.setLoginTime(LocalDateTime.now());
             studentDTO1.setUser(StudentMapper.toDTO(student));
             return studentDTO1;
         }

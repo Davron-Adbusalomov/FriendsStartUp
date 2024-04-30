@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class StudentLoginDTO {
     private StudentDTO user;
 
-    private LocalDateTime loginTime = LocalDateTime.now();
+    private LocalDateTime loginTime;
 
     @JsonIgnore
     private String token;
