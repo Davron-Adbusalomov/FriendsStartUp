@@ -180,7 +180,7 @@ public class QuizService {
             }
             Question question = optionalQuestion.get();
 
-            if (!question.getType().equals("Multiple Choice")){
+            if (!question.getType().equals("MCQ")){
                 WrittenQuestions writtenQuestions = new WrittenQuestions();
                 writtenQuestions.setQuestionId(question.getId());
                 writtenQuestions.setQuizId(quizId);

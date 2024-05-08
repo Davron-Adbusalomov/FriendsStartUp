@@ -121,11 +121,12 @@ public class AdminService {
         if (teacherRepository.findByUsername(teacherDTO.getUsername()).isPresent()){
             throw new Exception("User already exists");
         }
-        String base64Image = teacherDTO.getImage().split(",")[1];
-        byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-
-        BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
-
+        BufferedImage img = null;
+        if (teacherDTO.getImage().isEmpty()) {
+            String base64Image = teacherDTO.getImage().split(",")[1];
+            byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+            img = ImageIO.read(new ByteArrayInputStream(imageBytes));
+        }
         Teacher teacher = new Teacher();
         teacher.setName(teacherDTO.getName());
         teacher.setSubject(teacherDTO.getSubject());
@@ -134,8 +135,9 @@ public class AdminService {
         teacher.setPassword(teacherDTO.getPassword());
         teacher.setRole(teacherDTO.getRole());
         teacher.setPhone_num(teacherDTO.getPhone_num());
-        teacher.setImage(mediaService.uploadImageToAzureAndGetUrl(img, "question"+ UUID.randomUUID()));
-
+        if (img!=null){
+        teacher.setImage(mediaService.uploadImageToAzureAndGetUrl(img, "teacher"+ UUID.randomUUID()));
+        }
         teacherRepository.save(teacher);
 
         Optional<Grouping> grouping = groupRepository.findByName(teacherDTO.getGroupName());
