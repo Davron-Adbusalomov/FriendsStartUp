@@ -37,6 +37,10 @@ public class GroupService {
         return groupRepository.findAll();
     }
 
+    public List<Grouping> getGroupsByStudentId(Long studentId){
+        return groupRepository.findByStudentId(studentId);
+    }
+
     public ResponseEntity<?> getGroupById(Long groupID){
         Grouping grouping = groupRepository.findById(groupID)
                 .orElseThrow(() -> new EntityNotFoundException("Not found group with id: "+groupID));

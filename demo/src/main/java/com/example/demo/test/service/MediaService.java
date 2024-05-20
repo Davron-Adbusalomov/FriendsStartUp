@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Service
 public class MediaService {
-    private final static String connectionString = "DefaultEndpointsProtocol=https;AccountName=startupone;AccountKey=nVXUNnqSIKBVpdGhAp/qD8c22WECVTdDP6FLAxjLSp9sY9lwzryL3R07IqRuL1968YQcVUGeoWrL+ASt+HI22w==;EndpointSuffix=core.windows.net";
+    private final static String connectionString = "DefaultEndpointsProtocol=https;AccountName=startupone;AccountKey=5H+H/XW+y8gc4wbXlQzer3sK9ioEF+LSdLXK/SCBhnUfhGlJBAVHnvzElYkuVx3d4obE36IN13Ls+AStBtKtfw==;EndpointSuffix=core.windows.net";
 
     public String uploadImageToAzureAndGetUrl(BufferedImage image, String fileName) throws IOException {
         // Convert BufferedImage to byte array
