@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @CrossOrigin
 @RestController
 @RequestMapping("api/teacher")
@@ -52,7 +50,7 @@ public class TeacherController {
         try{
             TeacherLoginDTO teacherLoginDTO = teacherService.loginTeacher(teacherDTO);
             Cookie cookie = new Cookie("jwt", teacherLoginDTO.getToken());
-            cookie.setMaxAge(300);
+            cookie.setMaxAge(1000);
             cookie.setPath("/");
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
