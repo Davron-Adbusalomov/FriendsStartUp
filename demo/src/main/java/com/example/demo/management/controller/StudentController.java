@@ -47,25 +47,25 @@ public class StudentController {
         }
     }
 
-    @PostMapping("loginStudent")
-    public ResponseEntity<?> loginStudent(@RequestBody StudentDTO studentDTO, HttpServletResponse response){
-        try {
-            StudentLoginDTO loginDTO = studentService.loginStudent(studentDTO);
-
-            Cookie cookie = new Cookie("jwt", loginDTO.getToken());
-            cookie.setMaxAge(1000);
-            cookie.setPath("/");
-            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
-
-            return ResponseEntity.status(HttpStatus.OK).body(studentService.loginStudent(studentDTO));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
+//    @PostMapping("loginStudent")
+//    public ResponseEntity<?> loginStudent(@RequestBody StudentDTO studentDTO, HttpServletResponse response){
+//        try {
+//            StudentLoginDTO loginDTO = studentService.loginStudent(studentDTO);
+//
+//            Cookie cookie = new Cookie("jwt", loginDTO.getToken());
+//            cookie.setMaxAge(1000);
+//            cookie.setPath("/");
+//            cookie.setHttpOnly(true);
+//            response.addCookie(cookie);
+//
+//            return ResponseEntity.status(HttpStatus.OK).body(studentService.loginStudent(studentDTO));
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
 
     @PostMapping("/logout-student")
-    public ResponseEntity<?> logoutTeacher(HttpServletResponse httpServletResponse){
+    public ResponseEntity<?> logoutStudent(HttpServletResponse httpServletResponse){
         Cookie cookie = new Cookie("jwt", "");
         cookie.setMaxAge(0);
         cookie.setPath("/");

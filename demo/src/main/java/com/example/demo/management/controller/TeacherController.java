@@ -45,21 +45,21 @@ public class TeacherController {
         }
     }
 
-    @PostMapping("/loginTeacher")
-    public ResponseEntity<?> loginTeacher(@RequestBody TeacherDTO teacherDTO, HttpServletResponse response){
-        try{
-            TeacherLoginDTO teacherLoginDTO = teacherService.loginTeacher(teacherDTO);
-            Cookie cookie = new Cookie("jwt", teacherLoginDTO.getToken());
-            cookie.setMaxAge(1000);
-            cookie.setPath("/");
-            cookie.setHttpOnly(true);
-            response.addCookie(cookie);
-
-            return ResponseEntity.status(HttpStatus.OK).body(teacherService.loginTeacher(teacherDTO));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
+//    @PostMapping("/loginTeacher")
+//    public ResponseEntity<?> loginTeacher(@RequestBody TeacherDTO teacherDTO, HttpServletResponse response){
+//        try{
+//            TeacherLoginDTO teacherLoginDTO = teacherService.loginTeacher(teacherDTO);
+//            Cookie cookie = new Cookie("jwt", teacherLoginDTO.getToken());
+//            cookie.setMaxAge(1000);
+//            cookie.setPath("/");
+//            cookie.setHttpOnly(true);
+//            response.addCookie(cookie);
+//
+//            return ResponseEntity.status(HttpStatus.OK).body(teacherService.loginTeacher(teacherDTO));
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
 
     @PostMapping("/logout-teacher")
     public ResponseEntity<?> logoutTeacher(HttpServletResponse httpServletResponse){

@@ -1,7 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.config.TelegramConfig;
-import com.example.demo.test.service.QuizResultService;
+import com.example.demo.exam.service.QuizResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,6 +1,6 @@
 package com.example.demo.management.service;
 
-import com.example.demo.config.JwtService;
+import com.example.demo.config.JwtTokenProvider;
 import com.example.demo.management.dto.*;
 import com.example.demo.management.mapper.AdminMapper;
 import com.example.demo.management.mapper.GroupMapper;
@@ -14,17 +14,15 @@ import com.example.demo.management.repository.AdminRepository;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.repository.TeacherRepository;
-import com.example.demo.test.service.MediaService;
+import com.example.demo.exam.service.MediaService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
-import javax.naming.AuthenticationException;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.util.*;
@@ -48,9 +46,9 @@ public class AdminService {
 
     private final AuthenticationManager authenticationManager;
 
-    private final JwtService jwtService;
+    private final JwtTokenProvider jwtService;
 
-    public AdminService(AuthenticationManager authenticationManager, JwtService jwtService) {
+    public AdminService(AuthenticationManager authenticationManager, JwtTokenProvider jwtService) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
     }
@@ -161,24 +159,24 @@ public class AdminService {
     }
 
 
-    public AdminLoginDTO loginAdmin(AdminDTO adminDTO){
-        try {
-            if (adminRepository.findByUsername(adminDTO.getUsername()).isEmpty() || !Objects.equals(adminRepository.findByUsername(adminDTO.getUsername()).get().getPassword(), adminDTO.getPassword())){
-                throw new EntityNotFoundException("There is no admin with this credentials!");
-            }
-            var admin = adminRepository.findByUsername(adminDTO.getUsername())
-                    .orElseThrow(() -> new RuntimeException("Admin not found"));
-
-            String token = jwtService.generateToken(admin);
-
-            AdminLoginDTO adminLoginDTO = new AdminLoginDTO();
-            adminLoginDTO.setUser(AdminMapper.INSTANCE.toDTO(admin));
-            adminLoginDTO.setToken(token);
-
-            return adminLoginDTO;
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Authentication failed: " + e.getMessage(), e);
-        }
-    }
+//    public AdminLoginDTO loginAdmin(AdminDTO adminDTO){
+//        try {
+//            if (adminRepository.findByUsername(adminDTO.getUsername()).isEmpty() || !Objects.equals(adminRepository.findByUsername(adminDTO.getUsername()).get().getPassword(), adminDTO.getPassword())){
+//                throw new EntityNotFoundException("There is no admin with this credentials!");
+//            }
+//            var admin = adminRepository.findByUsername(adminDTO.getUsername())
+//                    .orElseThrow(() -> new RuntimeException("Admin not found"));
+//
+//            String token = jwtService.generateToken(admin);
+//
+//            AdminLoginDTO adminLoginDTO = new AdminLoginDTO();
+//            adminLoginDTO.setUser(AdminMapper.INSTANCE.toDTO(admin));
+//            adminLoginDTO.setToken(token);
+//
+//            return adminLoginDTO;
+//        }
+//        catch (Exception e) {
+//            throw new RuntimeException("Authentication failed: " + e.getMessage(), e);
+//        }
+//    }
 }

@@ -1,142 +1,209 @@
-package com.example.demo.config;
+package com.example.demo.config;//package com.example.demo.config;
+//
+//import jakarta.servlet.FilterChain;
+//import jakarta.servlet.ServletException;
+//import jakarta.servlet.http.Cookie;
+//import jakarta.servlet.http.HttpServletRequest;
+//import jakarta.servlet.http.HttpServletResponse;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+//import org.springframework.stereotype.Component;
+//import org.springframework.web.filter.OncePerRequestFilter;
+//
+//import java.io.IOException;
+//import java.util.List;
+//
+//@Component
+//@RequiredArgsConstructor
+//public class JwtAuthenticationFilter extends OncePerRequestFilter {
+//
+//    private final JwtService jwtService;
+//
+//    private final UserDetailsService userDetailsService;
+//
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request,
+//                                    HttpServletResponse response,
+//                                    FilterChain filterChain) throws ServletException, IOException {
+//        final Cookie[] cookies = request.getCookies();
+//        String jwt = null;
+//
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                if ("jwt".equals(cookie.getName())) {
+//                    jwt = cookie.getValue();
+//                    break;
+//                }
+//            }
+//        }
+//
+//        if (jwt == null) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+//
+//        String username = jwtService.extractUsername(jwt);
+//
+//        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+//
+//            if (jwtService.isTokenValid(jwt, userDetails)) {
+//                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+//                        userDetails,
+//                        null,
+//                        userDetails.getAuthorities()
+//                );
+//
+//                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+//
+//                String authorizationResult = allowUserToEndpoint(userDetails, request);
+//                if (!"allow".equals(authorizationResult)) {
+//                    response.sendError(HttpServletResponse.SC_FORBIDDEN, authorizationResult);
+//                    return;
+//                }
+//            }
+//        }
+//
+//        filterChain.doFilter(request, response);
+//    }
+//    private String allowUserToEndpoint(UserDetails userData, HttpServletRequest request) {
+//        String endpoint = request.getRequestURI();
+//        List<String> roles = userData.getAuthorities()
+//                .stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .toList();
+//
+//        if (roles.isEmpty()) {
+//            return "User does not have any role";
+//        }
+//
+//        if (endpoint.contains("/api")){
+//            if (roles.contains("ADMIN")){
+//                return "allow";
+//            }
+//        }
+//
+//        if (endpoint.contains("/api/teacher")){
+//            if (roles.contains("TEACHER")){
+//                return "allow";
+//            }
+//        }
+//
+//        if (endpoint.contains("/api/student")){
+//            if (roles.contains("STUDENT")){
+//                return "allow";
+//            }
+//        }
+//
+//        if (endpoint.contains("api/question")){
+//            if (roles.contains("TEACHER")){
+//                return "allow";
+//            }
+//        }
+//
+//        if (endpoint.contains("api/quiz/createQuiz")){
+//            if (roles.contains("TEACHER")){
+//                return "allow";
+//            }
+//        }
+//
+//        if (endpoint.contains("api/quiz/beginQuiz")){
+//            if (roles.contains("STUDENT")){
+//                return "allow";
+//            }
+//        }
+//
+//        if (endpoint.contains("api/quiz/checkMultipleChoice")){
+//            if (roles.contains("STUDENT") || roles.contains("TEACHER")){
+//                return "allow";
+//            }
+//        }
+//
+//        if (endpoint.contains("api/quiz_results")){
+//            if (roles.contains("TEACHER")){
+//                return "allow";
+//            }
+//        }
+//
+//        if (endpoint.contains("api/upload")){
+//            if (roles.contains("TEACHER")){
+//                return "allow";
+//            }
+//        }
+//
+//        return "Restricted!";
+//    }
+//}
+
+
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-    private final JwtService jwtService;
-
+    private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
 
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
-        final Cookie[] cookies = request.getCookies();
-        String jwt = null;
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("jwt".equals(cookie.getName())) {
-                    jwt = cookie.getValue();
-                    break;
-                }
-            }
-        }
+        // Get JWT token from HTTP request
+        String token = getTokenFromRequest(request);
 
-        if (jwt == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        // Validate Token
+        if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
+            // get username from token
+            String username = jwtTokenProvider.extractUsername(token);
 
-        String username = jwtService.extractUsername(jwt);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.getAuthorities()
+            );
 
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
+            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-                String authorizationResult = allowUserToEndpoint(userDetails, request);
-                if (!"allow".equals(authorizationResult)) {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN, authorizationResult);
-                    return;
-                }
-            }
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
 
         filterChain.doFilter(request, response);
     }
-    private String allowUserToEndpoint(UserDetails userData, HttpServletRequest request) {
-        String endpoint = request.getRequestURI();
-        List<String> roles = userData.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
 
-        if (roles.isEmpty()) {
-            return "User does not have any role";
+    // Extract the token
+    private String getTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7, bearerToken.length());
         }
 
-        if (endpoint.contains("/api")){
-            if (roles.contains("ADMIN")){
-                return "allow";
-            }
-        }
-
-        if (endpoint.contains("/api/teacher")){
-            if (roles.contains("TEACHER")){
-                return "allow";
-            }
-        }
-
-        if (endpoint.contains("/api/student")){
-            if (roles.contains("STUDENT")){
-                return "allow";
-            }
-        }
-
-        if (endpoint.contains("api/question")){
-            if (roles.contains("TEACHER")){
-                return "allow";
-            }
-        }
-
-        if (endpoint.contains("api/quiz/createQuiz")){
-            if (roles.contains("TEACHER")){
-                return "allow";
-            }
-        }
-
-        if (endpoint.contains("api/quiz/beginQuiz")){
-            if (roles.contains("STUDENT")){
-                return "allow";
-            }
-        }
-
-        if (endpoint.contains("api/quiz/checkMultipleChoice")){
-            if (roles.contains("STUDENT") || roles.contains("TEACHER")){
-                return "allow";
-            }
-        }
-
-        if (endpoint.contains("api/quiz_results")){
-            if (roles.contains("TEACHER")){
-                return "allow";
-            }
-        }
-
-        if (endpoint.contains("api/upload")){
-            if (roles.contains("TEACHER")){
-                return "allow";
-            }
-        }
-
-        return "Restricted!";
+        return null;
     }
 }

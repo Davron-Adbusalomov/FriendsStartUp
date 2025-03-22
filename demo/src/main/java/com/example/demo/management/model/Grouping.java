@@ -1,14 +1,12 @@
 package com.example.demo.management.model;
 
-import com.example.demo.test.model.Quiz;
+import com.example.demo.exam.model.Quiz;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter

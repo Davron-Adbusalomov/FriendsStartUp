@@ -1,7 +1,7 @@
 package com.example.demo.management.dto;
 
 
-import com.example.demo.test.model.Quiz;
+import com.example.demo.exam.model.Quiz;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

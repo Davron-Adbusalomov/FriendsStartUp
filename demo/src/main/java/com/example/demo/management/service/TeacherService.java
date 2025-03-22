@@ -1,17 +1,16 @@
 package com.example.demo.management.service;
 
-import com.example.demo.config.JwtService;
+//import com.example.demo.config.JwtService;
 import com.example.demo.management.dto.TeacherDTO;
-import com.example.demo.management.dto.TeacherLoginDTO;
 import com.example.demo.management.mapper.TeacherMapper;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.TeacherRepository;
-import com.example.demo.test.model.Question;
-import com.example.demo.test.model.Quiz;
-import com.example.demo.test.repository.QuestionRepository;
-import com.example.demo.test.repository.QuizRepository;
+import com.example.demo.exam.model.Question;
+import com.example.demo.exam.model.Quiz;
+import com.example.demo.exam.repository.QuestionRepository;
+import com.example.demo.exam.repository.QuizRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,11 +34,11 @@ public class TeacherService {
     @Autowired
     private QuestionRepository questionRepository;
 
-    private final JwtService jwtService;
-
-    public TeacherService(JwtService jwtService) {
-        this.jwtService = jwtService;
-    }
+//    private final JwtService jwtService;
+//
+//    public TeacherService(JwtService jwtService) {
+//        this.jwtService = jwtService;
+//    }
 
     public List<TeacherDTO> getTeachers(){return TeacherMapper.toDTO(teacherRepository.findAll());}
 
@@ -99,25 +98,25 @@ public class TeacherService {
         return ResponseEntity.status(HttpStatus.OK).body(teacher);
     }
 
-    public TeacherLoginDTO loginTeacher(TeacherDTO teacherDTO){
-        try {
-            if (teacherRepository.findByUsername(teacherDTO.getUsername()).isEmpty() || !Objects.equals(teacherRepository.findByUsername(teacherDTO.getUsername()).get().getPassword(), teacherDTO.getPassword())){
-                throw new EntityNotFoundException("There is no teacher with this credentials!");
-            }
-            var teacher = teacherRepository.findByUsername(teacherDTO.getUsername())
-                    .orElseThrow(() -> new RuntimeException("Teacher not found"));
-
-            String token = jwtService.generateToken(teacher);
-
-            TeacherLoginDTO teacherLoginDTO = new TeacherLoginDTO();
-            teacherLoginDTO.setUser(TeacherMapper.toDTO(teacher));
-            teacherLoginDTO.setToken(token);
-
-            return teacherLoginDTO;
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Authentication failed: " + e.getMessage(), e);
-        }
-    }
+//    public TeacherLoginDTO loginTeacher(TeacherDTO teacherDTO){
+//        try {
+//            if (teacherRepository.findByUsername(teacherDTO.getUsername()).isEmpty() || !Objects.equals(teacherRepository.findByUsername(teacherDTO.getUsername()).get().getPassword(), teacherDTO.getPassword())){
+//                throw new EntityNotFoundException("There is no teacher with this credentials!");
+//            }
+//            var teacher = teacherRepository.findByUsername(teacherDTO.getUsername())
+//                    .orElseThrow(() -> new RuntimeException("Teacher not found"));
+//
+//            String token = jwtService.generateToken(teacher);
+//
+//            TeacherLoginDTO teacherLoginDTO = new TeacherLoginDTO();
+//            teacherLoginDTO.setUser(TeacherMapper.toDTO(teacher));
+//            teacherLoginDTO.setToken(token);
+//
+//            return teacherLoginDTO;
+//        }
+//        catch (Exception e) {
+//            throw new RuntimeException("Authentication failed: " + e.getMessage(), e);
+//        }
+//    }
 
 }

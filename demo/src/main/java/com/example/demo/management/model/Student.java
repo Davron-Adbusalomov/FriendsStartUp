@@ -1,7 +1,7 @@
 package com.example.demo.management.model;
 
 import com.example.demo.management.security.Role;
-import com.example.demo.test.model.Quiz_Results;
+import com.example.demo.exam.model.Quiz_Results;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,7 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Entity
