@@ -28,7 +28,7 @@ public class JwtTokenProvider {
     private long refreshTokenExpirationTime;
 
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, claims -> claims.get("username", String.class));
     }
 
     public String extractUserID(String token) {
@@ -36,9 +36,20 @@ public class JwtTokenProvider {
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
+        try {
+            final Claims claims = extractAllClaims(token);
+            if (claims == null) {
+                System.err.println("Claims are null!");
+                return null;
+            }
+            System.out.println("Claims: " + claims);  // Log to check claims
+            return claimsResolver.apply(claims);
+        } catch (Exception e) {
+            System.err.println("Error extracting claim: " + e.getMessage());
+            return null;
+        }
     }
+
 
     public String generateToken(AuthenticationDetailsDto userDetails) {
         return generateToken(new HashMap<>(), userDetails);

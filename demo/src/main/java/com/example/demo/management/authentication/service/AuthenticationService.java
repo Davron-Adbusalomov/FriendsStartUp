@@ -26,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -102,6 +103,7 @@ public class AuthenticationService {
         long id = ProjectUtils.getCurrentUserDetails().getId();
         entity.setCreatedBy(id);
         entity.setUpdatedBy(id);
+        entity.setCreatedAt(LocalDateTime.now());
 
         if (request.getPassword() != null) {
             entity.setPassword(passwordEncoder.encode(request.getPassword()));

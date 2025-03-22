@@ -1,67 +1,62 @@
 package com.example.demo.config;
 
+import com.example.demo.management.authentication.component.JwtAuthenticationEntryPoint;
+import com.example.demo.management.repository.UserPermissionsRepository;
+import com.example.demo.management.security.CustomPermissionEvaluator;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
-import java.util.Arrays;
-
-@Configuration
-@EnableWebSecurity
+@Component
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+    private final JwtAuthenticationFilter authenticationFilter;
     private final AuthenticationProvider authenticationProvider;
-
+    private final UserDetailsService userDetailsService;
+    private final UserPermissionsRepository userPermissionsRepository;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.cors(AbstractHttpConfigurer::disable);
+        http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests((authorize) -> {
+            authorize.requestMatchers(HttpMethod.GET,"/actuator/**").permitAll();
+            authorize.requestMatchers(HttpMethod.POST, "/api/v1/authentication/sign-in", "/api/v1/authentication/refresh-token").permitAll();
+            authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+            authorize.requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();
+            authorize.requestMatchers(HttpMethod.GET, "/api-docs/**").permitAll();
+            authorize.anyRequest().authenticated();
+        });
 
-                .authorizeHttpRequests((request)->request
-                        .requestMatchers("/api/admin/login", "/api/teacher/loginTeacher", "/api/student/loginStudent","/api/admin/createADMIN",  "http://localhost:8080/api/student/getTeachersInfo").permitAll()
-                        .anyRequest()
-                        .authenticated())
+        http.sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-                .sessionManagement((session)->session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        http.exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint));
 
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.userDetailsService(userDetailsService);
+        http.authenticationProvider(authenticationProvider);
+        http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-                return http.build();
+        return http.build();
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "type"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+    public MethodSecurityExpressionHandler methodSecurityExpressionHandler() {
+        DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setPermissionEvaluator(new CustomPermissionEvaluator(userPermissionsRepository));
+        return expressionHandler;
     }
-
 
 }
-
