@@ -13,5 +13,5 @@ import lombok.Setter;
 public class AssignUserToGroupDTO {
     private String groupName;
 
-    private String username;
+    private Long id;
 }
