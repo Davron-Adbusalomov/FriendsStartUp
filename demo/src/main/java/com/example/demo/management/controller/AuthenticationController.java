@@ -49,7 +49,7 @@ public class AuthenticationController {
                     @ApiResponse(responseCode = "400", description = "Bad request - Invalid input", content = @Content),
                     @ApiResponse(responseCode = "409", description = "Conflict - Username already exists", content = @Content)
             })
-    @PreAuthorize("hasAuthority('CREATE')")
+    @PreAuthorize("hasAuthority('SIGN_UP')")
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
     public SignUpResponse signUp(@RequestBody @Valid SignUpRequest request) {

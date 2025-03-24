@@ -71,53 +71,23 @@ public class StudentService {
     public ResponseEntity<?> updateStudent(StudentDTO studentDTO, Long studentID) throws Exception {
         Optional<Student> studentOptional = studentRepository.findById(studentID);
 
-        if (studentOptional.isEmpty()){
-            throw new EntityNotFoundException("Not found group with id: "+studentID);
+        if (studentOptional.isEmpty()) {
+            throw new EntityNotFoundException("Student not found with id: " + studentID);
         }
 
         Student student = studentOptional.get();
 
-        if (studentOptional.get().getUsername().equals(studentDTO.getUsername())){
-
-            student.setUsername(studentDTO.getUsername());
-            student.setName(studentDTO.getName());
-            student.setParent_contact(studentDTO.getParent_contact());
-
-            studentRepository.save(student);
-            return ResponseEntity.status(HttpStatus.OK).body(student);
-        }
-        else {
-            Optional<Student> studentOptional1 = studentRepository.findByUsername(studentDTO.getUsername());
-            if (studentOptional1.isPresent()){
-                throw new Exception("Username already taken");
-            }
-            else {
-                student.setUsername(studentDTO.getUsername());
-                student.setName(studentDTO.getName());
-                student.setParent_contact(studentDTO.getParent_contact());
-
-                studentRepository.save(student);
-                return ResponseEntity.status(HttpStatus.OK).body(student);
+        if (!studentID.equals(studentDTO.getId())) {
+            if (studentRepository.existsById(studentDTO.getId())) {
+                throw new Exception("Student ID already taken: " + studentDTO.getId());
             }
         }
-    }
 
-    public List<TeacherInfoDTO> getTeacherInfo(){
-        List<Teacher> teachers=teacherRepository.findAll();
-        List<TeacherInfoDTO> teacherInfoDTOS = new ArrayList<>();
+        student.setName(studentDTO.getName());
+        student.setParent_contact(studentDTO.getParent_contact());
 
-        for (Teacher teacher:teachers) {
-
-            TeacherInfoDTO teacherInfoDTO = new TeacherInfoDTO();
-            teacherInfoDTO.setId(teacher.getId());
-            teacherInfoDTO.setSubject(teacher.getSubject());
-            teacherInfoDTO.setExperience(teacher.getExperience());
-            teacherInfoDTO.setImage(teacher.getImage());
-            teacherInfoDTO.setName(teacher.getName());
-            teacherInfoDTOS.add(teacherInfoDTO);
-        }
-
-        return teacherInfoDTOS;
+        studentRepository.save(student);
+        return ResponseEntity.status(HttpStatus.OK).body(student);
     }
 
 //    public StudentLoginDTO loginStudent(StudentDTO studentDTO) {

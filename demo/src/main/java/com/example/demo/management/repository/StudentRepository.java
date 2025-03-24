@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    Optional<Student> findByUsername(String username);
 
     @Query("SELECT s FROM Student s WHERE s.parent_contact = :parentContact")
     Optional<Student> findStudentByParentContact(@Param("parentContact") String parentContact);

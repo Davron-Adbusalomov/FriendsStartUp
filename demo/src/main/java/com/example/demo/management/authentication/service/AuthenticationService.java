@@ -12,7 +12,11 @@ import com.example.demo.management.dto.request.SignUpRequest;
 import com.example.demo.management.dto.response.AccessTokenResDto;
 import com.example.demo.management.dto.response.SignUpResponse;
 import com.example.demo.management.mapper.RoleMapper;
+import com.example.demo.management.model.Student;
+import com.example.demo.management.model.Teacher;
 import com.example.demo.management.model.UserEntity;
+import com.example.demo.management.repository.StudentRepository;
+import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.management.repository.UserRepository;
 import com.example.demo.management.security.dto.DefaultPermissionsDto;
 import com.example.demo.utils.ProjectUtils;
@@ -39,6 +43,8 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleMapper roleMapper;
+    private final StudentRepository studentRepository;
+    private final TeacherRepository teacherRepository;
 
     public AccessTokenResDto signIn(SignInReqDto signInDto, HttpServletRequest request) {
         Authentication authentication = authenticateUser(signInDto, request);
@@ -66,6 +72,22 @@ public class AuthenticationService {
         UserEntity entity = createUserEntity(request);
         entity = userRepository.save(entity);
 
+        if (entity.getRoles().stream().anyMatch(e -> e.getName().equals(RolesEnum.STUDENT))) {
+            if (studentRepository.findById(entity.getId()).isEmpty()){
+                Student student = new Student();
+                student.setId(entity.getId());
+                student.setName(entity.getFullName());
+                studentRepository.save(student);
+            }
+        }
+        if (entity.getRoles().stream().anyMatch(e -> e.getName().equals(RolesEnum.TEACHER))) {
+            if (teacherRepository.findById(entity.getId()).isEmpty()){
+                Teacher teacher = new Teacher();
+                teacher.setId(entity.getId());
+                teacher.setName(entity.getFullName());
+                teacherRepository.save(teacher);
+            }
+        }
         return buildSignUpResponse(entity);
     }
 

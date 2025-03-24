@@ -90,21 +90,21 @@ public class GroupService {
     }
 
     public ResponseEntity<?> assignStudentToGroup(AssignUserToGroupDTO assignUserToGroupDTO){
-        Student student = studentRepository.findByUsername(assignUserToGroupDTO.getUsername()).get();
+        Student student = studentRepository.findById(assignUserToGroupDTO.getId()).get();
         Grouping grouping = groupRepository.findByName(assignUserToGroupDTO.getGroupName()).get();
         grouping.assignStudent(student);
         return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
     }
 
     public ResponseEntity<?> deassignStudentFromGroup(AssignUserToGroupDTO assignUserToGroupDTO){
-        Student student = studentRepository.findByUsername(assignUserToGroupDTO.getUsername()).get();
+        Student student = studentRepository.findById(assignUserToGroupDTO.getId()).get();
         Grouping grouping = groupRepository.findByName(assignUserToGroupDTO.getGroupName()).get();
         grouping.deassignStudent(student);
         return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
     }
 
     public ResponseEntity<?> assignTeacherToGroup(AssignUserToGroupDTO assignUserToGroupDTO){
-        Teacher teacher = teacherRepository.findByUsername(assignUserToGroupDTO.getUsername()).get();
+        Teacher teacher = teacherRepository.findById(assignUserToGroupDTO.getId()).get();
         Grouping grouping = groupRepository.findByName(assignUserToGroupDTO.getGroupName()).get();
         grouping.assignTeacher(teacher);
         return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));

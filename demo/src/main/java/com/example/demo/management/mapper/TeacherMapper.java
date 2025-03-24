@@ -22,9 +22,7 @@ public interface TeacherMapper {
      //   teacherDTO.setImage(teacher.getImage());
         teacherDTO.setExperience(teacher.getExperience());
         teacherDTO.setPhone_num(teacher.getPhone_num());
-        teacherDTO.setUsername(teacher.getUsername());
         teacherDTO.setSubject(teacher.getSubject());
-        teacherDTO.setRole(teacher.getRole());
         teacherDTO.setGroupList(teacher.getGroupings());
         return teacherDTO;
     };

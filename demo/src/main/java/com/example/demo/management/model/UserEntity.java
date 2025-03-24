@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-//@Table(name = EPharmConstant.Tables.USERS)
+@Table(name = "users")
 @ToString
 @SequenceGenerator(name = "base_seq_gen", sequenceName = "users_seq", allocationSize = 1)
 public class UserEntity extends BaseEntity {
@@ -29,6 +29,9 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "full_name")
+    private String fullName;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = false;

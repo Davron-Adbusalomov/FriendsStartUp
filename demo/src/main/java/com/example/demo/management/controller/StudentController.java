@@ -74,13 +74,4 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body("Successfully logout!");
     }
 
-    @GetMapping("getTeachersInfo")
-    public ResponseEntity<?> getTeachersInfo(){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(studentService.getTeacherInfo());
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
-
 }

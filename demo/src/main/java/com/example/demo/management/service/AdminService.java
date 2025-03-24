@@ -97,58 +97,55 @@ public class AdminService {
         return ResponseEntity.status(HttpStatus.OK).body(admin1);
     }
 
-    public StudentDTO registerStudent(StudentDTO studentDTO) throws Exception {
-        if (studentRepository.findByUsername(studentDTO.getUsername()).isPresent()){
-            throw new Exception("User already exists!");
-        }
-        Student student = studentRepository.save(StudentMapper.toModel(studentDTO));
-
-        Optional<Grouping> grouping = groupRepository.findByName(studentDTO.getGroupName());
-        if (grouping.isEmpty()){
-            throw new EntityNotFoundException("No group found with this name!");
-        }
-
-        Grouping group=grouping.get();
-        group.assignStudent(student);
-        groupRepository.save(group);
-
-        return StudentMapper.toDTO(student);
-    }
-
-    public TeacherDTO registerTeacher(TeacherDTO teacherDTO) throws Exception {
-        if (teacherRepository.findByUsername(teacherDTO.getUsername()).isPresent()){
-            throw new Exception("User already exists");
-        }
-        BufferedImage img = null;
-        if (teacherDTO.getImage().isEmpty()) {
-            String base64Image = teacherDTO.getImage().split(",")[1];
-            byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-            img = ImageIO.read(new ByteArrayInputStream(imageBytes));
-        }
-        Teacher teacher = new Teacher();
-        teacher.setName(teacherDTO.getName());
-        teacher.setSubject(teacherDTO.getSubject());
-        teacher.setExperience(teacherDTO.getExperience());
-        teacher.setUsername(teacherDTO.getUsername());
-        teacher.setPassword(teacherDTO.getPassword());
-        teacher.setRole(teacherDTO.getRole());
-        teacher.setPhone_num(teacherDTO.getPhone_num());
-        if (img!=null){
-        teacher.setImage(mediaService.uploadImageToAzureAndGetUrl(img, "teacher"+ UUID.randomUUID()));
-        }
-        teacherRepository.save(teacher);
-
-        Optional<Grouping> grouping = groupRepository.findByName(teacherDTO.getGroupName());
-        if (grouping.isEmpty()){
-            throw new EntityNotFoundException("No group found with this name!");
-        }
-
-        Grouping group=grouping.get();
-        group.assignTeacher(teacher);
-        groupRepository.save(group);
-
-        return TeacherMapper.toDTO(teacher);
-    }
+//    public StudentDTO registerStudent(StudentDTO studentDTO) throws Exception {
+//        if (studentRepository.findByUsername(studentDTO.getUsername()).isPresent()){
+//            throw new Exception("User already exists!");
+//        }
+//        Student student = studentRepository.save(StudentMapper.toModel(studentDTO));
+//
+//        Optional<Grouping> grouping = groupRepository.findByName(studentDTO.getGroupName());
+//        if (grouping.isEmpty()){
+//            throw new EntityNotFoundException("No group found with this name!");
+//        }
+//
+//        Grouping group=grouping.get();
+//        group.assignStudent(student);
+//        groupRepository.save(group);
+//
+//        return StudentMapper.toDTO(student);
+//    }
+//
+//    public TeacherDTO registerTeacher(TeacherDTO teacherDTO) throws Exception {
+//        if (teacherRepository.findByUsername(teacherDTO.getUsername()).isPresent()){
+//            throw new Exception("User already exists");
+//        }
+//        BufferedImage img = null;
+//        if (teacherDTO.getImage().isEmpty()) {
+//            String base64Image = teacherDTO.getImage().split(",")[1];
+//            byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+//            img = ImageIO.read(new ByteArrayInputStream(imageBytes));
+//        }
+//        Teacher teacher = new Teacher();
+//        teacher.setName(teacherDTO.getName());
+//        teacher.setSubject(teacherDTO.getSubject());
+//        teacher.setExperience(teacherDTO.getExperience());
+//        teacher.setPhone_num(teacherDTO.getPhone_num());
+//        if (img!=null){
+//        teacher.setImage(mediaService.uploadImageToAzureAndGetUrl(img, "teacher"+ UUID.randomUUID()));
+//        }
+//        teacherRepository.save(teacher);
+//
+//        Optional<Grouping> grouping = groupRepository.findByName(teacherDTO.getGroupName());
+//        if (grouping.isEmpty()){
+//            throw new EntityNotFoundException("No group found with this name!");
+//        }
+//
+//        Grouping group=grouping.get();
+//        group.assignTeacher(teacher);
+//        groupRepository.save(group);
+//
+//        return TeacherMapper.toDTO(teacher);
+//    }
 
     public GroupDTO registerGroup(GroupDTO groupDTO) throws Exception {
         if (groupRepository.findByName(groupDTO.getName()).isPresent()){

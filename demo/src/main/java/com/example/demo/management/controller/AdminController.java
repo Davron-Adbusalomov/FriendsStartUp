@@ -20,14 +20,14 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @PostMapping("/createADMIN")
-    public ResponseEntity<?> createAdmin(@RequestBody AdminDTO adminDTO){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.addAdmin(adminDTO));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
+//    @PostMapping("/createADMIN")
+//    public ResponseEntity<?> createAdmin(@RequestBody AdminDTO adminDTO){
+//        try{
+//            return ResponseEntity.status(HttpStatus.OK).body(adminService.addAdmin(adminDTO));
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
 
     @GetMapping("/getAdmins")
     public ResponseEntity<?> getAdmins(){
@@ -57,26 +57,26 @@ public class AdminController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/createSTUDENT")
-    public ResponseEntity<?> registerUser(@RequestBody StudentDTO studentDTO){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.registerStudent(studentDTO));
-        }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping("/createSTUDENT")
+//    public ResponseEntity<?> registerUser(@RequestBody StudentDTO studentDTO){
+//        try {
+//            return ResponseEntity.status(HttpStatus.OK).body(adminService.registerStudent(studentDTO));
+//        }catch(Exception e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
 
-    @CrossOrigin
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/createTEACHER")
-    public ResponseEntity<?> registerTeacher(@RequestBody TeacherDTO teacherDTO){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.registerTeacher(teacherDTO));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
+//    @CrossOrigin
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping("/createTEACHER")
+//    public ResponseEntity<?> registerTeacher(@RequestBody TeacherDTO teacherDTO){
+//        try {
+//            return ResponseEntity.status(HttpStatus.OK).body(adminService.registerTeacher(teacherDTO));
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/createGROUP")

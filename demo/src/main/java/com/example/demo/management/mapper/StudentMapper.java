@@ -18,14 +18,11 @@ public interface StudentMapper {
         studentDTO.setId(student.getId());
         studentDTO.setNumber(student.getNumber());
         studentDTO.setName(student.getName());
-        studentDTO.setRole(student.getRole());
 //        List<String> groupList = new ArrayList<>();
 //        groupList.add(student.getGroupings().get(1).getName());
         studentDTO.setGroupList(student.getGroupings());
         studentDTO.setParent_contact(student.getParent_contact());
         studentDTO.setParent_chatId(student.getParent_chatId());
-        studentDTO.setUsername(student.getUsername());
-        studentDTO.setPassword(student.getPassword());
         return studentDTO;
     };
 
@@ -41,11 +38,8 @@ public interface StudentMapper {
         Student student = new Student();
         student.setNumber(studentDTO.getNumber());
         student.setName(studentDTO.getName());
-        student.setRole(studentDTO.getRole());
         student.setParent_contact(studentDTO.getParent_contact());
         student.setParent_chatId(studentDTO.getParent_chatId());
-        student.setUsername(studentDTO.getUsername());
-        student.setPassword(studentDTO.getPassword());
         return student;
     }
 }

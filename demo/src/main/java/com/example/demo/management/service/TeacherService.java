@@ -2,6 +2,7 @@ package com.example.demo.management.service;
 
 //import com.example.demo.config.JwtService;
 import com.example.demo.management.dto.TeacherDTO;
+import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.mapper.TeacherMapper;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
@@ -76,26 +77,33 @@ public class TeacherService {
 
     public ResponseEntity<?> updateTeacher(TeacherDTO teacherDTO, Long id) throws Exception {
         Teacher teacher = teacherRepository.findById(id)
-                .orElseThrow(()->new EntityNotFoundException("No teacher found with this id: "+id));
+                .orElseThrow(() -> new EntityNotFoundException("No teacher found with this id: " + id));
 
-        if (teacher.getUsername().equals(teacherDTO.getUsername())){
-            teacher.setName(teacherDTO.getName());
-            teacher.setUsername(teacherDTO.getUsername());
-            teacher.setSubject(teacherDTO.getSubject());
-        }
-        else {
-            Optional<Teacher> teacher2 = teacherRepository.findByUsername(teacherDTO.getUsername());
-            if (teacher2.isPresent()){
-                throw new Exception("Username already taken");
-            }else {
-                teacher.setName(teacherDTO.getName());
-                teacher.setUsername(teacherDTO.getUsername());
-                teacher.setSubject(teacherDTO.getSubject());
-            }
-        }
+        teacher.setSubject(teacherDTO.getSubject());
+        teacher.setPhone_num(teacherDTO.getPhone_num());
+        teacher.setExperience(teacherDTO.getExperience());
 
         teacherRepository.save(teacher);
         return ResponseEntity.status(HttpStatus.OK).body(teacher);
+    }
+
+
+    public List<TeacherInfoDTO> getTeacherInfo(){
+        List<Teacher> teachers=teacherRepository.findAll();
+        List<TeacherInfoDTO> teacherInfoDTOS = new ArrayList<>();
+
+        for (Teacher teacher:teachers) {
+
+            TeacherInfoDTO teacherInfoDTO = new TeacherInfoDTO();
+            teacherInfoDTO.setId(teacher.getId());
+            teacherInfoDTO.setSubject(teacher.getSubject());
+            teacherInfoDTO.setExperience(teacher.getExperience());
+            teacherInfoDTO.setImage(teacher.getImage());
+            teacherInfoDTO.setName(teacher.getName());
+            teacherInfoDTOS.add(teacherInfoDTO);
+        }
+
+        return teacherInfoDTOS;
     }
 
 //    public TeacherLoginDTO loginTeacher(TeacherDTO teacherDTO){
