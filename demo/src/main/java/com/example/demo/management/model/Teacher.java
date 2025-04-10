@@ -29,7 +29,7 @@ public class Teacher {
 
     @JsonIgnore
     @OneToMany(mappedBy = "teacher")
-    private List<Grouping> groupings = new ArrayList<>();
+    private List<Grouping> groupList = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "teacher")

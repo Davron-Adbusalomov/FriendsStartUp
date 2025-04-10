@@ -1,47 +1,33 @@
 package com.example.demo.management.dto;
 
-import com.example.demo.management.model.Grouping;
-import com.example.demo.management.security.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.ToString;
 
-import java.time.LocalDate;
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
+@ToString
+@Schema(name = "StudentDto")
 public class StudentDTO {
-
     private Long id;
 
+    @NotNull(message = "Name is required")
+    @Schema(example = "John Doe")
     private String name;
 
+    @NotNull(message = "Student number is required")
+    @Schema(example = "12345")
     private Long number;
 
-    private String username;
+    @Schema(example = "john.doe@example.com")
+    private String parentContact;
 
-    private String password;
+    @Schema(example = "chat123")
+    private String parentChatId;
 
-    private Role role;
-
-    private LocalDate dateOfBirth;
-
-    private String parent_email;
-
-    private String parent_contact;
-
-    private String groupName;
-
-    private List<Grouping> groupList;
-
-    private String parent_chatId;
-
-    private String relationship;
-
-    private String token;
-
+    // For example, a comma-separated list of group names.
+    @Schema(example = "Group A, Group B")
+    private List<String> groupNames;
 }

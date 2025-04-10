@@ -23,5 +23,7 @@ public class GroupDTO {
 
     private String time;
 
-    private List<Quiz> quizzes;
+    private String teacherName;
+
+//    private List<Quiz> quizzes;
 }

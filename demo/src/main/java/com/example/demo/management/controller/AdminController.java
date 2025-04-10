@@ -78,15 +78,15 @@ public class AdminController {
 //        }
 //    }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/createGROUP")
-    public ResponseEntity<?> registerGroup(@RequestBody GroupDTO groupDTO){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.registerGroup(groupDTO));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping("/createGROUP")
+//    public ResponseEntity<?> registerGroup(@RequestBody GroupDTO groupDTO){
+//        try {
+//            return ResponseEntity.status(HttpStatus.OK).body(adminService.registerGroup(groupDTO));
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
 
 //    @PostMapping("login")
 //    public ResponseEntity<?> login(@RequestBody AdminDTO adminDTO, HttpServletResponse response){

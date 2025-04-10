@@ -1,45 +1,38 @@
 package com.example.demo.management.mapper;
 
 import com.example.demo.management.dto.StudentDTO;
+import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
-import com.example.demo.management.repository.GroupRepository;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Mapper
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface StudentMapper {
-    StudentMapper INSTANCE = Mappers.getMapper(StudentMapper.class);
 
-    static StudentDTO toDTO(Student student){
-        StudentDTO studentDTO = new StudentDTO();
-        studentDTO.setId(student.getId());
-        studentDTO.setNumber(student.getNumber());
-        studentDTO.setName(student.getName());
-//        List<String> groupList = new ArrayList<>();
-//        groupList.add(student.getGroupings().get(1).getName());
-        studentDTO.setGroupList(student.getGroupings());
-        studentDTO.setParent_contact(student.getParent_contact());
-        studentDTO.setParent_chatId(student.getParent_chatId());
-        return studentDTO;
-    };
+    @Mapping(target = "groupNames", expression = "java(getGroupNames(student))")
+    @Mapping(target = "parentContact", source = "parent_contact")
+    @Mapping(target = "parentChatId", source = "parent_chatId")
+    StudentDTO toDto(Student student);
 
-    static ArrayList<StudentDTO> toDTO(List<Student> lessons) {
-        ArrayList<StudentDTO> lessonDTOs = new ArrayList<>();
-        for (Student lesson : lessons) {
-            lessonDTOs.add(toDTO(lesson));
+    List<StudentDTO> toDto(List<Student> students);
+
+    @Mapping(target = "groupings", ignore = true)
+    @Mapping(target = "quizResults", ignore = true)
+    @Mapping(target = "parent_contact", source = "parentContact")
+    @Mapping(target = "parent_chatId", source = "parentChatId")
+    Student toEntity(StudentDTO studentDto);
+
+    default List<String> getGroupNames(Student student) {
+        if (student.getGroupings() == null || student.getGroupings().isEmpty()) {
+            return List.of();
         }
-        return lessonDTOs;
-    }
-
-    static Student toModel(StudentDTO studentDTO){
-        Student student = new Student();
-        student.setNumber(studentDTO.getNumber());
-        student.setName(studentDTO.getName());
-        student.setParent_contact(studentDTO.getParent_contact());
-        student.setParent_chatId(studentDTO.getParent_chatId());
-        return student;
+        return student.getGroupings()
+                .stream()
+                .map(Grouping::getName)
+                .collect(Collectors.toList());
     }
 }

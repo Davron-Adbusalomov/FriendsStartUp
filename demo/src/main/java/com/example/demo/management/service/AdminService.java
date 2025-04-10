@@ -48,6 +48,8 @@ public class AdminService {
 
     private final JwtTokenProvider jwtService;
 
+    private GroupMapper groupMapper;
+
     public AdminService(AuthenticationManager authenticationManager, JwtTokenProvider jwtService) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
@@ -147,13 +149,13 @@ public class AdminService {
 //        return TeacherMapper.toDTO(teacher);
 //    }
 
-    public GroupDTO registerGroup(GroupDTO groupDTO) throws Exception {
-        if (groupRepository.findByName(groupDTO.getName()).isPresent()){
-            throw new Exception("Group already existed!");
-        }
-        Grouping group = groupRepository.save(GroupMapper.INSTANCE.toModel(groupDTO));
-        return GroupMapper.INSTANCE.toDTO(group);
-    }
+//    public GroupDTO registerGroup(GroupDTO groupDTO) throws Exception {
+//        if (groupRepository.findByName(groupDTO.getName()).isPresent()){
+//            throw new Exception("Group already existed!");
+//        }
+//        Grouping group = groupRepository.save(groupMapper.toEntity(groupDTO));
+//        return groupMapper.toDto(group);
+//    }
 
 
 //    public AdminLoginDTO loginAdmin(AdminDTO adminDTO){

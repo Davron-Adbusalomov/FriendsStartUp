@@ -7,12 +7,15 @@ import com.example.demo.management.mapper.StudentMapper;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
+import com.example.demo.management.model.UserEntity;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.exam.model.Quiz_Results;
 import com.example.demo.exam.repository.Quiz_ResultsRepository;
+import com.example.demo.management.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
@@ -34,18 +38,23 @@ public class StudentService {
     @Autowired
     private TeacherRepository teacherRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    private final StudentMapper studentMapper;
+
 //    private final JwtService jwtService;
 //
 //    public StudentService(JwtService jwtService) {
 //        this.jwtService = jwtService;
 //    }
 
-    public List<StudentDTO> getStudents(){return StudentMapper.toDTO(studentRepository.findAll());}
+    public List<StudentDTO> getStudents(){return studentMapper.toDto(studentRepository.findAll());}
 
     public ResponseEntity<?> getStudentById(Long studentID){
         Student student = studentRepository.findById(studentID)
                 .orElseThrow(() -> new EntityNotFoundException("Not found student with id: "+studentID));
-        return ResponseEntity.status(HttpStatus.OK).body(StudentMapper.toDTO(student));
+        return ResponseEntity.status(HttpStatus.OK).body(studentMapper.toDto(student));
     }
 
     public ResponseEntity<?> deleteStudent(Long studentId) {
@@ -62,6 +71,9 @@ public class StudentService {
             quizResult.setStudent(null);
         }
 
+        Optional<UserEntity> userEntity = userRepository.findById(studentId);
+        userEntity.ifPresent(entity -> userRepository.delete(entity));
+
         studentRepository.delete(student);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Successfully deleted!");
@@ -77,14 +89,9 @@ public class StudentService {
 
         Student student = studentOptional.get();
 
-        if (!studentID.equals(studentDTO.getId())) {
-            if (studentRepository.existsById(studentDTO.getId())) {
-                throw new Exception("Student ID already taken: " + studentDTO.getId());
-            }
-        }
-
         student.setName(studentDTO.getName());
-        student.setParent_contact(studentDTO.getParent_contact());
+        student.setParent_contact(studentDTO.getParentContact());
+        student.setNumber(studentDTO.getNumber());
 
         studentRepository.save(student);
         return ResponseEntity.status(HttpStatus.OK).body(student);

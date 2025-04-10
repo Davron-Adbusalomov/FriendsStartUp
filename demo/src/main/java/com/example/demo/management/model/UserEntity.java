@@ -1,6 +1,5 @@
 package com.example.demo.management.model;
 
-import com.example.demo.management.model.BaseEntity;
 import com.example.demo.management.model.rbac.RoleEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

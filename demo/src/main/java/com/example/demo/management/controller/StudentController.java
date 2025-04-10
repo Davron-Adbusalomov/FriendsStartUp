@@ -1,24 +1,32 @@
 package com.example.demo.management.controller;
 
 import com.example.demo.management.dto.StudentDTO;
-import com.example.demo.management.dto.StudentLoginDTO;
-import com.example.demo.management.model.Student;
 import com.example.demo.management.service.StudentService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/student")
+@RequestMapping("api/v1/student")
 public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    @Operation(
+            summary = "Getting all students",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
+    @PreAuthorize("hasAuthority('GET_STUDENTS_LIST')")
     @GetMapping("/getStudents")
     public ResponseEntity<?> getAll(){
         try {
@@ -28,16 +36,49 @@ public class StudentController {
         }
     }
 
+    @Operation(
+            summary = "Getting student by student",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            }
+    )
+    @PreAuthorize("hasAnyAuthority('GET_STUDENT')")
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id){
         return studentService.getStudentById(id);
     }
 
+    @Operation(
+            summary = "DELETE STUDENT by ID",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            }
+    )
+    @PreAuthorize("hasAnyAuthority('DELETE_STUDENT')")
     @DeleteMapping("deleteStudent/{id}")
     public ResponseEntity<?> deleteStudent(@PathVariable Long id){
         return studentService.deleteStudent(id);
     }
 
+    @Operation(
+            summary = "UPDATING student by student",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            }
+    )
+    @PreAuthorize("hasAnyAuthority('UPDATE_STUDENT')")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateStudent(@RequestBody StudentDTO studentDTO, @PathVariable Long id){
         try {
@@ -64,14 +105,14 @@ public class StudentController {
 //        }
 //    }
 
-    @PostMapping("/logout-student")
-    public ResponseEntity<?> logoutStudent(HttpServletResponse httpServletResponse){
-        Cookie cookie = new Cookie("jwt", "");
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        httpServletResponse.addCookie(cookie);
-        return ResponseEntity.status(HttpStatus.OK).body("Successfully logout!");
-    }
+//    @PostMapping("/logout-student")
+//    public ResponseEntity<?> logoutStudent(HttpServletResponse httpServletResponse){
+//        Cookie cookie = new Cookie("jwt", "");
+//        cookie.setMaxAge(0);
+//        cookie.setPath("/");
+//        cookie.setHttpOnly(true);
+//        httpServletResponse.addCookie(cookie);
+//        return ResponseEntity.status(HttpStatus.OK).body("Successfully logout!");
+//    }
 
 }

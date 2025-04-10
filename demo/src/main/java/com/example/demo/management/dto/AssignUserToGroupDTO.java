@@ -9,7 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-
 public class AssignUserToGroupDTO {
     private String groupName;
 

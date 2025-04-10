@@ -26,16 +26,14 @@ public class TeacherDTO {
 
     private String subject;
 
-    private String groupName;
-
-    private List<Grouping> groupList;
-
     private Long phone_num;
 
-    private String username;
+    private List<GroupDTO> groupList;
 
-    private String password;
-
-    private Role role;
+//    private String username;
+//
+//    private String password;
+//
+//    private Role role;
 
 }

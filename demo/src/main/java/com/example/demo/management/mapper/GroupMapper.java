@@ -1,27 +1,27 @@
 package com.example.demo.management.mapper;
 
 import com.example.demo.management.dto.GroupDTO;
-
 import com.example.demo.management.model.Grouping;
-import com.example.demo.management.model.Student;
-
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.example.demo.management.mapper.StudentMapper.INSTANCE;
-
-@Mapper
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface GroupMapper {
-    GroupMapper INSTANCE = Mappers.getMapper(GroupMapper.class);
 
-    GroupDTO toDTO(Grouping grouping);
+    @Mapping(target = "teacherName", expression = "java(getTeacherName(grouping))")
+    GroupDTO toDto(Grouping grouping);
 
-    ArrayList<GroupDTO> toDTO(ArrayList<Grouping> groupings);
+    List<GroupDTO> toDto(List<Grouping> groupings);
 
-    Grouping toModel(GroupDTO groupDTO);
+    @Mapping(target = "quizzes", ignore = true)
+    @Mapping(target = "students", ignore = true)
+    Grouping toEntity(GroupDTO groupDTO);
 
+    default String getTeacherName(Grouping grouping) {
+        if (grouping.getTeacher() != null) return grouping.getTeacher().getName();
+        return null;
+    }
 }

@@ -1,18 +1,20 @@
 package com.example.demo.management.service;
 
-//import com.example.demo.config.JwtService;
 import com.example.demo.management.dto.TeacherDTO;
 import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.mapper.TeacherMapper;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
+import com.example.demo.management.model.UserEntity;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.exam.model.Question;
 import com.example.demo.exam.model.Quiz;
 import com.example.demo.exam.repository.QuestionRepository;
 import com.example.demo.exam.repository.QuizRepository;
+import com.example.demo.management.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class TeacherService {
 
     @Autowired
@@ -35,13 +38,13 @@ public class TeacherService {
     @Autowired
     private QuestionRepository questionRepository;
 
-//    private final JwtService jwtService;
-//
-//    public TeacherService(JwtService jwtService) {
-//        this.jwtService = jwtService;
-//    }
+    @Autowired
+    private UserRepository userRepository;
 
-    public List<TeacherDTO> getTeachers(){return TeacherMapper.toDTO(teacherRepository.findAll());}
+    private final TeacherMapper teacherMapper;
+
+
+    public List<TeacherDTO> getTeachers(){return teacherMapper.toDto(teacherRepository.findAll());}
 
     public ResponseEntity<?> getById(Long id){
         Teacher teacher = teacherRepository.findById(id)
@@ -71,6 +74,9 @@ public class TeacherService {
             question.setTeacher(null);
         }
 
+        Optional<UserEntity> optionalUser = userRepository.findById(id);
+        optionalUser.ifPresent(userEntity -> userRepository.delete(userEntity));
+
         teacherRepository.delete(teacher);
         return ResponseEntity.status(HttpStatus.OK).body("Successfully deleted!");
     }
@@ -79,6 +85,9 @@ public class TeacherService {
         Teacher teacher = teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No teacher found with this id: " + id));
 
+        teacher.setName(teacherDTO.getName());
+        teacher.setExperience(teacherDTO.getExperience());
+        teacher.setImage(teacherDTO.getImage());
         teacher.setSubject(teacherDTO.getSubject());
         teacher.setPhone_num(teacherDTO.getPhone_num());
         teacher.setExperience(teacherDTO.getExperience());

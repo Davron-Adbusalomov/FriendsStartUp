@@ -2,6 +2,7 @@ package com.example.demo.management.service;
 
 import com.example.demo.management.dto.AssignUserToGroupDTO;
 import com.example.demo.management.dto.GroupDTO;
+import com.example.demo.management.mapper.GroupMapper;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
@@ -11,6 +12,7 @@ import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.exam.model.Quiz;
 import com.example.demo.exam.repository.QuizRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class GroupService {
     @Autowired
     GroupRepository groupRepository;
@@ -33,12 +36,22 @@ public class GroupService {
     @Autowired
     private QuizRepository quizRepository;
 
+    private final GroupMapper groupMapper;
+
     public List<Grouping> getGroups(){
         return groupRepository.findAll();
     }
 
     public List<Grouping> getGroupsByStudentId(Long studentId){
         return groupRepository.findByStudentId(studentId);
+    }
+
+    public GroupDTO registerGroup(GroupDTO groupDTO) throws Exception {
+        if (groupRepository.findByName(groupDTO.getName()).isPresent()){
+            throw new Exception("Group already existed!");
+        }
+        Grouping group = groupRepository.save(groupMapper.toEntity(groupDTO));
+        return groupMapper.toDto(group);
     }
 
     public ResponseEntity<?> getGroupById(Long groupID){
@@ -81,7 +94,7 @@ public class GroupService {
             grouping1.setId(groupId);
             grouping1.setName(groupDTO.getName());
             grouping1.setSubject(groupDTO.getSubject());
-            grouping1.setQuizzes(groupDTO.getQuizzes());
+//            grouping1.setQuizzes(groupDTO.getQuizzes());
             grouping1.setTime(groupDTO.getTime());
 
             groupRepository.save(grouping1);
@@ -89,24 +102,73 @@ public class GroupService {
         }
     }
 
-    public ResponseEntity<?> assignStudentToGroup(AssignUserToGroupDTO assignUserToGroupDTO){
-        Student student = studentRepository.findById(assignUserToGroupDTO.getId()).get();
-        Grouping grouping = groupRepository.findByName(assignUserToGroupDTO.getGroupName()).get();
+    public ResponseEntity<?> assignStudentToGroup(AssignUserToGroupDTO dto) {
+        Optional<Student> studentOpt = studentRepository.findById(dto.getId());
+        Optional<Grouping> groupingOpt = groupRepository.findByName(dto.getGroupName());
+
+        if (!studentOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found");
+        }
+
+        if (!groupingOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Group not found");
+        }
+
+        Student student = studentOpt.get();
+        Grouping grouping = groupingOpt.get();
+
+        if (grouping.getStudents().contains(student)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student already assigned to group");
+        }
+
         grouping.assignStudent(student);
-        return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
+        return ResponseEntity.ok(groupRepository.save(grouping));
     }
 
-    public ResponseEntity<?> deassignStudentFromGroup(AssignUserToGroupDTO assignUserToGroupDTO){
-        Student student = studentRepository.findById(assignUserToGroupDTO.getId()).get();
-        Grouping grouping = groupRepository.findByName(assignUserToGroupDTO.getGroupName()).get();
+    public ResponseEntity<?> deassignStudentFromGroup(AssignUserToGroupDTO dto) {
+        Optional<Student> studentOpt = studentRepository.findById(dto.getId());
+        Optional<Grouping> groupingOpt = groupRepository.findByName(dto.getGroupName());
+
+        if (!studentOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found");
+        }
+
+        if (!groupingOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Group not found");
+        }
+
+        Student student = studentOpt.get();
+        Grouping grouping = groupingOpt.get();
+
+        if (!grouping.getStudents().contains(student)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student is not in this group");
+        }
+
         grouping.deassignStudent(student);
-        return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
+        return ResponseEntity.ok(groupRepository.save(grouping));
     }
 
-    public ResponseEntity<?> assignTeacherToGroup(AssignUserToGroupDTO assignUserToGroupDTO){
-        Teacher teacher = teacherRepository.findById(assignUserToGroupDTO.getId()).get();
-        Grouping grouping = groupRepository.findByName(assignUserToGroupDTO.getGroupName()).get();
+    public ResponseEntity<?> assignTeacherToGroup(AssignUserToGroupDTO dto) {
+        Optional<Teacher> teacherOpt = teacherRepository.findById(dto.getId());
+        Optional<Grouping> groupingOpt = groupRepository.findByName(dto.getGroupName());
+
+        if (!teacherOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Teacher not found");
+        }
+
+        if (!groupingOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Group not found");
+        }
+
+        Teacher teacher = teacherOpt.get();
+        Grouping grouping = groupingOpt.get();
+
+        if (teacher.equals(grouping.getTeacher())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Teacher already assigned to group");
+        }
+
         grouping.assignTeacher(teacher);
-        return ResponseEntity.status(HttpStatus.OK).body(groupRepository.save(grouping));
+        return ResponseEntity.ok(groupRepository.save(grouping));
     }
+
 }
