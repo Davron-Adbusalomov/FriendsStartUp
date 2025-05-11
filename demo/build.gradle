@@ -34,6 +34,7 @@ dependencies {
 	implementation 'org.jboss.logging:jboss-logging:3.4.1.Final'
 	implementation 'org.telegram:telegrambots:6.5.0'
 	testImplementation 'org.slf4j:slf4j-simple:2.0.7'
+	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 
 	compileOnly 'org.projectlombok:lombok'

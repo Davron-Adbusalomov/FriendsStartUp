@@ -1,3 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres1.cz62o2yusm9p.eu-north-1.rds.amazonaws.com:5432/postgres
+    username: postgres
+    password: davron_abdusalomov
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    enabled: true
+    locations: classpath:db/changelog
+    baseline-on-migrate: true
+
+logging:
+  file:
+    name: application.log
+  level:
+    org.springframework: error
+
 security:
   jwt:
     secret-key: 923f6ad7deb85d35ab7ed4a6d8691b742d284b16fbd5b69ac97638d550f532bc
