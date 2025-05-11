@@ -1,5 +1,30 @@
 security:
   jwt:
     secret-key: 923f6ad7deb85d35ab7ed4a6d8691b742d284b16fbd5b69ac97638d550f532bc
-    access-token-expiration-time: "#{60 * 60 * 1000}" # SpEL expression
-    refresh-token-expiration-time: "#{7 * 24 * 60 * 60 * 1000}" # SpEL expression
+    access-token-expiration-time: "#{60 * 60 * 1000}"  # SpEL expression
+    refresh-token-expiration-time: "#{7 * 24 * 60 * 60 * 1000}"  # SpEL expression
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/startupdb
+    username: postgres
+    password: 55555
+#    url: jdbc:postgresql://postgres1.cz62o2yusm9p.eu-north-1.rds.amazonaws.com:5432/postgres
+#    username: postgres
+#    password: davron_abdusalomov
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    enabled: true
+    locations: classpath:db/changelog/tables
+
+logging:
+  file:
+    name: application.log
+  level:
+    org.springframework: error
