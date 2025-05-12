@@ -1,5 +1,7 @@
 package com.example.demo.management.service;
 
+import com.example.demo.enums.PermissionEnum;
+import com.example.demo.management.dto.request.SaveUserPermissionsDto;
 import com.example.demo.management.dto.response.UserPermissionsDto;
 import com.example.demo.management.mapper.UserPermissionsMapper;
 import com.example.demo.management.model.rbac.UserPermissionEntity;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,15 +21,23 @@ public class UserPermissionsService {
     private final UserPermissionsRepository userPermissionsRepository;
     private final UserPermissionsMapper userPermissionsMapper;
 
-    public List<UserPermissionsDto> findByUserId(long userId) {
-        List<UserPermissionEntity> optionalUserPermissions = userPermissionsRepository.findByUserId(userId);
-        List<UserPermissionsDto> userPermissionsDtos = new ArrayList<>();
-        for (UserPermissionEntity entity : optionalUserPermissions) {
-            userPermissionsDtos.add(userPermissionsMapper.toDto(entity));
-        }
-        return userPermissionsDtos;
+    public List<String> findByUserId(long userId) {
+        return userPermissionsRepository.findByUserId(userId).stream()
+                .map(userPermissionsMapper::toDto)
+                .map(dto -> dto.getPermission().name())
+                .toList();
     }
 
-//    public void save(UserPermissionsDto)
+
+    public void save(SaveUserPermissionsDto userPermissionsDto) {
+        List<UserPermissionEntity> entities = new ArrayList<>();
+        for (String per:userPermissionsDto.getPermissions()) {
+            UserPermissionEntity entity = new UserPermissionEntity();
+            entity.setUserId(userPermissionsDto.getUserId());
+            entity.setName(PermissionEnum.valueOf(per));
+            entities.add(entity);
+        }
+        userPermissionsRepository.saveAll(entities);
+    }
 
 }

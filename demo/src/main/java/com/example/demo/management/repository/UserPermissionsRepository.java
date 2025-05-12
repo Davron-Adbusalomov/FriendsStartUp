@@ -12,6 +12,8 @@ public interface UserPermissionsRepository extends JpaRepository<UserPermissionE
 
     Optional<UserPermissionEntity> findByName(PermissionEnum name);
 
+//    void saveAll();
+
     void deleteByUserId(long userId);
 
     void deleteByUserIdAndName(Long userId, PermissionEnum name);
