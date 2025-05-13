@@ -48,6 +48,7 @@ public class UserPermissionsController {
             }
     )
     @PreAuthorize("hasAnyAuthority('SAVE_USER_PERMISSIONS')")
+    @PostMapping("/save")
     public ResponseEntity<?> savePermissions(@RequestBody SaveUserPermissionsDto dto) {
         try {
             userPermissionsService.save(dto);

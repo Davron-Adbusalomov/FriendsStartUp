@@ -35,6 +35,7 @@ public class UserPermissionsService {
             UserPermissionEntity entity = new UserPermissionEntity();
             entity.setUserId(userPermissionsDto.getUserId());
             entity.setName(PermissionEnum.valueOf(per));
+            entity.updateEntity();
             entities.add(entity);
         }
         userPermissionsRepository.saveAll(entities);

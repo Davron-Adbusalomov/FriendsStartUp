@@ -56,4 +56,24 @@ public abstract class BaseEntity {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public void updateEntity() {
+        if (this.updatedAt == null) {
+            this.updatedAt = LocalDateTime.now();
+        }
+        if (this.updatedBy == null) {
+            this.updatedBy = 1L;
+        }
+        if (this.status == null) {
+            this.status = Status.CREATED;
+        }
+
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
+        if (this.createdBy == null) {
+            this.createdBy = 1L;
+        }
+    }
+
 }
