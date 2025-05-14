@@ -7,18 +7,22 @@ import com.example.demo.exception.InvalidRefreshTokenException;
 import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.dto.RoleDto;
 import com.example.demo.management.dto.request.RefreshTokenRequest;
+import com.example.demo.management.dto.request.SaveUserPermissionsDto;
 import com.example.demo.management.dto.request.SignInReqDto;
 import com.example.demo.management.dto.request.SignUpRequest;
 import com.example.demo.management.dto.response.AccessTokenResDto;
 import com.example.demo.management.dto.response.SignUpResponse;
+import com.example.demo.management.dto.response.UserPermissionsDto;
 import com.example.demo.management.mapper.RoleMapper;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.model.UserEntity;
-import com.example.demo.management.repository.StudentRepository;
-import com.example.demo.management.repository.TeacherRepository;
-import com.example.demo.management.repository.UserRepository;
+import com.example.demo.management.model.rbac.DefaultPermissionEntity;
+import com.example.demo.management.model.rbac.RoleEntity;
+import com.example.demo.management.repository.*;
 import com.example.demo.management.security.dto.DefaultPermissionsDto;
+import com.example.demo.management.service.UserPermissionsService;
+import com.example.demo.utils.PasswordUtil;
 import com.example.demo.utils.ProjectUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +35,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -45,6 +52,8 @@ public class AuthenticationService {
     private final RoleMapper roleMapper;
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
+    private final RoleRepository roleRepository;
+    private final UserPermissionsService userPermissionsService;
 
     public AccessTokenResDto signIn(SignInReqDto signInDto, HttpServletRequest request) {
         Authentication authentication = authenticateUser(signInDto, request);
@@ -72,6 +81,26 @@ public class AuthenticationService {
         UserEntity entity = createUserEntity(request);
         entity = userRepository.save(entity);
 
+        if (entity.getRoles() != null && !entity.getRoles().isEmpty()) {
+            SaveUserPermissionsDto userPermissionsDto = new SaveUserPermissionsDto();
+
+            Set<DefaultPermissionEntity> allPermissions = entity.getRoles().stream()
+                    .filter(Objects::nonNull)
+                    .flatMap(role -> Optional.ofNullable(role.getDefaultPermissions())
+                            .orElse(Set.of()).stream())
+                    .collect(Collectors.toSet());
+
+            userPermissionsDto.setUserId(entity.getId());
+            userPermissionsDto.setPermissions(
+                    allPermissions.stream()
+                            .map(p -> p.getName().name())
+                            .toList()
+            );
+
+            userPermissionsService.save(userPermissionsDto);
+        }
+
+
         if (entity.getRoles().stream().anyMatch(e -> e.getName().equals(RolesEnum.STUDENT))) {
             if (studentRepository.findById(entity.getId()).isEmpty()){
                 Student student = new Student();
@@ -80,6 +109,7 @@ public class AuthenticationService {
                 studentRepository.save(student);
             }
         }
+
         if (entity.getRoles().stream().anyMatch(e -> e.getName().equals(RolesEnum.TEACHER))) {
             if (teacherRepository.findById(entity.getId()).isEmpty()){
                 Teacher teacher = new Teacher();
@@ -118,7 +148,7 @@ public class AuthenticationService {
         }
     }
 
-    private UserEntity createUserEntity(SignUpRequest request) {
+    public UserEntity createUserEntity(SignUpRequest request) {
         UserEntity entity = new UserEntity();
         entity.setUsername(request.getUsername());
 
@@ -126,29 +156,29 @@ public class AuthenticationService {
         entity.setCreatedBy(id);
         entity.setUpdatedBy(id);
         entity.setCreatedAt(LocalDateTime.now());
+        entity.setFullName(request.getFullName());
 
-        if (request.getPassword() != null) {
-            entity.setPassword(passwordEncoder.encode(request.getPassword()));
+        String rawPassword = PasswordUtil.generatePassword(8);
+        entity.setPassword(passwordEncoder.encode(rawPassword));
+
+        Set<RoleEntity> roles = new HashSet<>();
+
+        if (request.getRoles() == null || request.getRoles().isEmpty()) {
+            RoleEntity defaultRole = roleRepository.findByName(RolesEnum.ROLE_USER);
+            roles.add(defaultRole);
+        } else {
+            for (String roleName : request.getRoles()) {
+                RoleEntity role = roleRepository.findByName(RolesEnum.valueOf(roleName));
+                roles.add(role);
+            }
         }
-        if (request.getRole() == null) {
-            RoleDto roleDto = new RoleDto();
-            roleDto.setName(RolesEnum.ROLE_USER);
-            roleDto.setPrivilege(10);
 
-            DefaultPermissionsDto defaultPermission = new DefaultPermissionsDto();
-            defaultPermission.setName(PermissionEnum.CREATE);
-            roleDto.setDefaultPermissions(Set.of(defaultPermission));
-            request.setRole(Set.of(roleDto));
-        }
-
-        entity.setRoles(request.getRole().stream()
-                .map(roleMapper::toEntity)
-                .collect(Collectors.toSet()));
-
+        entity.setRoles(roles);
         entity.setIsActive(true);
 
         return entity;
     }
+
 
     private SignUpResponse buildSignUpResponse(UserEntity entity) {
         SignUpResponse response = new SignUpResponse();

@@ -16,10 +16,9 @@ import java.util.Set;
 public class SignUpRequest {
     @NotNull(message = "username is required")
     private String username;
-    @NotNull(message = "password is required")
-    private String password;
+    private String fullName;
 //    @NotNull(message = "Role is required")
-    private Set<RoleDto> role;
+    private Set<String> roles;
     private boolean isSendConfirmationCode = false;
 
 //    @NotNull
