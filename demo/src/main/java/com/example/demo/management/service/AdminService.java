@@ -1,102 +1,85 @@
 package com.example.demo.management.service;
 
-import com.example.demo.config.JwtTokenProvider;
-import com.example.demo.management.dto.*;
+import com.example.demo.management.authentication.enums.RolesEnum;
+import com.example.demo.management.dto.AdminDTO;
 import com.example.demo.management.mapper.AdminMapper;
-import com.example.demo.management.mapper.GroupMapper;
-import com.example.demo.management.mapper.StudentMapper;
-import com.example.demo.management.mapper.TeacherMapper;
 import com.example.demo.management.model.Admin;
-import com.example.demo.management.model.Grouping;
-import com.example.demo.management.model.Student;
-import com.example.demo.management.model.Teacher;
+import com.example.demo.management.model.rbac.RoleEntity;
 import com.example.demo.management.repository.AdminRepository;
-import com.example.demo.management.repository.GroupRepository;
-import com.example.demo.management.repository.StudentRepository;
-import com.example.demo.management.repository.TeacherRepository;
-import com.example.demo.exam.service.MediaService;
+import com.example.demo.management.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
-    @Autowired
-    private AdminRepository adminRepository;
+    private final AdminRepository adminRepository;
+    private final AdminMapper adminMapper;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
-    private TeacherRepository teacherRepository;
-
-    @Autowired
-    private GroupRepository groupRepository;
-
-    @Autowired
-    private MediaService mediaService;
-
-    private final AuthenticationManager authenticationManager;
-
-    private final JwtTokenProvider jwtService;
-
-    private GroupMapper groupMapper;
-
-    public AdminService(AuthenticationManager authenticationManager, JwtTokenProvider jwtService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
+    public AdminService(AdminRepository adminRepository, AdminMapper adminMapper, UserRepository userRepository) {
+        this.adminRepository = adminRepository;
+        this.adminMapper = adminMapper;
+        this.userRepository = userRepository;
     }
 
-    public ArrayList<Admin> getAdmins(){
-        return (ArrayList<Admin>) adminRepository.findAll();
+    public List<Admin> getAdmins() {
+        return adminRepository.findAll();
     }
 
-    public ResponseEntity<?> getAdminById(Long adminId){
-        Admin admin = adminRepository.findById(adminId)
-                .orElseThrow(()->new EntityNotFoundException("There is no admin with this id: "+adminId));
-        return ResponseEntity.status(HttpStatus.OK).body(admin);
+    public ResponseEntity<Admin> getAdminById(Long adminId) {
+        Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new EntityNotFoundException("Admin not found with id: " + adminId));
+        AdminDTO adminDTO = adminMapper.toDTO(admin);
+        adminDTO.setRolesEnums(getRoles(admin));
+        return ResponseEntity.ok(admin);
     }
 
     public AdminDTO addAdmin(AdminDTO adminDTO) throws Exception {
-        if (adminRepository.findByUsername(adminDTO.getUsername()).isPresent()){
+        if (adminRepository.findByUsername(adminDTO.getUsername()).isPresent()) {
             throw new Exception("Username already taken!");
         }
-        Admin admin = adminRepository.save(AdminMapper.INSTANCE.toModel(adminDTO));
-        return AdminMapper.INSTANCE.toDTO(admin);
+
+        Admin admin = adminMapper.toModel(adminDTO);
+        admin = adminRepository.save(admin);
+        AdminDTO savedDTO = adminMapper.toDTO(admin);
+        savedDTO.setRolesEnums(getRoles(admin));
+
+        return savedDTO;
     }
 
-    public ResponseEntity<?> deleteById(Long id){
-        Admin admin = adminRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("There is no admin with this id: "+id));
+    public ResponseEntity<Void> deleteById(Long id) {
+        if (!adminRepository.existsById(id)) {
+            throw new EntityNotFoundException("Admin not found with id: " + id);
+        }
+
         adminRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<?> updateAdmin(AdminDTO adminDTO, Long id) throws Exception {
-        Admin admin = adminRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("There is no admin with this id: "+id));
+    public ResponseEntity<Admin> updateAdmin(AdminDTO adminDTO) throws Exception {
+        Admin existingAdmin = adminRepository.findById(adminDTO.getId()).orElseThrow(() -> new EntityNotFoundException("Admin not found with id: " + adminDTO.getId()));
 
-        Optional<Admin> admin2 = adminRepository.findByUsername(adminDTO.getUsername());
-        if (admin2.isPresent()){
+        Optional<Admin> usernameConflict = adminRepository.findByUsername(adminDTO.getUsername());
+        if (usernameConflict.isPresent() && !usernameConflict.get().getId().equals(adminDTO.getId())) {
             throw new Exception("Username already taken!");
         }
 
+        existingAdmin.setFullName(adminDTO.getFullName());
+        existingAdmin.setUsername(adminDTO.getUsername());
+        existingAdmin.setPassword(adminDTO.getPassword());
 
-        admin.setName(adminDTO.getName());
-        admin.setUsername(adminDTO.getUsername());
-        admin.setPassword(adminDTO.getPassword());
+        Admin updatedAdmin = adminRepository.save(existingAdmin);
+        return ResponseEntity.ok(updatedAdmin);
+    }
 
-        Admin admin1=adminRepository.save(admin);
+    private List<RolesEnum> getRoles(Admin admin) {
+        if (admin == null || admin.getId() == null) return Collections.emptyList();
 
-        return ResponseEntity.status(HttpStatus.OK).body(admin1);
+        Set<RoleEntity> roles = userRepository.findRolesByUserId(admin.getId());
+        return roles == null ? Collections.emptyList() : roles.stream().map(RoleEntity::getName).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
 //    public StudentDTO registerStudent(StudentDTO studentDTO) throws Exception {

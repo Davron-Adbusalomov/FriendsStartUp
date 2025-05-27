@@ -1,26 +1,23 @@
 package com.example.demo.management.authentication.service;
 
 import com.example.demo.config.JwtTokenProvider;
-import com.example.demo.enums.PermissionEnum;
 import com.example.demo.exception.InvalidLoginRequestException;
 import com.example.demo.exception.InvalidRefreshTokenException;
 import com.example.demo.management.authentication.enums.RolesEnum;
-import com.example.demo.management.dto.RoleDto;
+import com.example.demo.management.dto.AssignUserToGroupDTO;
 import com.example.demo.management.dto.request.RefreshTokenRequest;
 import com.example.demo.management.dto.request.SaveUserPermissionsDto;
 import com.example.demo.management.dto.request.SignInReqDto;
 import com.example.demo.management.dto.request.SignUpRequest;
 import com.example.demo.management.dto.response.AccessTokenResDto;
 import com.example.demo.management.dto.response.SignUpResponse;
-import com.example.demo.management.dto.response.UserPermissionsDto;
+import com.example.demo.management.dto.response.UserLoginResponseDto;
 import com.example.demo.management.mapper.RoleMapper;
-import com.example.demo.management.model.Student;
-import com.example.demo.management.model.Teacher;
-import com.example.demo.management.model.UserEntity;
+import com.example.demo.management.model.*;
 import com.example.demo.management.model.rbac.DefaultPermissionEntity;
 import com.example.demo.management.model.rbac.RoleEntity;
 import com.example.demo.management.repository.*;
-import com.example.demo.management.security.dto.DefaultPermissionsDto;
+import com.example.demo.management.service.GroupService;
 import com.example.demo.management.service.UserPermissionsService;
 import com.example.demo.utils.PasswordUtil;
 import com.example.demo.utils.ProjectUtils;
@@ -52,12 +49,75 @@ public class AuthenticationService {
     private final RoleMapper roleMapper;
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
+    private final AdminRepository adminRepository;
     private final RoleRepository roleRepository;
     private final UserPermissionsService userPermissionsService;
+    private final GroupService groupService;
 
-    public AccessTokenResDto signIn(SignInReqDto signInDto, HttpServletRequest request) {
+    public AccessTokenResDto signInAndGenerateTokens(SignInReqDto signInDto, HttpServletRequest request) {
         Authentication authentication = authenticateUser(signInDto, request);
-        return generateTokens(authentication);
+
+        UserEntity userEntity;
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserEntity) {
+            userEntity = (UserEntity) principal;
+        } else if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
+            String username = ((org.springframework.security.core.userdetails.UserDetails) principal).getUsername();
+            userEntity = userRepository.findByUsername(username)
+                    .orElseThrow(() -> new RuntimeException("User not found by username after authentication"));
+        } else {
+            throw new IllegalStateException("Unexpected principal type: " + principal.getClass().getName());
+        }
+
+        if (userEntity == null || userEntity.getRoles().stream()
+                .noneMatch(role -> role.getName() == RolesEnum.valueOf(signInDto.getRole()))) {
+            throw new InvalidLoginRequestException("Invalid login request");
+        }
+
+        AccessTokenResDto response = generateTokens(authentication);
+
+        UserLoginResponseDto userDetailsDto = new UserLoginResponseDto();
+        userDetailsDto.setId(userEntity.getId());
+        userDetailsDto.setUsername(userEntity.getUsername());
+        userDetailsDto.setFullName(userEntity.getFullName());
+        if (userEntity.getRoles()!=null && !userEntity.getRoles().isEmpty()){
+            userDetailsDto.setRoles(userEntity.getRoles().stream().map(e -> e.getName().name()).collect(Collectors.toSet()));
+        }
+        if (signInDto.getRole()!=null && !signInDto.getRole().isEmpty()){
+            if (RolesEnum.STUDENT.name().equals(signInDto.getRole())){
+                Optional<Student> student = studentRepository.findById(userEntity.getId());
+                student.ifPresent(value -> userDetailsDto.setGroups(value.getGroupings().stream().map(Grouping::getName).toList()));
+            }
+            else if (RolesEnum.TEACHER.name().equals(signInDto.getRole())){
+                Optional<Teacher> teacher = teacherRepository.findById(userEntity.getId());
+                teacher.ifPresent(value -> userDetailsDto.setGroups(value.getGroupList().stream().map(Grouping::getName).toList()));
+            }
+        }
+
+        response.setUserDetails(userDetailsDto);
+        return response;
+    }
+
+    private Authentication authenticateUser(SignInReqDto signInDto, HttpServletRequest request) {
+        Authentication authentication;
+        if ((signInDto.getUsername() != null && signInDto.getPassword() != null)) {
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword())
+            );
+        } else {
+            throw new InvalidLoginRequestException("Invalid login request");
+        }
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return authentication;
+    }
+
+    private AccessTokenResDto generateTokens(Authentication authentication) {
+        AccessTokenResDto response = new AccessTokenResDto();
+        response.setAccessToken(jwtTokenProvider.generateToken(authentication, false));
+        response.setRefreshToken(jwtTokenProvider.generateToken(authentication, true));
+        return response;
     }
 
     public AccessTokenResDto refreshToken(RefreshTokenRequest refreshTokenRequest) {
@@ -100,46 +160,49 @@ public class AuthenticationService {
             userPermissionsService.save(userPermissionsDto);
         }
 
+        if (entity.getRoles() != null && entity.getRoles().stream().anyMatch(e -> e.getName().equals(RolesEnum.ADMIN))) {
+            if (adminRepository.findById(entity.getId()).isEmpty()){
+                Admin admin = new Admin();
+                admin.setId(entity.getId());
+                admin.setFullName(entity.getFullName());
+                adminRepository.save(admin);
+            }
+        }
 
-        if (entity.getRoles().stream().anyMatch(e -> e.getName().equals(RolesEnum.STUDENT))) {
+        if (entity.getRoles() != null && entity.getRoles().stream().anyMatch(e -> e.getName().equals(RolesEnum.STUDENT))) {
             if (studentRepository.findById(entity.getId()).isEmpty()){
                 Student student = new Student();
                 student.setId(entity.getId());
                 student.setName(entity.getFullName());
-                studentRepository.save(student);
+                Student student1 = studentRepository.save(student);
+
+                assignGroup(request, student1.getId(), false);
             }
         }
 
-        if (entity.getRoles().stream().anyMatch(e -> e.getName().equals(RolesEnum.TEACHER))) {
+        if (entity.getRoles() != null && entity.getRoles().stream().anyMatch(e -> e.getName().equals(RolesEnum.TEACHER))) {
             if (teacherRepository.findById(entity.getId()).isEmpty()){
                 Teacher teacher = new Teacher();
                 teacher.setId(entity.getId());
                 teacher.setName(entity.getFullName());
-                teacherRepository.save(teacher);
+                Teacher teacher1 = teacherRepository.save(teacher);
+
+                assignGroup(request, teacher1.getId(), true);
             }
         }
         return buildSignUpResponse(entity);
     }
 
-    private Authentication authenticateUser(SignInReqDto signInDto, HttpServletRequest request) {
-        Authentication authentication;
-        if ((signInDto.getUsername() != null && signInDto.getPassword() != null)) {
-            authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword())
-            );
-        } else {
-            throw new InvalidLoginRequestException("Invalid login request");
+    private void assignGroup(SignUpRequest request, Long id, Boolean isTeacher) {
+        if (request.getGroups() != null && !request.getGroups().isEmpty()) {
+            for (String group : request.getGroups()) {
+                AssignUserToGroupDTO dto = new AssignUserToGroupDTO();
+                dto.setId(id);
+                dto.setGroupName(group);
+                if (isTeacher) groupService.assignTeacherToGroup(dto);
+                else groupService.assignStudentToGroup(dto);
+            }
         }
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return authentication;
-    }
-
-    private AccessTokenResDto generateTokens(Authentication authentication) {
-        AccessTokenResDto response = new AccessTokenResDto();
-        response.setAccessToken(jwtTokenProvider.generateToken(authentication, false));
-        response.setRefreshToken(jwtTokenProvider.generateToken(authentication, true));
-        return response;
     }
 
     private void validateUniqueUsername(String username) {
@@ -159,7 +222,7 @@ public class AuthenticationService {
         entity.setFullName(request.getFullName());
 
         String rawPassword = PasswordUtil.generatePassword(8);
-        entity.setPassword(passwordEncoder.encode(rawPassword));
+        entity.setPassword(passwordEncoder.encode("password"));
 
         Set<RoleEntity> roles = new HashSet<>();
 

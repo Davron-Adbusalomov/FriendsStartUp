@@ -1,0 +1,136 @@
+INSERT INTO users(
+    id, created_at, created_by, status, updated_at, updated_by,
+    attempts, confirmation_code, is_active, is_blocked,
+    password, username, full_name
+)
+VALUES (
+           1,
+           '2025-03-24 07:55:25.986510',
+           1,
+           'CREATED',
+           '2025-03-24 07:55:25.986510',
+           1,
+           0,
+           'ABC123',
+           true,
+           false,
+           '$2a$10$Fgao4CtX91jkbLZlXKUGFOfnPFtfaS352yOqxAXJuoV8ZYrcT5f5q',
+           'bingo',
+           'Bingo Admin'
+       )
+ON CONFLICT (id) DO NOTHING;
+
+-- role
+insert into role(name, privilege) VALUES
+                                      ('ADMIN', 1),
+                                      ('TEACHER', 2),
+                                      ('STUDENT', 3),
+                                      ('ROLE_USER', 4)
+ON CONFLICT (name) DO NOTHING;
+
+-- user permissions
+INSERT INTO user_permission (
+    id, created_at, created_by, status, updated_at, updated_by, name, user_id
+)
+VALUES
+    (1, current_timestamp, 1, 'CREATED', NULL, 1, 'CREATE', 1),
+    (2, current_timestamp, 1, 'CREATED', NULL, 1, 'SIGN_UP', 1),
+    (3, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_STUDENTS_LIST', 1),
+    (4, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_STUDENT', 1),
+    (5, current_timestamp, 1, 'CREATED', NULL, 1, 'DELETE_STUDENT', 1),
+    (6, current_timestamp, 1, 'CREATED', NULL, 1, 'UPDATE_STUDENT', 1),
+    (7, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_TEACHERS_LIST', 1),
+    (8, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_TEACHER', 1),
+    (9, current_timestamp, 1, 'CREATED', NULL, 1, 'DELETE_TEACHER', 1),
+    (10, current_timestamp, 1, 'CREATED', NULL, 1, 'UPDATE_TEACHER', 1),
+    (11, current_timestamp, 1, 'CREATED', NULL, 1, 'CREATE_GROUP', 1),
+    (12, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_GROUPS_LIST', 1),
+    (13, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_GROUP', 1),
+    (14, current_timestamp, 1, 'CREATED', NULL, 1, 'DELETE_GROUP', 1),
+    (15, current_timestamp, 1, 'CREATED', NULL, 1, 'UPDATE_GROUP', 1),
+    (16, current_timestamp, 1, 'CREATED', NULL, 1, 'ASSIGN_STUDENT_TO_GROUP', 1),
+    (17, current_timestamp, 1, 'CREATED', NULL, 1, 'DEASSIGN_STUDENT_FROM_GROUP', 1),
+    (18, current_timestamp, 1, 'CREATED', NULL, 1, 'ASSIGN_TEACHER_TO_GROUP', 1),
+    (19, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_PERMISSIONS_BY_USER_ID', 1),
+    (20, current_timestamp, 1, 'CREATED', NULL, 1, 'SAVE_USER_PERMISSIONS', 1),
+    (21, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_ADMINS_LIST', 1),
+    (22, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_ADMIN', 1),
+    (23, current_timestamp, 1, 'CREATED', NULL, 1, 'DELETE_ADMIN', 1),
+    (24, current_timestamp, 1, 'CREATED', NULL, 1, 'UPDATE_ADMIN', 1)
+ON CONFLICT (id) DO NOTHING;
+
+--default permissions
+INSERT INTO default_permission_entity (name, description) VALUES
+                                                              ('CREATE', 'Create new resources'),
+                                                              ('SIGN_UP', 'User sign-up or registration'),
+                                                              ('GET_ADMINS_LIST', 'View list of all students'),
+                                                              ('GET_ADMIN', 'View details of a single student'),
+                                                              ('DELETE_ADMIN', 'Delete a student'),
+                                                              ('UPDATE_ADMIN', 'Update student information'),
+                                                              ('GET_STUDENTS_LIST', 'View list of all students'),
+                                                              ('GET_STUDENT', 'View details of a single student'),
+                                                              ('DELETE_STUDENT', 'Delete a student'),
+                                                              ('UPDATE_STUDENT', 'Update student information'),
+                                                              ('GET_TEACHERS_LIST', 'View list of all teachers'),
+                                                              ('GET_TEACHER', 'View details of a single teacher'),
+                                                              ('DELETE_TEACHER', 'Delete a teacher'),
+                                                              ('UPDATE_TEACHER', 'Update teacher information'),
+                                                              ('CREATE_GROUP', 'Create a new group'),
+                                                              ('GET_GROUPS_LIST', 'View list of all groups'),
+                                                              ('GET_GROUP', 'View details of a single group'),
+                                                              ('DELETE_GROUP', 'Delete a group'),
+                                                              ('UPDATE_GROUP', 'Update group information'),
+                                                              ('ASSIGN_STUDENT_TO_GROUP', 'Assign student to a group'),
+                                                              ('DEASSIGN_STUDENT_FROM_GROUP', 'Remove student from a group'),
+                                                              ('ASSIGN_TEACHER_TO_GROUP', 'Assign teacher to a group'),
+                                                              ('GET_PERMISSIONS_BY_USER_ID', 'Get assigned permissions for a specific user'),
+                                                              ('SAVE_USER_PERMISSIONS', 'Save or update user permissions')
+ON CONFLICT (name) DO NOTHING;
+
+-- role permission
+INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
+                                                                            ('ADMIN', 'CREATE'),
+                                                                            ('ADMIN', 'SIGN_UP'),
+                                                                            ('ADMIN', 'GET_ADMINS_LIST'),
+                                                                            ('ADMIN', 'GET_ADMIN'),
+                                                                            ('ADMIN', 'DELETE_ADMIN'),
+                                                                            ('ADMIN', 'UPDATE_ADMIN'),
+                                                                            ('ADMIN', 'GET_STUDENTS_LIST'),
+                                                                            ('ADMIN', 'GET_STUDENT'),
+                                                                            ('ADMIN', 'DELETE_STUDENT'),
+                                                                            ('ADMIN', 'UPDATE_STUDENT'),
+                                                                            ('ADMIN', 'GET_TEACHERS_LIST'),
+                                                                            ('ADMIN', 'GET_TEACHER'),
+                                                                            ('ADMIN', 'DELETE_TEACHER'),
+                                                                            ('ADMIN', 'UPDATE_TEACHER'),
+                                                                            ('ADMIN', 'CREATE_GROUP'),
+                                                                            ('ADMIN', 'GET_GROUPS_LIST'),
+                                                                            ('ADMIN', 'GET_GROUP'),
+                                                                            ('ADMIN', 'DELETE_GROUP'),
+                                                                            ('ADMIN', 'UPDATE_GROUP'),
+                                                                            ('ADMIN', 'ASSIGN_STUDENT_TO_GROUP'),
+                                                                            ('ADMIN', 'DEASSIGN_STUDENT_FROM_GROUP'),
+                                                                            ('ADMIN', 'ASSIGN_TEACHER_TO_GROUP'),
+                                                                            ('ADMIN', 'GET_PERMISSIONS_BY_USER_ID'),
+                                                                            ('ADMIN', 'SAVE_USER_PERMISSIONS'),
+                                                                            ('TEACHER', 'CREATE'),
+                                                                            ('TEACHER', 'GET_STUDENTS_LIST'),
+                                                                            ('TEACHER', 'GET_STUDENT'),
+                                                                            ('TEACHER', 'GET_TEACHERS_LIST'),
+                                                                            ('TEACHER', 'GET_TEACHER'),
+                                                                            ('TEACHER', 'UPDATE_TEACHER'),
+                                                                            ('TEACHER', 'CREATE_GROUP'),
+                                                                            ('TEACHER', 'GET_GROUPS_LIST'),
+                                                                            ('TEACHER', 'GET_GROUP'),
+                                                                            ('TEACHER', 'UPDATE_GROUP'),
+                                                                            ('TEACHER', 'ASSIGN_STUDENT_TO_GROUP'),
+                                                                            ('TEACHER', 'DEASSIGN_STUDENT_FROM_GROUP'),
+                                                                            ('TEACHER', 'ASSIGN_TEACHER_TO_GROUP'),
+                                                                            ('STUDENT', 'SIGN_UP'),
+                                                                            ('STUDENT', 'GET_STUDENTS_LIST'),
+                                                                            ('STUDENT', 'GET_STUDENT'),
+                                                                            ('STUDENT', 'GET_GROUPS_LIST'),
+                                                                            ('STUDENT', 'GET_GROUP'),
+                                                                            ('ROLE_USER', 'SIGN_UP'),
+                                                                            ('ROLE_USER', 'GET_PERMISSIONS_BY_USER_ID')
+ON CONFLICT (role_id, default_permission_name) DO NOTHING;

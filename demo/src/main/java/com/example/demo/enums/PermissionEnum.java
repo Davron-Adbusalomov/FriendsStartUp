@@ -6,6 +6,10 @@ import lombok.Getter;
 public enum PermissionEnum {
     CREATE,
     SIGN_UP,
+    GET_ADMINS_LIST,
+    GET_ADMIN,
+    DELETE_ADMIN,
+    UPDATE_ADMIN,
     GET_STUDENTS_LIST,
     GET_STUDENT,
     DELETE_STUDENT,

@@ -1,5 +1,6 @@
 package com.example.demo.management.dto;
 
+import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.security.Role;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,8 @@ public class TeacherDTO {
     private Long phone_num;
 
     private List<GroupDTO> groupList;
+
+    private List<RolesEnum> roles;
 
 //    private String username;
 //

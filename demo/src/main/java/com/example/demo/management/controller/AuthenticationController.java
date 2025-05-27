@@ -39,7 +39,7 @@ public class AuthenticationController {
     @ResponseStatus(HttpStatus.CREATED)
     public AccessTokenResDto login(@RequestBody @Valid SignInReqDto signInDto, HttpServletRequest request){
         logger.info("Sign-in request: {}", signInDto);
-        return authenticationService.signIn(signInDto, request);
+        return authenticationService.signInAndGenerateTokens(signInDto, request);
     }
 
     @Operation(

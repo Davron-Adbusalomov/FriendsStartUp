@@ -44,7 +44,9 @@ public class TeacherService {
     private final TeacherMapper teacherMapper;
 
 
-    public List<TeacherDTO> getTeachers(){return teacherMapper.toDto(teacherRepository.findAll());}
+    public List<TeacherDTO> getTeachers(){
+        return teacherMapper.toDto(teacherRepository.findAll());
+    }
 
     public ResponseEntity<?> getById(Long id){
         Teacher teacher = teacherRepository.findById(id)

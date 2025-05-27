@@ -106,11 +106,11 @@ public class GroupService {
         Optional<Student> studentOpt = studentRepository.findById(dto.getId());
         Optional<Grouping> groupingOpt = groupRepository.findByName(dto.getGroupName());
 
-        if (!studentOpt.isPresent()) {
+        if (studentOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found");
         }
 
-        if (!groupingOpt.isPresent()) {
+        if (groupingOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Group not found");
         }
 
@@ -129,11 +129,11 @@ public class GroupService {
         Optional<Student> studentOpt = studentRepository.findById(dto.getId());
         Optional<Grouping> groupingOpt = groupRepository.findByName(dto.getGroupName());
 
-        if (!studentOpt.isPresent()) {
+        if (studentOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found");
         }
 
-        if (!groupingOpt.isPresent()) {
+        if (groupingOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Group not found");
         }
 
@@ -152,11 +152,11 @@ public class GroupService {
         Optional<Teacher> teacherOpt = teacherRepository.findById(dto.getId());
         Optional<Grouping> groupingOpt = groupRepository.findByName(dto.getGroupName());
 
-        if (!teacherOpt.isPresent()) {
+        if (teacherOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Teacher not found");
         }
 
-        if (!groupingOpt.isPresent()) {
+        if (groupingOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Group not found");
         }
 
