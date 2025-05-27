@@ -26,8 +26,17 @@ public class AdminService {
         this.userRepository = userRepository;
     }
 
-    public List<Admin> getAdmins() {
-        return adminRepository.findAll();
+    public List<AdminDTO> getAdmins() {
+        List<Admin> admins =  adminRepository.findAll();
+        List<AdminDTO> adminDTOS = new ArrayList<>();
+        if (!admins.isEmpty()) {
+            for (Admin a:admins) {
+                AdminDTO adminDTO = adminMapper.toDTO(a);
+                adminDTO.setRolesEnums(getRoles(a));
+                adminDTOS.add(adminDTO);
+            }
+        }
+        return adminDTOS;
     }
 
     public ResponseEntity<Admin> getAdminById(Long adminId) {

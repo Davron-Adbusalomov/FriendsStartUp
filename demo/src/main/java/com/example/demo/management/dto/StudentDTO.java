@@ -1,5 +1,6 @@
 package com.example.demo.management.dto;
 
+import com.example.demo.management.authentication.enums.RolesEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -30,4 +31,6 @@ public class StudentDTO {
     // For example, a comma-separated list of group names.
     @Schema(example = "Group A, Group B")
     private List<String> groupNames;
+
+    private List<RolesEnum> roles;
 }

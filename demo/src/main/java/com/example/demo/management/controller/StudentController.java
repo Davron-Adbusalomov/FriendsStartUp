@@ -49,7 +49,7 @@ public class StudentController {
     @PreAuthorize("hasAnyAuthority('GET_STUDENT')")
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id){
-        return studentService.getStudentById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.getStudentById(id));
     }
 
     @Operation(

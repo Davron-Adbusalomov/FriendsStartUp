@@ -50,7 +50,7 @@ public class TeacherController {
     @PreAuthorize("hasAuthority('GET_TEACHER')")
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id){
-        return teacherService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(teacherService.getById(id));
     }
 
     @Operation(

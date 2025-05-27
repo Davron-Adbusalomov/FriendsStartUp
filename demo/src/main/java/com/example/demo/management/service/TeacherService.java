@@ -1,11 +1,14 @@
 package com.example.demo.management.service;
 
+import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.dto.TeacherDTO;
 import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.mapper.TeacherMapper;
+import com.example.demo.management.model.Admin;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.model.UserEntity;
+import com.example.demo.management.model.rbac.RoleEntity;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.exam.model.Question;
@@ -21,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,14 +49,22 @@ public class TeacherService {
 
 
     public List<TeacherDTO> getTeachers(){
-        return teacherMapper.toDto(teacherRepository.findAll());
+        List<TeacherDTO> teacherDTOS = teacherMapper.toDto(teacherRepository.findAll());
+        if (!teacherDTOS.isEmpty()) {
+            for (TeacherDTO t:teacherDTOS) {
+                t.setRoles(getRoles(t.getId()));
+            }
+        }
+        return teacherDTOS;
     }
 
-    public ResponseEntity<?> getById(Long id){
+    public TeacherDTO getById(Long id){
         Teacher teacher = teacherRepository.findById(id)
                 .orElseThrow(()->new EntityNotFoundException("No teacher found with this id: "+id));
 
-        return ResponseEntity.status(HttpStatus.OK).body(teacher);
+        TeacherDTO teacherDTO = teacherMapper.toDto(teacher);
+        teacherDTO.setRoles(getRoles(teacherDTO.getId()));
+        return teacherDTO;
     }
 
     public ResponseEntity<?> deleteTeacher(Long id) {
@@ -115,6 +127,11 @@ public class TeacherService {
         }
 
         return teacherInfoDTOS;
+    }
+
+    private List<RolesEnum> getRoles(Long userId) {
+        Set<RoleEntity> roles = userRepository.findRolesByUserId(userId);
+        return roles == null ? Collections.emptyList() : roles.stream().map(RoleEntity::getName).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
 //    public TeacherLoginDTO loginTeacher(TeacherDTO teacherDTO){

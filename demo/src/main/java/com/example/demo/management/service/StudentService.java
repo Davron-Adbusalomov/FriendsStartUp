@@ -1,6 +1,7 @@
 package com.example.demo.management.service;
 
 //import com.example.demo.config.JwtService;
+import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.dto.StudentDTO;
 import com.example.demo.management.mapper.StudentMapper;
@@ -8,6 +9,7 @@ import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.model.UserEntity;
+import com.example.demo.management.model.rbac.RoleEntity;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.repository.TeacherRepository;
@@ -22,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,12 +52,22 @@ public class StudentService {
 //        this.jwtService = jwtService;
 //    }
 
-    public List<StudentDTO> getStudents(){return studentMapper.toDto(studentRepository.findAll());}
+    public List<StudentDTO> getStudents(){
+        List<StudentDTO> studentDTOS = studentMapper.toDto(studentRepository.findAll());
+        if (!studentDTOS.isEmpty()) {
+            for (StudentDTO s:studentDTOS) {
+                s.setRoles(getRoles(s.getId()));
+            }
+        }
+        return studentDTOS;
+    }
 
-    public ResponseEntity<?> getStudentById(Long studentID){
+    public StudentDTO getStudentById(Long studentID){
         Student student = studentRepository.findById(studentID)
                 .orElseThrow(() -> new EntityNotFoundException("Not found student with id: "+studentID));
-        return ResponseEntity.status(HttpStatus.OK).body(studentMapper.toDto(student));
+        StudentDTO studentDTO = studentMapper.toDto(student);
+        studentDTO.setRoles(getRoles(studentDTO.getId()));
+        return studentDTO;
     }
 
     public ResponseEntity<?> deleteStudent(Long studentId) {
@@ -95,6 +108,11 @@ public class StudentService {
 
         studentRepository.save(student);
         return ResponseEntity.status(HttpStatus.OK).body(student);
+    }
+
+    private List<RolesEnum> getRoles(Long userId) {
+        Set<RoleEntity> roles = userRepository.findRolesByUserId(userId);
+        return roles == null ? Collections.emptyList() : roles.stream().map(RoleEntity::getName).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
 //    public StudentLoginDTO loginStudent(StudentDTO studentDTO) {
