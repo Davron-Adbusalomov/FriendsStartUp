@@ -19,6 +19,9 @@ import com.example.demo.management.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -52,15 +55,18 @@ public class StudentService {
 //        this.jwtService = jwtService;
 //    }
 
-    public List<StudentDTO> getStudents(){
-        List<StudentDTO> studentDTOS = studentMapper.toDto(studentRepository.findAll());
-        if (!studentDTOS.isEmpty()) {
-            for (StudentDTO s:studentDTOS) {
-                s.setRoles(getRoles(s.getId()));
-            }
-        }
-        return studentDTOS;
+    public Page<StudentDTO> getStudents(Pageable pageable) {
+        Page<Student> studentPage = studentRepository.findAll(pageable);
+
+        List<StudentDTO> studentDTOs = studentPage.stream().map(student -> {
+            StudentDTO dto = studentMapper.toDto(student);
+            dto.setRoles(getRoles(student.getId()));
+            return dto;
+        }).collect(Collectors.toList());
+
+        return new PageImpl<>(studentDTOs, pageable, studentPage.getTotalElements());
     }
+
 
     public StudentDTO getStudentById(Long studentID){
         Student student = studentRepository.findById(studentID)

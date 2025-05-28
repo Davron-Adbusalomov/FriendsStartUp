@@ -19,6 +19,9 @@ import com.example.demo.management.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -48,15 +51,18 @@ public class TeacherService {
     private final TeacherMapper teacherMapper;
 
 
-    public List<TeacherDTO> getTeachers(){
-        List<TeacherDTO> teacherDTOS = teacherMapper.toDto(teacherRepository.findAll());
-        if (!teacherDTOS.isEmpty()) {
-            for (TeacherDTO t:teacherDTOS) {
-                t.setRoles(getRoles(t.getId()));
-            }
-        }
-        return teacherDTOS;
+    public Page<TeacherDTO> getTeachers(Pageable pageable) {
+        Page<Teacher> teacherPage = teacherRepository.findAll(pageable);
+
+        List<TeacherDTO> teacherDTOs = teacherPage.stream().map(teacher -> {
+            TeacherDTO dto = teacherMapper.toDto(teacher);
+            dto.setRoles(getRoles(teacher.getId()));
+            return dto;
+        }).collect(Collectors.toList());
+
+        return new PageImpl<>(teacherDTOs, pageable, teacherPage.getTotalElements());
     }
+
 
     public TeacherDTO getById(Long id){
         Teacher teacher = teacherRepository.findById(id)

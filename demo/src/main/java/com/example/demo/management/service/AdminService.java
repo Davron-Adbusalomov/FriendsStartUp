@@ -8,6 +8,9 @@ import com.example.demo.management.model.rbac.RoleEntity;
 import com.example.demo.management.repository.AdminRepository;
 import com.example.demo.management.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +29,18 @@ public class AdminService {
         this.userRepository = userRepository;
     }
 
-    public List<AdminDTO> getAdmins() {
-        List<Admin> admins =  adminRepository.findAll();
-        List<AdminDTO> adminDTOS = new ArrayList<>();
-        if (!admins.isEmpty()) {
-            for (Admin a:admins) {
-                AdminDTO adminDTO = adminMapper.toDTO(a);
-                adminDTO.setRolesEnums(getRoles(a));
-                adminDTOS.add(adminDTO);
-            }
-        }
-        return adminDTOS;
+    public Page<AdminDTO> getAdmins(Pageable pageable) {
+        Page<Admin> adminPage = adminRepository.findAll(pageable);
+
+        List<AdminDTO> adminDTOs = adminPage.stream().map(admin -> {
+            AdminDTO dto = adminMapper.toDTO(admin);
+            dto.setRolesEnums(getRoles(admin));
+            return dto;
+        }).collect(Collectors.toList());
+
+        return new PageImpl<>(adminDTOs, pageable, adminPage.getTotalElements());
     }
+
 
     public ResponseEntity<Admin> getAdminById(Long adminId) {
         Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new EntityNotFoundException("Admin not found with id: " + adminId));

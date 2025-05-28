@@ -15,10 +15,13 @@ VALUES (
            true,
            false,
            '$2a$10$Fgao4CtX91jkbLZlXKUGFOfnPFtfaS352yOqxAXJuoV8ZYrcT5f5q',
-           'bingo',
+           '+998500043703',
            'Bingo Admin'
        )
 ON CONFLICT (id) DO NOTHING;
+-- correct sequence
+SELECT setval('users_seq', COALESCE((SELECT MAX(id) FROM users), 0), true);
+
 
 -- role
 insert into role(name, privilege) VALUES
@@ -27,6 +30,11 @@ insert into role(name, privilege) VALUES
                                       ('STUDENT', 3),
                                       ('ROLE_USER', 4)
 ON CONFLICT (name) DO NOTHING;
+
+-- user-role
+INSERT INTO user_roles(user_id, role_id) VALUES
+    (1, 'ADMIN')
+ON CONFLICT (user_id, role_id) DO NOTHING;
 
 -- user permissions
 INSERT INTO user_permission (
@@ -58,6 +66,8 @@ VALUES
     (23, current_timestamp, 1, 'CREATED', NULL, 1, 'DELETE_ADMIN', 1),
     (24, current_timestamp, 1, 'CREATED', NULL, 1, 'UPDATE_ADMIN', 1)
 ON CONFLICT (id) DO NOTHING;
+SELECT setval('user_permission_seq', COALESCE((SELECT MAX(id) FROM user_permission), 0), true);
+
 
 --default permissions
 INSERT INTO default_permission_entity (name, description) VALUES

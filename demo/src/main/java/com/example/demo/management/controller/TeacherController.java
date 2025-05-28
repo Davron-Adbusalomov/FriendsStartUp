@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +20,8 @@ public class TeacherController {
     @Autowired
     private TeacherService teacherService;
 
+    @PreAuthorize("hasAuthority('GET_TEACHERS_LIST')")
+    @GetMapping("/getTeachers")
     @Operation(
             summary = "Getting all teachers",
             responses = {
@@ -28,15 +31,14 @@ public class TeacherController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
-    @PreAuthorize("hasAuthority('GET_TEACHERS_LIST')")
-    @GetMapping("/getTeachers")
-    public ResponseEntity<?> getAll(){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(teacherService.getTeachers());
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+    public ResponseEntity<?> getAllTeachers(Pageable pageable) {
+        try {
+            return ResponseEntity.ok(teacherService.getTeachers(pageable));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @Operation(
             summary = "Getting student by id",

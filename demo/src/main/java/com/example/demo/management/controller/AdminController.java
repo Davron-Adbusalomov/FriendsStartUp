@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,6 +32,8 @@ public class AdminController {
 //        }
 //    }
 
+    @PreAuthorize("hasAuthority('GET_ADMINS_LIST')")
+    @GetMapping("/getAdmins")
     @Operation(
             summary = "Getting all admins",
             responses = {
@@ -40,15 +43,14 @@ public class AdminController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
-    @PreAuthorize("hasAuthority('GET_ADMINS_LIST')")
-    @GetMapping("/getAdmins")
-    public ResponseEntity<?> getAdmins(){
+    public ResponseEntity<?> getAdmins(Pageable pageable) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(adminService.getAdmins());
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.ok(adminService.getAdmins(pageable));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @Operation(
             summary = "Getting admin by id",

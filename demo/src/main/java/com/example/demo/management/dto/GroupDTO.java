@@ -25,5 +25,7 @@ public class GroupDTO {
 
     private String teacherName;
 
+    private Long teacherId;
+
 //    private List<Quiz> quizzes;
 }

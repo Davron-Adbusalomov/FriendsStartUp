@@ -1,5 +1,7 @@
 package com.example.demo.management.service;
 
+import com.example.demo.exam.model.Quiz;
+import com.example.demo.exam.repository.QuizRepository;
 import com.example.demo.management.dto.AssignUserToGroupDTO;
 import com.example.demo.management.dto.GroupDTO;
 import com.example.demo.management.mapper.GroupMapper;
@@ -9,166 +11,119 @@ import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.repository.TeacherRepository;
-import com.example.demo.exam.model.Quiz;
-import com.example.demo.exam.repository.QuizRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class GroupService {
-    @Autowired
-    GroupRepository groupRepository;
 
-    @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
-    private TeacherRepository teacherRepository;
-
-    @Autowired
-    private QuizRepository quizRepository;
-
+    private final GroupRepository groupRepository;
+    private final StudentRepository studentRepository;
+    private final TeacherRepository teacherRepository;
+    private final QuizRepository quizRepository;
     private final GroupMapper groupMapper;
 
-    public List<Grouping> getGroups(){
-        return groupRepository.findAll();
+    public Page<GroupDTO> getGroups(Pageable pageable) {
+        Page<Grouping> groups = groupRepository.findAll(pageable);
+        return groups.map(groupMapper::toDto);
     }
 
-    public List<Grouping> getGroupsByStudentId(Long studentId){
-        return groupRepository.findByStudentId(studentId);
+    public GroupDTO getGroupById(Long groupId) {
+        Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
+        return groupMapper.toDto(grouping);
     }
 
-    public GroupDTO registerGroup(GroupDTO groupDTO) throws Exception {
-        if (groupRepository.findByName(groupDTO.getName()).isPresent()){
-            throw new Exception("Group already existed!");
+    public GroupDTO registerGroup(GroupDTO groupDTO) {
+        if (groupRepository.findByName(groupDTO.getName()).isPresent()) {
+            throw new IllegalArgumentException("Group already existed!");
         }
         Grouping group = groupRepository.save(groupMapper.toEntity(groupDTO));
+
+        if (groupDTO.getTeacherId() != null) {
+            AssignUserToGroupDTO assignUserToGroupDTO = new AssignUserToGroupDTO();
+            assignUserToGroupDTO.setGroupName(group.getName());
+            assignUserToGroupDTO.setId(groupDTO.getTeacherId());
+            assignTeacherToGroup(assignUserToGroupDTO);
+        }
         return groupMapper.toDto(group);
     }
 
-    public ResponseEntity<?> getGroupById(Long groupID){
-        Grouping grouping = groupRepository.findById(groupID)
-                .orElseThrow(() -> new EntityNotFoundException("Not found group with id: "+groupID));
-        return ResponseEntity.status(HttpStatus.OK).body(grouping);
-    }
+    public void deleteGroup(Long groupId) {
+        Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
 
-    public ResponseEntity<?> deleteGroup(Long groupId) {
-        Grouping grouping = groupRepository.findById(groupId)
-                .orElseThrow(() -> new EntityNotFoundException("Not found group with id: " + groupId));
-
-        List<Grouping> groupings = studentRepository.findByGroupId(groupId);
-
-        for (Grouping grouping1 : groupings) {
-            for (Student student : grouping1.getStudents()) {
-                student.getGroupings().remove(grouping1);
+        // Remove students from groupings
+        var groupings = studentRepository.findByGroupId(groupId);
+        for (Grouping g : groupings) {
+            for (Student student : g.getStudents()) {
+                student.getGroupings().remove(g);
             }
         }
 
-        List<Quiz> quizzes = quizRepository.findByGroupingId(groupId);
-
-        for (Quiz quiz: quizzes) {
+        // Remove quizzes association
+        var quizzes = quizRepository.findByGroupingId(groupId);
+        for (Quiz quiz : quizzes) {
             quiz.setGrouping(null);
         }
 
         groupRepository.delete(grouping);
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Successfully deleted!");
     }
 
+    public GroupDTO updateGroup(GroupDTO groupDTO, Long groupId) {
+        Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
 
-    public ResponseEntity<?> updateGroup(GroupDTO groupDTO, Long groupId){
-        Optional<Grouping> group =groupRepository.findById(groupId);
-        if(group.isEmpty()){
-            throw new EntityNotFoundException("Not found group with id: "+groupId);
-        }
-        else{
-            Grouping grouping1 = group.get();
-            grouping1.setId(groupId);
-            grouping1.setName(groupDTO.getName());
-            grouping1.setSubject(groupDTO.getSubject());
-//            grouping1.setQuizzes(groupDTO.getQuizzes());
-            grouping1.setTime(groupDTO.getTime());
+        grouping.setName(groupDTO.getName());
+        grouping.setSubject(groupDTO.getSubject());
+        grouping.setTime(groupDTO.getTime());
+        // Note: handle quizzes if needed
 
-            groupRepository.save(grouping1);
-            return ResponseEntity.status(HttpStatus.OK).body(grouping1);
-        }
+        groupRepository.save(grouping);
+        return groupMapper.toDto(grouping);
     }
 
-    public ResponseEntity<?> assignStudentToGroup(AssignUserToGroupDTO dto) {
-        Optional<Student> studentOpt = studentRepository.findById(dto.getId());
-        Optional<Grouping> groupingOpt = groupRepository.findByName(dto.getGroupName());
+    public GroupDTO assignStudentToGroup(AssignUserToGroupDTO dto) {
+        Student student = studentRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
-        if (studentOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found");
-        }
-
-        if (groupingOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Group not found");
-        }
-
-        Student student = studentOpt.get();
-        Grouping grouping = groupingOpt.get();
+        Grouping grouping = groupRepository.findByName(dto.getGroupName()).orElseThrow(() -> new EntityNotFoundException("Group not found"));
 
         if (grouping.getStudents().contains(student)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student already assigned to group");
+            throw new IllegalStateException("Student already assigned to group");
         }
 
         grouping.assignStudent(student);
-        return ResponseEntity.ok(groupRepository.save(grouping));
+        groupRepository.save(grouping);
+        return groupMapper.toDto(grouping);
     }
 
-    public ResponseEntity<?> deassignStudentFromGroup(AssignUserToGroupDTO dto) {
-        Optional<Student> studentOpt = studentRepository.findById(dto.getId());
-        Optional<Grouping> groupingOpt = groupRepository.findByName(dto.getGroupName());
+    public GroupDTO deassignStudentFromGroup(AssignUserToGroupDTO dto) {
+        Student student = studentRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
-        if (studentOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found");
-        }
-
-        if (groupingOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Group not found");
-        }
-
-        Student student = studentOpt.get();
-        Grouping grouping = groupingOpt.get();
+        Grouping grouping = groupRepository.findByName(dto.getGroupName()).orElseThrow(() -> new EntityNotFoundException("Group not found"));
 
         if (!grouping.getStudents().contains(student)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student is not in this group");
+            throw new IllegalStateException("Student is not in this group");
         }
 
         grouping.deassignStudent(student);
-        return ResponseEntity.ok(groupRepository.save(grouping));
+        groupRepository.save(grouping);
+        return groupMapper.toDto(grouping);
     }
 
-    public ResponseEntity<?> assignTeacherToGroup(AssignUserToGroupDTO dto) {
-        Optional<Teacher> teacherOpt = teacherRepository.findById(dto.getId());
-        Optional<Grouping> groupingOpt = groupRepository.findByName(dto.getGroupName());
+    public GroupDTO assignTeacherToGroup(AssignUserToGroupDTO dto) {
+        Teacher teacher = teacherRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
 
-        if (teacherOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Teacher not found");
-        }
-
-        if (groupingOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Group not found");
-        }
-
-        Teacher teacher = teacherOpt.get();
-        Grouping grouping = groupingOpt.get();
+        Grouping grouping = groupRepository.findByName(dto.getGroupName()).orElseThrow(() -> new EntityNotFoundException("Group not found"));
 
         if (teacher.equals(grouping.getTeacher())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Teacher already assigned to group");
+            throw new IllegalStateException("Teacher already assigned to group");
         }
 
         grouping.assignTeacher(teacher);
-        return ResponseEntity.ok(groupRepository.save(grouping));
+        groupRepository.save(grouping);
+        return groupMapper.toDto(grouping);
     }
-
 }
+

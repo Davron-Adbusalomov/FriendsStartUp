@@ -5,6 +5,7 @@ import com.example.demo.management.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +18,8 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    @PreAuthorize("hasAuthority('GET_STUDENTS_LIST')")
+    @GetMapping("/getStudents")
     @Operation(
             summary = "Getting all students",
             responses = {
@@ -26,15 +29,14 @@ public class StudentController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
-    @PreAuthorize("hasAuthority('GET_STUDENTS_LIST')")
-    @GetMapping("/getStudents")
-    public ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAllStudents(Pageable pageable) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(studentService.getStudents());
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.ok(studentService.getStudents(pageable));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @Operation(
             summary = "Getting student by student",
