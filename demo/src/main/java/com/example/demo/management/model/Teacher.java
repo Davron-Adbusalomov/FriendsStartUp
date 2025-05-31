@@ -13,9 +13,7 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Teacher {
-    @Id
-    private Long id;
+public class Teacher extends BaseEntity{
 
     private String name;
 

@@ -1,12 +1,15 @@
 package com.example.demo.management.dto;
 
 
+import com.example.demo.exam.dto.QuizDTO;
 import com.example.demo.exam.model.Quiz;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -27,5 +30,9 @@ public class GroupDTO {
 
     private Long teacherId;
 
-//    private List<Quiz> quizzes;
+    private List<StudentDTO> students = new ArrayList<>();
+
+    private List<Long> quizzes;
+
+    private LocalDateTime createdAt;
 }

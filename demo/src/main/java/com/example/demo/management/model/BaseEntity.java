@@ -21,7 +21,7 @@ public abstract class BaseEntity {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "base_seq_gen")
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "base_seq_gen")
     private Long id;
 
     @CreatedDate

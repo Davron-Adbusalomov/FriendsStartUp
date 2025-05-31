@@ -4,15 +4,14 @@ import com.example.demo.exam.model.Quiz_Results;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class Student {
-    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Student extends BaseEntity{
 
     private String name;
 

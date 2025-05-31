@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -32,6 +33,8 @@ public class TeacherDTO {
     private List<GroupDTO> groupList;
 
     private List<RolesEnum> roles;
+
+    private LocalDateTime createdAt;
 
 //    private String username;
 //

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -33,4 +34,6 @@ public class StudentDTO {
     private List<String> groupNames;
 
     private List<RolesEnum> roles;
+
+    private LocalDateTime createdAt;
 }

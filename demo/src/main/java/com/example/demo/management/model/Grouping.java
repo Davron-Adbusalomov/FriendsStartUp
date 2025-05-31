@@ -12,10 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "groups")
-public class Grouping {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Grouping extends BaseEntity{
 
     private String name;
 

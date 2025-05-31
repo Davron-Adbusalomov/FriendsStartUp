@@ -23,6 +23,8 @@ public class QuizDTO {
 
         private Long teacherId;
 
+        private LocalDateTime createdAt;
+
         private LocalDateTime startTime;
 
         private List<Question> questions;

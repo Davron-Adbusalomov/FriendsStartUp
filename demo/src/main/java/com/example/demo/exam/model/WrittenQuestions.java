@@ -1,5 +1,6 @@
 package com.example.demo.exam.model;
 
+import com.example.demo.management.model.BaseEntity;
 import com.example.demo.management.model.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,10 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WrittenQuestions {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class WrittenQuestions extends BaseEntity {
 
     private Long questionId;
 

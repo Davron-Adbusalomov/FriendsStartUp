@@ -11,30 +11,29 @@ import org.mapstruct.ReportingPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring")
 public interface TeacherMapper {
 
     @Mapping(target = "groupList", expression = "java(getGroupDto(teacher))")
     TeacherDTO toDto(Teacher teacher);
 
-    List<TeacherDTO> toDto(List<Teacher> teachers);
-
-    @Mapping(target = "groupList", source = "groupList")
+    @Mapping(target = "groupList", ignore = true)
     @Mapping(target = "quizzes", ignore = true)
     @Mapping(target = "questions", ignore = true)
     Teacher toEntity(TeacherDTO teacherDto);
 
     default List<GroupDTO> getGroupDto(Teacher teacher) {
         List<GroupDTO> groupDTOs = new ArrayList<>();
-        if (teacher.getGroupList() != null && !teacher.getGroupList().isEmpty()) {
+        if (teacher.getGroupList() != null) {
             for (Grouping g : teacher.getGroupList()) {
-                GroupDTO groupDTO = new GroupDTO();
-                groupDTO.setId(g.getId());
-                groupDTO.setName(g.getName());
-                groupDTO.setSubject(g.getSubject());
-                groupDTOs.add(groupDTO);
+                GroupDTO dto = new GroupDTO();
+                dto.setId(g.getId());
+                dto.setName(g.getName());
+                dto.setSubject(g.getSubject());
+                groupDTOs.add(dto);
             }
         }
         return groupDTOs;
     }
 }
+

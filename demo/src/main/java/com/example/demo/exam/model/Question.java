@@ -1,5 +1,6 @@
 package com.example.demo.exam.model;
 
+import com.example.demo.management.model.BaseEntity;
 import com.example.demo.management.model.Teacher;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -13,11 +14,7 @@ import java.util.Set;
 
 @Entity
 @Data
-public class Question{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Question extends BaseEntity {
 
     private String title;
 

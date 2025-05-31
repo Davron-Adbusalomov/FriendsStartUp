@@ -1,5 +1,6 @@
 package com.example.demo.exam.model;
 
+import com.example.demo.management.model.BaseEntity;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,11 +17,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Quiz {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Quiz extends BaseEntity {
 
     private int questions_num;
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -27,6 +28,8 @@ public class QuestionDTO {
     private int mark;
 
     private Long teacherId;
+
+    private LocalDateTime createdAt;
 
     private List<String> options;
 }
