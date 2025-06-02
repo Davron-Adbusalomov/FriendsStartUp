@@ -13,9 +13,9 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Teacher extends BaseEntity{
+public class Teacher extends BaseEntity {
 
-    private String name;
+    private String fullName;
 
     private String subject;
 
@@ -23,7 +23,7 @@ public class Teacher extends BaseEntity{
 
     private String image;
 
-    private Long phone_num;
+    private String phoneNumber;
 
     @JsonIgnore
     @OneToMany(mappedBy = "teacher")

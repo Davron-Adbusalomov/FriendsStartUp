@@ -165,6 +165,7 @@ public class AuthenticationService {
                 Admin admin = new Admin();
                 admin.setId(entity.getId());
                 admin.setFullName(entity.getFullName());
+                admin.setCreatedAt(LocalDateTime.now());
                 adminRepository.save(admin);
             }
         }
@@ -173,7 +174,8 @@ public class AuthenticationService {
             if (studentRepository.findById(entity.getId()).isEmpty()){
                 Student student = new Student();
                 student.setId(entity.getId());
-                student.setName(entity.getFullName());
+                student.setFullName(entity.getFullName());
+                student.setCreatedAt(LocalDateTime.now());
                 Student student1 = studentRepository.save(student);
 
                 assignGroup(request, student1.getId(), false);
@@ -184,7 +186,8 @@ public class AuthenticationService {
             if (teacherRepository.findById(entity.getId()).isEmpty()){
                 Teacher teacher = new Teacher();
                 teacher.setId(entity.getId());
-                teacher.setName(entity.getFullName());
+                teacher.setFullName(entity.getFullName());
+                teacher.setCreatedAt(LocalDateTime.now());
                 Teacher teacher1 = teacherRepository.save(teacher);
 
                 assignGroup(request, teacher1.getId(), true);

@@ -41,7 +41,7 @@ public class QuestionService {
     @Autowired
     private MediaService mediaService;
 
-    public Question getQuestionById(Long id){
+    public Question getQuestionById(UUID id){
         Optional<Question> question = questionRepository.findById(id);
         if (question.isEmpty()){
             throw new EntityNotFoundException("No question found with this id: " + id);
@@ -100,7 +100,7 @@ public class QuestionService {
             }
     }
 
-    public ResponseEntity<?> deleteQuestion(Long questionId){
+    public ResponseEntity<?> deleteQuestion(UUID questionId){
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(()-> new EntityNotFoundException("Question not found with this id:" + questionId));
 
@@ -116,7 +116,7 @@ public class QuestionService {
     }
 
 
-    public ResponseEntity<?> updateQuestion(QuestionDTO questionDTO,Long id){
+    public ResponseEntity<?> updateQuestion(QuestionDTO questionDTO,UUID id){
         Optional<Question> question = questionRepository.findById(id);
         if (question.isEmpty()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is no question with this id: "+id);

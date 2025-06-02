@@ -24,6 +24,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class QuizResultService {
@@ -48,7 +49,7 @@ public class QuizResultService {
         return null;
     }
 
-    public List<WrittenQuestionsDTO> getWrittenQuestions(String groupName, Long quizId){
+    public List<WrittenQuestionsDTO> getWrittenQuestions(String groupName, UUID quizId){
         Optional<Grouping> grouping = groupRepository.findByName(groupName);
         if (grouping.isEmpty()){
             throw new EntityNotFoundException("No group found with this id");
@@ -81,7 +82,7 @@ public class QuizResultService {
             }
 
             Long studentId = writtenQuestion.get().getStudent().getId();
-            Long quizId = writtenQuestion.get().getQuizId();
+            UUID quizId = writtenQuestion.get().getQuizId();
 
             Quiz_Results quizResult = quizResultsRepository.findByStudentIdAndQuizId(studentId, quizId);
 
@@ -95,7 +96,7 @@ public class QuizResultService {
 //        quizResultsRepository.save(quizResults);
     }
 
-    public void finalizeQuiz(Long quizId) throws TelegramApiException {
+    public void finalizeQuiz(UUID quizId) throws TelegramApiException {
         Optional<Quiz> quiz = quizRepository.findById(quizId);
 
         int maxMark = 0;
@@ -126,7 +127,7 @@ public class QuizResultService {
 
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(student.getParent_chatId());
-            sendMessage.setText("Assalomu alaykum! Farzandingiz, "+ student.getName()+" " + quiz.get().getGrouping().getSubject() + " fanidan oxirgi sinov natijasi bilan tanishing:\n o'zlashtirish foizi: " + (quizResults.getMark() * 100.0) / maxMark +"%\n guruhdagi o'rni: " + place + "-o'rin\n ");
+            sendMessage.setText("Assalomu alaykum! Farzandingiz, "+ student.getFullName()+" " + quiz.get().getGrouping().getSubject() + " fanidan oxirgi sinov natijasi bilan tanishing:\n o'zlashtirish foizi: " + (quizResults.getMark() * 100.0) / maxMark +"%\n guruhdagi o'rni: " + place + "-o'rin\n ");
 
         telegramConfig.execute(sendMessage);
         }

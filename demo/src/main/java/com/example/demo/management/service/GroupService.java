@@ -17,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class GroupService {
@@ -32,7 +34,7 @@ public class GroupService {
         return groups.map(groupMapper::toDto);
     }
 
-    public GroupDTO getGroupById(Long groupId) {
+    public GroupDTO getGroupById(UUID groupId) {
         Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
         return groupMapper.toDto(grouping);
     }
@@ -52,7 +54,7 @@ public class GroupService {
         return groupMapper.toDto(group);
     }
 
-    public void deleteGroup(Long groupId) {
+    public void deleteGroup(UUID groupId) {
         Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
 
         // Remove students from groupings
@@ -72,7 +74,7 @@ public class GroupService {
         groupRepository.delete(grouping);
     }
 
-    public GroupDTO updateGroup(GroupDTO groupDTO, Long groupId) {
+    public GroupDTO updateGroup(GroupDTO groupDTO, UUID groupId) {
         Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
 
         grouping.setName(groupDTO.getName());

@@ -17,11 +17,10 @@ public class StudentDTO {
 
     @NotNull(message = "Name is required")
     @Schema(example = "John Doe")
-    private String name;
+    private String fullName;
 
-    @NotNull(message = "Student number is required")
-    @Schema(example = "12345")
-    private Long number;
+    @NotNull(message = "Student username is required")
+    private String phoneNumber;
 
     @Schema(example = "john.doe@example.com")
     private String parentContact;
@@ -29,11 +28,12 @@ public class StudentDTO {
     @Schema(example = "chat123")
     private String parentChatId;
 
-    // For example, a comma-separated list of group names.
     @Schema(example = "Group A, Group B")
     private List<String> groupNames;
 
     private List<RolesEnum> roles;
 
     private LocalDateTime createdAt;
+
+    private String status;
 }

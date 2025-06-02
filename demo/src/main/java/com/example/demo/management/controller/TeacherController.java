@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/teacher")
+@RequestMapping("api/v1/teacher")
 public class TeacherController {
     @Autowired
     private TeacherService teacherService;

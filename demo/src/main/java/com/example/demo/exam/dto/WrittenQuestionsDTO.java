@@ -5,14 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class WrittenQuestionsDTO {
-    private Long id;
+    private UUID id;
 
-    private Long quizId;
+    private UUID quizId;
 
     private String studentAnswer;
 

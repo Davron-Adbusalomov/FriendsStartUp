@@ -9,17 +9,18 @@ import org.springframework.web.bind.annotation.*;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/quiz_results")
+@RequestMapping("api/v1/quiz_results")
 public class QuizResultController {
 
     @Autowired
     private QuizResultService quizResultsService;
 
     @GetMapping("getWrittenQuestions/{groupName}/{quizId}")
-    public ResponseEntity<?> getWrittenQuestions(@PathVariable String groupName,@PathVariable Long quizId){
+    public ResponseEntity<?> getWrittenQuestions(@PathVariable String groupName,@PathVariable UUID quizId){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(quizResultsService.getWrittenQuestions(groupName, quizId));
         }catch (Exception e){
@@ -32,13 +33,13 @@ public class QuizResultController {
         try {
             quizResultsService.assignQuizResult(writtenQuestionsResponseDTO);
             return ResponseEntity.status(HttpStatus.OK).body("Successfully recorded!");
-        }catch (Exception e){
+        } catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @PostMapping("finalizingQuiz/{quizId}")
-    public ResponseEntity<?> finalizeQuiz(@PathVariable Long quizId) throws TelegramApiException {
+    public ResponseEntity<?> finalizeQuiz(@PathVariable UUID quizId) throws TelegramApiException {
         quizResultsService.finalizeQuiz(quizId);
         return ResponseEntity.status(HttpStatus.OK).body("finalized successfully!");
     }

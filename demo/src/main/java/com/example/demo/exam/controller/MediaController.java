@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("api")
+@RequestMapping("api/v1/")
 public class MediaController {
 
     @Autowired

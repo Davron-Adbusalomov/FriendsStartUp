@@ -108,9 +108,9 @@ public class StudentService {
 
         Student student = studentOptional.get();
 
-        student.setName(studentDTO.getName());
+        student.setFullName(studentDTO.getFullName());
         student.setParent_contact(studentDTO.getParentContact());
-        student.setNumber(studentDTO.getNumber());
+        student.setPhoneNumber(studentDTO.getPhoneNumber());
 
         studentRepository.save(student);
         return ResponseEntity.status(HttpStatus.OK).body(student);

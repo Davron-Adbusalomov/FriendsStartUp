@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface WrittenQuestionsRepository extends JpaRepository<WrittenQuestions, Long> {
-    List<WrittenQuestions> findByQuizId(Long quizId);
+public interface WrittenQuestionsRepository extends JpaRepository<WrittenQuestions, UUID> {
+    List<WrittenQuestions> findByQuizId(UUID quizId);
+
 }

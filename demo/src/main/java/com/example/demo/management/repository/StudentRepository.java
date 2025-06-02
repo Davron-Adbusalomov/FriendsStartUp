@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
@@ -18,6 +19,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
 
     @Query("SELECT g FROM Grouping g JOIN g.students s WHERE s.id = :groupId")
-    List<Grouping> findByGroupId(@Param("groupId") Long groupId);
+    List<Grouping> findByGroupId(@Param("groupId") UUID groupId);
 
 }

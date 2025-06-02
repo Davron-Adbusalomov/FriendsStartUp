@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizDTOForRequest {
-    private Long id;
+    private UUID id;
 
     private Long duration;
 
@@ -19,9 +20,9 @@ public class QuizDTOForRequest {
 
     private Long startTime;
 
-    private Long groupingId;
+    private UUID groupingId;
 
     private Long teacherId;
 
-    private List<Long> questions;
+    private List<UUID> questions;
 }

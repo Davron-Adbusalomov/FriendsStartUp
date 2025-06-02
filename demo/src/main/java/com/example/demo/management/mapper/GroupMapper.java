@@ -10,6 +10,7 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public interface GroupMapper {
@@ -27,14 +28,14 @@ public interface GroupMapper {
     List<Grouping> toEntity(List<GroupDTO> dtos);
 
     default String getTeacherName(Grouping grouping) {
-        return grouping.getTeacher() != null ? grouping.getTeacher().getName() : null;
+        return grouping.getTeacher() != null ? grouping.getTeacher().getFullName() : null;
     }
 
     default Long getTeacherId(Grouping grouping) {
         return grouping.getTeacher() != null ? grouping.getTeacher().getId() : null;
     }
 
-    default List<Long> getQuizIds(Grouping grouping) {
+    default List<UUID> getQuizIds(Grouping grouping) {
         if (grouping.getQuizzes() == null) return new ArrayList<>();
         return grouping.getQuizzes().stream().map(Quiz::getId).toList();
     }

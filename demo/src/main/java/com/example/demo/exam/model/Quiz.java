@@ -11,13 +11,20 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Quiz extends BaseEntity {
+public class Quiz {
+
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @org.hibernate.annotations.GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(columnDefinition = "UUID")
+    private UUID id;
 
     private int questions_num;
 

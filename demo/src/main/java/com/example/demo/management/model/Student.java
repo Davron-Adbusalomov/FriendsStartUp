@@ -13,9 +13,9 @@ import java.util.*;
 @Data
 public class Student extends BaseEntity{
 
-    private String name;
+    private String fullName;
 
-    private Long number;
+    private String phoneNumber;
 
     private String parent_contact;
 

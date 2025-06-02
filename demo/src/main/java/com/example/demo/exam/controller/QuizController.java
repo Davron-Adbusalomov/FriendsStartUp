@@ -11,10 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/quiz")
+@RequestMapping("api/v1/quiz")
 public class QuizController {
 
     @Autowired
@@ -27,7 +28,7 @@ public class QuizController {
 
 
     @GetMapping("beginQuiz/{quizId}")
-    public ResponseEntity<?> beginQuiz(@PathVariable Long quizId) {
+    public ResponseEntity<?> beginQuiz(@PathVariable UUID quizId) {
         try {
             QuizDTO quiz = quizService.beginQuiz(quizId);
             return ResponseEntity.status(HttpStatus.OK).body(quiz);
@@ -37,7 +38,7 @@ public class QuizController {
     }
 
     @PostMapping("checkMultipleChoice/{studentId}/{quizId}")
-    public ResponseEntity<?> checkMultipleChoice(@RequestBody List<Response> responseList, @PathVariable Long studentId, @PathVariable Long quizId){
+    public ResponseEntity<?> checkMultipleChoice(@RequestBody List<Response> responseList, @PathVariable Long studentId, @PathVariable UUID quizId){
         try {
             String checkingQuizDTO =quizService.checkingMultipleChoiceQuestions(responseList, studentId, quizId);
             return ResponseEntity.status(HttpStatus.OK).body(checkingQuizDTO);

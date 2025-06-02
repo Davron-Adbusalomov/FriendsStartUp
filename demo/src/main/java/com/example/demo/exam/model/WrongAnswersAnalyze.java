@@ -7,20 +7,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Entity
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class WrongAnswersAnalyze {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid2")
+    @org.hibernate.annotations.GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(columnDefinition = "UUID")
+    private UUID id;
 
-    private Long question_id;
+    private UUID question_id;
 
-    private Long quiz_id;
+    private UUID quiz_id;
 
     private String wrong_answer;
 

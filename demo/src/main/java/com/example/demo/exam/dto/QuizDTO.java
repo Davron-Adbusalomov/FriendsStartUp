@@ -7,19 +7,20 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizDTO {
 
-        private Long id;
+        private UUID id;
 
         private Long duration;
 
         private int questions_num;
 
-        private Long groupingId;
+        private UUID groupingId;
 
         private Long teacherId;
 

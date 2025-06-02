@@ -11,6 +11,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +19,7 @@ import java.util.List;
 @Setter
 public class GroupDTO {
 
-    private Long id;
+    private UUID id;
 
     private String name;
 
@@ -32,7 +33,7 @@ public class GroupDTO {
 
     private List<StudentDTO> students = new ArrayList<>();
 
-    private List<Long> quizzes;
+    private List<UUID> quizzes;
 
     private LocalDateTime createdAt;
 }

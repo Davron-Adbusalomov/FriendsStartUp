@@ -23,11 +23,13 @@ public class AdminDTO {
 
     private String username;
 
-    private String password;
+//    private String password;
 
     private String image;
 
     private LocalDateTime createdAt;
 
-    private List<RolesEnum> rolesEnums = new ArrayList<>();
+    private List<RolesEnum> roles = new ArrayList<>();
+
+    private String status;
 }

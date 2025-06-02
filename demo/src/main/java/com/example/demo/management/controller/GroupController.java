@@ -13,9 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @CrossOrigin
 @RestController  // Changed from @Controller to @RestController for automatic @ResponseBody
-@RequestMapping("api/group")
+@RequestMapping("api/v1/group")
 public class GroupController {
 
     @Autowired
@@ -35,7 +37,7 @@ public class GroupController {
     @Operation(summary = "Getting group by id", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('GET_GROUP')")
     @GetMapping("/getById/{id}")
-    public ResponseEntity<?> getGroupById(@PathVariable Long id) {
+    public ResponseEntity<?> getGroupById(@PathVariable UUID id) {
         try {
             GroupDTO grouping = groupService.getGroupById(id);
             return ResponseEntity.ok(grouping);
@@ -59,7 +61,7 @@ public class GroupController {
     @Operation(summary = "Deleting group", responses = {@ApiResponse(responseCode = "204", description = "No Content - Successfully deleted"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('DELETE_GROUP')")
     @DeleteMapping("/deleteById/{id}")
-    public ResponseEntity<?> deleteGroupById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteGroupById(@PathVariable UUID id) {
         try {
             groupService.deleteGroup(id);
             return ResponseEntity.noContent().build();
@@ -71,7 +73,7 @@ public class GroupController {
     @Operation(summary = "Update group", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('UPDATE_GROUP')")
     @PutMapping("/updateGroup/{id}")
-    public ResponseEntity<?> updateGroup(@RequestBody GroupDTO groupDTO, @PathVariable Long id) {
+    public ResponseEntity<?> updateGroup(@RequestBody GroupDTO groupDTO, @PathVariable UUID id) {
         try {
             GroupDTO updatedGroup = groupService.updateGroup(groupDTO, id);
             return ResponseEntity.ok(updatedGroup);

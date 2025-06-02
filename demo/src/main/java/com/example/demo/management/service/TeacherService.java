@@ -105,11 +105,11 @@ public class TeacherService {
         Teacher teacher = teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No teacher found with this id: " + id));
 
-        teacher.setName(teacherDTO.getName());
+        teacher.setFullName(teacherDTO.getFullName());
         teacher.setExperience(teacherDTO.getExperience());
         teacher.setImage(teacherDTO.getImage());
         teacher.setSubject(teacherDTO.getSubject());
-        teacher.setPhone_num(teacherDTO.getPhone_num());
+        teacher.setPhoneNumber(teacherDTO.getPhoneNumber());
         teacher.setExperience(teacherDTO.getExperience());
 
         teacherRepository.save(teacher);
@@ -128,7 +128,7 @@ public class TeacherService {
             teacherInfoDTO.setSubject(teacher.getSubject());
             teacherInfoDTO.setExperience(teacher.getExperience());
             teacherInfoDTO.setImage(teacher.getImage());
-            teacherInfoDTO.setName(teacher.getName());
+            teacherInfoDTO.setName(teacher.getFullName());
             teacherInfoDTOS.add(teacherInfoDTO);
         }
 

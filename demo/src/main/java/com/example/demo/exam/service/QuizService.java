@@ -67,7 +67,7 @@ public class QuizService {
         quiz.setStartTime(time);
         quiz.setGrouping(group.get());
         quiz.setQuestions_num(quizDTO.getQuestions_num());
-        for (Long questionId : quizDTO.getQuestions()) {
+        for (UUID questionId : quizDTO.getQuestions()) {
             Optional<Question> question = questionRepository.findById(questionId);
             if (question.isEmpty()){
                 throw new EntityNotFoundException("No question found with this id: "+questionId);
@@ -79,7 +79,7 @@ public class QuizService {
     }
 
 
-    public QuizDTO beginQuiz(Long quizId) {
+    public QuizDTO beginQuiz(UUID quizId) {
         Optional<Quiz> optionalQuiz = quizRepository.findById(quizId);
 
         if (optionalQuiz.isEmpty()) {
@@ -151,7 +151,7 @@ public class QuizService {
         return QuizMapper.toDTO(quiz);
     }
 
-    public String checkingMultipleChoiceQuestions(List<Response> responseList, Long id, Long quizId){
+    public String checkingMultipleChoiceQuestions(List<Response> responseList, Long id, UUID quizId){
         LocalDateTime currentTime = LocalDateTime.now();
 
         Optional<Quiz> optionalQuiz = quizRepository.findById(quizId);

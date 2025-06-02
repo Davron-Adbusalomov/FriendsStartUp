@@ -18,10 +18,14 @@ import java.util.Objects;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
-
     @Id
+    @SequenceGenerator(
+            name = "base_seq_gen",
+            sequenceName = "base_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "base_seq_gen")
     @Column(name = "id")
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "base_seq_gen")
     private Long id;
 
     @CreatedDate

@@ -9,15 +9,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @CrossOrigin
-@RequestMapping("api/question")
+@RequestMapping("api/v1/question")
 public class QuestionController {
     @Autowired
     public QuestionService questionService;
 
     @GetMapping("getById/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id){
+    public ResponseEntity<?> getById(@PathVariable UUID id){
         try {
             Question question = questionService.getQuestionById(id);
             return ResponseEntity.status(HttpStatus.OK).body(question);
@@ -50,12 +52,12 @@ public class QuestionController {
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<?> updateQuestion(@RequestBody QuestionDTO questionDTO, @PathVariable Long id){
+    public ResponseEntity<?> updateQuestion(@RequestBody QuestionDTO questionDTO, @PathVariable UUID id){
         return questionService.updateQuestion(questionDTO, id);
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deleteQuestion(@PathVariable Long id){
+    public ResponseEntity<?> deleteQuestion(@PathVariable UUID id){
         return questionService.deleteQuestion(id);
     }
 }

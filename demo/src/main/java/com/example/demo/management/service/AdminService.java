@@ -34,7 +34,7 @@ public class AdminService {
 
         List<AdminDTO> adminDTOs = adminPage.stream().map(admin -> {
             AdminDTO dto = adminMapper.toDTO(admin);
-            dto.setRolesEnums(getRoles(admin));
+            dto.setRoles(getRoles(admin));
             return dto;
         }).collect(Collectors.toList());
 
@@ -45,7 +45,7 @@ public class AdminService {
     public ResponseEntity<Admin> getAdminById(Long adminId) {
         Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new EntityNotFoundException("Admin not found with id: " + adminId));
         AdminDTO adminDTO = adminMapper.toDTO(admin);
-        adminDTO.setRolesEnums(getRoles(admin));
+        adminDTO.setRoles(getRoles(admin));
         return ResponseEntity.ok(admin);
     }
 
@@ -57,7 +57,7 @@ public class AdminService {
         Admin admin = adminMapper.toModel(adminDTO);
         admin = adminRepository.save(admin);
         AdminDTO savedDTO = adminMapper.toDTO(admin);
-        savedDTO.setRolesEnums(getRoles(admin));
+        savedDTO.setRoles(getRoles(admin));
 
         return savedDTO;
     }
@@ -81,7 +81,7 @@ public class AdminService {
 
         existingAdmin.setFullName(adminDTO.getFullName());
         existingAdmin.setUsername(adminDTO.getUsername());
-        existingAdmin.setPassword(adminDTO.getPassword());
+//        existingAdmin.setPassword(adminDTO.getPassword());
 
         Admin updatedAdmin = adminRepository.save(existingAdmin);
         return ResponseEntity.ok(updatedAdmin);
