@@ -15,6 +15,10 @@ import org.springframework.security.core.GrantedAuthority;
 @SequenceGenerator(name = "base_seq_gen", sequenceName = "user_permission_seq", allocationSize = 1)
 public class UserPermissionEntity extends BaseEntity implements GrantedAuthority {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "base_seq_gen")
+    private Long id;
+
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
@@ -27,3 +31,4 @@ public class UserPermissionEntity extends BaseEntity implements GrantedAuthority
         return name.name();
     }
 }
+

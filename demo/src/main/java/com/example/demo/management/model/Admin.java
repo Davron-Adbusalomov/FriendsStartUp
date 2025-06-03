@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Admin extends BaseEntity{
+    @Id
+    private Long id;
 
     private String fullName;
 

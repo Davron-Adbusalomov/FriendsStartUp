@@ -18,15 +18,15 @@ import java.util.Objects;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
-    @Id
-    @SequenceGenerator(
-            name = "base_seq_gen",
-            sequenceName = "base_seq",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "base_seq_gen")
-    @Column(name = "id")
-    private Long id;
+//    @Id
+//    @SequenceGenerator(
+//            name = "users_seq_gen",
+//            sequenceName = "users_seq",
+//            allocationSize = 1
+//    )
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq_gen")
+//    @Column(name = "id")
+//    private Long id;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -48,17 +48,9 @@ public abstract class BaseEntity {
     @Column(name = "updated_by")
     private Long updatedBy;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BaseEntity that = (BaseEntity) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
     }
 
     public void updateEntity() {

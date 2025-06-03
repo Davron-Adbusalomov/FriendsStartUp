@@ -14,6 +14,8 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Teacher extends BaseEntity {
+    @Id
+    private Long id;
 
     private String fullName;
 
