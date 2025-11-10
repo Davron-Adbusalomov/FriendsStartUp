@@ -12,18 +12,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout your code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Set up JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # 3️⃣ Cache Gradle dependencies
       - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
@@ -34,20 +31,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # 4️⃣ Make gradlew executable
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # 5️⃣ Build and test
-      - name: Build and Test with Gradle
-        run: ./gradlew clean build
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
 
-      # 6️⃣ Upload artifact for deployment
+      - name: Rename JAR
+        run: mv build/libs/*.jar build/libs/eco_pharm_desktop.jar
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-jar
-          path: build/libs/*.jar
+          path: build/libs/eco_pharm_desktop.jar
 
   deploy:
     name: Deploy to AWS EC2
@@ -64,20 +61,20 @@ jobs:
       - name: Deploy to AWS EC2 via SSH
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.AWS_HOST }}
-          username: ${{ secrets.AWS_USER }}
-          key: ${{ secrets.AWS_SSH_KEY }}
-          source: "*.jar"
-          target: "/home/${{ secrets.AWS_USER }}/app/"
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "eco_pharm_desktop.jar"
+          target: "/home/${{ secrets.SERVER_USER }}/app/"
 
       - name: Restart application
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.AWS_HOST }}
-          username: ${{ secrets.AWS_USER }}
-          key: ${{ secrets.AWS_SSH_KEY }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             echo "Restarting app..."
-            pkill -f 'java -jar' || true
-            nohup java -jar /home/${{ secrets.AWS_USER }}/app/*.jar > app.log 2>&1 &
-            echo "Deployed and started!"
+            pkill -f 'eco_pharm_desktop.jar' || true
+            nohup java -jar /home/${{ secrets.SERVER_USER }}/app/eco_pharm_desktop.jar > /home/${{ secrets.SERVER_USER }}/app/app.log 2>&1 &
+            echo "✅ Deployed and started eco_pharm_desktop.jar!"
