@@ -176,6 +176,7 @@ public class AuthenticationService {
                 student.setId(entity.getId());
                 student.setFullName(entity.getFullName());
                 student.setCreatedAt(LocalDateTime.now());
+                student.setPhoneNumber(entity.getUsername());
                 Student student1 = studentRepository.save(student);
 
                 assignGroup(request, student1.getId(), false);
@@ -188,6 +189,7 @@ public class AuthenticationService {
                 teacher.setId(entity.getId());
                 teacher.setFullName(entity.getFullName());
                 teacher.setCreatedAt(LocalDateTime.now());
+                teacher.setPhoneNumber(entity.getUsername());
                 Teacher teacher1 = teacherRepository.save(teacher);
 
                 assignGroup(request, teacher1.getId(), true);

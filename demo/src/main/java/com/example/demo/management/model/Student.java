@@ -12,6 +12,8 @@ import java.util.*;
 @Entity
 @Data
 public class Student extends BaseEntity{
+    @Id
+    private Long id;
 
     private String fullName;
 

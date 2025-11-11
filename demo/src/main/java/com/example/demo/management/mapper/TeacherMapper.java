@@ -6,7 +6,6 @@ import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +29,9 @@ public interface TeacherMapper {
                 dto.setId(g.getId());
                 dto.setName(g.getName());
                 dto.setSubject(g.getSubject());
+                dto.setTeacherId(teacher.getId());
+                dto.setTime(g.getTime());
+                dto.setTeacherName(teacher.getFullName());
                 groupDTOs.add(dto);
             }
         }
