@@ -23,8 +23,11 @@ jobs:
           distribution: 'temurin'
 
       # 3️⃣ Build the JAR
-      - name: Build JAR
-        run: ./gradlew clean build -x test
+      - name: Build with Gradle (inside demo)
+        working-directory: demo
+        run: |
+          chmod +x gradlew
+          ./gradlew clean build -x test
 
       # 4️⃣ Copy built JAR to AWS server via SSH
       - name: Deploy to AWS
