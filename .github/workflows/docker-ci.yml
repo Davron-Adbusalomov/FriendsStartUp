@@ -1,14 +1,11 @@
-name: Gradle CI/CD
+name: Build and Deploy
 
 on:
   push:
-    branches: [ "Management" ]
-  pull_request:
-    branches: [ "Management" ]
+    branches: [ "management" ]
 
 jobs:
   build:
-    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
@@ -21,53 +18,37 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Build with Gradle
-        run: ./gradlew clean build -x test
-
-      - name: Rename JAR
-        run: mv build/libs/*.jar build/libs/eco_pharm_desktop.jar
+      - name: Build with Gradle (inside demo)
+        working-directory: demo
+        run: chmod +x gradlew && ./gradlew clean build -x test
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-jar
-          path: build/libs/eco_pharm_desktop.jar
+          name: demo-jar
+          path: demo/build/libs/*.jar
 
   deploy:
-    name: Deploy to AWS EC2
     runs-on: ubuntu-latest
     needs: build
     if: github.ref == 'refs/heads/management'
 
     steps:
-      - name: Download built JAR
+      - name: Download built jar
         uses: actions/download-artifact@v4
         with:
-          name: app-jar
+          name: demo-jar
 
-      - name: Deploy to AWS EC2 via SSH
+      - name: Copy jar to AWS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "demo.jar"
+          source: "*.jar"
           target: "/home/${{ secrets.SERVER_USER }}/app/"
 
-      - name: Restart application
+      - name: Restart app
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -75,6 +56,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             echo "Restarting app..."
-            pkill -f 'eco_pharm_desktop.jar' || true
-            nohup java -jar /home/${{ secrets.SERVER_USER }}/app/eco_pharm_desktop.jar > /home/${{ secrets.SERVER_USER }}/app/app.log 2>&1 &
-            echo "✅ Deployed and started eco_pharm_desktop.jar!"
+            pkill -f 'demo-0.0.1.jar' || true
+            nohup java -jar /home/${{ secrets.SERVER_USER }}/app/demo-0.0.1.jar > /home/${{ secrets.SERVER_USER }}/app/app.log 2>&1 &
+            echo "Deployed successfully!"
