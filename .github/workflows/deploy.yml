@@ -46,4 +46,4 @@ jobs:
           script: |
             cd /home/ubuntu/app
             pkill -f "myapp.jar" || true
-            nohup java -jar build/libs/myapp.jar > app.log 2>&1 &
+            nohup java -jar build/libs/demo-0.0.1.jar > app.log 2>&1 &
