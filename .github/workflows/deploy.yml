@@ -49,5 +49,5 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/ubuntu/app
-            pkill -f "myapp.jar" || true
-            nohup java -jar demo/build/libs/demo-0.0.1.jar > app.log 2>&1 &
+            pkill -f "demo-0.0.1.jar" || true
+            nohup java -jar demo-0.0.1.jar > app.log 2>&1 &
