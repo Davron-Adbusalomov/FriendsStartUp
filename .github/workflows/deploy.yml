@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            pkill -f 'demo-0.0.1.jar' || true
-            nohup java -jar /home/${{ secrets.SERVER_USER }}/app/demo-0.0.1.jar > /home/${{ secrets.SERVER_USER }}/app/app.log 2>&1 &
+            pkill -f 'demo-0.0.1-SNAPSHOT.jar' || true
+            nohup java -jar /home/${{ secrets.SERVER_USER }}/app/demo-0.0.1-SNAPSHOT.jar > /home/${{ secrets.SERVER_USER }}/app/app.log 2>&1 &
             echo "Deployed successfully!"
 
