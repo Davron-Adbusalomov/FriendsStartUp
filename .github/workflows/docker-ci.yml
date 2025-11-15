@@ -1,28 +1,28 @@
-name: Build JAR
-
-on:
-  push:
-    branches: ["Management"]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Build
-        working-directory: demo
-        run: |
-          chmod +x gradlew
-          ./gradlew clean build -x test
-
-      - name: Upload JAR artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: demo-jar
-          path: demo/build/libs/*.jar
+#name: Build JAR
+#
+#on:
+#  push:
+#    branches: ["Management"]
+#
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - uses: actions/setup-java@v4
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#
+#      - name: Build
+#        working-directory: demo
+#        run: |
+#          chmod +x gradlew
+#          ./gradlew clean build -x test
+#
+#      - name: Upload JAR artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: demo-jar
+#          path: demo/build/libs/*.jar
