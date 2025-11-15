@@ -34,7 +34,7 @@ jobs:
           source: "demo/build/libs/*.jar"
           target: "/home/${{ secrets.SERVER_USER }}/app/"
 
-      - name: Restart app on AWS
+      - name: Restart app
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -42,5 +42,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             pkill -f 'demo-0.0.1.jar' || true
-            nohup java -jar /home/${{ secrets.SERVER_USER }}/app/demo-0.0.1.jar > app.log 2>&1 &
+            nohup java -jar /home/${{ secrets.SERVER_USER }}/app/demo-0.0.1.jar > /home/${{ secrets.SERVER_USER }}/app/app.log 2>&1 &
             echo "Deployed successfully!"
+
