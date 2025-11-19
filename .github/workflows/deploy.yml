@@ -7,49 +7,44 @@ on:
 
 jobs:
   build:
-    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout your repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Set up JDK (you can use 17 or your version)
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # 3️⃣ Build the JAR
-      - name: Build with Gradle (inside demo)
+      - name: Build JAR
         working-directory: demo
         run: |
           chmod +x gradlew
           ./gradlew clean build -x test
 
-      # 4️⃣ Copy built JAR to AWS server via SSH
-      - name: Deploy to AWS
-        uses: appleboy/scp-action@v0.1.6
+      - name: Upload file to AWS
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "demo/build/libs/*.jar"
-          target: "/home/ubuntu/app"
+          target: "/home/${{ secrets.SERVER_USER }}/app/"
+          strip_components: 3
 
-
-      # 5️⃣ Restart app on AWS
-      - name: Restart Application
-        uses: appleboy/ssh-action@v0.1.6
+      - name: Restart app
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /home/ubuntu/app
-            pkill -f "demo-0.0.1.jar" || true
-            nohup java -jar demo-0.0.1.jar > app.log 2>&1 &
-            sleep 2
+            cd /home/ubuntu/app/
+            JAR=$(ls demo-*.jar | grep -v plain | head -n 1)
+            nohup java -jar "$JAR" > app.log 2>&1 < /dev/null &
+            disown
+
 
