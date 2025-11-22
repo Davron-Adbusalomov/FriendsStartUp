@@ -77,12 +77,14 @@ public class GroupService {
     public GroupDTO updateGroup(GroupDTO groupDTO, UUID groupId) {
         Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
 
-        grouping.setName(groupDTO.getName());
-        grouping.setSubject(groupDTO.getSubject());
-        grouping.setTime(groupDTO.getTime());
-        // Note: handle quizzes if needed
+        if (groupDTO.getName() != null)
+            grouping.setName(groupDTO.getName());
+        if (groupDTO.getSubject() != null)
+            grouping.setSubject(groupDTO.getSubject());
+        if (groupDTO.getTime() != null)
+            grouping.setTime(groupDTO.getTime());
 
-        groupRepository.save(grouping);
+        groupRepository.saveAndFlush(grouping);
         return groupMapper.toDto(grouping);
     }
 
