@@ -17,6 +17,21 @@ CREATE TABLE admin
     CONSTRAINT pk_admin PRIMARY KEY (id)
 );
 
+CREATE TABLE attendance
+(
+    id                UUID                        NOT NULL,
+    created_at        TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at        TIMESTAMP WITHOUT TIME ZONE,
+    status            VARCHAR(255)                NOT NULL,
+    created_by        BIGINT,
+    updated_by        BIGINT,
+    student_id        BIGINT                      NOT NULL,
+    group_id          VARCHAR(255)                NOT NULL,
+    attendance_time   TIMESTAMP WITHOUT TIME ZONE,
+    attendance_status VARCHAR(255),
+    CONSTRAINT pk_attendance PRIMARY KEY (id)
+);
+
 CREATE TABLE default_permission_entity
 (
     name        VARCHAR(255) NOT NULL,
@@ -32,7 +47,12 @@ CREATE TABLE group_student
 
 CREATE TABLE groups
 (
-    id         UUID NOT NULL,
+    id         UUID                        NOT NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITHOUT TIME ZONE,
+    status     VARCHAR(255)                NOT NULL,
+    created_by BIGINT,
+    updated_by BIGINT,
     name       VARCHAR(255),
     subject    VARCHAR(255),
     time       VARCHAR(255),
@@ -42,7 +62,12 @@ CREATE TABLE groups
 
 CREATE TABLE option
 (
-    id          UUID NOT NULL,
+    id          UUID                        NOT NULL,
+    created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at  TIMESTAMP WITHOUT TIME ZONE,
+    status      VARCHAR(255)                NOT NULL,
+    created_by  BIGINT,
+    updated_by  BIGINT,
     text        VARCHAR(255),
     question_id UUID,
     CONSTRAINT pk_option PRIMARY KEY (id)
@@ -50,22 +75,32 @@ CREATE TABLE option
 
 CREATE TABLE question
 (
-    id           UUID    NOT NULL,
+    id           UUID                        NOT NULL,
+    created_at   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at   TIMESTAMP WITHOUT TIME ZONE,
+    status       VARCHAR(255)                NOT NULL,
+    created_by   BIGINT,
+    updated_by   BIGINT,
     title        VARCHAR(255),
     level        VARCHAR(255),
     subject      VARCHAR(255),
     image        VARCHAR(255),
     type         VARCHAR(255),
     right_answer VARCHAR(255),
-    mark         INTEGER NOT NULL,
+    mark         INTEGER                     NOT NULL,
     teacher_id   BIGINT,
     CONSTRAINT pk_question PRIMARY KEY (id)
 );
 
 CREATE TABLE quiz
 (
-    id            UUID    NOT NULL,
-    questions_num INTEGER NOT NULL,
+    id            UUID                        NOT NULL,
+    created_at    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at    TIMESTAMP WITHOUT TIME ZONE,
+    status        VARCHAR(255)                NOT NULL,
+    created_by    BIGINT,
+    updated_by    BIGINT,
+    questions_num INTEGER                     NOT NULL,
     duration      BIGINT,
     start_time    TIMESTAMP WITHOUT TIME ZONE,
     grouping_id   UUID,
@@ -81,7 +116,12 @@ CREATE TABLE quiz_question
 
 CREATE TABLE quiz_results
 (
-    id         UUID NOT NULL,
+    id         UUID                        NOT NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITHOUT TIME ZONE,
+    status     VARCHAR(255)                NOT NULL,
+    created_by BIGINT,
+    updated_by BIGINT,
     mark       BIGINT,
     quiz_id    UUID,
     student_id BIGINT,
@@ -173,7 +213,12 @@ CREATE TABLE users
 
 CREATE TABLE written_questions
 (
-    id             UUID NOT NULL,
+    id             UUID                        NOT NULL,
+    created_at     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at     TIMESTAMP WITHOUT TIME ZONE,
+    status         VARCHAR(255)                NOT NULL,
+    created_by     BIGINT,
+    updated_by     BIGINT,
     question_id    UUID,
     quiz_id        UUID,
     student_answer VARCHAR(255),
@@ -187,7 +232,12 @@ CREATE TABLE written_questions
 
 CREATE TABLE wrong_answers_analyze
 (
-    id           UUID NOT NULL,
+    id           UUID                        NOT NULL,
+    created_at   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at   TIMESTAMP WITHOUT TIME ZONE,
+    status       VARCHAR(255)                NOT NULL,
+    created_by   BIGINT,
+    updated_by   BIGINT,
     question_id  UUID,
     quiz_id      UUID,
     wrong_answer VARCHAR(255),
@@ -197,6 +247,12 @@ CREATE TABLE wrong_answers_analyze
 
 ALTER TABLE users
     ADD CONSTRAINT uc_users_username UNIQUE (username);
+
+ALTER TABLE attendance
+    ADD CONSTRAINT FK_ATTENDANCE_ON_GROUP FOREIGN KEY (group_id) REFERENCES groups (id);
+
+ALTER TABLE attendance
+    ADD CONSTRAINT FK_ATTENDANCE_ON_STUDENT FOREIGN KEY (student_id) REFERENCES student (id);
 
 ALTER TABLE groups
     ADD CONSTRAINT FK_GROUPS_ON_TEACHER FOREIGN KEY (teacher_id) REFERENCES teacher (id);
