@@ -1,12 +1,10 @@
 package com.example.demo.management.mapper;
 
-import com.example.demo.exam.mapper.QuizMapper;
 import com.example.demo.exam.model.Quiz;
 import com.example.demo.management.dto.GroupDTO;
 import com.example.demo.management.model.Grouping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.example.demo.management.model;
 
-import com.azure.core.annotation.Delete;
 import com.example.demo.enums.AttendanceStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -17,12 +17,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE attendance SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
-public class Attendance extends BaseEntity{
+public class Attendance extends BaseEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @org.hibernate.annotations.GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(columnDefinition = "UUID")
-    private Long id;
+    private UUID id;
 
     @Column(name = "student_id", nullable = false)
     private Long studentId;

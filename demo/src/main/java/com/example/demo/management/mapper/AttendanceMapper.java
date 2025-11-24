@@ -7,9 +7,11 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface AttendanceMapper {
-    AttendanceDto toDto(Object attendance);
+    @Mapping(target = "grouping.quizzes", ignore = true)
+    AttendanceDto toDto(Attendance attendance);
 
     @Mapping(target = "student", ignore = true)
     @Mapping(target = "grouping", ignore = true)
     Attendance toEntity(AttendanceDto dto);
+
 }
