@@ -5,12 +5,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@SQLDelete(sql = "UPDATE student SET status = 'DELETED' WHERE id = ?")
+@Where(clause = "status != 'DELETED'")
 public class Student extends BaseEntity{
     @Id
     private Long id;

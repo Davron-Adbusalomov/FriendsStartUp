@@ -1,10 +1,13 @@
 package com.example.demo.exam.model;
 
+import com.example.demo.management.model.BaseEntity;
 import com.example.demo.management.model.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.UUID;
 
@@ -12,7 +15,9 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Quiz_Results {
+@SQLDelete(sql = "UPDATE quiz_results SET status = 'DELETED' WHERE id = ?")
+@Where(clause = "status != 'DELETED'")
+public class Quiz_Results extends BaseEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @org.hibernate.annotations.GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")

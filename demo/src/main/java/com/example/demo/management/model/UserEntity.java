@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.Set;
 
@@ -14,6 +16,8 @@ import java.util.Set;
 @Table(name = "users")
 @ToString
 @SequenceGenerator(name = "base_seq_gen", sequenceName = "users_seq", allocationSize = 1)
+@SQLDelete(sql = "UPDATE users SET status = 'DELETED' WHERE id = ?")
+@Where(clause = "status != 'DELETED'")
 public class UserEntity extends BaseEntity {
     @Id
     @SequenceGenerator(

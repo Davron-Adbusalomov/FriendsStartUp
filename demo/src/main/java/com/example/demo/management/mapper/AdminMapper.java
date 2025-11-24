@@ -10,5 +10,4 @@ public interface AdminMapper {
     AdminDTO toDTO(Admin admin);
 
     Admin toModel(AdminDTO adminDTO);
-
 }

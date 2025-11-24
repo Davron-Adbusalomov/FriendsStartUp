@@ -5,6 +5,8 @@ import com.example.demo.exam.model.Quiz;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.*;
 
@@ -13,6 +15,8 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE teacher SET status = 'DELETED' WHERE id = ?")
+@Where(clause = "status != 'DELETED'")
 public class Teacher extends BaseEntity {
     @Id
     private Long id;

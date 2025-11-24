@@ -4,6 +4,8 @@ import com.example.demo.exam.model.Quiz;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @Table(name = "groups")
-public class Grouping {
+@SQLDelete(sql = "UPDATE groups SET status = 'DELETED' WHERE id = ?")
+@Where(clause = "status != 'DELETED'")
+public class Grouping extends BaseEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @org.hibernate.annotations.GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")

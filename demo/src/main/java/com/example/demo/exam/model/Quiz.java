@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,7 +20,9 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Quiz {
+@SQLDelete(sql = "UPDATE quiz SET status = 'DELETED' WHERE id = ?")
+@Where(clause = "status != 'DELETED'")
+public class Quiz extends BaseEntity{
 
     @Id
     @GeneratedValue(generator = "uuid2")
