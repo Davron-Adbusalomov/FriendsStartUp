@@ -14,7 +14,7 @@ public class AttendanceDto {
 
     private StudentDTO student;
 
-    private String groupId;
+    private UUID groupId;
 
     private GroupDTO grouping;
 

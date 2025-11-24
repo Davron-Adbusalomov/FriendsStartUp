@@ -32,7 +32,7 @@ public class Attendance extends BaseEntity {
     private Student student;
 
     @Column(name = "group_id", nullable = false)
-    private String groupId;
+    private UUID groupId;
 
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "id", insertable = false, updatable = false)

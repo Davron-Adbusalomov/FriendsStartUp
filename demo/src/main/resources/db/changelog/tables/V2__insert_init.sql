@@ -64,7 +64,13 @@ VALUES
     (21, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_ADMINS_LIST', 1),
     (22, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_ADMIN', 1),
     (23, current_timestamp, 1, 'CREATED', NULL, 1, 'DELETE_ADMIN', 1),
-    (24, current_timestamp, 1, 'CREATED', NULL, 1, 'UPDATE_ADMIN', 1)
+    (24, current_timestamp, 1, 'CREATED', NULL, 1, 'CREATE_ATTENDANCE', 1),
+    (25, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_ATTENDANCE_LIST', 1),
+    (26, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_ATTENDANCE_LIST', 1),
+    (27, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_ATTENDANCE', 1),
+    (28, current_timestamp, 1, 'CREATED', NULL, 1, 'UPDATE_ATTENDANCE', 1),
+    (29, current_timestamp, 1, 'CREATED', NULL, 1, 'DELETE_ATTENDANCE', 1),
+    (30, current_timestamp, 1, 'CREATED', NULL, 1, 'RESTORE_ATTENDANCE', 1)
 ON CONFLICT (id) DO NOTHING;
 SELECT setval('user_permission_seq', COALESCE((SELECT MAX(id) FROM user_permission), 0), true);
 
@@ -94,7 +100,13 @@ INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('DEASSIGN_STUDENT_FROM_GROUP', 'Remove student from a group'),
                                                               ('ASSIGN_TEACHER_TO_GROUP', 'Assign teacher to a group'),
                                                               ('GET_PERMISSIONS_BY_USER_ID', 'Get assigned permissions for a specific user'),
-                                                              ('SAVE_USER_PERMISSIONS', 'Save or update user permissions')
+                                                              ('SAVE_USER_PERMISSIONS', 'Save or update user permissions'),
+                                                              ('CREATE_ATTENDANCE', 'Create attendance record'),
+                                                              ('GET_ATTENDANCE_LIST', 'View list of attendance records'),
+                                                              ('GET_ATTENDANCE', 'View details of a single attendance record'),
+                                                              ('UPDATE_ATTENDANCE', 'Update attendance record'),
+                                                              ('DELETE_ATTENDANCE', 'Delete attendance record'),
+                                                              ('RESTORE_ATTENDANCE', 'Restore deleted attendance record')
 ON CONFLICT (name) DO NOTHING;
 
 -- role permission
@@ -142,5 +154,16 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
                                                                             ('STUDENT', 'GET_GROUPS_LIST'),
                                                                             ('STUDENT', 'GET_GROUP'),
                                                                             ('ROLE_USER', 'SIGN_UP'),
-                                                                            ('ROLE_USER', 'GET_PERMISSIONS_BY_USER_ID')
+                                                                            ('ROLE_USER', 'GET_PERMISSIONS_BY_USER_ID'),
+                                                                            ('ROLE_USER', 'SAVE_USER_PERMISSIONS'),
+                                                                            ('ADMIN', 'CREATE_ATTENDANCE'),
+                                                                            ('ADMIN', 'GET_ATTENDANCE_LIST'),
+                                                                            ('ADMIN', 'GET_ATTENDANCE'),
+                                                                            ('ADMIN', 'UPDATE_ATTENDANCE'),
+                                                                            ('ADMIN', 'DELETE_ATTENDANCE'),
+                                                                            ('ADMIN', 'RESTORE_ATTENDANCE'),
+                                                                            ('TEACHER', 'CREATE_ATTENDANCE'),
+                                                                            ('TEACHER', 'GET_ATTENDANCE_LIST'),
+                                                                            ('TEACHER', 'GET_ATTENDANCE'),
+                                                                            ('TEACHER', 'UPDATE_ATTENDANCE')
 ON CONFLICT (role_id, default_permission_name) DO NOTHING;

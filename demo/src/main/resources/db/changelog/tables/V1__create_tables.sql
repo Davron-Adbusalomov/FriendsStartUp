@@ -26,7 +26,7 @@ CREATE TABLE attendance
     created_by        BIGINT,
     updated_by        BIGINT,
     student_id        BIGINT                      NOT NULL,
-    group_id          VARCHAR(255)                NOT NULL,
+    group_id          UUID                        NOT NULL,
     attendance_time   TIMESTAMP WITHOUT TIME ZONE,
     attendance_status VARCHAR(255),
     CONSTRAINT pk_attendance PRIMARY KEY (id)
