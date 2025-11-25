@@ -12,9 +12,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
   flyway:
-    enabled: true
+    enabled: false
     locations: classpath:db/changelog/tables
 
 logging:
