@@ -1,8 +1,8 @@
 spring:
   datasource:
-#    url: jdbc:postgresql://localhost:5432/startupdb
-#    username: postgres
-#    password: 55555
+    #    url: jdbc:postgresql://localhost:5432/startupdb
+    #    username: postgres
+    #    password: 55555
     url: jdbc:postgresql://postgres1.cz62o2yusm9p.eu-north-1.rds.amazonaws.com:5432/postgres
     username: postgres
     password: davron_abdusalomov
@@ -16,7 +16,6 @@ spring:
   flyway:
     enabled: false
     locations: classpath:db/changelog/tables
-
 logging:
   file:
     name: application.log
