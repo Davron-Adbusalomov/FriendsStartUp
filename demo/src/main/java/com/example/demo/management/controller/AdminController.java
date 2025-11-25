@@ -1,8 +1,7 @@
 package com.example.demo.management.controller;
 
-import com.example.demo.management.dto.*;
+import com.example.demo.management.dto.AdminDTO;
 import com.example.demo.management.service.AdminService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.Cookie;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 
 @CrossOrigin
 @Controller
@@ -63,7 +61,7 @@ public class AdminController {
             })
     @PreAuthorize("hasAuthority('GET_ADMIN')")
     @GetMapping("/getById/{adminID}")
-    public ResponseEntity<?> getById(@PathVariable Long adminID){
+    public ResponseEntity<?> getById(@PathVariable Long adminID) {
         return adminService.getAdminById(adminID);
     }
 
@@ -79,7 +77,7 @@ public class AdminController {
     )
     @PreAuthorize("hasAnyAuthority('DELETE_ADMIN')")
     @DeleteMapping("/deleteById/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id){
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
         return adminService.deleteById(id);
     }
 
@@ -98,7 +96,7 @@ public class AdminController {
     public ResponseEntity<?> updateAdmin(@RequestBody AdminDTO adminDTO) throws Exception {
         try {
             return adminService.updateAdmin(adminDTO);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -151,7 +149,7 @@ public class AdminController {
 //    }
 
     @PostMapping("/logout-admin")
-    public ResponseEntity<?> logoutTeacher(HttpServletResponse httpServletResponse){
+    public ResponseEntity<?> logoutTeacher(HttpServletResponse httpServletResponse) {
         Cookie cookie = new Cookie("jwt", "");
         cookie.setMaxAge(0);
         cookie.setPath("/");
