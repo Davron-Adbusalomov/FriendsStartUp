@@ -16,7 +16,6 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/changelog/tables
-
 logging:
   file:
     name: application.log
