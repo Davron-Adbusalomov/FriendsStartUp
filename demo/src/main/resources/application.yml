@@ -21,7 +21,9 @@ logging:
     name: application.log
   level:
     org.springframework: error
+
 server:
+  address: 0.0.0.0
   port: 8443
   ssl:
     key-store: classpath:certificates/keystore.pfx
