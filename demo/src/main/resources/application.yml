@@ -30,7 +30,6 @@ server:
     key-store-password: AD0077005
     key-store-type: PKCS12
     key-alias: te-7235a5b6-ce00-4265-9822-9df597f09da5
-
 security:
   jwt:
     secret-key: 923f6ad7deb85d35ab7ed4a6d8691b742d284b16fbd5b69ac97638d550f532bc
