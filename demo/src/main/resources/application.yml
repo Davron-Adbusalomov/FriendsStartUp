@@ -21,6 +21,13 @@ logging:
     name: application.log
   level:
     org.springframework: error
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:certificates/keystore.pfx
+    key-store-password: AD0077005
+    key-store-type: PKCS12
+    key-alias: tomcat
 security:
   jwt:
     secret-key: 923f6ad7deb85d35ab7ed4a6d8691b742d284b16fbd5b69ac97638d550f532bc
