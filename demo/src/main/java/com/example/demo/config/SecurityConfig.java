@@ -158,6 +158,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/**").permitAll()
                         // Permit specific authentication endpoints
                         .requestMatchers("/api/v1/authentication/sign-in", "/api/v1/authentication/refresh-token").permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/api-docs/**"
+                        ).permitAll()
                         // Require authentication for all other requests
                         .anyRequest()
                         .authenticated())
