@@ -1,7 +1,6 @@
 package com.example.demo.management.authentication.dto;
 
 import com.example.demo.management.model.rbac.RoleEntity;
-//import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 //@Schema(description = "Authentication details")
@@ -21,14 +21,17 @@ public class AuthenticationDetailsDto implements UserDetails {
     private final String password;
     private final Set<String> permissions;
     private final Set<RoleEntity> roles;
+    @Getter
+    private final UUID centerId;
 
-    public AuthenticationDetailsDto(Long id, Long employeeId, String username, String password, Set<RoleEntity> roles, Set<String> permissions) {
+    public AuthenticationDetailsDto(Long id, Long employeeId, String username, String password, Set<RoleEntity> roles, Set<String> permissions, UUID centerId) {
         this.id = id;
         this.employeeId = employeeId;
         this.username = username;
         this.password = password;
         this.permissions = permissions;
         this.roles = roles;
+        this.centerId = centerId;
     }
 
     @Override
@@ -77,4 +80,5 @@ public class AuthenticationDetailsDto implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

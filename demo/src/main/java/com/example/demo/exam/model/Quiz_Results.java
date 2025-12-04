@@ -1,13 +1,13 @@
 package com.example.demo.exam.model;
 
 import com.example.demo.management.model.BaseEntity;
+import com.example.demo.management.model.Center;
 import com.example.demo.management.model.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import java.util.UUID;
 
@@ -17,6 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE quiz_results SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
+@Filter(name = "centerFilter", condition = "center_id = :centerId")
 public class Quiz_Results extends BaseEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -33,6 +34,13 @@ public class Quiz_Results extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+    @Column(name = "center_id", nullable = false)
+    private UUID centerId;
+
+    @ManyToOne
+    @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Center center;
 
     public void assignStudent(Student student) {
         this.student = student;

@@ -10,10 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
@@ -26,6 +23,20 @@ public class JwtTokenProvider {
 
     @Value("${security.jwt.refresh-token-expiration-time}")
     private long refreshTokenExpirationTime;
+
+    private static Map<String, Object> getStringObjectMap(AuthenticationDetailsDto authenticationDetails, String username) {
+        Long userId = authenticationDetails.getId();
+        Long employeeId = authenticationDetails.getEmployeeId();
+        String centerId = authenticationDetails.getCenterId().toString();
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("username", username);
+        claims.put("id", userId);
+        claims.put("employeeId", employeeId);
+        claims.put("centerId", centerId);
+
+        return claims;
+    }
 
     public String extractUsername(String token) {
         return extractClaim(token, claims -> claims.get("username", String.class));
@@ -50,7 +61,6 @@ public class JwtTokenProvider {
         }
     }
 
-
     public String generateToken(AuthenticationDetailsDto userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
@@ -64,14 +74,8 @@ public class JwtTokenProvider {
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + (isRefreshToken ? refreshTokenExpirationTime : accessTokenExpirationTime));
 
-        return Jwts.builder()
-                .setId(Optional.ofNullable(claims.get("id")).map(Object::toString).orElse("UNKNOWN")) // ✅ Avoid NPE
-                .setSubject(claims.getSubject())
-                .setClaims(claims)
-                .setIssuedAt(currentDate)
-                .setExpiration(expireDate)
-                .signWith(getSignInKey())
-                .compact();
+        return Jwts.builder().setId(Optional.ofNullable(claims.get("id")).map(Object::toString).orElse("UNKNOWN")) // ✅ Avoid NPE
+                .setSubject(claims.getSubject()).setClaims(claims).setIssuedAt(currentDate).setExpiration(expireDate).signWith(getSignInKey()).compact();
     }
 
     public String generateToken(Authentication authentication, boolean isRefreshToken) {
@@ -82,35 +86,11 @@ public class JwtTokenProvider {
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + (isRefreshToken ? refreshTokenExpirationTime : accessTokenExpirationTime));
 
-        return Jwts.builder()
-                .setSubject(username)
-                .setClaims(claims)
-                .setIssuedAt(currentDate)
-                .setExpiration(expireDate)
-                .signWith(getSignInKey())
-                .compact();
-    }
-
-    private static Map<String, Object> getStringObjectMap(AuthenticationDetailsDto authenticationDetails, String username) {
-        Long userId = authenticationDetails.getId();
-        Long employeeId = authenticationDetails.getEmployeeId();
-
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("username", username);
-        claims.put("id", userId);
-        claims.put("employeeId", employeeId);
-
-        return claims;
+        return Jwts.builder().setSubject(username).setClaims(claims).setIssuedAt(currentDate).setExpiration(expireDate).signWith(getSignInKey()).compact();
     }
 
     private String buildToken(Map<String, Object> extraClaims, AuthenticationDetailsDto userDetails, long expiration) {
-        return Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey())
-                .compact();
+        return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername()).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + expiration)).signWith(getSignInKey()).compact();
     }
 
     public boolean isTokenValid(String token, AuthenticationDetailsDto userDetails) {
@@ -132,11 +112,7 @@ public class JwtTokenProvider {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSignInKey()) // ✅ Corrected
-                .build()
-                .parseClaimsJws(token) // ✅ Correct method for parsing JWT
-                .getBody();
+        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
     }
 
     private Key getSignInKey() { // ✅ Changed return type from SecretKey to Key
@@ -146,13 +122,16 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(getSignInKey()) // ✅ Corrected
-                    .build()
-                    .parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(getSignInKey()) // ✅ Corrected
+                    .build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false; // Token is invalid or expired
         }
     }
+
+    public String getCenterId(String token) {
+        return extractAllClaims(token).get("centerId", String.class);
+    }
+
 }
