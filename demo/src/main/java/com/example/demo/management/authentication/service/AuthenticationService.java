@@ -1,6 +1,7 @@
 package com.example.demo.management.authentication.service;
 
 import com.example.demo.config.JwtTokenProvider;
+import com.example.demo.config.TenantContext;
 import com.example.demo.exception.InvalidLoginRequestException;
 import com.example.demo.exception.InvalidRefreshTokenException;
 import com.example.demo.management.authentication.enums.RolesEnum;
@@ -166,6 +167,7 @@ public class AuthenticationService {
                 admin.setId(entity.getId());
                 admin.setFullName(entity.getFullName());
                 admin.setCreatedAt(LocalDateTime.now());
+                admin.setCenterId(TenantContext.getCenterId());
                 adminRepository.save(admin);
             }
         }
@@ -177,6 +179,7 @@ public class AuthenticationService {
                 student.setFullName(entity.getFullName());
                 student.setCreatedAt(LocalDateTime.now());
                 student.setPhoneNumber(entity.getUsername());
+                student.setCenterId(TenantContext.getCenterId());
                 Student student1 = studentRepository.save(student);
 
                 assignGroup(request, student1.getId(), false);
@@ -190,6 +193,7 @@ public class AuthenticationService {
                 teacher.setFullName(entity.getFullName());
                 teacher.setCreatedAt(LocalDateTime.now());
                 teacher.setPhoneNumber(entity.getUsername());
+                teacher.setCenterId(TenantContext.getCenterId());
                 Teacher teacher1 = teacherRepository.save(teacher);
 
                 assignGroup(request, teacher1.getId(), true);
@@ -225,6 +229,7 @@ public class AuthenticationService {
         entity.setUpdatedBy(id);
         entity.setCreatedAt(LocalDateTime.now());
         entity.setFullName(request.getFullName());
+        entity.setCenterId(TenantContext.getCenterId());
 
         String rawPassword = PasswordUtil.generatePassword(8);
         entity.setPassword(passwordEncoder.encode("password"));

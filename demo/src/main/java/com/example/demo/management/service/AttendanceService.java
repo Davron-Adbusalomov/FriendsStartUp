@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.TenantContext;
 import com.example.demo.enums.AttendanceStatus;
 import com.example.demo.management.dto.AttendanceDto;
 import com.example.demo.management.dto.request.AttendanceCreateRequest;
@@ -34,6 +35,7 @@ public class AttendanceService {
                     attendance.setGroupId(request.getGroupId());
                     attendance.setAttendanceTime(request.getAttendanceTime());
                     attendance.setAttendanceStatus(request.getStatus());
+                    attendance.setCenterId(TenantContext.getCenterId());
                     return attendance;
                 })
                 .toList();
@@ -64,6 +66,18 @@ public class AttendanceService {
     public AttendanceDto getById(UUID id) {
         Attendance attendance = attendanceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Attendance not found with id: " + id));
         return mapper.toDto(attendance);
+    }
+
+    public AttendanceStatus getTodayAttendanceStatus(Long studentId) {
+        LocalDateTime startOfDay = LocalDateTime.now().toLocalDate().atStartOfDay();
+        LocalDateTime endOfDay = startOfDay.plusDays(1).minusNanos(1);
+
+        List<Attendance> attendances = attendanceRepository.findAllByStudentIdAndAttendanceTimeBetweenOrderByAttendanceTimeDesc(studentId, startOfDay, endOfDay);
+        if (attendances.isEmpty()) {
+            return AttendanceStatus.NOT_MARKED;
+        }
+
+        return attendances.get(0).getAttendanceStatus();
     }
 
     public AttendanceDto update(UUID id, AttendanceDto updated) {

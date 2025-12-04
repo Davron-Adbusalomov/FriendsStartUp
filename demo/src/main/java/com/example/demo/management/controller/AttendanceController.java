@@ -1,5 +1,6 @@
 package com.example.demo.management.controller;
 
+import com.example.demo.enums.AttendanceStatus;
 import com.example.demo.management.dto.AttendanceDto;
 import com.example.demo.management.dto.request.AttendanceCreateRequest;
 import com.example.demo.management.model.Attendance;
@@ -85,6 +86,22 @@ public class AttendanceController {
         return attendanceService.getById(id);
     }
 
+
+    @Operation(
+            summary = "Get attendance status for today by ID",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Attendance not found")
+            }
+    )
+    @PreAuthorize("hasAuthority('GET_ATTENDANCE')")
+    @GetMapping("/today-status/{studentId}")
+    public AttendanceStatus getTodayAttendanceStatus(@PathVariable Long studentId) {
+        return attendanceService.getTodayAttendanceStatus(studentId);
+    }
 
     @Operation(
             summary = "Update attendance",
