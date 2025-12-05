@@ -120,7 +120,18 @@ INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('GET_ATTENDANCE', 'View details of a single attendance record'),
                                                               ('UPDATE_ATTENDANCE', 'Update attendance record'),
                                                               ('DELETE_ATTENDANCE', 'Delete attendance record'),
-                                                              ('RESTORE_ATTENDANCE', 'Restore deleted attendance record')
+                                                              ('RESTORE_ATTENDANCE', 'Restore deleted attendance record'),
+                                                              ('GET_QUESTIONS_LIST', 'View list of all questions'),
+                                                              ('GET_QUESTION', 'View details of a single question'),
+                                                              ('CREATE_QUESTION', 'Create a new question'),
+                                                              ('UPDATE_QUESTION', 'Update question information'),
+                                                              ('DELETE_QUESTION', 'Delete a question'),
+                                                              ('CREATE_QUIZ', 'Create a new quiz'),
+                                                              ('GET_QUIZZES_LIST', 'View list of all quizzes'),
+                                                              ('GET_QUIZ', 'View details of a single quiz'),
+                                                              ('UPDATE_QUIZ', 'Update quiz information'),
+                                                              ('DELETE_QUIZ', 'Delete a quiz'),
+                                                              ('CHECK_QUIZ', 'Check quiz answers and provide results')
 ON CONFLICT (name) DO NOTHING;
 
 -- role permission
