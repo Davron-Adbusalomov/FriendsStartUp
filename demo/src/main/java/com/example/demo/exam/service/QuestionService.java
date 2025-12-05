@@ -1,5 +1,7 @@
 package com.example.demo.exam.service;
 
+import com.example.demo.config.TenantContext;
+import com.example.demo.exam.mapper.QuestionMapper;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.exam.dto.QuestionDTO;
@@ -9,8 +11,12 @@ import com.example.demo.exam.model.Quiz;
 import com.example.demo.exam.repository.OptionRepository;
 import com.example.demo.exam.repository.QuestionRepository;
 import com.example.demo.exam.repository.QuizRepository;
+import com.example.demo.management.specification.QuestionSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -41,17 +47,22 @@ public class QuestionService {
     @Autowired
     private MediaService mediaService;
 
-    public Question getQuestionById(UUID id){
+    public QuestionDTO getQuestionById(UUID id){
         Optional<Question> question = questionRepository.findById(id);
         if (question.isEmpty()){
             throw new EntityNotFoundException("No question found with this id: " + id);
         }
-        return question.get();
+        return QuestionMapper.toDTO(question.get());
     }
 
-    public ResponseEntity<?> getAllQuestions(){
-        return ResponseEntity.status(HttpStatus.OK).body(questionRepository.findAll());
+    public Page<QuestionDTO> getAllQuestions(String level, Long teacherId, UUID quizId, Pageable pageable) {
+        Specification<Question> spec = QuestionSpecification.advancedFilter(level, teacherId, quizId);
+
+        Page<Question> page = questionRepository.findAll(spec, pageable);
+
+        return page.map(QuestionMapper::toDTO);
     }
+
 
     public String createQuestion(QuestionDTO questionDTO) throws IOException {
         List<Option> arrayList = new ArrayList<>();
@@ -82,7 +93,8 @@ public class QuestionService {
                     question.setMark(questionDTO.getMark());
                     question.setRight_answer(questionDTO.getRight_answer());
                     question.setTeacher(teacher);
-                    if (questionDTO.getType().equals("Multiple Choice")){
+                    question.setCenterId(TenantContext.getCenterId());
+                    if (questionDTO.getType().equals("MC")){
                         for (Option option:arrayList) {
                             question.assignOption(option);
                         }}

@@ -1,8 +1,6 @@
 package com.example.demo.management.dto;
 
 
-import com.example.demo.exam.dto.QuizDTO;
-import com.example.demo.exam.model.Quiz;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,4 +34,6 @@ public class GroupDTO {
     private List<UUID> quizzes;
 
     private LocalDateTime createdAt;
+
+    private UUID centerId;
 }

@@ -2,13 +2,14 @@ package com.example.demo.management.model;
 
 import com.example.demo.management.model.rbac.RoleEntity;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,6 +19,7 @@ import java.util.Set;
 @SequenceGenerator(name = "base_seq_gen", sequenceName = "users_seq", allocationSize = 1)
 @SQLDelete(sql = "UPDATE users SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
+@Filter(name = "centerFilter", condition = "center_id = :centerId")
 public class UserEntity extends BaseEntity {
     @Id
     @SequenceGenerator(
@@ -56,5 +58,12 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "attempts")
     private Integer attempts = 0;
+
+    @Column(name = "center_id", nullable = false)
+    private UUID centerId;
+
+    @ManyToOne
+    @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Center center;
 
 }

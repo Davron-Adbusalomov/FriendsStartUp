@@ -18,59 +18,69 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
     private final EntityManager entityManager;
 
-
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request,
-                                    @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-        // Get JWT token from HTTP request
         String token = getTokenFromRequest(request);
 
-        String centerId = null;
+        Session session = null;
 
-        // Validate Token
-        if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
-            // get username from token
-            String username = jwtTokenProvider.extractUsername(token);
-            centerId = jwtTokenProvider.getCenterId(token);
+        try {
+            String centerId = null;
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
 
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.getAuthorities()
-            );
+                String username = jwtTokenProvider.extractUsername(token);
+                centerId = jwtTokenProvider.getCenterId(token);
 
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
+
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+
+            if (centerId != null) {
+                TenantContext.setCenterId(UUID.fromString(centerId));
+
+                session = entityManager.unwrap(Session.class);
+                session.enableFilter("centerFilter")
+                        .setParameter("centerId", UUID.fromString(centerId));
+            }
+
+            filterChain.doFilter(request, response);
         }
-
-        if (centerId != null) {
-            Session session = entityManager.unwrap(Session.class);
-            session.enableFilter("centerFilter").setParameter("centerId", centerId);
+        finally {
+            TenantContext.clear();
+            if (session != null) {
+                session.disableFilter("centerFilter");
+            }
         }
-
-        filterChain.doFilter(request, response);
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
-        }
-
-        return null;
+        String bearer = request.getHeader("Authorization");
+        return (StringUtils.hasText(bearer) && bearer.startsWith("Bearer "))
+                ? bearer.substring(7)
+                : null;
     }
 }

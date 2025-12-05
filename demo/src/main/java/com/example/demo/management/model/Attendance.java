@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -17,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE attendance SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
+@Filter(name = "centerFilter", condition = "center_id = :centerId")
 public class Attendance extends BaseEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -44,4 +44,10 @@ public class Attendance extends BaseEntity {
     @Column(name = "attendance_status")
     private AttendanceStatus attendanceStatus;
 
+    @Column(name = "center_id", nullable = false)
+    private UUID centerId;
+
+    @ManyToOne
+    @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Center center;
 }

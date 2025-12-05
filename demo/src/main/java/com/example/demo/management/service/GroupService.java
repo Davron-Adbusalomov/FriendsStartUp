@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.TenantContext;
 import com.example.demo.exam.model.Quiz;
 import com.example.demo.exam.repository.QuizRepository;
 import com.example.demo.management.dto.AssignUserToGroupDTO;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -39,11 +41,14 @@ public class GroupService {
         return groupMapper.toDto(grouping);
     }
 
+    @Transactional
     public GroupDTO registerGroup(GroupDTO groupDTO) {
         if (groupRepository.findByName(groupDTO.getName()).isPresent()) {
             throw new IllegalArgumentException("Group already existed!");
         }
-        Grouping group = groupRepository.save(groupMapper.toEntity(groupDTO));
+        Grouping grouping = groupMapper.toEntity(groupDTO);
+        grouping.setCenterId(TenantContext.getCenterId());
+        Grouping group = groupRepository.save(grouping);
 
         if (groupDTO.getTeacherId() != null) {
             AssignUserToGroupDTO assignUserToGroupDTO = new AssignUserToGroupDTO();

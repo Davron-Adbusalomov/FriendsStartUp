@@ -1,13 +1,14 @@
 package com.example.demo.exam.model;
 
 import com.example.demo.management.model.BaseEntity;
+import com.example.demo.management.model.Center;
 import com.example.demo.management.model.Teacher;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
 import lombok.Data;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Data
 @SQLDelete(sql = "UPDATE question SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
+@Filter(name = "centerFilter", condition = "center_id = :centerId")
 public class Question extends BaseEntity{
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -55,4 +57,11 @@ public class Question extends BaseEntity{
     public void assignOption(Option option) {
         options.add(option);
     }
+
+    @Column(name = "center_id", nullable = false)
+    private UUID centerId;
+
+    @ManyToOne
+    @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Center center;
 }

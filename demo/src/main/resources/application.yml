@@ -1,20 +1,20 @@
 spring:
   datasource:
-    #    url: jdbc:postgresql://localhost:5432/startupdb
-    #    username: postgres
-    #    password: 55555
-    url: jdbc:postgresql://postgres1.cz62o2yusm9p.eu-north-1.rds.amazonaws.com:5432/postgres
+    url: jdbc:postgresql://localhost:5433/startupdb
     username: postgres
-    password: davron_abdusalomov
+    password: 55555
+#    url: jdbc:postgresql://postgres1.cz62o2yusm9p.eu-north-1.rds.amazonaws.com:5432/postgres
+#    username: postgres
+#    password: davron_abdusalomov
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
   flyway:
-    enabled: true
+    enabled: false
     locations: classpath:db/changelog/tables
 logging:
   file:

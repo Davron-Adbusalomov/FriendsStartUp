@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import java.util.*;
 
@@ -15,6 +14,7 @@ import java.util.*;
 @Data
 @SQLDelete(sql = "UPDATE student SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
+@Filter(name = "centerFilter", condition = "center_id = :centerId")
 public class Student extends BaseEntity{
     @Id
     private Long id;
@@ -34,4 +34,11 @@ public class Student extends BaseEntity{
     @JsonIgnore
     @OneToMany(mappedBy = "student")
     private List<Quiz_Results> quizResults = new ArrayList<>();
+
+    @Column(name = "center_id", nullable = false)
+    private UUID centerId;
+
+    @ManyToOne
+    @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Center center;
 }

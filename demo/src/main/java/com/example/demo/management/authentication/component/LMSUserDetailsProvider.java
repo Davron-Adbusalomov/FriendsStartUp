@@ -11,7 +11,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,11 +29,13 @@ public class LMSUserDetailsProvider implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var userOptional = userRepository.findByUsername(username);
         var employeeRef = new Object() {
-            Long employeeId = null;
+            final Long employeeId = null;
         };
+        UUID centerId;
         Set<RoleEntity> roles;
         Set<String> permissions;
         if (userOptional.isPresent()) {
+            centerId = userOptional.get().getCenterId();
             var userPermissions = userPermissionsRepository.findByUserId(userOptional.get().getId());
 //            var employee = employeeRepository.findByUserId(userOptional.get().getId());
 //            employee.ifPresent(employeeEntity -> employeeRef.employeeId = employeeEntity.getId());
@@ -49,7 +53,7 @@ public class LMSUserDetailsProvider implements UserDetailsService {
 
 
         return userOptional.map(
-                        user -> new AuthenticationDetailsDto(user.getId(), employeeRef.employeeId, user.getUsername(), user.getPassword(), roles, permissions))
+                        user -> new AuthenticationDetailsDto(user.getId(), employeeRef.employeeId, user.getUsername(), user.getPassword(), roles, permissions, centerId))
                 .get();
     }
 }

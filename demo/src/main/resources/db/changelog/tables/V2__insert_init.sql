@@ -1,6 +1,19 @@
+INSERT INTO center (id,created_at, created_by, status, updated_at, updated_by, name, location, contact_info)
+VALUES (
+           '550e8400-e29b-41d4-a716-446655440000',
+           '2025-03-24 07:55:25.986510',
+           1,
+           'CREATED',
+           '2025-03-24 07:55:25.986510',
+           1,
+           'My Center',
+           'Tashkent',
+           '99890 123 45 67'
+       );
+
 INSERT INTO users(
     id, created_at, created_by, status, updated_at, updated_by,
-    attempts, confirmation_code, is_active, is_blocked,
+    attempts, confirmation_code, center_id, is_active, is_blocked,
     password, username, full_name
 )
 VALUES (
@@ -12,6 +25,7 @@ VALUES (
            1,
            0,
            'ABC123',
+        '550e8400-e29b-41d4-a716-446655440000',
            true,
            false,
            '$2a$10$Fgao4CtX91jkbLZlXKUGFOfnPFtfaS352yOqxAXJuoV8ZYrcT5f5q',
@@ -106,7 +120,18 @@ INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('GET_ATTENDANCE', 'View details of a single attendance record'),
                                                               ('UPDATE_ATTENDANCE', 'Update attendance record'),
                                                               ('DELETE_ATTENDANCE', 'Delete attendance record'),
-                                                              ('RESTORE_ATTENDANCE', 'Restore deleted attendance record')
+                                                              ('RESTORE_ATTENDANCE', 'Restore deleted attendance record'),
+                                                              ('GET_QUESTIONS_LIST', 'View list of all questions'),
+                                                              ('GET_QUESTION', 'View details of a single question'),
+                                                              ('CREATE_QUESTION', 'Create a new question'),
+                                                              ('UPDATE_QUESTION', 'Update question information'),
+                                                              ('DELETE_QUESTION', 'Delete a question'),
+                                                              ('CREATE_QUIZ', 'Create a new quiz'),
+                                                              ('GET_QUIZZES_LIST', 'View list of all quizzes'),
+                                                              ('GET_QUIZ', 'View details of a single quiz'),
+                                                              ('UPDATE_QUIZ', 'Update quiz information'),
+                                                              ('DELETE_QUIZ', 'Delete a quiz'),
+                                                              ('CHECK_QUIZ', 'Check quiz answers and provide results')
 ON CONFLICT (name) DO NOTHING;
 
 -- role permission
@@ -148,19 +173,26 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
                                                                             ('TEACHER', 'ASSIGN_STUDENT_TO_GROUP'),
                                                                             ('TEACHER', 'DEASSIGN_STUDENT_FROM_GROUP'),
                                                                             ('TEACHER', 'ASSIGN_TEACHER_TO_GROUP'),
+                                                                            ('STUDENT', 'CREATE'),
                                                                             ('STUDENT', 'SIGN_UP'),
+                                                                            ('STUDENT', 'GET_ADMINS_LIST'),
                                                                             ('STUDENT', 'GET_STUDENTS_LIST'),
                                                                             ('STUDENT', 'GET_STUDENT'),
+                                                                            ('STUDENT', 'DELETE_STUDENT'),
+                                                                            ('STUDENT', 'UPDATE_STUDENT'),
+                                                                            ('STUDENT', 'GET_TEACHERS_LIST'),
+                                                                            ('STUDENT', 'GET_TEACHER'),
                                                                             ('STUDENT', 'GET_GROUPS_LIST'),
                                                                             ('STUDENT', 'GET_GROUP'),
+                                                                            ('STUDENT', 'GET_PERMISSIONS_BY_USER_ID'),
                                                                             ('ROLE_USER', 'SIGN_UP'),
                                                                             ('ROLE_USER', 'GET_PERMISSIONS_BY_USER_ID'),
-                                                                            ('ROLE_USER', 'SAVE_USER_PERMISSIONS'),
                                                                             ('ADMIN', 'CREATE_ATTENDANCE'),
                                                                             ('ADMIN', 'GET_ATTENDANCE_LIST'),
                                                                             ('ADMIN', 'GET_ATTENDANCE'),
                                                                             ('ADMIN', 'UPDATE_ATTENDANCE'),
                                                                             ('ADMIN', 'DELETE_ATTENDANCE'),
+                                                                            ('ROLE_USER', 'SAVE_USER_PERMISSIONS'),
                                                                             ('ADMIN', 'RESTORE_ATTENDANCE'),
                                                                             ('TEACHER', 'CREATE_ATTENDANCE'),
                                                                             ('TEACHER', 'GET_ATTENDANCE_LIST'),

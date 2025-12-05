@@ -16,6 +16,8 @@ public class QuizDTO {
 
         private UUID id;
 
+        private String title;
+
         private Long duration;
 
         private int questions_num;

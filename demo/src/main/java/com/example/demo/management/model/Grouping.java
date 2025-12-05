@@ -2,10 +2,10 @@ package com.example.demo.management.model;
 
 import com.example.demo.exam.model.Quiz;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.UUID;
 @Table(name = "groups")
 @SQLDelete(sql = "UPDATE groups SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
+@Filter(name = "centerFilter", condition = "center_id = :centerId")
 public class Grouping extends BaseEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -43,6 +44,13 @@ public class Grouping extends BaseEntity {
 
     @OneToMany(mappedBy = "grouping")
     private List<Quiz> quizzes;
+
+    @Column(name = "center_id", nullable = false)
+    private UUID centerId;
+
+    @ManyToOne
+    @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Center center;
 
     public void assignStudent(Student student) {
         students.add(student);
