@@ -3,12 +3,18 @@ package com.example.demo.exam.controller;
 import com.example.demo.exam.dto.QuestionDTO;
 import com.example.demo.exam.model.Question;
 import com.example.demo.exam.service.QuestionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,16 +24,29 @@ public class QuestionController {
     @Autowired
     public QuestionService questionService;
 
+    @Operation(
+            summary = "Get question by id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
     @GetMapping("getById/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id){
-        try {
-            Question question = questionService.getQuestionById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(question);
-        }catch (EntityNotFoundException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public QuestionDTO getById(@PathVariable UUID id){
+        return questionService.getQuestionById(id);
     }
 
+    @Operation(
+            summary = "Getting group by id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
     @GetMapping("getQuestionsByLevel/{level}")
     public ResponseEntity<?> getByGroup(@PathVariable String level){
         try{
@@ -37,11 +56,32 @@ public class QuestionController {
         }
     }
 
+    @Operation(
+            summary = "Getting all questions",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
     @GetMapping("getAll")
-    public ResponseEntity<?> getAll(){
-        return questionService.getAllQuestions();
+    public Page<QuestionDTO> getAll(@Parameter(required = false) String level,
+                                    @Parameter(required = false) Long teacherId,
+                                    @Parameter(required = false) UUID quizId,
+                                    Pageable pageable){
+        return questionService.getAllQuestions(level, teacherId, quizId, pageable);
     }
 
+    @Operation(
+            summary = "Create a new question",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
     @PostMapping("create")
     public ResponseEntity<?> creatQuestion(@RequestBody QuestionDTO questionDTO){
         try {
@@ -51,11 +91,29 @@ public class QuestionController {
         }
     }
 
+    @Operation(
+            summary = "update question by id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
     @PutMapping("update/{id}")
     public ResponseEntity<?> updateQuestion(@RequestBody QuestionDTO questionDTO, @PathVariable UUID id){
         return questionService.updateQuestion(questionDTO, id);
     }
 
+    @Operation(
+            summary = "Delete question by id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable UUID id){
         return questionService.deleteQuestion(id);

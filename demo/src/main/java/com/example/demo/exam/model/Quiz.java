@@ -32,19 +32,27 @@ public class Quiz extends BaseEntity{
     @Column(columnDefinition = "UUID")
     private UUID id;
 
+    private String title;
+
     private int questions_num;
 
     private Long duration;
 
     private LocalDateTime startTime;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "grouping_id")
-    private Grouping grouping;
+    @Column(name = "grouping_id")
+    private UUID groupingId;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id")
+    @JsonIgnore
+    @JoinColumn(name = "grouping_id", insertable = false, updatable = false)
+    private Grouping grouping;
+
+    @Column(name = "teacher_id", nullable = false)
+    private Long teacherId;
+
+    @ManyToOne
+    @JoinColumn(name = "teacher_id", insertable = false, updatable = false)
     @JsonIgnoreProperties("quizzes")
     private Teacher teacher;
 

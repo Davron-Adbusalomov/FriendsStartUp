@@ -1,6 +1,11 @@
 package com.example.demo.exam.service;
 
+import com.example.demo.config.CurrentUserUtils;
+import com.example.demo.config.TenantContext;
+import com.example.demo.exam.dto.UpcomingTaskInfo;
+import com.example.demo.management.dto.StudentDTO;
 import com.example.demo.management.model.Grouping;
+import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
@@ -67,6 +72,7 @@ public class QuizService {
         quiz.setStartTime(time);
         quiz.setGrouping(group.get());
         quiz.setQuestions_num(quizDTO.getQuestions_num());
+        quiz.setCenterId(TenantContext.getCenterId());
         for (UUID questionId : quizDTO.getQuestions()) {
             Optional<Question> question = questionRepository.findById(questionId);
             if (question.isEmpty()){
@@ -207,9 +213,31 @@ public class QuizService {
         quizResults.setQuiz(quizRepository.findById(quizId).get());
         quizResults.setMark(mark);
         quizResults.setStudent(studentRepository.findById(id).get());
+        quizResults.setCenterId(TenantContext.getCenterId());
         quizResultsRepository.save(quizResults);
 
         return "Successfully recorded!";
+    }
+
+    public UpcomingTaskInfo getUpcomingQuizInfo() {
+        Long userId = CurrentUserUtils.getUserId();
+        Student student = studentRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + userId));
+        if(student.getGroupings().isEmpty()){
+            throw new EntityNotFoundException("Student is not assigned to any group");
+        }
+        Quiz quiz = quizRepository.findUpcomingQuizByGroupIds(
+                student.getGroupings().stream().map(Grouping::getId).toList(),
+                LocalDateTime.now()
+        );
+        if (quiz == null) {
+            return null;
+        }
+
+        UpcomingTaskInfo upcomingTaskInfo = new UpcomingTaskInfo();
+        upcomingTaskInfo.setTitle(quiz.getTitle());
+        upcomingTaskInfo.setTime(quiz.getStartTime());
+
+        return upcomingTaskInfo;
     }
 
 }
