@@ -147,5 +147,4 @@ public class QuestionService {
     public List<Question> getQuestionByLevel(String level) {
         return questionRepository.findQuestionByLevel(level);
     }
-
 }
