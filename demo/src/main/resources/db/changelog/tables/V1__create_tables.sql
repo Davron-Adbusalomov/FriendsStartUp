@@ -118,6 +118,7 @@ CREATE TABLE quiz
     updated_at    TIMESTAMP WITHOUT TIME ZONE,
     status        VARCHAR(255)                NOT NULL,
     created_by    BIGINT,
+    title         VARCHAR(255) NOT NULL,
     updated_by    BIGINT,
     questions_num INTEGER                     NOT NULL,
     duration      BIGINT,
