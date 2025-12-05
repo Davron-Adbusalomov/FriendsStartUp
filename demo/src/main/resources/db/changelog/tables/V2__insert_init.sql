@@ -6,8 +6,8 @@ VALUES (
            'CREATED',
            '2025-03-24 07:55:25.986510',
            1,
-           'My Center',
-           'Tashkent',
+           'Best Academy',
+           'Namangan, Uzbekistan',
            '99890 123 45 67'
        );
 
@@ -39,6 +39,8 @@ SELECT setval('users_seq', COALESCE((SELECT MAX(id) FROM users), 0), true);
 
 -- role
 insert into role(name, privilege) VALUES
+                                      ('SUPER_ADMIN', 0),
+                                      ('DIRECTOR', 0),
                                       ('ADMIN', 1),
                                       ('TEACHER', 2),
                                       ('STUDENT', 3),
@@ -47,7 +49,7 @@ ON CONFLICT (name) DO NOTHING;
 
 -- user-role
 INSERT INTO user_roles(user_id, role_id) VALUES
-    (1, 'ADMIN')
+    (1, 'SUPER_ADMIN')
 ON CONFLICT (user_id, role_id) DO NOTHING;
 
 -- user permissions
@@ -90,51 +92,6 @@ SELECT setval('user_permission_seq', COALESCE((SELECT MAX(id) FROM user_permissi
 
 
 --default permissions
-INSERT INTO default_permission_entity (name, description) VALUES
-                                                              ('CREATE', 'Create new resources'),
-                                                              ('SIGN_UP', 'User sign-up or registration'),
-                                                              ('GET_ADMINS_LIST', 'View list of all students'),
-                                                              ('GET_ADMIN', 'View details of a single student'),
-                                                              ('DELETE_ADMIN', 'Delete a student'),
-                                                              ('UPDATE_ADMIN', 'Update student information'),
-                                                              ('GET_STUDENTS_LIST', 'View list of all students'),
-                                                              ('GET_STUDENT', 'View details of a single student'),
-                                                              ('DELETE_STUDENT', 'Delete a student'),
-                                                              ('UPDATE_STUDENT', 'Update student information'),
-                                                              ('GET_TEACHERS_LIST', 'View list of all teachers'),
-                                                              ('GET_TEACHER', 'View details of a single teacher'),
-                                                              ('DELETE_TEACHER', 'Delete a teacher'),
-                                                              ('UPDATE_TEACHER', 'Update teacher information'),
-                                                              ('CREATE_GROUP', 'Create a new group'),
-                                                              ('GET_GROUPS_LIST', 'View list of all groups'),
-                                                              ('GET_GROUP', 'View details of a single group'),
-                                                              ('DELETE_GROUP', 'Delete a group'),
-                                                              ('UPDATE_GROUP', 'Update group information'),
-                                                              ('ASSIGN_STUDENT_TO_GROUP', 'Assign student to a group'),
-                                                              ('DEASSIGN_STUDENT_FROM_GROUP', 'Remove student from a group'),
-                                                              ('ASSIGN_TEACHER_TO_GROUP', 'Assign teacher to a group'),
-                                                              ('GET_PERMISSIONS_BY_USER_ID', 'Get assigned permissions for a specific user'),
-                                                              ('SAVE_USER_PERMISSIONS', 'Save or update user permissions'),
-                                                              ('CREATE_ATTENDANCE', 'Create attendance record'),
-                                                              ('GET_ATTENDANCE_LIST', 'View list of attendance records'),
-                                                              ('GET_ATTENDANCE', 'View details of a single attendance record'),
-                                                              ('UPDATE_ATTENDANCE', 'Update attendance record'),
-                                                              ('DELETE_ATTENDANCE', 'Delete attendance record'),
-                                                              ('RESTORE_ATTENDANCE', 'Restore deleted attendance record'),
-                                                              ('GET_QUESTIONS_LIST', 'View list of all questions'),
-                                                              ('GET_QUESTION', 'View details of a single question'),
-                                                              ('CREATE_QUESTION', 'Create a new question'),
-                                                              ('UPDATE_QUESTION', 'Update question information'),
-                                                              ('DELETE_QUESTION', 'Delete a question'),
-                                                              ('CREATE_QUIZ', 'Create a new quiz'),
-                                                              ('GET_QUIZZES_LIST', 'View list of all quizzes'),
-                                                              ('GET_QUIZ', 'View details of a single quiz'),
-                                                              ('UPDATE_QUIZ', 'Update quiz information'),
-                                                              ('DELETE_QUIZ', 'Delete a quiz'),
-                                                              ('CHECK_QUIZ', 'Check quiz answers and provide results')
-ON CONFLICT (name) DO NOTHING;
-
--- role permission
 INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
                                                                             ('ADMIN', 'CREATE'),
                                                                             ('ADMIN', 'SIGN_UP'),
@@ -199,3 +156,50 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
                                                                             ('TEACHER', 'GET_ATTENDANCE'),
                                                                             ('TEACHER', 'UPDATE_ATTENDANCE')
 ON CONFLICT (role_id, default_permission_name) DO NOTHING;
+
+-- role permission
+INSERT INTO default_permission_entity (name, description) VALUES
+                                                              ('CREATE', 'Create new resources'),
+                                                              ('SIGN_UP', 'User sign-up or registration'),
+                                                              ('GET_ADMINS_LIST', 'View list of all students'),
+                                                              ('GET_ADMIN', 'View details of a single student'),
+                                                              ('DELETE_ADMIN', 'Delete a student'),
+                                                              ('UPDATE_ADMIN', 'Update student information'),
+                                                              ('GET_STUDENTS_LIST', 'View list of all students'),
+                                                              ('GET_STUDENT', 'View details of a single student'),
+                                                              ('DELETE_STUDENT', 'Delete a student'),
+                                                              ('UPDATE_STUDENT', 'Update student information'),
+                                                              ('GET_TEACHERS_LIST', 'View list of all teachers'),
+                                                              ('GET_TEACHER', 'View details of a single teacher'),
+                                                              ('DELETE_TEACHER', 'Delete a teacher'),
+                                                              ('UPDATE_TEACHER', 'Update teacher information'),
+                                                              ('CREATE_GROUP', 'Create a new group'),
+                                                              ('GET_GROUPS_LIST', 'View list of all groups'),
+                                                              ('GET_GROUP', 'View details of a single group'),
+                                                              ('DELETE_GROUP', 'Delete a group'),
+                                                              ('UPDATE_GROUP', 'Update group information'),
+                                                              ('ASSIGN_STUDENT_TO_GROUP', 'Assign student to a group'),
+                                                              ('DEASSIGN_STUDENT_FROM_GROUP', 'Remove student from a group'),
+                                                              ('ASSIGN_TEACHER_TO_GROUP', 'Assign teacher to a group'),
+                                                              ('GET_PERMISSIONS_BY_USER_ID', 'Get assigned permissions for a specific user'),
+                                                              ('SAVE_USER_PERMISSIONS', 'Save or update user permissions'),
+                                                              ('CREATE_ATTENDANCE', 'Create attendance record'),
+                                                              ('GET_ATTENDANCE_LIST', 'View list of attendance records'),
+                                                              ('GET_ATTENDANCE', 'View details of a single attendance record'),
+                                                              ('UPDATE_ATTENDANCE', 'Update attendance record'),
+                                                              ('DELETE_ATTENDANCE', 'Delete attendance record'),
+                                                              ('RESTORE_ATTENDANCE', 'Restore deleted attendance record'),
+                                                              ('GET_QUESTIONS_LIST', 'View list of all questions'),
+                                                              ('GET_QUESTION', 'View details of a single question'),
+                                                              ('CREATE_QUESTION', 'Create a new question'),
+                                                              ('UPDATE_QUESTION', 'Update question information'),
+                                                              ('DELETE_QUESTION', 'Delete a question'),
+                                                              ('CREATE_QUIZ', 'Create a new quiz'),
+                                                              ('GET_QUIZZES_LIST', 'View list of all quizzes'),
+                                                              ('GET_QUIZ', 'View details of a single quiz'),
+                                                              ('UPDATE_QUIZ', 'Update quiz information'),
+                                                              ('DELETE_QUIZ', 'Delete a quiz'),
+                                                              ('CHECK_QUIZ', 'Check quiz answers and provide results'),
+                                                              ('FINALIZE_QUIZ', 'Finalize and submit the quiz for grading'),
+                                                              ('RECORD_QUIZ_RESULT', 'Record the results of a completed quiz')
+ON CONFLICT (name) DO NOTHING;
