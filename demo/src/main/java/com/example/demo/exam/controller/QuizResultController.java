@@ -2,9 +2,12 @@ package com.example.demo.exam.controller;
 
 import com.example.demo.exam.dto.WrittenQuestionsResponseDTO;
 import com.example.demo.exam.service.QuizResultService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -19,6 +22,16 @@ public class QuizResultController {
     @Autowired
     private QuizResultService quizResultsService;
 
+    @Operation(
+            summary = "Getting written questions for a quiz",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
+    @PreAuthorize("hasAnyAuthority('GET_WRITTEN_QUESTIONS')")
     @GetMapping("getWrittenQuestions/{groupName}/{quizId}")
     public ResponseEntity<?> getWrittenQuestions(@PathVariable String groupName,@PathVariable UUID quizId){
         try {
@@ -28,6 +41,16 @@ public class QuizResultController {
         }
     }
 
+    @Operation(
+            summary = "Recording quiz results",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
+    @PreAuthorize("hasAnyAuthority('RECORD_QUIZ_RESULT')")
     @PostMapping("recordingResult")
     public ResponseEntity<?> recordResult(@RequestBody List<WrittenQuestionsResponseDTO> writtenQuestionsResponseDTO){
         try {
@@ -38,6 +61,16 @@ public class QuizResultController {
         }
     }
 
+    @Operation(
+            summary = "Finalizing a quiz",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
+    @PreAuthorize("hasAnyAuthority('FINALIZE_QUIZ')")
     @PostMapping("finalizingQuiz/{quizId}")
     public ResponseEntity<?> finalizeQuiz(@PathVariable UUID quizId) throws TelegramApiException {
         quizResultsService.finalizeQuiz(quizId);

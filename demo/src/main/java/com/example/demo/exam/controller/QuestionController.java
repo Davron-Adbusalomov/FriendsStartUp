@@ -6,15 +6,14 @@ import com.example.demo.exam.service.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,6 +32,7 @@ public class QuestionController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
+    @PreAuthorize("hasAuthority('GET_QUESTION')")
     @GetMapping("getById/{id}")
     public QuestionDTO getById(@PathVariable UUID id){
         return questionService.getQuestionById(id);
@@ -47,6 +47,7 @@ public class QuestionController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
+    @PreAuthorize("hasAuthority('GET_QUESTION_BY_LEVEL')")
     @GetMapping("getQuestionsByLevel/{level}")
     public ResponseEntity<?> getByGroup(@PathVariable String level){
         try{
@@ -66,6 +67,7 @@ public class QuestionController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @GetMapping("getAll")
+    @PreAuthorize("hasAuthority('GET_QUESTIONS_LIST')")
     public Page<QuestionDTO> getAll(@Parameter(required = false) String level,
                                     @Parameter(required = false) Long teacherId,
                                     @Parameter(required = false) UUID quizId,
@@ -82,6 +84,7 @@ public class QuestionController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
+    @PreAuthorize("hasAuthority('CREATE_QUESTION')")
     @PostMapping("create")
     public ResponseEntity<?> creatQuestion(@RequestBody QuestionDTO questionDTO){
         try {
@@ -100,6 +103,7 @@ public class QuestionController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
+    @PreAuthorize("hasAuthority('UPDATE_QUESTION')")
     @PutMapping("update/{id}")
     public ResponseEntity<?> updateQuestion(@RequestBody QuestionDTO questionDTO, @PathVariable UUID id){
         return questionService.updateQuestion(questionDTO, id);
@@ -114,6 +118,7 @@ public class QuestionController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
+    @PreAuthorize("hasAuthority('DELETE_QUESTION')")
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable UUID id){
         return questionService.deleteQuestion(id);
