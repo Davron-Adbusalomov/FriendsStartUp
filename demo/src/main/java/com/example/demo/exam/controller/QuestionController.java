@@ -1,10 +1,8 @@
 package com.example.demo.exam.controller;
 
 import com.example.demo.exam.dto.QuestionDTO;
-import com.example.demo.exam.model.Question;
 import com.example.demo.exam.service.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,8 +31,8 @@ public class QuestionController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAuthority('GET_QUESTION')")
-    @GetMapping("getById/{id}")
-    public QuestionDTO getById(@PathVariable UUID id){
+    @GetMapping("/getById/{id}")
+    public QuestionDTO getById(@PathVariable UUID id) {
         return questionService.getQuestionById(id);
     }
 
@@ -48,11 +46,11 @@ public class QuestionController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAuthority('GET_QUESTION_BY_LEVEL')")
-    @GetMapping("getQuestionsByLevel/{level}")
-    public ResponseEntity<?> getByGroup(@PathVariable String level){
-        try{
+    @GetMapping("/getQuestionsByLevel/{level}")
+    public ResponseEntity<?> getByGroup(@PathVariable String level) {
+        try {
             return ResponseEntity.status(HttpStatus.OK).body(questionService.getQuestionByLevel(level));
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -66,12 +64,12 @@ public class QuestionController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
-    @GetMapping("getAll")
+    @GetMapping("/getAll")
     @PreAuthorize("hasAuthority('GET_QUESTIONS_LIST')")
-    public Page<QuestionDTO> getAll(@Parameter(required = false) String level,
-                                    @Parameter(required = false) Long teacherId,
-                                    @Parameter(required = false) UUID quizId,
-                                    Pageable pageable){
+    public Page<QuestionDTO> getAll(@RequestParam(required = false) String level,
+                                    @RequestParam(required = false) Long teacherId,
+                                    @RequestParam(required = false) UUID quizId,
+                                    Pageable pageable) {
         return questionService.getAllQuestions(level, teacherId, quizId, pageable);
     }
 
@@ -85,11 +83,11 @@ public class QuestionController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAuthority('CREATE_QUESTION')")
-    @PostMapping("create")
-    public ResponseEntity<?> creatQuestion(@RequestBody QuestionDTO questionDTO){
+    @PostMapping("/create")
+    public ResponseEntity<?> creatQuestion(@RequestBody QuestionDTO questionDTO) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(questionService.createQuestion(questionDTO));
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -105,7 +103,7 @@ public class QuestionController {
             })
     @PreAuthorize("hasAuthority('UPDATE_QUESTION')")
     @PutMapping("update/{id}")
-    public ResponseEntity<?> updateQuestion(@RequestBody QuestionDTO questionDTO, @PathVariable UUID id){
+    public ResponseEntity<?> updateQuestion(@RequestBody QuestionDTO questionDTO, @PathVariable UUID id) {
         return questionService.updateQuestion(questionDTO, id);
     }
 
@@ -120,7 +118,7 @@ public class QuestionController {
             })
     @PreAuthorize("hasAuthority('DELETE_QUESTION')")
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deleteQuestion(@PathVariable UUID id){
+    public ResponseEntity<?> deleteQuestion(@PathVariable UUID id) {
         return questionService.deleteQuestion(id);
     }
 }
