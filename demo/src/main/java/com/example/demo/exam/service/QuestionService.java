@@ -76,7 +76,7 @@ public class QuestionService {
 
             if (optionalTeacher.isPresent()) {
                 BufferedImage img = null;
-                if (!questionDTO.getImage().isEmpty()) {
+                if (questionDTO.getImage() != null && !questionDTO.getImage().isEmpty()) {
                     String base64Image = questionDTO.getImage().split(",")[1];
                     byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
 
@@ -103,6 +103,7 @@ public class QuestionService {
 
                 for (Option option:arrayList) {
                     option.setQuestion(question);
+                    option.setCenterId(TenantContext.getCenterId());
                     optionRepository.save(option);
                 }
 
