@@ -43,10 +43,8 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/ubuntu/app/
-#            pkill -f 'demo-.*\.jar' || true
             JAR=$(ls demo-*.jar | grep -v plain | head -n 1)
             nohup java -jar "$JAR" > app.log 2>&1 < /dev/null &
             disown
-
 
 
