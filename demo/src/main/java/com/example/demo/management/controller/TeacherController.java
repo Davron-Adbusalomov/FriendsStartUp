@@ -1,17 +1,17 @@
 package com.example.demo.management.controller;
 
 import com.example.demo.management.dto.TeacherDTO;
+import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.service.TeacherService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -31,12 +31,8 @@ public class TeacherController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
-    public ResponseEntity<?> getAllTeachers(Pageable pageable) {
-        try {
-            return ResponseEntity.ok(teacherService.getTeachers(pageable));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Page<TeacherDTO> getAllTeachers(Pageable pageable) {
+        return teacherService.getTeachers(pageable);
     }
 
 
@@ -51,8 +47,8 @@ public class TeacherController {
             })
     @PreAuthorize("hasAuthority('GET_TEACHER')")
     @GetMapping("/getById/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(teacherService.getById(id));
+    public TeacherDTO getById(@PathVariable Long id) {
+        return teacherService.getById(id);
     }
 
     @Operation(
@@ -67,8 +63,8 @@ public class TeacherController {
     )
     @PreAuthorize("hasAnyAuthority('DELETE_TEACHER')")
     @DeleteMapping("deleteTeacher/{id}")
-    public ResponseEntity<?> deleteTeacher(@PathVariable Long id){
-        return teacherService.deleteTeacher(id);
+    public void deleteTeacher(@PathVariable Long id) {
+        teacherService.deleteTeacher(id);
     }
 
     @Operation(
@@ -83,12 +79,8 @@ public class TeacherController {
     )
     @PreAuthorize("hasAnyAuthority('UPDATE_TEACHER')")
     @PutMapping("/updateTeacher/{id}")
-    public ResponseEntity<?> updateTeacher(@RequestBody TeacherDTO teacherDTO, @PathVariable Long id){
-        try {
-            return teacherService.updateTeacher(teacherDTO,id);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public TeacherInfoDTO updateTeacher(@RequestBody TeacherInfoDTO teacherDTO, @PathVariable Long id) throws Exception {
+        return teacherService.updateTeacher(teacherDTO, id);
     }
 
     @Operation(
@@ -101,14 +93,10 @@ public class TeacherController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             }
     )
-    @PreAuthorize("hasAnyAuthority('')")
+    @PreAuthorize("hasAnyAuthority('GET_TEACHERS_LIST')")
     @GetMapping("getTeachersInfo")
-    public ResponseEntity<?> getTeachersInfo(){
-        try{
-            return ResponseEntity.status(HttpStatus.OK).body(teacherService.getTeacherInfo());
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public List<TeacherInfoDTO> getTeachersInfo() {
+        return teacherService.getTeacherInfo();
     }
 
 //    @PostMapping("/loginTeacher")
@@ -127,14 +115,14 @@ public class TeacherController {
 //        }
 //    }
 
-    @PostMapping("/logout-teacher")
-    public ResponseEntity<?> logoutTeacher(HttpServletResponse httpServletResponse){
-        Cookie cookie = new Cookie("jwt", "");
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        httpServletResponse.addCookie(cookie);
-        return ResponseEntity.status(HttpStatus.OK).body("Successfully logout!");
-    }
+//    @PostMapping("/logout-teacher")
+//    public ResponseEntity<?> logoutTeacher(HttpServletResponse httpServletResponse){
+//        Cookie cookie = new Cookie("jwt", "");
+//        cookie.setMaxAge(0);
+//        cookie.setPath("/");
+//        cookie.setHttpOnly(true);
+//        httpServletResponse.addCookie(cookie);
+//        return ResponseEntity.status(HttpStatus.OK).body("Successfully logout!");
+//    }
 
 }

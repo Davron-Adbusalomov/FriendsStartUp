@@ -4,7 +4,6 @@ import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.dto.TeacherDTO;
 import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.mapper.TeacherMapper;
-import com.example.demo.management.model.Admin;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.model.UserEntity;
@@ -73,7 +72,7 @@ public class TeacherService {
         return teacherDTO;
     }
 
-    public ResponseEntity<?> deleteTeacher(Long id) {
+    public void deleteTeacher(Long id) {
         Teacher teacher = teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No teacher found with this id: " + id));
 
@@ -98,22 +97,29 @@ public class TeacherService {
         optionalUser.ifPresent(userEntity -> userRepository.delete(userEntity));
 
         teacherRepository.delete(teacher);
-        return ResponseEntity.status(HttpStatus.OK).body("Successfully deleted!");
     }
 
-    public ResponseEntity<?> updateTeacher(TeacherDTO teacherDTO, Long id) throws Exception {
+    public TeacherInfoDTO updateTeacher(TeacherInfoDTO teacherDTO, Long id) throws Exception {
         Teacher teacher = teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No teacher found with this id: " + id));
 
-        teacher.setFullName(teacherDTO.getFullName());
-        teacher.setExperience(teacherDTO.getExperience());
-        teacher.setImage(teacherDTO.getImage());
-        teacher.setSubject(teacherDTO.getSubject());
-        teacher.setPhoneNumber(teacherDTO.getPhoneNumber());
-        teacher.setExperience(teacherDTO.getExperience());
+        if (teacherDTO.getFullName() != null)
+            teacher.setFullName(teacherDTO.getFullName());
+
+        if (teacherDTO.getExperience() != null)
+            teacher.setExperience(teacherDTO.getExperience());
+
+        if (teacherDTO.getImage() != null)
+            teacher.setImage(teacherDTO.getImage());
+
+        if (teacherDTO.getSubject() != null)
+            teacher.setSubject(teacherDTO.getSubject());
+
+        if (teacherDTO.getPhoneNumber() != null)
+            teacher.setPhoneNumber(teacherDTO.getPhoneNumber());
 
         teacherRepository.save(teacher);
-        return ResponseEntity.status(HttpStatus.OK).body(teacher);
+        return teacherDTO;
     }
 
 
@@ -128,7 +134,7 @@ public class TeacherService {
             teacherInfoDTO.setSubject(teacher.getSubject());
             teacherInfoDTO.setExperience(teacher.getExperience());
             teacherInfoDTO.setImage(teacher.getImage());
-            teacherInfoDTO.setName(teacher.getFullName());
+            teacherInfoDTO.setFullName(teacher.getFullName());
             teacherInfoDTOS.add(teacherInfoDTO);
         }
 

@@ -12,11 +12,13 @@ import lombok.Setter;
 public class TeacherInfoDTO {
     private Long id;
 
-    private String name;
+    private String fullName;
 
     private String experience;
 
     private String subject;
 
     private String image;
+
+    private String phoneNumber;
 }
