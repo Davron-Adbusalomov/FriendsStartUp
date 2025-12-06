@@ -49,7 +49,7 @@ jobs:
             PIDS=$(pgrep -f "demo-.*.jar")
             if [ -n "$PIDS" ]; then
               echo "Killing PIDs: $PIDS"
-              kill -9 $PIDS
+              kill $PIDS || true
             else
               echo "No running app found."
             fi
