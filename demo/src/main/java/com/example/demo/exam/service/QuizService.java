@@ -67,12 +67,13 @@ public class QuizService {
         LocalDateTime time = Instant.ofEpochMilli(quizDTO.getStartTime()).atZone(TimeZone.getDefault().toZoneId()).toLocalDateTime();
 
         Quiz quiz = new Quiz();
-        quiz.setTeacher(teacher.get());
+//        quiz.setTeacher(teacher.get());
         quiz.setDuration(quizDTO.getDuration());
         quiz.setStartTime(time);
         quiz.setGrouping(group.get());
         quiz.setQuestions_num(quizDTO.getQuestions_num());
         quiz.setCenterId(TenantContext.getCenterId());
+        quiz.setTeacherId(quizDTO.getTeacherId());
         for (UUID questionId : quizDTO.getQuestions()) {
             Optional<Question> question = questionRepository.findById(questionId);
             if (question.isEmpty()){
