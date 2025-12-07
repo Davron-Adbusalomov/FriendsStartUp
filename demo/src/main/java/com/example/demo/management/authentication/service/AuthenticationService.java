@@ -13,6 +13,7 @@ import com.example.demo.management.dto.request.SignUpRequest;
 import com.example.demo.management.dto.response.AccessTokenResDto;
 import com.example.demo.management.dto.response.SignUpResponse;
 import com.example.demo.management.dto.response.UserLoginResponseDto;
+import com.example.demo.management.mapper.GroupMapper;
 import com.example.demo.management.mapper.RoleMapper;
 import com.example.demo.management.model.*;
 import com.example.demo.management.model.rbac.DefaultPermissionEntity;
@@ -54,6 +55,7 @@ public class AuthenticationService {
     private final RoleRepository roleRepository;
     private final UserPermissionsService userPermissionsService;
     private final GroupService groupService;
+    private final GroupMapper groupMapper;
 
     public AccessTokenResDto signInAndGenerateTokens(SignInReqDto signInDto, HttpServletRequest request) {
         Authentication authentication = authenticateUser(signInDto, request);
@@ -88,11 +90,11 @@ public class AuthenticationService {
         if (signInDto.getRole()!=null && !signInDto.getRole().isEmpty()){
             if (RolesEnum.STUDENT.name().equals(signInDto.getRole())){
                 Optional<Student> student = studentRepository.findById(userEntity.getId());
-                student.ifPresent(value -> userDetailsDto.setGroups(value.getGroupings().stream().map(Grouping::getName).toList()));
+                student.ifPresent(value -> userDetailsDto.setGroups(value.getGroupings().stream().map(groupMapper::toDto).toList()));
             }
             else if (RolesEnum.TEACHER.name().equals(signInDto.getRole())){
                 Optional<Teacher> teacher = teacherRepository.findById(userEntity.getId());
-                teacher.ifPresent(value -> userDetailsDto.setGroups(value.getGroupList().stream().map(Grouping::getName).toList()));
+                teacher.ifPresent(value -> userDetailsDto.setGroups(value.getGroupList().stream().map(groupMapper::toDto).toList()));
             }
         }
 
