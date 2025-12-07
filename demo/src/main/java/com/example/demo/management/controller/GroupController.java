@@ -27,8 +27,12 @@ public class GroupController {
     @Operation(summary = "Getting group list", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('GET_GROUPS_LIST')")
     @GetMapping("/getAllGroups")
-    public Page<GroupDTO> getAll(Pageable pageable) {
-        return groupService.getGroups(pageable);
+    public Page<GroupDTO> getAll(
+            @RequestParam(name = "studentId" ,required = false) Long studentId,
+            @RequestParam(name = "teacherId" ,required = false) Long teacherId,
+            @RequestParam(name = "name" ,required = false) String name,
+            Pageable pageable) {
+        return groupService.getGroups(pageable, teacherId, studentId, name);
     }
 
     @Operation(summary = "Getting group by id", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})

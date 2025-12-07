@@ -2,6 +2,7 @@ package com.example.demo.management.repository;
 
 import com.example.demo.management.model.Grouping;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface GroupRepository extends JpaRepository<Grouping, UUID> {
+public interface GroupRepository extends JpaRepository<Grouping, UUID>, JpaSpecificationExecutor<Grouping> {
     Optional<Grouping> findByName(String aLong);
 
     List<Grouping> findByTeacherId(Long teacherId);

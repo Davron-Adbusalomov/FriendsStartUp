@@ -12,10 +12,12 @@ import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.repository.TeacherRepository;
+import com.example.demo.management.specification.GroupSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +33,10 @@ public class GroupService {
     private final QuizRepository quizRepository;
     private final GroupMapper groupMapper;
 
-    public Page<GroupDTO> getGroups(Pageable pageable) {
-        Page<Grouping> groups = groupRepository.findAll(pageable);
+    public Page<GroupDTO> getGroups(Pageable pageable, Long teacherId, Long studentId, String name) {
+        Specification<Grouping> specification = GroupSpecification.advancedFilter(teacherId, studentId, name);
+
+        Page<Grouping> groups = groupRepository.findAll(specification, pageable);
         return groups.map(groupMapper::toDto);
     }
 

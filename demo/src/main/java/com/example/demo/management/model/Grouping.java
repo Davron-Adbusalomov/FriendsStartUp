@@ -31,8 +31,11 @@ public class Grouping extends BaseEntity {
 
     private String time;
 
+    @Column(name = "teacher_id")
+    private Long teacherId;
+
     @ManyToOne
-    @JoinColumn(name = "teacher_id")
+    @JoinColumn(name = "teacher_id", insertable = false, updatable = false)
     private Teacher teacher;
 
     @ManyToMany
