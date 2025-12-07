@@ -27,6 +27,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -68,7 +69,7 @@ public class AuthenticationService {
         } else if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
             String username = ((org.springframework.security.core.userdetails.UserDetails) principal).getUsername();
             userEntity = userRepository.findByUsername(username)
-                    .orElseThrow(() -> new RuntimeException("User not found by username after authentication"));
+                    .orElseThrow(() -> new RuntimeException("user_not_found"));
         } else {
             throw new IllegalStateException("Unexpected principal type: " + principal.getClass().getName());
         }
@@ -102,19 +103,21 @@ public class AuthenticationService {
         return response;
     }
 
-    private Authentication authenticateUser(SignInReqDto signInDto, HttpServletRequest request) {
-        Authentication authentication;
-        if ((signInDto.getUsername() != null && signInDto.getPassword() != null)) {
-            authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword())
-            );
-        } else {
-            throw new InvalidLoginRequestException("Invalid login request");
+    public Authentication authenticateUser(SignInReqDto signInDto, HttpServletRequest request) {
+
+        UserEntity user = userRepository.findByUsername(signInDto.getUsername())
+                .orElseThrow(() -> new BadCredentialsException("user_not_found"));
+
+        if (!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("incorrect_password");
         }
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return authentication;
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword());
+
+        return authenticationManager.authenticate(authToken);
     }
+
 
     private AccessTokenResDto generateTokens(Authentication authentication) {
         AccessTokenResDto response = new AccessTokenResDto();
