@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +31,10 @@ public class Grouping extends BaseEntity {
     private String subject;
 
     private String time;
+
+    private String description;
+
+    private Date startDate;
 
     @Column(name = "teacher_id")
     private Long teacherId;
