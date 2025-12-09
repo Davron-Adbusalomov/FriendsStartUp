@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.TenantContext;
 import com.example.demo.enums.LessonProgressEnum;
 import com.example.demo.management.dto.LessonDTO;
 import com.example.demo.management.dto.LessonProgressDTO;
@@ -29,6 +30,7 @@ public class LessonService {
 
     public LessonDTO create(LessonDTO dto) {
         Lesson lesson = lessonMapper.toEntity(dto);
+        lesson.setCenterId(TenantContext.getCenterId());
         lessonRepository.save(lesson);
         return lessonMapper.toDto(lesson);
     }
