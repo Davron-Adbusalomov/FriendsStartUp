@@ -1,5 +1,6 @@
 package com.example.demo.management.specification;
 
+import com.example.demo.enums.GroupStatus;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import jakarta.persistence.criteria.Join;
@@ -29,10 +30,24 @@ public class GroupSpecification {
                 criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%");
     }
 
-    public static Specification<Grouping> advancedFilter(Long teacherId, Long studentId, String name) {
+    public static Specification<Grouping> statusEquals(String status) {
+        if (status == null) return null;
+        if (status.equalsIgnoreCase(GroupStatus.ONGOING.name())) {
+            return (root, query, criteriaBuilder) ->
+                    criteriaBuilder.lessThan(root.get("startDate"), criteriaBuilder.currentDate());
+        } else if (status.equalsIgnoreCase(GroupStatus.NOT_STARTED.name())) {
+            return (root, query, criteriaBuilder) ->
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("startDate"), criteriaBuilder.currentDate());
+        } else {
+            return null;
+        }
+    }
+
+    public static Specification<Grouping> advancedFilter(Long teacherId, Long studentId, String name, String status) {
         return Specification
                 .where(teacherIdEquals(teacherId))
                 .and(studentIdEquals(studentId))
-                .and(nameContains(name));
+                .and(nameContains(name))
+                .and(statusEquals(status));
     }
 }

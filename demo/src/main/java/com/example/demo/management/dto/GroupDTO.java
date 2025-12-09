@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +29,10 @@ public class GroupDTO {
     private String teacherName;
 
     private Long teacherId;
+
+    private String description;
+
+    private Date startDate;
 
     private List<StudentDTO> students = new ArrayList<>();
 

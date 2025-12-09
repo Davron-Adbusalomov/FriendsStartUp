@@ -33,8 +33,8 @@ public class GroupService {
     private final QuizRepository quizRepository;
     private final GroupMapper groupMapper;
 
-    public Page<GroupDTO> getGroups(Pageable pageable, Long teacherId, Long studentId, String name) {
-        Specification<Grouping> specification = GroupSpecification.advancedFilter(teacherId, studentId, name);
+    public Page<GroupDTO> getGroups(Pageable pageable, Long teacherId, Long studentId, String name, String status) {
+        Specification<Grouping> specification = GroupSpecification.advancedFilter(teacherId, studentId, name, status);
 
         Page<Grouping> groups = groupRepository.findAll(specification, pageable);
         return groups.map(groupMapper::toDto);

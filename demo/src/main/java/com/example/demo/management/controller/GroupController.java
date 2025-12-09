@@ -31,8 +31,9 @@ public class GroupController {
             @RequestParam(name = "studentId" ,required = false) Long studentId,
             @RequestParam(name = "teacherId" ,required = false) Long teacherId,
             @RequestParam(name = "name" ,required = false) String name,
+            @RequestParam(name = "status" ,required = false) String status,
             Pageable pageable) {
-        return groupService.getGroups(pageable, teacherId, studentId, name);
+        return groupService.getGroups(pageable, teacherId, studentId, name, status);
     }
 
     @Operation(summary = "Getting group by id", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})

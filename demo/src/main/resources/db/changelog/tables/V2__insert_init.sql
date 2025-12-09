@@ -135,7 +135,13 @@ INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('DELETE_QUIZ', 'Delete a quiz'),
                                                               ('CHECK_QUIZ', 'Check quiz answers and provide results'),
                                                               ('FINALIZE_QUIZ', 'Finalize and submit the quiz for grading'),
-                                                              ('RECORD_QUIZ_RESULT', 'Record the results of a completed quiz')
+                                                              ('RECORD_QUIZ_RESULT', 'Record the results of a completed quiz'),
+                                                              ('CREATE_LESSON', 'Create lessons'),
+                                                              ('UPDATE_LESSON', 'Update lessons'),
+                                                              ('GET_LESSON', 'Get lessons'),
+                                                              ('GET_LESSONS_LIST', 'Get lesson'),
+                                                              ('DELETE_LESSON', 'Delete lesson'),
+                                                              ('UPDATE_LESSON_PROGRESS', 'Lessons with progress')
 ON CONFLICT (name) DO NOTHING;
 
 
@@ -186,6 +192,12 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('SUPER_ADMIN', 'CHECK_QUIZ'),
 ('SUPER_ADMIN', 'FINALIZE_QUIZ'),
 ('SUPER_ADMIN', 'RECORD_QUIZ_RESULT'),
+('SUPER_ADMIN', 'CREATE_LESSON'),
+('SUPER_ADMIN', 'UPDATE_LESSON'),
+('SUPER_ADMIN', 'GET_LESSON'),
+('SUPER_ADMIN', 'GET_LESSONS_LIST'),
+('SUPER_ADMIN', 'DELETE_LESSON'),
+('SUPER_ADMIN', 'UPDATE_LESSON_PROGRESS'),
 -- ==========================================================
 -- DIRECTOR → View, manage, supervise, but fewer destructive permissions
 -- ==========================================================
@@ -222,6 +234,9 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('DIRECTOR', 'RECORD_QUIZ_RESULT'),
 
 ('DIRECTOR', 'GET_PERMISSIONS_BY_USER_ID'),
+('DIRECTOR', 'CREATE_LESSON'),
+('DIRECTOR', 'GET_LESSON'),
+('DIRECTOR', 'GET_LESSONS_LIST'),
 -- ==========================================================
 -- ADMIN → Full CRUD except quiz checking / advanced logic
 -- (using same permission list structure as your previous ADMIN)
@@ -268,6 +283,11 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('ADMIN', 'DELETE_QUIZ'),
 ('ADMIN', 'FINALIZE_QUIZ'),
 ('ADMIN', 'RECORD_QUIZ_RESULT'),
+('ADMIN', 'CREATE_LESSON'),
+('ADMIN', 'UPDATE_LESSON'),
+('ADMIN', 'GET_LESSON'),
+('ADMIN', 'GET_LESSONS_LIST'),
+('ADMIN', 'DELETE_LESSON'),
 -- ==========================================================
 -- TEACHER → Create groups, assign students, manage attendance + quizzes
 -- ==========================================================
@@ -296,6 +316,11 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('TEACHER', 'CHECK_QUIZ'),
 ('TEACHER', 'FINALIZE_QUIZ'),
 ('TEACHER', 'RECORD_QUIZ_RESULT'),
+('TEACHER', 'CREATE_LESSON'),
+('TEACHER', 'UPDATE_LESSON'),
+('TEACHER', 'GET_LESSON'),
+('TEACHER', 'GET_LESSONS_LIST'),
+('TEACHER', 'DELETE_LESSON'),
 -- ==========================================================
 -- STUDENT → Only view + participate in quizzes
 -- ==========================================================
@@ -305,14 +330,17 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('STUDENT', 'GET_TEACHER'),
 ('STUDENT', 'GET_GROUPS_LIST'),
 ('STUDENT', 'GET_GROUP'),
-('STUDENT', "GET_ATTENDANCE_LIST"),
-('STUDENT', "GET_ATTENDANCE"),
+('STUDENT', 'GET_ATTENDANCE_LIST'),
+('STUDENT', 'GET_ATTENDANCE'),
 ('STUDENT', 'GET_ATTENDANCE'),
 ('STUDENT', 'GET_QUESTIONS_LIST'),
 ('STUDENT', 'GET_QUESTION'),
 ('STUDENT', 'GET_QUIZZES_LIST'),
 ('STUDENT', 'GET_QUIZ'),
 ('STUDENT', 'FINALIZE_QUIZ'),
+('STUDENT', 'GET_LESSON'),
+('STUDENT', 'GET_LESSONS_LIST'),
+('STUDENT', 'UPDATE_LESSON_PROGRESS'),
 -- ==========================================================
 -- ROLE_USER → minimal authentication permissions
 -- ==========================================================

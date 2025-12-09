@@ -72,9 +72,45 @@ CREATE TABLE groups
     name       VARCHAR(255),
     subject    VARCHAR(255),
     time       VARCHAR(255),
+    description VARCHAR(255),
+    start_date TIMESTAMP WITHOUT TIME ZONE,
     teacher_id BIGINT,
     center_id  UUID                        NOT NULL,
     CONSTRAINT pk_groups PRIMARY KEY (id)
+);
+
+CREATE TABLE lesson
+(
+    id          UUID                        NOT NULL,
+    created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at  TIMESTAMP WITHOUT TIME ZONE,
+    status      VARCHAR(255)                NOT NULL,
+    created_by  BIGINT,
+    updated_by  BIGINT,
+    title       VARCHAR(255),
+    description VARCHAR(255),
+    video_url   VARCHAR(255),
+    duration    INTEGER,
+    order_index INTEGER,
+    group_id    UUID,
+    center_id   UUID                        NOT NULL,
+    CONSTRAINT pk_lesson PRIMARY KEY (id)
+);
+
+CREATE TABLE lesson_progress
+(
+    id           UUID                        NOT NULL,
+    created_at   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at   TIMESTAMP WITHOUT TIME ZONE,
+    status       VARCHAR(255)                NOT NULL,
+    created_by   BIGINT,
+    updated_by   BIGINT,
+    lesson_id    UUID                        NOT NULL,
+    student_id   BIGINT                      NOT NULL,
+    center_id    UUID                        NOT NULL,
+    completed    BOOLEAN,
+    completed_at TIMESTAMP WITHOUT TIME ZONE,
+    CONSTRAINT pk_lesson_progress PRIMARY KEY (id)
 );
 
 CREATE TABLE option
@@ -118,7 +154,7 @@ CREATE TABLE quiz
     updated_at    TIMESTAMP WITHOUT TIME ZONE,
     status        VARCHAR(255)                NOT NULL,
     created_by    BIGINT,
-    title         VARCHAR(255) NOT NULL,
+    title         VARCHAR(255),
     updated_by    BIGINT,
     questions_num INTEGER                     NOT NULL,
     duration      BIGINT,
@@ -308,6 +344,21 @@ ALTER TABLE groups
 
 ALTER TABLE groups
     ADD CONSTRAINT FK_GROUPS_ON_TEACHER FOREIGN KEY (teacher_id) REFERENCES teacher (id);
+
+ALTER TABLE lesson
+    ADD CONSTRAINT FK_LESSON_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
+
+ALTER TABLE lesson
+    ADD CONSTRAINT FK_LESSON_ON_GROUP FOREIGN KEY (group_id) REFERENCES groups (id);
+
+ALTER TABLE lesson_progress
+    ADD CONSTRAINT FK_LESSON_PROGRESS_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
+
+ALTER TABLE lesson_progress
+    ADD CONSTRAINT FK_LESSON_PROGRESS_ON_LESSON FOREIGN KEY (lesson_id) REFERENCES lesson (id);
+
+ALTER TABLE lesson_progress
+    ADD CONSTRAINT FK_LESSON_PROGRESS_ON_STUDENT FOREIGN KEY (student_id) REFERENCES student (id);
 
 ALTER TABLE option
     ADD CONSTRAINT FK_OPTION_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
