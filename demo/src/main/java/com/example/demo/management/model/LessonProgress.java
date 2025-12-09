@@ -35,7 +35,7 @@ public class LessonProgress extends BaseEntity {
     private Long studentId;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Student student;
 
     @Column(name = "center_id", nullable = false)
