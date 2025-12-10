@@ -50,13 +50,15 @@ public class AttendanceService {
             String groupName,
             LocalDateTime from,
             LocalDateTime to,
+            Long studentId,
             Pageable pageable
     ) {
 
         Specification<Attendance> spec = Specification
                 .where(AttendanceSpecification.hasStudentName(fullName))
                 .and(AttendanceSpecification.hasGroupName(groupName))
-                .and(AttendanceSpecification.dateBetween(from, to));
+                .and(AttendanceSpecification.dateBetween(from, to))
+                .and(AttendanceSpecification.hasStudentId(studentId));
 
         Page<Attendance> attendances = attendanceRepository.findAll(spec, pageable);
         return attendances.map(mapper::toDto);

@@ -280,6 +280,7 @@ CREATE TABLE users
     username          VARCHAR(100)                NOT NULL,
     password          VARCHAR(255)                NOT NULL,
     full_name         VARCHAR(255),
+    fcm_token         VARCHAR(255),
     is_active         BOOLEAN                     NOT NULL,
     is_blocked        BOOLEAN                     NOT NULL,
     confirmation_code VARCHAR(255),

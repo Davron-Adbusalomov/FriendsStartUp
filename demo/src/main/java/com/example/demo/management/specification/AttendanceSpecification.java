@@ -18,6 +18,16 @@ public class AttendanceSpecification {
         };
     }
 
+    public static Specification<Attendance> hasStudentId(Long studentId) {
+        return (root, query, cb) -> {
+            if (studentId == null)
+                return cb.conjunction();
+
+            Join<Object, Object> studentJoin = root.join("student");
+            return cb.equal(studentJoin.get("id"), studentId);
+        };
+    }
+
     public static Specification<Attendance> hasGroupName(String groupName) {
         return (root, query, cb) -> {
             if (groupName == null || groupName.isEmpty())

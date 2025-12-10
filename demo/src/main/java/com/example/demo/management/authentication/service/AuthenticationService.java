@@ -99,6 +99,11 @@ public class AuthenticationService {
             }
         }
 
+        if (signInDto.getFcmToken() != null && !signInDto.getFcmToken().isEmpty()) {
+            userEntity.setFcmToken(signInDto.getFcmToken());
+            userRepository.save(userEntity);
+        }
+
         response.setUserDetails(userDetailsDto);
         return response;
     }

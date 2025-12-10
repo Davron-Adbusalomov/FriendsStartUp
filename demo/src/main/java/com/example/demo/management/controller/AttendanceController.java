@@ -64,9 +64,10 @@ public class AttendanceController {
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                     LocalDateTime to,
+            @RequestParam(required = false) Long studentId,
             Pageable pageable
     ) {
-        return attendanceService.getAll(fullName, groupName, from, to, pageable);
+        return attendanceService.getAll(fullName, groupName, from, to, studentId, pageable);
     }
 
 
