@@ -325,6 +325,21 @@ CREATE TABLE wrong_answers_analyze
     CONSTRAINT pk_wronganswersanalyze PRIMARY KEY (id)
 );
 
+CREATE TABLE enrollment
+(
+    id                UUID                        NOT NULL,
+    created_at        TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at        TIMESTAMP WITHOUT TIME ZONE,
+    status            VARCHAR(255)                NOT NULL,
+    created_by        BIGINT,
+    updated_by        BIGINT,
+    student_id        BIGINT                      NOT NULL,
+    group_id          UUID                        NOT NULL,
+    enrollment_status SMALLINT,
+    enrollment_date   TIMESTAMP WITHOUT TIME ZONE,
+    CONSTRAINT pk_enrollment PRIMARY KEY (id)
+);
+
 ALTER TABLE users
     ADD CONSTRAINT uc_users_username UNIQUE (username);
 
@@ -438,3 +453,9 @@ ALTER TABLE user_roles
 
 ALTER TABLE user_roles
     ADD CONSTRAINT fk_userol_on_user_entity FOREIGN KEY (user_id) REFERENCES users (id);
+
+ALTER TABLE enrollment
+    ADD CONSTRAINT FK_ENROLLMENT_ON_GROUP FOREIGN KEY (group_id) REFERENCES groups (id);
+
+ALTER TABLE enrollment
+    ADD CONSTRAINT FK_ENROLLMENT_ON_STUDENT FOREIGN KEY (student_id) REFERENCES student (id);
