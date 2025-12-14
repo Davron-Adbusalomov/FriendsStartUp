@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @CrossOrigin
 @RestController
 @RequestMapping("api/v1/student")
@@ -19,7 +21,7 @@ public class StudentController {
     private StudentService studentService;
 
     @PreAuthorize("hasAuthority('GET_STUDENTS_LIST')")
-    @GetMapping("/getStudents")
+    @GetMapping
     @Operation(
             summary = "Getting all students",
             responses = {
@@ -29,9 +31,11 @@ public class StudentController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
-    public ResponseEntity<?> getAllStudents(Pageable pageable) {
+    public ResponseEntity<?> getAllStudents(
+            @RequestParam(name = "groupId", required = false) UUID groupId,
+            Pageable pageable) {
         try {
-            return ResponseEntity.ok(studentService.getStudents(pageable));
+            return ResponseEntity.ok(studentService.getStudents(groupId, pageable));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -49,7 +53,7 @@ public class StudentController {
             }
     )
     @PreAuthorize("hasAnyAuthority('GET_STUDENT')")
-    @GetMapping("/getById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(studentService.getStudentById(id));
     }
@@ -65,7 +69,7 @@ public class StudentController {
             }
     )
     @PreAuthorize("hasAnyAuthority('DELETE_STUDENT')")
-    @DeleteMapping("deleteStudent/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteStudent(@PathVariable Long id){
         return studentService.deleteStudent(id);
     }

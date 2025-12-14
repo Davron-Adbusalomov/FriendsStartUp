@@ -71,8 +71,8 @@ public class AdminService {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Admin> updateAdmin(AdminDTO adminDTO) throws Exception {
-        Admin existingAdmin = adminRepository.findById(adminDTO.getId()).orElseThrow(() -> new EntityNotFoundException("Admin not found with id: " + adminDTO.getId()));
+    public ResponseEntity<Admin> updateAdmin(AdminDTO adminDTO, Long id) throws Exception {
+        Admin existingAdmin = adminRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Admin not found with id: " + adminDTO.getId()));
 
         Optional<Admin> usernameConflict = adminRepository.findByUsername(adminDTO.getUsername());
         if (usernameConflict.isPresent() && !usernameConflict.get().getId().equals(adminDTO.getId())) {

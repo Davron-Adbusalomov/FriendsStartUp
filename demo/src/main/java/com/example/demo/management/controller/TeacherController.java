@@ -5,7 +5,7 @@ import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.service.TeacherService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,13 +15,13 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/v1/teacher")
 public class TeacherController {
-    @Autowired
-    private TeacherService teacherService;
+    private final TeacherService teacherService;
 
     @PreAuthorize("hasAuthority('GET_TEACHERS_LIST')")
-    @GetMapping("/getTeachers")
+    @GetMapping()
     @Operation(
             summary = "Getting all teachers",
             responses = {
@@ -46,7 +46,7 @@ public class TeacherController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAuthority('GET_TEACHER')")
-    @GetMapping("/getById/{id}")
+    @GetMapping("/{id}")
     public TeacherDTO getById(@PathVariable Long id) {
         return teacherService.getById(id);
     }
@@ -62,7 +62,7 @@ public class TeacherController {
             }
     )
     @PreAuthorize("hasAnyAuthority('DELETE_TEACHER')")
-    @DeleteMapping("deleteTeacher/{id}")
+    @DeleteMapping("delete/{id}")
     public void deleteTeacher(@PathVariable Long id) {
         teacherService.deleteTeacher(id);
     }
@@ -78,7 +78,7 @@ public class TeacherController {
             }
     )
     @PreAuthorize("hasAnyAuthority('UPDATE_TEACHER')")
-    @PutMapping("/updateTeacher/{id}")
+    @PutMapping("/update/{id}")
     public TeacherInfoDTO updateTeacher(@RequestBody TeacherInfoDTO teacherDTO, @PathVariable Long id) throws Exception {
         return teacherService.updateTeacher(teacherDTO, id);
     }
@@ -94,7 +94,7 @@ public class TeacherController {
             }
     )
     @PreAuthorize("hasAnyAuthority('GET_TEACHERS_LIST')")
-    @GetMapping("getTeachersInfo")
+    @GetMapping("info")
     public List<TeacherInfoDTO> getTeachersInfo() {
         return teacherService.getTeacherInfo();
     }

@@ -16,12 +16,14 @@ import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.exam.model.Quiz_Results;
 import com.example.demo.exam.repository.Quiz_ResultsRepository;
 import com.example.demo.management.repository.UserRepository;
+import com.example.demo.management.specification.StudentSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -55,16 +57,12 @@ public class StudentService {
 //        this.jwtService = jwtService;
 //    }
 
-    public Page<StudentDTO> getStudents(Pageable pageable) {
-        Page<Student> studentPage = studentRepository.findAll(pageable);
+    public Page<StudentDTO> getStudents(UUID groupId, Pageable pageable) {
+        Specification<Student> spec = StudentSpecification.advancedFilter(groupId);
 
-        List<StudentDTO> studentDTOs = studentPage.stream().map(student -> {
-            StudentDTO dto = studentMapper.toDto(student);
-            dto.setRoles(getRoles(student.getId()));
-            return dto;
-        }).collect(Collectors.toList());
-
-        return new PageImpl<>(studentDTOs, pageable, studentPage.getTotalElements());
+        Page<Student> studentPage = studentRepository.findAll(spec, pageable);
+        //            dto.setRoles(getRoles(student.getId()));
+        return studentPage.map(studentMapper::toDto);
     }
 
 

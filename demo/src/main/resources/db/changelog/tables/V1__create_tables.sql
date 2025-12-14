@@ -337,6 +337,7 @@ CREATE TABLE enrollment
     group_id          UUID                        NOT NULL,
     enrollment_status SMALLINT,
     enrollment_date   TIMESTAMP WITHOUT TIME ZONE,
+    center_id         UUID                        NOT NULL,
     CONSTRAINT pk_enrollment PRIMARY KEY (id)
 );
 

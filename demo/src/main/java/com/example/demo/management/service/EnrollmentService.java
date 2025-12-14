@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.TenantContext;
 import com.example.demo.enums.EnrollmentStatus;
 import com.example.demo.management.dto.EnrollmentDTO;
 import com.example.demo.management.mapper.EnrollmentMapper;
@@ -21,6 +22,7 @@ public class EnrollmentService {
 
     public void processEnrollment(EnrollmentDTO enrollmentDTO) {
         Enrollment enrollment = enrollmentMapper.toEntity(enrollmentDTO);
+        enrollment.setCenterId(TenantContext.getCenterId());
         enrollmentRepository.save(enrollment);
     }
 

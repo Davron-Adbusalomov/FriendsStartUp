@@ -44,4 +44,12 @@ public class Enrollment extends BaseEntity {
 
     @Column(name = "enrollment_date")
     private Date enrollmentDate;
+
+    @Column(name = "center_id", nullable = false)
+    private UUID centerId;
+
+    @ManyToOne
+    @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Center center;
+
 }

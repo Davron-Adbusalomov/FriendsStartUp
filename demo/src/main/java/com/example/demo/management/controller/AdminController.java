@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("api/v1/admin")
 public class AdminController {
-    @Autowired
-    private AdminService adminService;
+    private final AdminService adminService;
 
 //    @PostMapping("/createADMIN")
 //    public ResponseEntity<?> createAdmin(@RequestBody AdminDTO adminDTO){
@@ -31,7 +32,7 @@ public class AdminController {
 //    }
 
     @PreAuthorize("hasAuthority('GET_ADMINS_LIST')")
-    @GetMapping("/getAdmins")
+    @GetMapping
     @Operation(
             summary = "Getting all admins",
             responses = {
@@ -60,9 +61,9 @@ public class AdminController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAuthority('GET_ADMIN')")
-    @GetMapping("/getById/{adminID}")
-    public ResponseEntity<?> getById(@PathVariable Long adminID) {
-        return adminService.getAdminById(adminID);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        return adminService.getAdminById(id);
     }
 
     @Operation(
@@ -76,7 +77,7 @@ public class AdminController {
             }
     )
     @PreAuthorize("hasAnyAuthority('DELETE_ADMIN')")
-    @DeleteMapping("/deleteById/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
         return adminService.deleteById(id);
     }
@@ -92,10 +93,10 @@ public class AdminController {
             }
     )
     @PreAuthorize("hasAnyAuthority('UPDATE_ADMIN')")
-    @PutMapping("/update")
-    public ResponseEntity<?> updateAdmin(@RequestBody AdminDTO adminDTO) throws Exception {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateAdmin(@RequestBody AdminDTO adminDTO, @PathVariable Long id) throws Exception {
         try {
-            return adminService.updateAdmin(adminDTO);
+            return adminService.updateAdmin(adminDTO, id);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

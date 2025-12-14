@@ -23,4 +23,6 @@ public class EnrollmentDTO {
     private StudentDTO student;
 
     private GroupDTO grouping;
+
+    private UUID centerId;
 }
