@@ -1,6 +1,7 @@
 package com.example.demo.management.controller;
 
 import com.example.demo.management.dto.StudentDTO;
+import com.example.demo.management.dto.StudentInfoDTO;
 import com.example.demo.management.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -86,7 +87,7 @@ public class StudentController {
     )
     @PreAuthorize("hasAnyAuthority('UPDATE_STUDENT')")
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateStudent(@RequestBody StudentDTO studentDTO, @PathVariable Long id){
+    public ResponseEntity<?> updateStudent(@RequestBody StudentInfoDTO studentDTO, @PathVariable Long id){
         try {
             return studentService.updateStudent(studentDTO,id);
         }catch (Exception e){

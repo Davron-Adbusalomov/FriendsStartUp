@@ -36,4 +36,8 @@ public class StudentDTO {
     private LocalDateTime createdAt;
 
     private String status;
+
+    private String image;
+
+    private String email;
 }

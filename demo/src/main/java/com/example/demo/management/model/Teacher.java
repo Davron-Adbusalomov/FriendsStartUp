@@ -23,13 +23,15 @@ public class Teacher extends BaseEntity {
 
     private String fullName;
 
-    private String subject;
-
     private String experience;
 
     private String image;
 
+    private String email;
+
     private String phoneNumber;
+
+    private String subject;
 
     @JsonIgnore
     @OneToMany(mappedBy = "teacher")

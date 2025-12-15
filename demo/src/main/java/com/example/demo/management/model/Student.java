@@ -23,9 +23,13 @@ public class Student extends BaseEntity{
 
     private String phoneNumber;
 
-    private String parent_contact;
+    private String email;
 
-    private String parent_chatId;
+    private String image;
+
+    private String parentContact;
+
+    private String parentChatId;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "students")

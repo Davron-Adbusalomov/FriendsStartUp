@@ -1,32 +1,32 @@
 package com.example.demo.management.service;
 
 //import com.example.demo.config.JwtService;
+
+import com.example.demo.exam.model.Quiz_Results;
+import com.example.demo.exam.repository.Quiz_ResultsRepository;
 import com.example.demo.management.authentication.enums.RolesEnum;
-import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.dto.StudentDTO;
+import com.example.demo.management.dto.StudentInfoDTO;
 import com.example.demo.management.mapper.StudentMapper;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
-import com.example.demo.management.model.Teacher;
 import com.example.demo.management.model.UserEntity;
 import com.example.demo.management.model.rbac.RoleEntity;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.repository.TeacherRepository;
-import com.example.demo.exam.model.Quiz_Results;
-import com.example.demo.exam.repository.Quiz_ResultsRepository;
 import com.example.demo.management.repository.UserRepository;
 import com.example.demo.management.specification.StudentSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,20 +34,15 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class StudentService {
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    @Autowired
-    private GroupRepository groupRepository;
+    private final GroupRepository groupRepository;
 
-    @Autowired
-    private Quiz_ResultsRepository quizResultsRepository;
+    private final Quiz_ResultsRepository quizResultsRepository;
 
-    @Autowired
-    private TeacherRepository teacherRepository;
+    private final TeacherRepository teacherRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     private final StudentMapper studentMapper;
 
@@ -66,9 +61,9 @@ public class StudentService {
     }
 
 
-    public StudentDTO getStudentById(Long studentID){
+    public StudentDTO getStudentById(Long studentID) {
         Student student = studentRepository.findById(studentID)
-                .orElseThrow(() -> new EntityNotFoundException("Not found student with id: "+studentID));
+                .orElseThrow(() -> new EntityNotFoundException("Not found student with id: " + studentID));
         StudentDTO studentDTO = studentMapper.toDto(student);
         studentDTO.setRoles(getRoles(studentDTO.getId()));
         return studentDTO;
@@ -84,7 +79,7 @@ public class StudentService {
         }
 
         List<Quiz_Results> quizResults = quizResultsRepository.findByStudentId(studentId);
-        for (Quiz_Results quizResult: quizResults){
+        for (Quiz_Results quizResult : quizResults) {
             quizResult.setStudent(null);
         }
 
@@ -96,22 +91,26 @@ public class StudentService {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Successfully deleted!");
     }
 
+    @Transactional
+    public ResponseEntity<?> updateStudent(StudentInfoDTO studentDTO, Long studentID) throws Exception {
+        Student student = studentRepository.findById(studentID)
+                .orElseThrow(() -> new EntityNotFoundException("Not found student with id: " + studentID));
 
-    public ResponseEntity<?> updateStudent(StudentDTO studentDTO, Long studentID) throws Exception {
-        Optional<Student> studentOptional = studentRepository.findById(studentID);
+        Optional.ofNullable(studentDTO.getFullName()).ifPresent(student::setFullName);
+        Optional.ofNullable(studentDTO.getParentContact()).ifPresent(student::setParentContact);
+        Optional.ofNullable(studentDTO.getPhoneNumber()).ifPresent(student::setPhoneNumber);
+        Optional.ofNullable(studentDTO.getEmail()).ifPresent(student::setEmail);
+        Optional.ofNullable(studentDTO.getImage()).ifPresent(student::setImage);
 
-        if (studentOptional.isEmpty()) {
-            throw new EntityNotFoundException("Student not found with id: " + studentID);
+        if(studentDTO.getPassword() != null && !studentDTO.getPassword().isEmpty()) {
+            UserEntity user = userRepository.findById(studentID)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + studentID));
+            user.setPassword(studentDTO.getPassword());
+            userRepository.save(user);
         }
 
-        Student student = studentOptional.get();
-
-        student.setFullName(studentDTO.getFullName());
-        student.setParent_contact(studentDTO.getParentContact());
-        student.setPhoneNumber(studentDTO.getPhoneNumber());
-
         studentRepository.save(student);
-        return ResponseEntity.status(HttpStatus.OK).body(student);
+        return ResponseEntity.status(HttpStatus.OK).body(studentMapper.toDto(student));
     }
 
     private List<RolesEnum> getRoles(Long userId) {

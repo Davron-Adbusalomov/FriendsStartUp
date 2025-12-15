@@ -1,6 +1,7 @@
 package com.example.demo.management.controller;
 
 import com.example.demo.management.dto.AdminDTO;
+import com.example.demo.management.dto.AdminInfoDTO;
 import com.example.demo.management.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -94,7 +95,7 @@ public class AdminController {
     )
     @PreAuthorize("hasAnyAuthority('UPDATE_ADMIN')")
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateAdmin(@RequestBody AdminDTO adminDTO, @PathVariable Long id) throws Exception {
+    public ResponseEntity<?> updateAdmin(@RequestBody AdminInfoDTO adminDTO, @PathVariable Long id) throws Exception {
         try {
             return adminService.updateAdmin(adminDTO, id);
         } catch (Exception e) {

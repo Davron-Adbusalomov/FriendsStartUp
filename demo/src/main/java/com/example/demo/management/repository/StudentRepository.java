@@ -15,7 +15,7 @@ import java.util.UUID;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpecificationExecutor<Student> {
 
-    @Query("SELECT s FROM Student s WHERE s.parent_contact = :parentContact")
+    @Query("SELECT s FROM Student s WHERE s.parentContact = :parentContact")
     Optional<Student> findStudentByParentContact(@Param("parentContact") String parentContact);
 
 

@@ -21,11 +21,11 @@ public class Admin extends BaseEntity{
 
     private String fullName;
 
-    private String username;
-
-    private String password;
-
     private String image;
+
+    private String email;
+
+    private String phoneNumber;
 
     @Column(name = "center_id", nullable = false)
     private UUID centerId;

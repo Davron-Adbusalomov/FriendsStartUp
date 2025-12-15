@@ -14,6 +14,8 @@ CREATE TABLE admin
     username   VARCHAR(255),
     password   VARCHAR(255),
     image      VARCHAR(255),
+    email      VARCHAR(255),
+    phone_number      VARCHAR(255),
     center_id  UUID                        NOT NULL,
     CONSTRAINT pk_admin PRIMARY KEY (id)
 );
@@ -226,6 +228,8 @@ CREATE TABLE student
     updated_by     BIGINT,
     full_name      VARCHAR(255),
     phone_number   VARCHAR(255),
+    email          VARCHAR(255),
+    image          VARCHAR(255),
     parent_contact VARCHAR(255),
     parent_chat_id VARCHAR(255),
     center_id      UUID                        NOT NULL,
@@ -244,6 +248,7 @@ CREATE TABLE teacher
     subject      VARCHAR(255),
     experience   VARCHAR(255),
     image        VARCHAR(255),
+    email        VARCHAR(255),
     phone_number VARCHAR(255),
     center_id    UUID                        NOT NULL,
     CONSTRAINT pk_teacher PRIMARY KEY (id)

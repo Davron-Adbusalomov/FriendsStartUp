@@ -27,18 +27,10 @@ public class TeacherDTO {
 
     private String phoneNumber;
 
+    private String email;
+
     private List<GroupDTO> groupList;
 
     private List<RolesEnum> roles;
-
-    private LocalDateTime createdAt;
-
-    private String status;
-
-//    private String username;
-//
-//    private String password;
-//
-//    private Role role;
 
 }

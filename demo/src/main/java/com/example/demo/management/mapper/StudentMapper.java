@@ -14,16 +14,16 @@ import java.util.stream.Collectors;
 public interface StudentMapper {
 
     @Mapping(target = "groupNames", expression = "java(getGroupNames(student))")
-    @Mapping(target = "parentContact", source = "parent_contact")
-    @Mapping(target = "parentChatId", source = "parent_chatId")
+    @Mapping(target = "parentContact", source = "parentContact")
+    @Mapping(target = "parentChatId", source = "parentChatId")
     StudentDTO toDto(Student student);
 
     List<StudentDTO> toDto(List<Student> students);
 
     @Mapping(target = "groupings", ignore = true)
     @Mapping(target = "quizResults", ignore = true)
-    @Mapping(target = "parent_contact", source = "parentContact")
-    @Mapping(target = "parent_chatId", source = "parentChatId")
+    @Mapping(target = "parentContact", source = "parentContact")
+    @Mapping(target = "parentChatId", source = "parentChatId")
     Student toEntity(StudentDTO studentDto);
 
     default List<String> getGroupNames(Student student) {

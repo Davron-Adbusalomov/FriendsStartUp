@@ -2,8 +2,10 @@ package com.example.demo.management.service;
 
 import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.dto.AdminDTO;
+import com.example.demo.management.dto.AdminInfoDTO;
 import com.example.demo.management.mapper.AdminMapper;
 import com.example.demo.management.model.Admin;
+import com.example.demo.management.model.UserEntity;
 import com.example.demo.management.model.rbac.RoleEntity;
 import com.example.demo.management.repository.AdminRepository;
 import com.example.demo.management.repository.UserRepository;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,19 +52,6 @@ public class AdminService {
         return ResponseEntity.ok(admin);
     }
 
-    public AdminDTO addAdmin(AdminDTO adminDTO) throws Exception {
-        if (adminRepository.findByUsername(adminDTO.getUsername()).isPresent()) {
-            throw new Exception("Username already taken!");
-        }
-
-        Admin admin = adminMapper.toModel(adminDTO);
-        admin = adminRepository.save(admin);
-        AdminDTO savedDTO = adminMapper.toDTO(admin);
-        savedDTO.setRoles(getRoles(admin));
-
-        return savedDTO;
-    }
-
     public ResponseEntity<Void> deleteById(Long id) {
         if (!adminRepository.existsById(id)) {
             throw new EntityNotFoundException("Admin not found with id: " + id);
@@ -71,20 +61,24 @@ public class AdminService {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Admin> updateAdmin(AdminDTO adminDTO, Long id) throws Exception {
+    @Transactional
+    public ResponseEntity<AdminDTO> updateAdmin(AdminInfoDTO adminDTO, Long id) throws Exception {
         Admin existingAdmin = adminRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Admin not found with id: " + adminDTO.getId()));
 
-        Optional<Admin> usernameConflict = adminRepository.findByUsername(adminDTO.getUsername());
-        if (usernameConflict.isPresent() && !usernameConflict.get().getId().equals(adminDTO.getId())) {
-            throw new Exception("Username already taken!");
+        Optional.ofNullable(adminDTO.getFullName()).ifPresent(existingAdmin::setFullName);
+        Optional.ofNullable(adminDTO.getEmail()).ifPresent(existingAdmin::setEmail);
+        Optional.ofNullable(adminDTO.getPhoneNumber()).ifPresent(existingAdmin::setPhoneNumber);
+        Optional.ofNullable(adminDTO.getImage()).ifPresent(existingAdmin::setImage);
+
+        if (adminDTO.getPassword() != null && !adminDTO.getPassword().isEmpty()) {
+            UserEntity userEntity = userRepository.findById(existingAdmin.getId())
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + existingAdmin.getId()));
+            userEntity.setPassword(adminDTO.getPassword());
+            userRepository.save(userEntity);
         }
 
-        existingAdmin.setFullName(adminDTO.getFullName());
-        existingAdmin.setUsername(adminDTO.getUsername());
-//        existingAdmin.setPassword(adminDTO.getPassword());
-
         Admin updatedAdmin = adminRepository.save(existingAdmin);
-        return ResponseEntity.ok(updatedAdmin);
+        return ResponseEntity.ok(adminMapper.toDTO(updatedAdmin));
     }
 
     private List<RolesEnum> getRoles(Admin admin) {
