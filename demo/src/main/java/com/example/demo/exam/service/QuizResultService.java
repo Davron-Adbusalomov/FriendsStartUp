@@ -16,7 +16,7 @@ import com.example.demo.exam.repository.QuizRepository;
 import com.example.demo.exam.repository.Quiz_ResultsRepository;
 import com.example.demo.exam.repository.WrittenQuestionsRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -27,21 +27,17 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class QuizResultService {
-    @Autowired
-    private Quiz_ResultsRepository quizResultsRepository;
+    private final Quiz_ResultsRepository quizResultsRepository;
 
-    @Autowired
-    private QuizRepository quizRepository;
+    private final QuizRepository quizRepository;
 
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    @Autowired
-    private GroupRepository groupRepository;
+    private final GroupRepository groupRepository;
 
-    @Autowired
-    private WrittenQuestionsRepository writtenQuestionsRepository;
+    private final WrittenQuestionsRepository writtenQuestionsRepository;
 
     TelegramConfig telegramConfig = new TelegramConfig(this);
 
@@ -121,12 +117,12 @@ public class QuizResultService {
                 }
             }
 
-            if (student.getParent_chatId().isEmpty()) {
+            if (student.getParentChatId().isEmpty()) {
                 continue;
             }
 
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(student.getParent_chatId());
+            sendMessage.setChatId(student.getParentChatId());
             sendMessage.setText("Assalomu alaykum! Farzandingiz, "+ student.getFullName()+" " + quiz.get().getGrouping().getSubject() + " fanidan oxirgi sinov natijasi bilan tanishing:\n o'zlashtirish foizi: " + (quizResults.getMark() * 100.0) / maxMark +"%\n guruhdagi o'rni: " + place + "-o'rin\n ");
 
         telegramConfig.execute(sendMessage);
@@ -151,7 +147,7 @@ public class QuizResultService {
             }
             else {
                 Student updateStudent = student.get();
-                updateStudent.setParent_chatId(String.valueOf(chatId));
+                updateStudent.setParentChatId(String.valueOf(chatId));
                 studentRepository.save(updateStudent);
                 SendMessage sendMessage = new SendMessage();
                 sendMessage.setChatId(chatId);
