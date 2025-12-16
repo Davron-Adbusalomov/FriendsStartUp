@@ -12,9 +12,7 @@ import lombok.*;
 import org.hibernate.annotations.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Setter
@@ -34,7 +32,7 @@ public class Quiz extends BaseEntity{
 
     private String title;
 
-    private int questions_num;
+    private int questionsNum;
 
     private Long duration;
 
@@ -62,7 +60,7 @@ public class Quiz extends BaseEntity{
             joinColumns = @JoinColumn(name = "quiz_id"),
             inverseJoinColumns = @JoinColumn(name = "question_id")
     )
-    private List<Question> questions = new ArrayList<>();
+    private Set<Question> questions = new HashSet<>();
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Quiz_Results> quizResult;

@@ -27,12 +27,18 @@ public class Quiz_Results extends BaseEntity {
 
     private Long mark;
 
-    @ManyToOne
-    @JoinColumn(name = "quiz_id")
-    private Quiz quiz;
+    @Column(name = "quiz_id", nullable = false)
+    private UUID quizId;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "quiz_id", insertable = false, updatable = false)
+    private Quiz quiz;
+
+    @Column(name = "student_id", nullable = false)
+    private Long studentId;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id", insertable = false, updatable = false)
     private Student student;
 
     @Column(name = "center_id", nullable = false)

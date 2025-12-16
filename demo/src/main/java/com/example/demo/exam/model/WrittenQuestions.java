@@ -46,8 +46,11 @@ public class WrittenQuestions extends BaseEntity {
     @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Center center;
 
+    @Column(name = "student_id", nullable = false)
+    private Long studentId;
+
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id", insertable = false, updatable = false)
     private Student student;
 
 }

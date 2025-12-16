@@ -3,7 +3,6 @@ package com.example.demo.exam.service;
 import com.example.demo.config.CurrentUserUtils;
 import com.example.demo.config.TenantContext;
 import com.example.demo.exam.dto.UpcomingTaskInfo;
-import com.example.demo.management.dto.StudentDTO;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
@@ -16,103 +15,99 @@ import com.example.demo.exam.mapper.QuizMapper;
 import com.example.demo.exam.model.*;
 import com.example.demo.exam.repository.*;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class QuizService {
-    @Autowired
     private QuizRepository quizRepository;
 
-    @Autowired
     private TeacherRepository teacherRepository;
 
-    @Autowired
     private GroupRepository groupRepository;
 
-    @Autowired
     private QuestionRepository questionRepository;
 
-    @Autowired
     private StudentRepository studentRepository;
 
-    @Autowired
     private Quiz_ResultsRepository quizResultsRepository;
 
-    @Autowired
     private WrittenQuestionsRepository writtenQuestionsRepository;
 
-    @Autowired
     private WrongAnswersAnalyzeRepository wrongAnswersAnalyzeRepository;
 
 
-
+    @Transactional
     public ResponseEntity<?> createQuiz(QuizDTOForRequest quizDTO) {
-        Optional<Teacher> teacher = teacherRepository.findById(quizDTO.getTeacherId());
-        if (teacher.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No teacher with this id: " + quizDTO.getTeacherId());
+
+        if (!teacherRepository.existsById(quizDTO.getTeacherId())) {
+            return ResponseEntity.badRequest().body("No teacher with id " + quizDTO.getTeacherId());
         }
 
-        Optional<Grouping> group = groupRepository.findById(quizDTO.getGroupingId());
-        if (group.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No group with this id: " + quizDTO.getGroupingId());
+        if (!groupRepository.existsById(quizDTO.getGroupingId())) {
+            return ResponseEntity.badRequest().body("No group with id " + quizDTO.getGroupingId());
         }
 
-        LocalDateTime time = Instant.ofEpochMilli(quizDTO.getStartTime()).atZone(TimeZone.getDefault().toZoneId()).toLocalDateTime();
+
+        LocalDateTime startTime = Instant.ofEpochMilli(quizDTO.getStartTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        List<Question> questions = questionRepository.findAllById(quizDTO.getQuestions());
+
+        if (questions.size() != quizDTO.getQuestions().size()) {
+            return ResponseEntity.badRequest().body("One or more questions not found");
+        }
 
         Quiz quiz = new Quiz();
-//        quiz.setTeacher(teacher.get());
-        quiz.setDuration(quizDTO.getDuration());
-        quiz.setStartTime(time);
-        quiz.setGrouping(group.get());
-        quiz.setQuestions_num(quizDTO.getQuestions_num());
-        quiz.setCenterId(TenantContext.getCenterId());
         quiz.setTeacherId(quizDTO.getTeacherId());
-        for (UUID questionId : quizDTO.getQuestions()) {
-            Optional<Question> question = questionRepository.findById(questionId);
-            if (question.isEmpty()){
-                throw new EntityNotFoundException("No question found with this id: "+questionId);
-            }
-            quiz.assignQuestion(question.get());
-        }
+        quiz.setDuration(quizDTO.getDuration());
+        quiz.setStartTime(startTime);
+        quiz.setGroupingId(quizDTO.getGroupingId());
+        quiz.setQuestionsNum(quizDTO.getQuestions_num());
+        quiz.setCenterId(TenantContext.getCenterId());
+
+        quiz.setQuestions(new HashSet<>(questions));
+
         quizRepository.save(quiz);
-        return ResponseEntity.status(HttpStatus.OK).body("Quiz created successfully!");
+
+        return ResponseEntity.ok("Quiz created successfully!");
     }
 
-
+    @Transactional
     public QuizDTO beginQuiz(UUID quizId) {
-        Optional<Quiz> optionalQuiz = quizRepository.findById(quizId);
 
-        if (optionalQuiz.isEmpty()) {
-            throw new EntityNotFoundException("No quiz found with this id");
-        }
+        Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new EntityNotFoundException("No quiz found with this id"));
 
         LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime quizStartTime = optionalQuiz.get().getStartTime();
-        Long quizDuration = optionalQuiz.get().getDuration();
-        LocalDateTime quizEndTime = quizStartTime.plusMinutes(quizDuration+1);
+        LocalDateTime quizStartTime = quiz.getStartTime();
+        Long quizDuration = quiz.getDuration();
+        LocalDateTime quizEndTime = quizStartTime.plusMinutes(quizDuration);
 
         if (currentTime.isBefore(quizStartTime) || currentTime.isAfter(quizEndTime)) {
             throw new IllegalStateException("Quiz is not currently active or has ended");
         }
 
-        Quiz quiz = optionalQuiz.get();
-        List<Question> allQuestions = quiz.getQuestions();
+        Set<Question> allQuestions = quiz.getQuestions();
         List<Question> easyQuestions = new ArrayList<>();
         List<Question> mediumQuestions = new ArrayList<>();
         List<Question> hardQuestions = new ArrayList<>();
 
-        int numOfEasyQuestions = (int) (optionalQuiz.get().getQuestions_num()*0.4);
-        int numOfMediumQuestions = (int) (optionalQuiz.get().getQuestions_num()*0.3);
-        int numOfHardQuestions = quiz.getQuestions_num()-numOfMediumQuestions-numOfEasyQuestions;
+        int numOfEasyQuestions = (int) (quiz.getQuestionsNum()*0.4);
+        int numOfMediumQuestions = (int) (quiz.getQuestionsNum()*0.3);
+        int numOfHardQuestions = quiz.getQuestionsNum()-numOfMediumQuestions-numOfEasyQuestions;
 
-        for(Question question:allQuestions){
+        for(Question question:allQuestions) {
             if (question.getMark()==1){
                 easyQuestions.add(question);
             }
@@ -124,13 +119,13 @@ public class QuizService {
             }
         }
 
-        if (quiz.getQuestions_num() > 0 && quiz.getQuestions_num() <= allQuestions.size()) {
+        if (quiz.getQuestionsNum() > 0 && quiz.getQuestionsNum() <= allQuestions.size()) {
 
             Collections.shuffle(easyQuestions);
             Collections.shuffle(mediumQuestions);
             Collections.shuffle(hardQuestions);
 
-            List<Question> selectedQuestions = new ArrayList<>();
+            Set<Question> selectedQuestions = new HashSet<>();
 
             for (int i=0; i<numOfEasyQuestions; i++){
                 selectedQuestions.add(easyQuestions.get(i));
@@ -146,7 +141,7 @@ public class QuizService {
 
             QuizDTO shuffledQuiz = new QuizDTO();
             shuffledQuiz.setId(quiz.getId());
-            shuffledQuiz.setQuestions_num(quiz.getQuestions_num());
+            shuffledQuiz.setQuestionsNum(quiz.getQuestionsNum());
             shuffledQuiz.setDuration(quiz.getDuration());
             shuffledQuiz.setGroupingId(quiz.getGrouping().getId());
             shuffledQuiz.setTeacherId(quiz.getTeacher().getId());
@@ -158,14 +153,15 @@ public class QuizService {
         return QuizMapper.toDTO(quiz);
     }
 
-    public String checkingMultipleChoiceQuestions(List<Response> responseList, Long id, UUID quizId){
+    @Transactional
+    public String checkingMultipleChoiceQuestions(List<Response> responseList, Long studentId, UUID quizId){
         LocalDateTime currentTime = LocalDateTime.now();
 
-        Optional<Quiz> optionalQuiz = quizRepository.findById(quizId);
-        if (optionalQuiz.isEmpty()) {
-            throw new EntityNotFoundException("No quiz found with this id");
+        if (!studentRepository.existsById(studentId)){
+            throw new EntityNotFoundException("No student found with this id");
         }
-        Quiz quiz = optionalQuiz.get();
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElseThrow(() -> new EntityNotFoundException("No quiz found with this id"));
 
         LocalDateTime quizStartTime = quiz.getStartTime();
         Long quizDuration = quiz.getDuration();
@@ -181,18 +177,14 @@ public class QuizService {
 
         for (Response response : responseList) {
 
-            Optional<Question> optionalQuestion = questionRepository.findById(response.getQuestion_id());
-            if (optionalQuestion.isEmpty()){
-                throw new EntityNotFoundException("There is no this question in this quiz!");
-            }
-            Question question = optionalQuestion.get();
+            Question question = questionRepository.findById(response.getQuestion_id()).orElseThrow(() -> new EntityNotFoundException("No question found with this id"));
 
             if (!question.getType().equals("MCQ")){
                 WrittenQuestions writtenQuestions = new WrittenQuestions();
                 writtenQuestions.setQuestionId(question.getId());
                 writtenQuestions.setQuizId(quizId);
                 writtenQuestions.setStudentAnswer(response.getAnswer());
-                writtenQuestions.setStudent(studentRepository.findById(id).get());
+                writtenQuestions.setStudentId(studentId);
                 writtenQuestions.setCorrect_answer(question.getRight_answer());
                 writtenQuestions.setQuestionTitle(question.getTitle());
                 writtenQuestions.setMax_score((long) question.getMark());
@@ -207,19 +199,20 @@ public class QuizService {
             };
 
         }
-        wrongAnswersAnalyze.setStudent(studentRepository.findById(id).get());
+        wrongAnswersAnalyze.setStudentId(studentId);
         wrongAnswersAnalyze.setQuiz_id(quizId);
         wrongAnswersAnalyzeRepository.save(wrongAnswersAnalyze);
 
         quizResults.setQuiz(quizRepository.findById(quizId).get());
         quizResults.setMark(mark);
-        quizResults.setStudent(studentRepository.findById(id).get());
+        quizResults.setStudentId(studentId);
         quizResults.setCenterId(TenantContext.getCenterId());
         quizResultsRepository.save(quizResults);
 
         return "Successfully recorded!";
     }
 
+    @Transactional
     public UpcomingTaskInfo getUpcomingQuizInfo() {
         Long userId = CurrentUserUtils.getUserId();
         Student student = studentRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + userId));

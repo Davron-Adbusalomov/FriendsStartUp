@@ -33,8 +33,11 @@ public class WrongAnswersAnalyze extends BaseEntity {
 
     private String wrong_answer;
 
+    @Column(name = "student_id", nullable = false)
+    private Long studentId;
+
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id", insertable = false, updatable = false)
     private Student student;
 
     @Column(name = "center_id", nullable = false)
