@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {TeacherMapper.class})
 public interface GroupMapper {
 
-    @Mapping(target = "teacherName", expression = "java(getTeacherName(grouping))")
+    @Mapping(source = "teacher", target = "teacher")
     @Mapping(target = "teacherId", expression = "java(getTeacherId(grouping))")
     @Mapping(target = "quizzes", expression = "java(getQuizIds(grouping))")
     GroupDTO toDto(Grouping grouping);

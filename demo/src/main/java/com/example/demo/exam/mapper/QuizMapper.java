@@ -10,7 +10,7 @@ public interface QuizMapper {
         QuizDTO quizDTO = new QuizDTO();
         quizDTO.setId(quiz.getId());
         quizDTO.setDuration(quiz.getDuration());
-        quizDTO.setQuestions_num(quiz.getQuestions_num());
+        quizDTO.setQuestions_num(quiz.getQuestionsNum());
         quizDTO.setQuestions(quiz.getQuestions());
         quizDTO.setGroupingId(quiz.getGrouping().getId());
         quizDTO.setTeacherId(quiz.getTeacher().getId());
@@ -22,7 +22,7 @@ public interface QuizMapper {
 //        Quiz quiz = new Quiz();
 //        quiz.setId(quizDTO.getId());
 //        quiz.setDuration(quizDTO.getDuration());
-//        quiz.setQuestions_num(quizDTO.getQuestions_num());
+//        quiz.setQuestionsNum(quizDTO.getQuestionsNum());
 //        quiz.setQuizResult(quizDTO.getQuizResult());
 //        quiz.setTeacher(quizDTO.getTeacherId());
 //        quiz.setGrouping(quizDTO.getGroupingId());

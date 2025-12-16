@@ -88,8 +88,8 @@ public class GroupService {
 
         if (groupDTO.getName() != null)
             grouping.setName(groupDTO.getName());
-        if (groupDTO.getSubject() != null)
-            grouping.setSubject(groupDTO.getSubject());
+        if (groupDTO.getSubjectId() != null)
+            grouping.setSubjectId(groupDTO.getSubjectId());
         if (groupDTO.getTime() != null)
             grouping.setTime(groupDTO.getTime());
 

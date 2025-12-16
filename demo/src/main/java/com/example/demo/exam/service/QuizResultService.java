@@ -123,7 +123,7 @@ public class QuizResultService {
 
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(student.getParentChatId());
-            sendMessage.setText("Assalomu alaykum! Farzandingiz, "+ student.getFullName()+" " + quiz.get().getGrouping().getSubject() + " fanidan oxirgi sinov natijasi bilan tanishing:\n o'zlashtirish foizi: " + (quizResults.getMark() * 100.0) / maxMark +"%\n guruhdagi o'rni: " + place + "-o'rin\n ");
+            sendMessage.setText("Assalomu alaykum! Farzandingiz, "+ student.getFullName()+" " + quiz.get().getGrouping().getSubjectId() + " fanidan oxirgi sinov natijasi bilan tanishing:\n o'zlashtirish foizi: " + (quizResults.getMark() * 100.0) / maxMark +"%\n guruhdagi o'rni: " + place + "-o'rin\n ");
 
         telegramConfig.execute(sendMessage);
         }

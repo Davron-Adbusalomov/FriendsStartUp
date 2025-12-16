@@ -30,24 +30,63 @@ public class GroupSpecification {
                 criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%");
     }
 
-    public static Specification<Grouping> statusEquals(String status) {
+
+    public static Specification<Grouping> statusEquals(String status, Long studentId) {
+
         if (status == null) return null;
+
         if (status.equalsIgnoreCase(GroupStatus.ONGOING.name())) {
-            return (root, query, criteriaBuilder) ->
-                    criteriaBuilder.lessThan(root.get("startDate"), criteriaBuilder.currentDate());
-        } else if (status.equalsIgnoreCase(GroupStatus.NOT_STARTED.name())) {
-            return (root, query, criteriaBuilder) ->
-                    criteriaBuilder.greaterThanOrEqualTo(root.get("startDate"), criteriaBuilder.currentDate());
-        } else {
-            return null;
+            return (root, query, cb) ->
+                    cb.lessThan(root.get("startDate"), cb.currentDate());
         }
+
+        if (status.equalsIgnoreCase(GroupStatus.NOT_STARTED.name())) {
+            return (root, query, cb) ->
+                    cb.greaterThanOrEqualTo(root.get("startDate"), cb.currentDate());
+        }
+
+        if (status.equalsIgnoreCase(GroupStatus.NOT_JOINED.name())) {
+            return (root, query, cb) -> {
+                if (studentId == null) return null;
+
+                query.distinct(true);
+
+                var subquery = query.subquery(Long.class);
+                var subRoot = subquery.from(Grouping.class);
+                var subJoin = subRoot.join("students");
+
+                subquery.select(subRoot.get("id"))
+                        .where(cb.equal(subJoin.get("id"), studentId));
+
+                return cb.not(root.get("id").in(subquery));
+            };
+        }
+
+        return null;
     }
 
-    public static Specification<Grouping> advancedFilter(Long teacherId, Long studentId, String name, String status) {
-        return Specification
-                .where(teacherIdEquals(teacherId))
-                .and(studentIdEquals(studentId))
+
+    public static Specification<Grouping> advancedFilter(
+            Long teacherId,
+            Long studentId,
+            String name,
+            String status
+    ) {
+        Specification<Grouping> spec = (root, query, cb) -> {
+            query.distinct(true);
+            return null;
+        };
+
+        spec = spec
+                .and(teacherIdEquals(teacherId))
                 .and(nameContains(name))
-                .and(statusEquals(status));
+                .and(statusEquals(status, studentId));
+
+        if (!GroupStatus.NOT_JOINED.name().equalsIgnoreCase(status)) {
+            spec = spec.and(studentIdEquals(studentId));
+        }
+
+        return spec;
     }
+
 }

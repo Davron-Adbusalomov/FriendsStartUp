@@ -28,10 +28,9 @@ public interface TeacherMapper {
                 GroupDTO dto = new GroupDTO();
                 dto.setId(g.getId());
                 dto.setName(g.getName());
-                dto.setSubject(g.getSubject());
+                dto.setSubjectId(g.getSubjectId());
                 dto.setTeacherId(teacher.getId());
                 dto.setTime(g.getTime());
-                dto.setTeacherName(teacher.getFullName());
                 groupDTOs.add(dto);
             }
         }

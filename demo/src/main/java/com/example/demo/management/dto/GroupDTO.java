@@ -22,23 +22,23 @@ public class GroupDTO {
 
     private String name;
 
-    private String subject;
+    private UUID subjectId;
 
     private String time;
-
-    private String teacherName;
 
     private Long teacherId;
 
     private String description;
 
+    private Integer durationInMonths;
+
     private Date startDate;
+
+    private TeacherDTO teacher;
 
     private List<StudentDTO> students = new ArrayList<>();
 
     private List<UUID> quizzes;
-
-    private LocalDateTime createdAt;
 
     private UUID centerId;
 }

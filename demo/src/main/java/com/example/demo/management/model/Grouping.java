@@ -28,13 +28,16 @@ public class Grouping extends BaseEntity {
 
     private String name;
 
-    private String subject;
-
     private String time;
 
     private String description;
 
     private Date startDate;
+
+    private Integer durationInMonths;
+
+    @Column(name = "subject_id")
+    private UUID subjectId;
 
     @Column(name = "teacher_id")
     private Long teacherId;

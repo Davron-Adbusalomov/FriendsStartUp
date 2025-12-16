@@ -72,7 +72,7 @@ CREATE TABLE groups
     created_by BIGINT,
     updated_by BIGINT,
     name       VARCHAR(255),
-    subject    VARCHAR(255),
+    subject_id         UUID,
     time       VARCHAR(255),
     description VARCHAR(255),
     start_date TIMESTAMP WITHOUT TIME ZONE,
@@ -200,6 +200,16 @@ CREATE TABLE role_default_permissions
     default_permission_name VARCHAR(255) NOT NULL,
     role_id                 VARCHAR(255) NOT NULL,
     CONSTRAINT pk_role_default_permissions PRIMARY KEY (default_permission_name, role_id)
+);
+
+CREATE TABLE subject
+(
+    id          UUID NOT NULL,
+    name        VARCHAR(255),
+    code        VARCHAR(255),
+    description VARCHAR(255),
+    center_id   UUID NOT NULL,
+    CONSTRAINT pk_subject PRIMARY KEY (id)
 );
 
 CREATE TABLE statistics
@@ -417,6 +427,9 @@ ALTER TABLE statistics
 
 ALTER TABLE student
     ADD CONSTRAINT FK_STUDENT_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
+
+ALTER TABLE subject
+    ADD CONSTRAINT FK_SUBJECT_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
 
 ALTER TABLE teacher
     ADD CONSTRAINT FK_TEACHER_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
