@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -20,7 +20,7 @@ public class QuizDTO {
 
         private Long duration;
 
-        private int questions_num;
+        private int questionsNum;
 
         private UUID groupingId;
 
@@ -30,7 +30,7 @@ public class QuizDTO {
 
         private LocalDateTime startTime;
 
-        private List<Question> questions;
+        private Set<Question> questions;
 
        // private Quiz_Results quizResult;
     }
