@@ -13,5 +13,11 @@ public interface EnrollmentMapper {
 
     @Mapping(target = "student", ignore = true)
     @Mapping(target = "grouping", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "center", ignore = true)
     Enrollment toEntity(EnrollmentDTO enrollmentDTO);
 }

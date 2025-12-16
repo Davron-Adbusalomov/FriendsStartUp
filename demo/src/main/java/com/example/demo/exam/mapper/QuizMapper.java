@@ -10,7 +10,7 @@ public interface QuizMapper {
         QuizDTO quizDTO = new QuizDTO();
         quizDTO.setId(quiz.getId());
         quizDTO.setDuration(quiz.getDuration());
-        quizDTO.setQuestions_num(quiz.getQuestionsNum());
+        quizDTO.setQuestionsNum(quiz.getQuestionsNum());
         quizDTO.setQuestions(quiz.getQuestions());
         quizDTO.setGroupingId(quiz.getGrouping().getId());
         quizDTO.setTeacherId(quiz.getTeacher().getId());
