@@ -34,7 +34,7 @@ public class LessonController {
             }
     )
     @PreAuthorize("hasAuthority('CREATE_LESSON')")
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<LessonDTO> create(@RequestBody LessonDTO dto) {
         return ResponseEntity.ok(lessonService.create(dto));
     }
