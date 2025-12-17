@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +33,7 @@ public class GroupDTO {
 
     private Date startDate;
 
-    private TeacherDTO teacher;
+    private TeacherSummaryDTO teacher;
 
     private List<StudentDTO> students = new ArrayList<>();
 

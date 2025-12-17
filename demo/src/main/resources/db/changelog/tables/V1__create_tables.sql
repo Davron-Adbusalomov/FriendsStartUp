@@ -255,11 +255,12 @@ CREATE TABLE teacher
     created_by   BIGINT,
     updated_by   BIGINT,
     full_name    VARCHAR(255),
-    subject      VARCHAR(255),
+    subject_id      UUID,
     experience   VARCHAR(255),
     image        VARCHAR(255),
     email        VARCHAR(255),
     phone_number VARCHAR(255),
+    title        VARCHAR(255),
     center_id    UUID                        NOT NULL,
     CONSTRAINT pk_teacher PRIMARY KEY (id)
 );

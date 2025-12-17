@@ -20,7 +20,7 @@ public class QuestionDTO {
 
     private String type;
 
-    private String subject;
+    private UUID subjectId;
 
     private String image;
 
@@ -29,8 +29,6 @@ public class QuestionDTO {
     private int mark;
 
     private Long teacherId;
-
-    private LocalDateTime createdAt;
 
     private List<String> options;
 }

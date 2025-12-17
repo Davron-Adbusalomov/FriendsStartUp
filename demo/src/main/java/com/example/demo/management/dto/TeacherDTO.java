@@ -29,6 +29,8 @@ public class TeacherDTO {
 
     private String email;
 
+    private String status;
+
     private List<GroupDTO> groupList;
 
     private List<RolesEnum> roles;

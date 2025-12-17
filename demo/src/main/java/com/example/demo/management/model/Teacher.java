@@ -33,6 +33,8 @@ public class Teacher extends BaseEntity {
 
     private String subject;
 
+    private String title;
+
     @JsonIgnore
     @OneToMany(mappedBy = "teacher")
     private List<Grouping> groupList = new ArrayList<>();

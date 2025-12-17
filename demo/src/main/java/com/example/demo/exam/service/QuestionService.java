@@ -86,7 +86,7 @@ public class QuestionService {
                 Teacher teacher = optionalTeacher.get();
                 Question question = new Question();
                     question.setLevel(questionDTO.getLevel());
-                    question.setSubject(questionDTO.getSubject());
+                    question.setSubjectId(questionDTO.getSubjectId());
                     if (img!=null) question.setImage( mediaService.uploadImageToAzureAndGetUrl(img, "question"+ UUID.randomUUID()));
                     question.setTitle(questionDTO.getTitle());
                     question.setType(questionDTO.getType());

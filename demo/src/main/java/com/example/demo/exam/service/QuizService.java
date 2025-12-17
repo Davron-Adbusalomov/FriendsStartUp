@@ -2,22 +2,19 @@ package com.example.demo.exam.service;
 
 import com.example.demo.config.CurrentUserUtils;
 import com.example.demo.config.TenantContext;
-import com.example.demo.exam.dto.UpcomingTaskInfo;
-import com.example.demo.management.model.Grouping;
-import com.example.demo.management.model.Student;
-import com.example.demo.management.model.Teacher;
-import com.example.demo.management.repository.GroupRepository;
-import com.example.demo.management.repository.StudentRepository;
-import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.exam.dto.QuizDTO;
 import com.example.demo.exam.dto.QuizDTOForRequest;
+import com.example.demo.exam.dto.UpcomingTaskInfo;
 import com.example.demo.exam.mapper.QuizMapper;
 import com.example.demo.exam.model.*;
 import com.example.demo.exam.repository.*;
+import com.example.demo.management.model.Grouping;
+import com.example.demo.management.model.Student;
+import com.example.demo.management.repository.GroupRepository;
+import com.example.demo.management.repository.StudentRepository;
+import com.example.demo.management.repository.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,21 +27,21 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class QuizService {
-    private QuizRepository quizRepository;
+    private final QuizRepository quizRepository;
 
-    private TeacherRepository teacherRepository;
+    private final TeacherRepository teacherRepository;
 
-    private GroupRepository groupRepository;
+    private final GroupRepository groupRepository;
 
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
 
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    private Quiz_ResultsRepository quizResultsRepository;
+    private final Quiz_ResultsRepository quizResultsRepository;
 
-    private WrittenQuestionsRepository writtenQuestionsRepository;
+    private final WrittenQuestionsRepository writtenQuestionsRepository;
 
-    private WrongAnswersAnalyzeRepository wrongAnswersAnalyzeRepository;
+    private final WrongAnswersAnalyzeRepository wrongAnswersAnalyzeRepository;
 
 
     @Transactional
@@ -103,18 +100,16 @@ public class QuizService {
         List<Question> mediumQuestions = new ArrayList<>();
         List<Question> hardQuestions = new ArrayList<>();
 
-        int numOfEasyQuestions = (int) (quiz.getQuestionsNum()*0.4);
-        int numOfMediumQuestions = (int) (quiz.getQuestionsNum()*0.3);
-        int numOfHardQuestions = quiz.getQuestionsNum()-numOfMediumQuestions-numOfEasyQuestions;
+        int numOfEasyQuestions = (int) (quiz.getQuestionsNum() * 0.4);
+        int numOfMediumQuestions = (int) (quiz.getQuestionsNum() * 0.3);
+        int numOfHardQuestions = quiz.getQuestionsNum() - numOfMediumQuestions - numOfEasyQuestions;
 
-        for(Question question:allQuestions) {
-            if (question.getMark()==1){
+        for (Question question : allQuestions) {
+            if (question.getMark() == 1) {
                 easyQuestions.add(question);
-            }
-            else if (question.getMark()==2){
+            } else if (question.getMark() == 2) {
                 mediumQuestions.add(question);
-            }
-            else{
+            } else {
                 hardQuestions.add(question);
             }
         }
@@ -127,15 +122,15 @@ public class QuizService {
 
             Set<Question> selectedQuestions = new HashSet<>();
 
-            for (int i=0; i<numOfEasyQuestions; i++){
+            for (int i = 0; i < numOfEasyQuestions; i++) {
                 selectedQuestions.add(easyQuestions.get(i));
             }
 
-            for (int i=0; i<numOfMediumQuestions; i++){
+            for (int i = 0; i < numOfMediumQuestions; i++) {
                 selectedQuestions.add(mediumQuestions.get(i));
             }
 
-            for (int i=0; i<numOfHardQuestions; i++){
+            for (int i = 0; i < numOfHardQuestions; i++) {
                 selectedQuestions.add(hardQuestions.get(i));
             }
 
@@ -154,10 +149,10 @@ public class QuizService {
     }
 
     @Transactional
-    public String checkingMultipleChoiceQuestions(List<Response> responseList, Long studentId, UUID quizId){
+    public String checkingMultipleChoiceQuestions(List<Response> responseList, Long studentId, UUID quizId) {
         LocalDateTime currentTime = LocalDateTime.now();
 
-        if (!studentRepository.existsById(studentId)){
+        if (!studentRepository.existsById(studentId)) {
             throw new EntityNotFoundException("No student found with this id");
         }
         Quiz quiz = quizRepository.findById(quizId)
@@ -165,7 +160,7 @@ public class QuizService {
 
         LocalDateTime quizStartTime = quiz.getStartTime();
         Long quizDuration = quiz.getDuration();
-        LocalDateTime quizEndTime = quizStartTime.plusMinutes(quizDuration+1);
+        LocalDateTime quizEndTime = quizStartTime.plusMinutes(quizDuration + 1);
 
         if (currentTime.isBefore(quizStartTime) || currentTime.isAfter(quizEndTime)) {
             throw new IllegalStateException("Quiz is not currently active or has ended");
@@ -179,7 +174,7 @@ public class QuizService {
 
             Question question = questionRepository.findById(response.getQuestion_id()).orElseThrow(() -> new EntityNotFoundException("No question found with this id"));
 
-            if (!question.getType().equals("MCQ")){
+            if (!question.getType().equals("MCQ")) {
                 WrittenQuestions writtenQuestions = new WrittenQuestions();
                 writtenQuestions.setQuestionId(question.getId());
                 writtenQuestions.setQuizId(quizId);
@@ -189,14 +184,12 @@ public class QuizService {
                 writtenQuestions.setQuestionTitle(question.getTitle());
                 writtenQuestions.setMax_score((long) question.getMark());
                 writtenQuestionsRepository.save(writtenQuestions);
-            }
-            else if (question.getRight_answer().equals(response.getAnswer())){
-                mark+=question.getMark();
-            }
-            else {
+            } else if (question.getRight_answer().equals(response.getAnswer())) {
+                mark += question.getMark();
+            } else {
                 wrongAnswersAnalyze.setQuestion_id(response.getQuestion_id());
                 wrongAnswersAnalyze.setWrong_answer(response.getAnswer());
-            };
+            }
 
         }
         wrongAnswersAnalyze.setStudentId(studentId);
@@ -216,7 +209,7 @@ public class QuizService {
     public UpcomingTaskInfo getUpcomingQuizInfo() {
         Long userId = CurrentUserUtils.getUserId();
         Student student = studentRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + userId));
-        if(student.getGroupings().isEmpty()){
+        if (student.getGroupings().isEmpty()) {
             throw new EntityNotFoundException("Student is not assigned to any group");
         }
         Quiz quiz = quizRepository.findUpcomingQuizByGroupIds(

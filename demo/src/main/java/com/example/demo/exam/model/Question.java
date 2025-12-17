@@ -2,6 +2,7 @@ package com.example.demo.exam.model;
 
 import com.example.demo.management.model.BaseEntity;
 import com.example.demo.management.model.Center;
+import com.example.demo.management.model.Subject;
 import com.example.demo.management.model.Teacher;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -32,8 +33,6 @@ public class Question extends BaseEntity{
 
     private String level;
 
-    private String subject;
-
     public String image;
 
     private String type;
@@ -41,6 +40,13 @@ public class Question extends BaseEntity{
     private String right_answer;
 
     private int mark;
+
+    @Column(name = "subject_id")
+    private UUID subjectId;
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id", insertable = false, updatable = false)
+    private Subject subject;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
