@@ -7,4 +7,6 @@ public enum Status {
     CREATED,
     UPDATED,
     DELETED,
+    ACTIVE,
+    INACTIVE
 }

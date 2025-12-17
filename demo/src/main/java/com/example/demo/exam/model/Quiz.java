@@ -7,12 +7,19 @@ import com.example.demo.management.model.Teacher;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.persistence.CascadeType;
-import lombok.*;
-import org.hibernate.annotations.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Setter
@@ -22,7 +29,7 @@ import java.util.*;
 @SQLDelete(sql = "UPDATE quiz SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
 @Filter(name = "centerFilter", condition = "center_id = :centerId")
-public class Quiz extends BaseEntity{
+public class Quiz extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "uuid2")
