@@ -33,6 +33,8 @@ public class GroupDTO {
 
     private Date startDate;
 
+    private Boolean isStudentAccessible = false;
+
     private TeacherSummaryDTO teacher;
 
     private List<StudentDTO> students = new ArrayList<>();

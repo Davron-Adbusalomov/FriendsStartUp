@@ -40,9 +40,13 @@ public class GroupService {
         return groups.map(groupMapper::toDto);
     }
 
-    public GroupDTO getGroupById(UUID groupId) {
+    public GroupDTO getGroupById(UUID groupId, Long studentId) {
         Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
-        return groupMapper.toDto(grouping);
+        GroupDTO group = groupMapper.toDto(grouping);
+        if (studentId != null && grouping.getStudents().stream().anyMatch(s -> s.getId().equals(studentId))) {
+            group.setIsStudentAccessible(true);
+        }
+        return group;
     }
 
     @Transactional

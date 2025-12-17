@@ -17,6 +17,7 @@ public interface GroupMapper {
     @Mapping(target = "teacher", expression = "java(getTeacher(grouping))")
     @Mapping(target = "teacherId", expression = "java(getTeacherId(grouping))")
     @Mapping(target = "quizzes", expression = "java(getQuizIds(grouping))")
+    @Mapping(target = "isStudentAccessible", ignore = true)
     GroupDTO toDto(Grouping grouping);
 
     @Mapping(target = "quizzes", ignore = true)
