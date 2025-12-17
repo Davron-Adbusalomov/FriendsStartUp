@@ -143,7 +143,12 @@ INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('DELETE_LESSON', 'Delete lesson'),
                                                               ('UPDATE_LESSON_PROGRESS', 'Lessons with progress'),
                                                               ('PROCESS_ENROLLMENT', 'enrollment processing'),
-                                                              ('GET_ENROLLMENTS_LIST', 'list enrollments')
+                                                              ('GET_ENROLLMENTS_LIST', 'list enrollments'),
+                                                              ('CREATE_SUBJECT', 'Create subject'),
+                                                              ('UPDATE_SUBJECT', 'Update subject'),
+                                                              ('GET_SUBJECT', 'Get subject by id'),
+                                                              ('GET_SUBJECTS_LIST', 'Get subjects list'),
+                                                              ('DELETE_SUBJECT', 'Delete subject')
 ON CONFLICT (name) DO NOTHING;
 
 
@@ -202,6 +207,11 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('SUPER_ADMIN', 'UPDATE_LESSON_PROGRESS'),
 ('SUPER_ADMIN', 'GET_ENROLLMENTS_LIST'),
 ('SUPER_ADMIN', 'PROCESS_ENROLLMENT'),
+('SUPER_ADMIN', 'CREATE_SUBJECT'),
+('SUPER_ADMIN', 'UPDATE_SUBJECT'),
+('SUPER_ADMIN', 'GET_SUBJECT'),
+('SUPER_ADMIN', 'GET_SUBJECTS_LIST'),
+('SUPER_ADMIN', 'DELETE_SUBJECT'),
 -- ==========================================================
 -- DIRECTOR → View, manage, supervise, but fewer destructive permissions
 -- ==========================================================
@@ -242,6 +252,10 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('DIRECTOR', 'GET_LESSON'),
 ('DIRECTOR', 'GET_LESSONS_LIST'),
 ('DIRECTOR', 'GET_ENROLLMENTS_LIST'),
+
+('DIRECTOR', 'CREATE_SUBJECT'),
+('DIRECTOR', 'GET_SUBJECT'),
+('DIRECTOR', 'GET_SUBJECTS_LIST'),
 -- ==========================================================
 -- ADMIN → Full CRUD except quiz checking / advanced logic
 -- (using same permission list structure as your previous ADMIN)
@@ -295,6 +309,11 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('ADMIN', 'DELETE_LESSON'),
 ('ADMIN', 'GET_ENROLLMENTS_LIST'),
 ('ADMIN', 'PROCESS_ENROLLMENT'),
+('ADMIN', 'CREATE_SUBJECT'),
+('ADMIN', 'UPDATE_SUBJECT'),
+('ADMIN', 'GET_SUBJECT'),
+('ADMIN', 'GET_SUBJECTS_LIST'),
+('ADMIN', 'DELETE_SUBJECT'),
 -- ==========================================================
 -- TEACHER → Create groups, assign students, manage attendance + quizzes
 -- ==========================================================
@@ -328,6 +347,8 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('TEACHER', 'GET_LESSON'),
 ('TEACHER', 'GET_LESSONS_LIST'),
 ('TEACHER', 'DELETE_LESSON'),
+('TEACHER', 'GET_SUBJECT'),
+('TEACHER', 'GET_SUBJECTS_LIST'),
 -- ==========================================================
 -- STUDENT → Only view + participate in quizzes
 -- ==========================================================
@@ -349,6 +370,8 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('STUDENT', 'GET_LESSONS_LIST'),
 ('STUDENT', 'UPDATE_LESSON_PROGRESS'),
 ('STUDENT', 'PROCESS_ENROLLMENT'),
+('STUDENT', 'GET_SUBJECT'),
+('STUDENT', 'GET_SUBJECTS_LIST'),
 
 -- ==========================================================
 -- ROLE_USER → minimal authentication permissions
