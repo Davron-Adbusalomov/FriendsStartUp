@@ -10,24 +10,24 @@ import java.util.ArrayList;
 @Mapper
 public interface QuestionMapper {
 
-        QuestionMapper INSTANCE = Mappers.getMapper(QuestionMapper.class);
+    QuestionMapper INSTANCE = Mappers.getMapper(QuestionMapper.class);
 
-        static QuestionDTO toDTO(Question question){
-                QuestionDTO questionDTO = new QuestionDTO();
-                questionDTO.setId(question.getId());
-                questionDTO.setMark(question.getMark());
-                questionDTO.setLevel(question.getLevel());
-                questionDTO.setTitle(question.getTitle());
-                questionDTO.setType(question.getType());
-                questionDTO.setSubjectId(question.getSubjectId());
-                questionDTO.setImage(question.getImage());
+    static QuestionDTO toDTO(Question question) {
+        QuestionDTO questionDTO = new QuestionDTO();
+        questionDTO.setId(question.getId());
+        questionDTO.setMark(question.getMark());
+        questionDTO.setLevel(question.getLevel());
+        questionDTO.setTitle(question.getTitle());
+        questionDTO.setType(question.getType());
+        questionDTO.setSubjectId(question.getSubjectId());
+        questionDTO.setImage(question.getImage());
 //                questionDTO.setRight_answer(question.getRight_answer());
-                questionDTO.setTeacherId(question.getTeacher().getId());
-               // questionDTO.setOptions(question.getOptions());
-                return questionDTO;
-        }
+        questionDTO.setTeacherId(question.getTeacher().getId());
+        // questionDTO.setOptions(question.getOptions());
+        return questionDTO;
+    }
 
-        ArrayList<QuestionDTO> toDTO(ArrayList<Question> questions);
+    ArrayList<QuestionDTO> toDTO(ArrayList<Question> questions);
 
 //        static Question toModel(QuestionDTO questionDTO){
 //                Question question = new Question();
