@@ -30,21 +30,21 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class QuizService {
-    private QuizRepository quizRepository;
+    private final QuizRepository quizRepository;
 
-    private TeacherRepository teacherRepository;
+    private final TeacherRepository teacherRepository;
 
-    private GroupRepository groupRepository;
+    private final GroupRepository groupRepository;
 
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
 
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    private Quiz_ResultsRepository quizResultsRepository;
+    private final Quiz_ResultsRepository quizResultsRepository;
 
-    private WrittenQuestionsRepository writtenQuestionsRepository;
+    private final WrittenQuestionsRepository writtenQuestionsRepository;
 
-    private WrongAnswersAnalyzeRepository wrongAnswersAnalyzeRepository;
+    private final WrongAnswersAnalyzeRepository wrongAnswersAnalyzeRepository;
 
 
     @Transactional
