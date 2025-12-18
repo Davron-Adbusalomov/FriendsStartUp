@@ -31,7 +31,7 @@ public class QuestionController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAuthority('GET_QUESTION')")
-    @GetMapping("/getById/{id}")
+    @GetMapping("/{id}")
     public QuestionDTO getById(@PathVariable UUID id) {
         return questionService.getQuestionById(id);
     }
@@ -64,7 +64,7 @@ public class QuestionController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
-    @GetMapping("/getAll")
+    @GetMapping
     @PreAuthorize("hasAuthority('GET_QUESTIONS_LIST')")
     public Page<QuestionDTO> getAll(@RequestParam(required = false) String level,
                                     @RequestParam(required = false) Long teacherId,

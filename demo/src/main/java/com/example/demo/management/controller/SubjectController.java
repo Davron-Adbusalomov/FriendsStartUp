@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/subjects")
+@RequestMapping("/api/v1/subject")
 @RequiredArgsConstructor
 public class SubjectController {
 
@@ -45,7 +45,7 @@ public class SubjectController {
             }
     )
     @PreAuthorize("hasAuthority('UPDATE_SUBJECT')")
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<SubjectDTO> update(
             @PathVariable UUID id,
             @RequestBody SubjectDTO dto
@@ -97,7 +97,7 @@ public class SubjectController {
             }
     )
     @PreAuthorize("hasAuthority('DELETE_SUBJECT')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         subjectService.delete(id);
         return ResponseEntity.noContent().build();

@@ -22,7 +22,7 @@ public class EnrollmentController {
 
     @Operation(summary = "Getting group of enrollments", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('GET_ENROLLMENTS_LIST')")
-    @GetMapping("/getAllEnrollments")
+    @GetMapping
     public Page<EnrollmentDTO> getAllEnrollments(
             @RequestParam(name = "status", required = false) EnrollmentStatus status,
             @RequestParam(name = "studentId", required = false) Long studentId,

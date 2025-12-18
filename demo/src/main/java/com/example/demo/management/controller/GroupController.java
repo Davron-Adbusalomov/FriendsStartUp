@@ -26,7 +26,7 @@ public class GroupController {
 
     @Operation(summary = "Getting group list", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('GET_GROUPS_LIST')")
-    @GetMapping("/getAllGroups")
+    @GetMapping
     public Page<GroupDTO> getAll(
             @RequestParam(name = "studentId" ,required = false) Long studentId,
             @RequestParam(name = "teacherId" ,required = false) Long teacherId,
@@ -38,7 +38,7 @@ public class GroupController {
 
     @Operation(summary = "Getting group by id", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('GET_GROUP')")
-    @GetMapping("/getById/{id}")
+    @GetMapping("/{id}")
     public GroupDTO getGroupById(@PathVariable UUID id,
                                  @RequestParam(name = "studentId", required = false) Long studentId){
         return groupService.getGroupById(id, studentId);
@@ -46,14 +46,14 @@ public class GroupController {
 
     @Operation(summary = "Register group", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('CREATE_GROUP')")
-    @PostMapping("/createGroup")
+    @PostMapping("/create")
     public GroupDTO registerGroup(@RequestBody GroupDTO groupDTO) {
         return groupService.registerGroup(groupDTO);
     }
 
     @Operation(summary = "Deleting group", responses = {@ApiResponse(responseCode = "204", description = "No Content - Successfully deleted"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('DELETE_GROUP')")
-    @DeleteMapping("/deleteById/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteGroupById(@PathVariable UUID id) {
         try {
             groupService.deleteGroup(id);
@@ -65,7 +65,7 @@ public class GroupController {
 
     @Operation(summary = "Update group", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('UPDATE_GROUP')")
-    @PutMapping("/updateGroup/{id}")
+    @PutMapping("/update/{id}")
     public GroupDTO updateGroup(@RequestBody GroupDTO groupDTO, @PathVariable UUID id) {
         return groupService.updateGroup(groupDTO, id);
     }

@@ -37,7 +37,7 @@ public class AttendanceController {
             }
     )
     @PreAuthorize("hasAuthority('CREATE_ATTENDANCE')")
-    @PostMapping("/group")
+    @PostMapping("/create")
     public List<AttendanceDto> createForGroup(@RequestBody AttendanceCreateRequest request) {
         return attendanceService.create(request);
     }
@@ -115,7 +115,7 @@ public class AttendanceController {
             }
     )
     @PreAuthorize("hasAuthority('UPDATE_ATTENDANCE')")
-    @PutMapping("/{id}")
+    @PutMapping("update/{id}")
     public AttendanceDto update(
             @PathVariable UUID id,
             @RequestBody AttendanceDto updated
@@ -135,7 +135,7 @@ public class AttendanceController {
             }
     )
     @PreAuthorize("hasAuthority('DELETE_ATTENDANCE')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public void delete(@PathVariable UUID id) {
         attendanceService.delete(id);
     }

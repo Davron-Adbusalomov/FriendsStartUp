@@ -51,7 +51,7 @@ public class QuizResultController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAnyAuthority('RECORD_QUIZ_RESULT')")
-    @PostMapping("recordingResult")
+    @PostMapping("/recordResult")
     public ResponseEntity<?> recordResult(@RequestBody List<WrittenQuestionsResponseDTO> writtenQuestionsResponseDTO){
         try {
             quizResultsService.assignQuizResult(writtenQuestionsResponseDTO);
@@ -71,7 +71,7 @@ public class QuizResultController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAnyAuthority('FINALIZE_QUIZ')")
-    @PostMapping("finalizingQuiz/{quizId}")
+    @PostMapping("/finalize/{quizId}")
     public ResponseEntity<?> finalizeQuiz(@PathVariable UUID quizId) throws TelegramApiException {
         quizResultsService.finalizeQuiz(quizId);
         return ResponseEntity.status(HttpStatus.OK).body("finalized successfully!");

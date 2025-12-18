@@ -60,7 +60,7 @@ public class GroupService {
 
         if (groupDTO.getTeacherId() != null) {
             AssignUserToGroupDTO assignUserToGroupDTO = new AssignUserToGroupDTO();
-            assignUserToGroupDTO.setGroupName(group.getName());
+            assignUserToGroupDTO.setGroupId(group.getId());
             assignUserToGroupDTO.setId(groupDTO.getTeacherId());
             assignTeacherToGroup(assignUserToGroupDTO);
         }
@@ -104,7 +104,7 @@ public class GroupService {
     public GroupDTO assignStudentToGroup(AssignUserToGroupDTO dto) {
         Student student = studentRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
-        Grouping grouping = groupRepository.findByName(dto.getGroupName()).orElseThrow(() -> new EntityNotFoundException("Group not found"));
+        Grouping grouping = groupRepository.findById(dto.getGroupId()).orElseThrow(() -> new EntityNotFoundException("Group not found"));
 
         if (grouping.getStudents().contains(student)) {
             throw new IllegalStateException("Student already assigned to group");
@@ -118,7 +118,7 @@ public class GroupService {
     public GroupDTO deassignStudentFromGroup(AssignUserToGroupDTO dto) {
         Student student = studentRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
-        Grouping grouping = groupRepository.findByName(dto.getGroupName()).orElseThrow(() -> new EntityNotFoundException("Group not found"));
+        Grouping grouping = groupRepository.findById(dto.getGroupId()).orElseThrow(() -> new EntityNotFoundException("Group not found"));
 
         if (!grouping.getStudents().contains(student)) {
             throw new IllegalStateException("Student is not in this group");
@@ -132,7 +132,7 @@ public class GroupService {
     public GroupDTO assignTeacherToGroup(AssignUserToGroupDTO dto) {
         Teacher teacher = teacherRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
 
-        Grouping grouping = groupRepository.findByName(dto.getGroupName()).orElseThrow(() -> new EntityNotFoundException("Group not found"));
+        Grouping grouping = groupRepository.findById(dto.getGroupId()).orElseThrow(() -> new EntityNotFoundException("Group not found"));
 
         if (teacher.equals(grouping.getTeacher())) {
             throw new IllegalStateException("Teacher already assigned to group");

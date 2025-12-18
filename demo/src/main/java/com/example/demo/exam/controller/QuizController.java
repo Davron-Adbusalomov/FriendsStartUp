@@ -33,7 +33,7 @@ public class QuizController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAnyAuthority('CREATE_QUIZ')")
-    @PostMapping("createQuiz")
+    @PostMapping("/create")
     public ResponseEntity<?> createQuiz(@RequestBody QuizDTOForRequest quizDTO){
         return quizService.createQuiz(quizDTO);
     }
@@ -48,7 +48,7 @@ public class QuizController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAnyAuthority('GET_QUIZ')")
-    @GetMapping("beginQuiz/{quizId}")
+    @GetMapping("/begin/{quizId}")
     public QuizDTO beginQuiz(@PathVariable UUID quizId) {
         return quizService.beginQuiz(quizId);
     }
@@ -63,7 +63,7 @@ public class QuizController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAnyAuthority('CHECK_QUIZ')")
-    @PostMapping("checkMultipleChoice/{studentId}/{quizId}")
+    @PostMapping("/checkMultipleChoice/{studentId}/{quizId}")
     public String checkMultipleChoice(@RequestBody List<Response> responseList, @PathVariable Long studentId, @PathVariable UUID quizId){
         return quizService.checkingMultipleChoiceQuestions(responseList, studentId, quizId);
     }
@@ -78,7 +78,7 @@ public class QuizController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAnyAuthority('GET_QUIZ')")
-    @GetMapping("getUpcomingTask")
+    @GetMapping("/getUpcomingTask")
     public UpcomingTaskInfo getUpcomingTasks(){
         return quizService.getUpcomingQuizInfo();
     }

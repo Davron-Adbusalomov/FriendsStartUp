@@ -30,15 +30,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,6 +55,7 @@ public class AuthenticationService {
     private final GroupService groupService;
     private final GroupMapper groupMapper;
 
+    @Transactional
     public AccessTokenResDto signInAndGenerateTokens(SignInReqDto signInDto, HttpServletRequest request) {
         Authentication authentication = authenticateUser(signInDto, request);
 
@@ -131,6 +129,7 @@ public class AuthenticationService {
         return response;
     }
 
+    @Transactional
     public AccessTokenResDto refreshToken(RefreshTokenRequest refreshTokenRequest) {
         String userName = jwtTokenProvider.extractUsername(refreshTokenRequest.getRefreshToken());
         if (!jwtTokenProvider.isTokenValid(refreshTokenRequest.getRefreshToken(), userName)) {
@@ -144,6 +143,7 @@ public class AuthenticationService {
         return accessTokenResDto;
     }
 
+    @Transactional
     public SignUpResponse signUp(SignUpRequest request) {
         if (request.getUsername() != null && !request.getUsername().isEmpty()) {
             validateUniqueUsername(request.getUsername());
@@ -214,10 +214,10 @@ public class AuthenticationService {
 
     private void assignGroup(SignUpRequest request, Long id, Boolean isTeacher) {
         if (request.getGroups() != null && !request.getGroups().isEmpty()) {
-            for (String group : request.getGroups()) {
+            for (UUID group : request.getGroups()) {
                 AssignUserToGroupDTO dto = new AssignUserToGroupDTO();
                 dto.setId(id);
-                dto.setGroupName(group);
+                dto.setGroupId(group);
                 if (isTeacher) groupService.assignTeacherToGroup(dto);
                 else groupService.assignStudentToGroup(dto);
             }

@@ -31,7 +31,7 @@ public class UserPermissionsController {
             }
     )
     @PreAuthorize("hasAuthority('GET_PERMISSIONS_BY_USER_ID')")
-    @GetMapping("/getByUserId/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<List<String>> getPermissions(@PathVariable Long userId) {
         List<String> permissions = userPermissionsService.findByUserId(userId);
         return ResponseEntity.ok(permissions);
@@ -48,7 +48,7 @@ public class UserPermissionsController {
             }
     )
     @PreAuthorize("hasAnyAuthority('SAVE_USER_PERMISSIONS')")
-    @PostMapping("/save")
+    @PostMapping("/create")
     public ResponseEntity<?> savePermissions(@RequestBody SaveUserPermissionsDto dto) {
         try {
             userPermissionsService.save(dto);

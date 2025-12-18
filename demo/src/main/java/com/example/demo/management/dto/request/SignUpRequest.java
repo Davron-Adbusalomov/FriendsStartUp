@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @ToString
@@ -14,6 +15,6 @@ public class SignUpRequest {
     private String username;
     private String fullName;
     private Set<String> roles;
-    private List<String> groups;
+    private List<UUID> groups;
     private boolean isSendConfirmationCode = false;
 }

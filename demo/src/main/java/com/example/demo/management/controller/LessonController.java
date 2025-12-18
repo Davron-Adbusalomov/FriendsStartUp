@@ -49,7 +49,7 @@ public class LessonController {
             }
     )
     @PreAuthorize("hasAuthority('UPDATE_LESSON')")
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<LessonDTO> update(
             @PathVariable UUID id,
             @RequestBody LessonDTO dto
@@ -99,7 +99,7 @@ public class LessonController {
             }
     )
     @PreAuthorize("hasAuthority('DELETE_LESSON')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         lessonService.delete(id);
         return ResponseEntity.noContent().build();
