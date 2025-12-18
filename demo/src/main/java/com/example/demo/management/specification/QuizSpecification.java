@@ -17,7 +17,7 @@ public class QuizSpecification {
 
     public static Specification<Quiz> hasGroupId(UUID groupId) {
         return (root, query, criteriaBuilder) ->
-            criteriaBuilder.equal(root.get("groupId"), groupId);
+            criteriaBuilder.equal(root.get("groupingId"), groupId);
     }
 
     public static Specification<Quiz> hasStatus(QuizStatus status) {
