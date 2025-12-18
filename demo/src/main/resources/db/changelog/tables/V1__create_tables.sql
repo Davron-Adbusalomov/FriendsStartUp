@@ -161,6 +161,7 @@ CREATE TABLE quiz
     questions_num INTEGER                     NOT NULL,
     duration      BIGINT,
     start_time    TIMESTAMP WITHOUT TIME ZONE,
+    end_time    TIMESTAMP WITHOUT TIME ZONE,
     grouping_id   UUID,
     teacher_id    BIGINT,
     center_id     UUID                        NOT NULL,

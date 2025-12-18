@@ -2,8 +2,10 @@ package com.example.demo.exam.service;
 
 import com.example.demo.config.CurrentUserUtils;
 import com.example.demo.config.TenantContext;
+import com.example.demo.enums.QuizStatus;
 import com.example.demo.exam.dto.QuizDTO;
 import com.example.demo.exam.dto.QuizDTOForRequest;
+import com.example.demo.exam.dto.QuizSummaryDTO;
 import com.example.demo.exam.dto.UpcomingTaskInfo;
 import com.example.demo.exam.mapper.QuizMapper;
 import com.example.demo.exam.model.*;
@@ -13,8 +15,14 @@ import com.example.demo.management.model.Student;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.repository.TeacherRepository;
+import com.example.demo.management.specification.QuizSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -227,4 +235,14 @@ public class QuizService {
         return upcomingTaskInfo;
     }
 
+    public Page<QuizSummaryDTO> getQuizzesList(UUID groupId, String title, QuizStatus status, Pageable pageable) {
+        Specification<Quiz> spec = QuizSpecification.advancedFilter(groupId, title, status);
+        if (pageable == null) {
+            pageable = PageRequest.of(0, 10);
+        }
+        Sort combinedSort = pageable.getSort().and(Sort.by("startTime").ascending());
+        Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), combinedSort);
+        Page<Quiz> quizzes = quizRepository.findAll(spec, newPageable);
+        return quizzes.map(QuizMapper::toSummaryDTO);
+    }
 }

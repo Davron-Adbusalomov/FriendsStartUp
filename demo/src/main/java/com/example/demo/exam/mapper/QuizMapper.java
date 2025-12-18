@@ -1,6 +1,7 @@
 package com.example.demo.exam.mapper;
 
 import com.example.demo.exam.dto.QuizDTO;
+import com.example.demo.exam.dto.QuizSummaryDTO;
 import com.example.demo.exam.model.Quiz;
 import org.mapstruct.Mapper;
 
@@ -17,6 +18,16 @@ public interface QuizMapper {
         quizDTO.setStartTime(quiz.getStartTime());
        // quizDTO.setQuizResult(quiz.getQuizResult());
         return quizDTO;
+    }
+
+    static QuizSummaryDTO toSummaryDTO(Quiz quiz){
+        QuizSummaryDTO quizSummaryDTO = new QuizSummaryDTO();
+        quizSummaryDTO.setId(quiz.getId());
+        quizSummaryDTO.setTitle(quiz.getTitle());
+        quizSummaryDTO.setDuration(quiz.getDuration());
+        quizSummaryDTO.setQuestionsNum(quiz.getQuestionsNum());
+        quizSummaryDTO.setStartTime(quiz.getStartTime());
+        return quizSummaryDTO;
     }
 //    static Quiz toModel(QuizDTO quizDTO){
 //        Quiz quiz = new Quiz();

@@ -45,6 +45,8 @@ public class Quiz extends BaseEntity {
 
     private LocalDateTime startTime;
 
+    private LocalDateTime endTime;
+
     @Column(name = "grouping_id")
     private UUID groupingId;
 
@@ -78,6 +80,18 @@ public class Quiz extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Center center;
+
+    @Override
+    public void handleDerivedFields() {
+        if (startTime == null || duration == null) return;
+
+        LocalDateTime calculated = startTime.plusMinutes(duration);
+
+        if (!calculated.equals(endTime)) {
+            endTime = calculated;
+        }
+    }
+
 
     public void assignQuestion(Question question) {
         questions.add(question);

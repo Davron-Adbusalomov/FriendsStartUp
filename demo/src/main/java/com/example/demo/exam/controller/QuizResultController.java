@@ -4,6 +4,7 @@ import com.example.demo.exam.dto.WrittenQuestionsResponseDTO;
 import com.example.demo.exam.service.QuizResultService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,10 @@ import java.util.UUID;
 @RestController
 @CrossOrigin
 @RequestMapping("api/v1/quiz_results")
+@RequiredArgsConstructor
 public class QuizResultController {
 
-    @Autowired
-    private QuizResultService quizResultsService;
+    private final QuizResultService quizResultsService;
 
     @Operation(
             summary = "Getting written questions for a quiz",

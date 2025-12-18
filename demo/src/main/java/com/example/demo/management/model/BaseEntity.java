@@ -1,5 +1,6 @@
     package com.example.demo.management.model;
 
+    import com.example.demo.config.CurrentUserUtils;
     import com.example.demo.enums.Status;
     import jakarta.persistence.*;
     import lombok.Getter;
@@ -11,6 +12,7 @@
     import org.springframework.data.annotation.LastModifiedBy;
     import org.springframework.data.annotation.LastModifiedDate;
     import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+    import org.springframework.security.core.userdetails.UserDetails;
 
     import java.time.LocalDateTime;
 
@@ -45,8 +47,13 @@
         private Long updatedBy;
 
         @PrePersist
+        @PreUpdate
         protected void onCreate() {
             createdAt = LocalDateTime.now();
+            createdBy = CurrentUserUtils.getUserId();
+            status = Status.CREATED;
+
+            handleDerivedFields();
         }
 
         public void updateEntity() {
@@ -66,6 +73,9 @@
             if (this.createdBy == null) {
                 this.createdBy = 1L;
             }
+        }
+
+        public void handleDerivedFields() {
         }
 
     }
