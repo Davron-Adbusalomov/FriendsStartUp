@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 
 @AllArgsConstructor
@@ -23,13 +24,15 @@ public class TeacherDTO {
 
     private String experience;
 
-    private String subject;
-
     private String phoneNumber;
 
     private String email;
 
     private String status;
+
+    private UUID subjectId;
+
+    private SubjectDTO subject;
 
     private List<GroupDTO> groupList;
 

@@ -1,7 +1,9 @@
 package com.example.demo.management.mapper;
 
 import com.example.demo.management.dto.GroupDTO;
+import com.example.demo.management.dto.SubjectDTO;
 import com.example.demo.management.dto.TeacherDTO;
+import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
 import org.mapstruct.Mapper;
@@ -14,6 +16,7 @@ import java.util.List;
 public interface TeacherMapper {
 
     @Mapping(target = "groupList", expression = "java(getGroupDto(teacher))")
+    @Mapping(target = "subject", expression = "java(getSubjectDto(teacher))")
     TeacherDTO toDto(Teacher teacher);
 
     @Mapping(target = "groupList", ignore = true)
@@ -36,5 +39,20 @@ public interface TeacherMapper {
         }
         return groupDTOs;
     }
+
+    default SubjectDTO getSubjectDto(Teacher teacher) {
+        if (teacher.getSubject() != null) {
+            SubjectDTO subjectDTO = new SubjectDTO();
+            subjectDTO.setId(teacher.getSubject().getId());
+            subjectDTO.setName(teacher.getSubject().getName());
+            subjectDTO.setDescription(teacher.getSubject().getDescription());
+            subjectDTO.setCode(teacher.getSubject().getCode());
+            return subjectDTO;
+        }
+        return null;
+    }
+
+    @Mapping(target = "subject", expression = "java(getSubjectDto(teacher))")
+    TeacherInfoDTO toInfoDto(Teacher teacher);
 }
 

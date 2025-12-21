@@ -31,9 +31,14 @@ public class Teacher extends BaseEntity {
 
     private String phoneNumber;
 
-    private String subject;
-
     private String title;
+
+    @Column(name = "subject_id")
+    private UUID subjectId;
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id", insertable = false, updatable = false)
+    private Subject subject;
 
     @JsonIgnore
     @OneToMany(mappedBy = "teacher")

@@ -106,7 +106,7 @@ public class TeacherService {
         Optional.ofNullable(teacherDTO.getFullName()).ifPresent(teacher::setFullName);
         Optional.ofNullable(teacherDTO.getExperience()).ifPresent(teacher::setExperience);
         Optional.ofNullable(teacherDTO.getImage()).ifPresent(teacher::setImage);
-        Optional.ofNullable(teacherDTO.getSubject()).ifPresent(teacher::setSubject);
+        Optional.ofNullable(teacherDTO.getSubjectId()).ifPresent(teacher::setSubjectId);
         Optional.ofNullable(teacherDTO.getPhoneNumber()).ifPresent(teacher::setPhoneNumber);
         Optional.ofNullable(teacherDTO.getEmail()).ifPresent(teacher::setEmail);
 
@@ -117,8 +117,7 @@ public class TeacherService {
             userRepository.save(user);
         }
 
-        teacherRepository.save(teacher);
-        return teacherDTO;
+        return teacherMapper.toInfoDto(teacherRepository.save(teacher));
     }
 
 
@@ -130,7 +129,7 @@ public class TeacherService {
 
             TeacherInfoDTO teacherInfoDTO = new TeacherInfoDTO();
             teacherInfoDTO.setId(teacher.getId());
-            teacherInfoDTO.setSubject(teacher.getSubject());
+            teacherInfoDTO.setSubject(teacherMapper.getSubjectDto(teacher));
             teacherInfoDTO.setExperience(teacher.getExperience());
             teacherInfoDTO.setImage(teacher.getImage());
             teacherInfoDTO.setFullName(teacher.getFullName());

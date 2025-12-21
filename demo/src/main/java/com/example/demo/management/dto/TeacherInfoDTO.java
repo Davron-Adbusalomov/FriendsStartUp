@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,7 +18,7 @@ public class TeacherInfoDTO {
 
     private String experience;
 
-    private String subject;
+    private UUID subjectId;
 
     private String image;
 
@@ -25,4 +27,6 @@ public class TeacherInfoDTO {
     private String email;
 
     private String password;
+
+    private SubjectDTO subject;
 }
