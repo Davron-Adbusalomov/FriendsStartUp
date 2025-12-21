@@ -16,7 +16,7 @@ import java.util.UUID;
 @SQLDelete(sql = "UPDATE subject SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
 @Filter(name = "centerFilter", condition = "center_id = :centerId")
-public class Subject {
+public class Subject extends BaseEntity{
     @Id
     @GeneratedValue(generator = "uuid2")
     @org.hibernate.annotations.GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
