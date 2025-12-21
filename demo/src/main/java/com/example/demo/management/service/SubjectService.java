@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.TenantContext;
 import com.example.demo.management.dto.SubjectDTO;
 import com.example.demo.management.mapper.SubjectMapper;
 import com.example.demo.management.model.Subject;
@@ -22,7 +23,9 @@ public class SubjectService {
     private final SubjectMapper subjectMapper;
 
     public void create(SubjectDTO subjectDTO) {
-        subjectRepository.save(subjectMapper.toEntity(subjectDTO));
+        Subject subject = subjectMapper.toEntity(subjectDTO);
+        subject.setCenterId(TenantContext.getCenterId());
+        subjectRepository.save(subject);
     }
 
     public SubjectDTO getById(UUID id) {

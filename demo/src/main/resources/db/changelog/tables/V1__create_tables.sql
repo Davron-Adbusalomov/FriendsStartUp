@@ -206,6 +206,11 @@ CREATE TABLE role_default_permissions
 CREATE TABLE subject
 (
     id          UUID NOT NULL,
+    created_at        TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at        TIMESTAMP WITHOUT TIME ZONE,
+    status            VARCHAR(255)                NOT NULL,
+    created_by        BIGINT,
+    updated_by        BIGINT,
     name        VARCHAR(255),
     code        VARCHAR(255),
     description VARCHAR(255),
