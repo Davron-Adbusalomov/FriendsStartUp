@@ -12,7 +12,7 @@ public interface QuizMapper {
         quizDTO.setId(quiz.getId());
         quizDTO.setDuration(quiz.getDuration());
         quizDTO.setQuestionsNum(quiz.getQuestionsNum());
-        quizDTO.setQuestions(quiz.getQuestions());
+        quizDTO.setQuestions(quiz.getQuestions().stream().map(QuestionMapper::toDTO).collect(java.util.stream.Collectors.toSet()));
         quizDTO.setGroupingId(quiz.getGrouping().getId());
         quizDTO.setTeacherId(quiz.getTeacher().getId());
         quizDTO.setStartTime(quiz.getStartTime());

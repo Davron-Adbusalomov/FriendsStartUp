@@ -1,6 +1,7 @@
 package com.example.demo.exam.mapper;
 
 import com.example.demo.exam.dto.QuestionDTO;
+import com.example.demo.exam.model.Option;
 import com.example.demo.exam.model.Question;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -23,7 +24,7 @@ public interface QuestionMapper {
         questionDTO.setImage(question.getImage());
 //                questionDTO.setRight_answer(question.getRight_answer());
         questionDTO.setTeacherId(question.getTeacher().getId());
-        // questionDTO.setOptions(question.getOptions());
+        if(question.getOptions() != null) questionDTO.setOptions(question.getOptions().stream().map(Option::getText).toList());
         return questionDTO;
     }
 

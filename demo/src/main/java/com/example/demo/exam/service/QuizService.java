@@ -2,11 +2,9 @@ package com.example.demo.exam.service;
 
 import com.example.demo.config.CurrentUserUtils;
 import com.example.demo.config.TenantContext;
-import com.example.demo.enums.QuizStatus;
-import com.example.demo.exam.dto.QuizDTO;
-import com.example.demo.exam.dto.QuizDTOForRequest;
-import com.example.demo.exam.dto.QuizSummaryDTO;
-import com.example.demo.exam.dto.UpcomingTaskInfo;
+import com.example.demo.enums.QuizContentStatus;
+import com.example.demo.exam.dto.*;
+import com.example.demo.exam.mapper.QuestionMapper;
 import com.example.demo.exam.mapper.QuizMapper;
 import com.example.demo.exam.model.*;
 import com.example.demo.exam.repository.*;
@@ -103,16 +101,16 @@ public class QuizService {
             throw new IllegalStateException("Quiz is not currently active or has ended");
         }
 
-        Set<Question> allQuestions = quiz.getQuestions();
-        List<Question> easyQuestions = new ArrayList<>();
-        List<Question> mediumQuestions = new ArrayList<>();
-        List<Question> hardQuestions = new ArrayList<>();
+        Set<QuestionDTO> allQuestions = quiz.getQuestions().stream().map(QuestionMapper::toDTO).collect(java.util.stream.Collectors.toSet());
+        List<QuestionDTO> easyQuestions = new ArrayList<>();
+        List<QuestionDTO> mediumQuestions = new ArrayList<>();
+        List<QuestionDTO> hardQuestions = new ArrayList<>();
 
         int numOfEasyQuestions = (int) (quiz.getQuestionsNum() * 0.4);
         int numOfMediumQuestions = (int) (quiz.getQuestionsNum() * 0.3);
         int numOfHardQuestions = quiz.getQuestionsNum() - numOfMediumQuestions - numOfEasyQuestions;
 
-        for (Question question : allQuestions) {
+        for (QuestionDTO question : allQuestions) {
             if (question.getMark() == 1) {
                 easyQuestions.add(question);
             } else if (question.getMark() == 2) {
@@ -128,7 +126,7 @@ public class QuizService {
             Collections.shuffle(mediumQuestions);
             Collections.shuffle(hardQuestions);
 
-            Set<Question> selectedQuestions = new HashSet<>();
+            Set<QuestionDTO> selectedQuestions = new HashSet<>();
 
             for (int i = 0; i < numOfEasyQuestions; i++) {
                 selectedQuestions.add(easyQuestions.get(i));
@@ -235,14 +233,50 @@ public class QuizService {
         return upcomingTaskInfo;
     }
 
-    public Page<QuizSummaryDTO> getQuizzesList(UUID groupId, String title, QuizStatus status, Pageable pageable) {
+    public Page<QuizSummaryDTO> getQuizzesList(
+            UUID groupId,
+            String title,
+            QuizContentStatus status,
+            Pageable pageable
+    ) {
         Specification<Quiz> spec = QuizSpecification.advancedFilter(groupId, title, status);
-        if (pageable == null) {
-            pageable = PageRequest.of(0, 10);
-        }
-        Sort combinedSort = pageable.getSort().and(Sort.by("startTime").ascending());
-        Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), combinedSort);
-        Page<Quiz> quizzes = quizRepository.findAll(spec, newPageable);
-        return quizzes.map(QuizMapper::toSummaryDTO);
+
+        Pageable effectivePageable = pageable != null
+                ? PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort().and(Sort.by("startTime").ascending())
+        )
+                : PageRequest.of(0, 10, Sort.by("startTime").ascending());
+
+        LocalDateTime now = LocalDateTime.now();
+
+        return quizRepository.findAll(spec, effectivePageable)
+                .map(quiz -> toSummaryDTOWithStatus(quiz, now));
     }
+
+
+    private QuizSummaryDTO toSummaryDTOWithStatus(Quiz quiz, LocalDateTime now) {
+        QuizSummaryDTO dto = QuizMapper.toSummaryDTO(quiz);
+
+        LocalDateTime start = quiz.getStartTime();
+        LocalDateTime end = quiz.getEndTime();
+
+        if (start == null || end == null) {
+            dto.setStatus(QuizContentStatus.PENDING);
+            return dto;
+        }
+
+        if (start.isAfter(now)) {
+            dto.setStatus(QuizContentStatus.PENDING);
+        } else if (end.isBefore(now)) {
+            dto.setStatus(QuizContentStatus.COMPLETED);
+        } else {
+            dto.setStatus(QuizContentStatus.ONGOING);
+        }
+
+        return dto;
+    }
+
+
 }

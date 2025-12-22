@@ -30,7 +30,7 @@ public class QuizDTO {
 
         private LocalDateTime startTime;
 
-        private Set<Question> questions;
+        private Set<QuestionDTO> questions;
 
        // private Quiz_Results quizResult;
     }

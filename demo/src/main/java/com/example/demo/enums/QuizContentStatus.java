@@ -1,6 +1,6 @@
 package com.example.demo.enums;
 
-public enum QuizStatus {
+public enum QuizContentStatus {
     PENDING,
     ONGOING,
     COMPLETED

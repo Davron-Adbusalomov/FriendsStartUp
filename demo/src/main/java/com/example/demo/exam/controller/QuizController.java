@@ -1,6 +1,6 @@
 package com.example.demo.exam.controller;
 
-import com.example.demo.enums.QuizStatus;
+import com.example.demo.enums.QuizContentStatus;
 import com.example.demo.exam.dto.QuizDTO;
 import com.example.demo.exam.dto.QuizDTOForRequest;
 import com.example.demo.exam.dto.QuizSummaryDTO;
@@ -55,7 +55,7 @@ public class QuizController {
     @GetMapping("")
     public Page<QuizSummaryDTO> getQuizzesList(@RequestParam(name = "groupId", required = false) UUID groupId,
                                                @RequestParam(name = "title", required = false) String title,
-                                               @RequestParam(name = "status", required = false) QuizStatus status,
+                                               @RequestParam(name = "status", required = false) QuizContentStatus status,
                                                Pageable pageable){
         return quizService.getQuizzesList(groupId, title, status, pageable);
     }
