@@ -6,6 +6,8 @@ import com.example.demo.management.model.Student;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.UUID;
+
 public class GroupSpecification {
     public static Specification<Grouping> teacherIdEquals(Long teacherId) {
         return (root, query, criteriaBuilder) -> teacherId == null ? null :
@@ -51,7 +53,7 @@ public class GroupSpecification {
 
                 query.distinct(true);
 
-                var subquery = query.subquery(Long.class);
+                var subquery = query.subquery(UUID.class);
                 var subRoot = subquery.from(Grouping.class);
                 var subJoin = subRoot.join("students");
 
@@ -61,6 +63,7 @@ public class GroupSpecification {
                 return cb.not(root.get("id").in(subquery));
             };
         }
+
 
         return null;
     }
