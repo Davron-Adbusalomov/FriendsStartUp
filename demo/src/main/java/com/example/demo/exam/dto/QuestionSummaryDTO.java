@@ -23,4 +23,6 @@ public class QuestionSummaryDTO {
     private Long teacherId;
 
     private String teacherName;
+
+    private String topic;
 }

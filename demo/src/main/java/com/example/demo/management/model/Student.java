@@ -1,6 +1,6 @@
 package com.example.demo.management.model;
 
-import com.example.demo.exam.model.Quiz_Results;
+import com.example.demo.exam.model.QuizResults;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -37,7 +37,7 @@ public class Student extends BaseEntity{
 
     @JsonIgnore
     @OneToMany(mappedBy = "student")
-    private List<Quiz_Results> quizResults = new ArrayList<>();
+    private List<QuizResults> quizResults = new ArrayList<>();
 
     @Column(name = "center_id", nullable = false)
     private UUID centerId;

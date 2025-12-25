@@ -33,5 +33,7 @@ public class QuestionDTO {
 
     private String teacherName;
 
+    private String topic;
+
     private List<String> options;
 }

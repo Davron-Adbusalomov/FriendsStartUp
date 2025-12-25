@@ -4,19 +4,17 @@ CREATE SEQUENCE IF NOT EXISTS users_seq START WITH 1 INCREMENT BY 1;
 
 CREATE TABLE admin
 (
-    id         BIGINT                      NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    status     VARCHAR(255)                NOT NULL,
-    created_by BIGINT,
-    updated_by BIGINT,
-    full_name  VARCHAR(255),
-    username   VARCHAR(255),
-    password   VARCHAR(255),
-    image      VARCHAR(255),
-    email      VARCHAR(255),
-    phone_number      VARCHAR(255),
-    center_id  UUID                        NOT NULL,
+    id           BIGINT                      NOT NULL,
+    created_at   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at   TIMESTAMP WITHOUT TIME ZONE,
+    status       VARCHAR(255)                NOT NULL,
+    created_by   BIGINT,
+    updated_by   BIGINT,
+    full_name    VARCHAR(255),
+    image        VARCHAR(255),
+    email        VARCHAR(255),
+    phone_number VARCHAR(255),
+    center_id    UUID                        NOT NULL,
     CONSTRAINT pk_admin PRIMARY KEY (id)
 );
 
@@ -57,6 +55,22 @@ CREATE TABLE default_permission_entity
     CONSTRAINT pk_defaultpermissionentity PRIMARY KEY (name)
 );
 
+CREATE TABLE enrollment
+(
+    id                UUID                        NOT NULL,
+    created_at        TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at        TIMESTAMP WITHOUT TIME ZONE,
+    status            VARCHAR(255)                NOT NULL,
+    created_by        BIGINT,
+    updated_by        BIGINT,
+    student_id        BIGINT                      NOT NULL,
+    group_id          UUID                        NOT NULL,
+    enrollment_status SMALLINT,
+    enrollment_date   TIMESTAMP WITHOUT TIME ZONE,
+    center_id         UUID                        NOT NULL,
+    CONSTRAINT pk_enrollment PRIMARY KEY (id)
+);
+
 CREATE TABLE group_student
 (
     group_id   UUID   NOT NULL,
@@ -65,19 +79,20 @@ CREATE TABLE group_student
 
 CREATE TABLE groups
 (
-    id         UUID                        NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    status     VARCHAR(255)                NOT NULL,
-    created_by BIGINT,
-    updated_by BIGINT,
-    name       VARCHAR(255),
+    id                 UUID                        NOT NULL,
+    created_at         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at         TIMESTAMP WITHOUT TIME ZONE,
+    status             VARCHAR(255)                NOT NULL,
+    created_by         BIGINT,
+    updated_by         BIGINT,
+    name               VARCHAR(255),
+    time               VARCHAR(255),
+    description        VARCHAR(255),
+    start_date         TIMESTAMP WITHOUT TIME ZONE,
+    duration_in_months INTEGER,
     subject_id         UUID,
-    time       VARCHAR(255),
-    description VARCHAR(255),
-    start_date TIMESTAMP WITHOUT TIME ZONE,
-    teacher_id BIGINT,
-    center_id  UUID                        NOT NULL,
+    teacher_id         BIGINT,
+    center_id          UUID                        NOT NULL,
     CONSTRAINT pk_groups PRIMARY KEY (id)
 );
 
@@ -139,11 +154,12 @@ CREATE TABLE question
     updated_by   BIGINT,
     title        VARCHAR(255),
     level        VARCHAR(255),
-    subject      VARCHAR(255),
     image        VARCHAR(255),
     type         VARCHAR(255),
     right_answer VARCHAR(255),
     mark         INTEGER                     NOT NULL,
+    topic        VARCHAR(255),
+    subject_id   UUID,
     teacher_id   BIGINT,
     center_id    UUID                        NOT NULL,
     CONSTRAINT pk_question PRIMARY KEY (id)
@@ -156,14 +172,14 @@ CREATE TABLE quiz
     updated_at    TIMESTAMP WITHOUT TIME ZONE,
     status        VARCHAR(255)                NOT NULL,
     created_by    BIGINT,
-    title         VARCHAR(255),
     updated_by    BIGINT,
+    title         VARCHAR(255),
     questions_num INTEGER                     NOT NULL,
     duration      BIGINT,
     start_time    TIMESTAMP WITHOUT TIME ZONE,
-    end_time    TIMESTAMP WITHOUT TIME ZONE,
+    end_time      TIMESTAMP WITHOUT TIME ZONE,
     grouping_id   UUID,
-    teacher_id    BIGINT,
+    teacher_id    BIGINT                      NOT NULL,
     center_id     UUID                        NOT NULL,
     CONSTRAINT pk_quiz PRIMARY KEY (id)
 );
@@ -171,7 +187,8 @@ CREATE TABLE quiz
 CREATE TABLE quiz_question
 (
     question_id UUID NOT NULL,
-    quiz_id     UUID NOT NULL
+    quiz_id     UUID NOT NULL,
+    CONSTRAINT pk_quiz_question PRIMARY KEY (question_id, quiz_id)
 );
 
 CREATE TABLE quiz_results
@@ -183,10 +200,10 @@ CREATE TABLE quiz_results
     created_by BIGINT,
     updated_by BIGINT,
     mark       BIGINT,
-    quiz_id    UUID,
-    student_id BIGINT,
+    quiz_id    UUID                        NOT NULL,
+    student_id BIGINT                      NOT NULL,
     center_id  UUID                        NOT NULL,
-    CONSTRAINT pk_quiz_results PRIMARY KEY (id)
+    CONSTRAINT pk_quizresults PRIMARY KEY (id)
 );
 
 CREATE TABLE role
@@ -201,21 +218,6 @@ CREATE TABLE role_default_permissions
     default_permission_name VARCHAR(255) NOT NULL,
     role_id                 VARCHAR(255) NOT NULL,
     CONSTRAINT pk_role_default_permissions PRIMARY KEY (default_permission_name, role_id)
-);
-
-CREATE TABLE subject
-(
-    id          UUID NOT NULL,
-    created_at        TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_at        TIMESTAMP WITHOUT TIME ZONE,
-    status            VARCHAR(255)                NOT NULL,
-    created_by        BIGINT,
-    updated_by        BIGINT,
-    name        VARCHAR(255),
-    code        VARCHAR(255),
-    description VARCHAR(255),
-    center_id   UUID NOT NULL,
-    CONSTRAINT pk_subject PRIMARY KEY (id)
 );
 
 CREATE TABLE statistics
@@ -252,6 +254,41 @@ CREATE TABLE student
     CONSTRAINT pk_student PRIMARY KEY (id)
 );
 
+CREATE TABLE student_answer
+(
+    id          UUID                        NOT NULL,
+    created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at  TIMESTAMP WITHOUT TIME ZONE,
+    status      VARCHAR(255)                NOT NULL,
+    created_by  BIGINT,
+    updated_by  BIGINT,
+    student_id  BIGINT,
+    quiz_id     UUID,
+    question_id UUID,
+    answer      VARCHAR(4000),
+    correct     BOOLEAN,
+    score       INTEGER,
+    graded_by   BIGINT,
+    graded_at   TIMESTAMP WITHOUT TIME ZONE,
+    center_id   UUID,
+    CONSTRAINT pk_studentanswer PRIMARY KEY (id)
+);
+
+CREATE TABLE subject
+(
+    id          UUID                        NOT NULL,
+    created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at  TIMESTAMP WITHOUT TIME ZONE,
+    status      VARCHAR(255)                NOT NULL,
+    created_by  BIGINT,
+    updated_by  BIGINT,
+    name        VARCHAR(255),
+    code        VARCHAR(255),
+    description VARCHAR(255),
+    center_id   UUID                        NOT NULL,
+    CONSTRAINT pk_subject PRIMARY KEY (id)
+);
+
 CREATE TABLE teacher
 (
     id           BIGINT                      NOT NULL,
@@ -261,12 +298,12 @@ CREATE TABLE teacher
     created_by   BIGINT,
     updated_by   BIGINT,
     full_name    VARCHAR(255),
-    subject_id      UUID,
     experience   VARCHAR(255),
     image        VARCHAR(255),
     email        VARCHAR(255),
     phone_number VARCHAR(255),
     title        VARCHAR(255),
+    subject_id   UUID,
     center_id    UUID                        NOT NULL,
     CONSTRAINT pk_teacher PRIMARY KEY (id)
 );
@@ -302,12 +339,12 @@ CREATE TABLE users
     username          VARCHAR(100)                NOT NULL,
     password          VARCHAR(255)                NOT NULL,
     full_name         VARCHAR(255),
-    fcm_token         VARCHAR(255),
     is_active         BOOLEAN                     NOT NULL,
     is_blocked        BOOLEAN                     NOT NULL,
     confirmation_code VARCHAR(255),
+    fcm_token         VARCHAR(255),
     attempts          INTEGER,
-    center_id         UUID                      NOT NULL,
+    center_id         UUID                        NOT NULL,
     CONSTRAINT pk_users PRIMARY KEY (id)
 );
 
@@ -327,7 +364,7 @@ CREATE TABLE written_questions
     correct_answer VARCHAR(255),
     score          BIGINT,
     center_id      UUID                        NOT NULL,
-    student_id     BIGINT,
+    student_id     BIGINT                      NOT NULL,
     CONSTRAINT pk_writtenquestions PRIMARY KEY (id)
 );
 
@@ -342,25 +379,9 @@ CREATE TABLE wrong_answers_analyze
     question_id  UUID,
     quiz_id      UUID,
     wrong_answer VARCHAR(255),
-    student_id   BIGINT,
+    student_id   BIGINT                      NOT NULL,
     center_id    UUID                        NOT NULL,
     CONSTRAINT pk_wronganswersanalyze PRIMARY KEY (id)
-);
-
-CREATE TABLE enrollment
-(
-    id                UUID                        NOT NULL,
-    created_at        TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_at        TIMESTAMP WITHOUT TIME ZONE,
-    status            VARCHAR(255)                NOT NULL,
-    created_by        BIGINT,
-    updated_by        BIGINT,
-    student_id        BIGINT                      NOT NULL,
-    group_id          UUID                        NOT NULL,
-    enrollment_status SMALLINT,
-    enrollment_date   TIMESTAMP WITHOUT TIME ZONE,
-    center_id         UUID                        NOT NULL,
-    CONSTRAINT pk_enrollment PRIMARY KEY (id)
 );
 
 ALTER TABLE users
@@ -377,6 +398,15 @@ ALTER TABLE attendance
 
 ALTER TABLE attendance
     ADD CONSTRAINT FK_ATTENDANCE_ON_STUDENT FOREIGN KEY (student_id) REFERENCES student (id);
+
+ALTER TABLE enrollment
+    ADD CONSTRAINT FK_ENROLLMENT_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
+
+ALTER TABLE enrollment
+    ADD CONSTRAINT FK_ENROLLMENT_ON_GROUP FOREIGN KEY (group_id) REFERENCES groups (id);
+
+ALTER TABLE enrollment
+    ADD CONSTRAINT FK_ENROLLMENT_ON_STUDENT FOREIGN KEY (student_id) REFERENCES student (id);
 
 ALTER TABLE groups
     ADD CONSTRAINT FK_GROUPS_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
@@ -409,7 +439,19 @@ ALTER TABLE question
     ADD CONSTRAINT FK_QUESTION_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
 
 ALTER TABLE question
+    ADD CONSTRAINT FK_QUESTION_ON_SUBJECT FOREIGN KEY (subject_id) REFERENCES subject (id);
+
+ALTER TABLE question
     ADD CONSTRAINT FK_QUESTION_ON_TEACHER FOREIGN KEY (teacher_id) REFERENCES teacher (id);
+
+ALTER TABLE quiz_results
+    ADD CONSTRAINT FK_QUIZRESULTS_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
+
+ALTER TABLE quiz_results
+    ADD CONSTRAINT FK_QUIZRESULTS_ON_QUIZ FOREIGN KEY (quiz_id) REFERENCES quiz (id);
+
+ALTER TABLE quiz_results
+    ADD CONSTRAINT FK_QUIZRESULTS_ON_STUDENT FOREIGN KEY (student_id) REFERENCES student (id);
 
 ALTER TABLE quiz
     ADD CONSTRAINT FK_QUIZ_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
@@ -420,17 +462,11 @@ ALTER TABLE quiz
 ALTER TABLE quiz
     ADD CONSTRAINT FK_QUIZ_ON_TEACHER FOREIGN KEY (teacher_id) REFERENCES teacher (id);
 
-ALTER TABLE quiz_results
-    ADD CONSTRAINT FK_QUIZ_RESULTS_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
-
-ALTER TABLE quiz_results
-    ADD CONSTRAINT FK_QUIZ_RESULTS_ON_QUIZ FOREIGN KEY (quiz_id) REFERENCES quiz (id);
-
-ALTER TABLE quiz_results
-    ADD CONSTRAINT FK_QUIZ_RESULTS_ON_STUDENT FOREIGN KEY (student_id) REFERENCES student (id);
-
 ALTER TABLE statistics
     ADD CONSTRAINT FK_STATISTICS_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
+
+ALTER TABLE student_answer
+    ADD CONSTRAINT FK_STUDENTANSWER_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
 
 ALTER TABLE student
     ADD CONSTRAINT FK_STUDENT_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
@@ -440,6 +476,9 @@ ALTER TABLE subject
 
 ALTER TABLE teacher
     ADD CONSTRAINT FK_TEACHER_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
+
+ALTER TABLE teacher
+    ADD CONSTRAINT FK_TEACHER_ON_SUBJECT FOREIGN KEY (subject_id) REFERENCES subject (id);
 
 ALTER TABLE users
     ADD CONSTRAINT FK_USERS_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
@@ -479,9 +518,3 @@ ALTER TABLE user_roles
 
 ALTER TABLE user_roles
     ADD CONSTRAINT fk_userol_on_user_entity FOREIGN KEY (user_id) REFERENCES users (id);
-
-ALTER TABLE enrollment
-    ADD CONSTRAINT FK_ENROLLMENT_ON_GROUP FOREIGN KEY (group_id) REFERENCES groups (id);
-
-ALTER TABLE enrollment
-    ADD CONSTRAINT FK_ENROLLMENT_ON_STUDENT FOREIGN KEY (student_id) REFERENCES student (id);

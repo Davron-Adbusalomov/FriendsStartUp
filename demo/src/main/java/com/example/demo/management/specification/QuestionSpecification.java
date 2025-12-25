@@ -27,9 +27,13 @@ public class QuestionSpecification {
                 subjectId == null ? null : cb.equal(root.get("subjectId"), subjectId);
     }
 
-    private static Specification<Question> hasTitleLike(String title) {
+    private static Specification<Question> hasTitleLike(String search) {
         return (root, query, cb) ->
-                title == null ? null : cb.like(cb.lower(root.get("title")), "%" + title.toLowerCase() + "%");
+                search == null ? null :
+                        cb.or(
+                                cb.like(cb.lower(root.get("title")), "%" + search.toLowerCase() + "%"),
+                                cb.like(cb.lower(root.get("topic")), "%" + search.toLowerCase() + "%")
+                        );
     }
 
     public static Specification<Question> advancedFilter(String level, Long teacherId, UUID quizId, String title, UUID subjectId) {

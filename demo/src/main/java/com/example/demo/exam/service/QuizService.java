@@ -25,9 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -43,11 +41,9 @@ public class QuizService {
 
     private final StudentRepository studentRepository;
 
-    private final Quiz_ResultsRepository quizResultsRepository;
+    private final StudentAnswerRepository studentAnswerRepository;
 
-    private final WrittenQuestionsRepository writtenQuestionsRepository;
-
-    private final WrongAnswersAnalyzeRepository wrongAnswersAnalyzeRepository;
+    private final QuizResultService quizResultService;
 
 
     @Transactional
@@ -61,11 +57,6 @@ public class QuizService {
             return ResponseEntity.badRequest().body("No group with id " + quizDTO.getGroupingId());
         }
 
-
-        LocalDateTime startTime = Instant.ofEpochMilli(quizDTO.getStartTime())
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
-
         List<Question> questions = questionRepository.findAllById(quizDTO.getQuestions());
 
         if (questions.size() != quizDTO.getQuestions().size()) {
@@ -75,9 +66,10 @@ public class QuizService {
         Quiz quiz = new Quiz();
         quiz.setTeacherId(quizDTO.getTeacherId());
         quiz.setDuration(quizDTO.getDuration());
-        quiz.setStartTime(startTime);
+        quiz.setStartTime(quizDTO.getStartTime());
         quiz.setGroupingId(quizDTO.getGroupingId());
         quiz.setQuestionsNum(quizDTO.getQuestions_num());
+        quiz.setTitle(quizDTO.getTitle());
         quiz.setCenterId(TenantContext.getCenterId());
 
         quiz.setQuestions(new HashSet<>(questions));
@@ -92,14 +84,7 @@ public class QuizService {
 
         Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new EntityNotFoundException("No quiz found with this id"));
 
-        LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime quizStartTime = quiz.getStartTime();
-        Long quizDuration = quiz.getDuration();
-        LocalDateTime quizEndTime = quizStartTime.plusMinutes(quizDuration);
-
-        if (currentTime.isBefore(quizStartTime) || currentTime.isAfter(quizEndTime)) {
-            throw new IllegalStateException("Quiz is not currently active or has ended");
-        }
+        validateQuizActive(quizId);
 
         Set<QuestionDTO> allQuestions = quiz.getQuestions().stream().map(QuestionMapper::toDTO).collect(java.util.stream.Collectors.toSet());
         List<QuestionDTO> easyQuestions = new ArrayList<>();
@@ -147,6 +132,8 @@ public class QuizService {
             shuffledQuiz.setGroupingId(quiz.getGrouping().getId());
             shuffledQuiz.setTeacherId(quiz.getTeacher().getId());
             shuffledQuiz.setQuestions(selectedQuestions);
+            shuffledQuiz.setStartTime(quiz.getStartTime());
+            shuffledQuiz.setTitle(quiz.getTitle());
 
             return shuffledQuiz;
         }
@@ -155,61 +142,63 @@ public class QuizService {
     }
 
     @Transactional
-    public String checkingMultipleChoiceQuestions(List<Response> responseList, Long studentId, UUID quizId) {
-        LocalDateTime currentTime = LocalDateTime.now();
+    public void submitAnswer(UUID quizId, Long studentId, Response response) {
 
-        if (!studentRepository.existsById(studentId)) {
-            throw new EntityNotFoundException("No student found with this id");
-        }
+        validateQuizActive(quizId);
+
+        Question question = questionRepository
+                .findById(response.getQuestionId())
+                .orElseThrow(() -> new EntityNotFoundException("No question found with this id"));
+
+        StudentAnswer answer = studentAnswerRepository
+                .findByStudentIdAndQuizIdAndQuestionId(
+                        studentId, quizId, question.getId()
+                )
+                .orElse(new StudentAnswer());
+
+        answer.setStudentId(studentId);
+        answer.setQuizId(quizId);
+        answer.setQuestionId(question.getId());
+        answer.setAnswer(response.getAnswer());
+
+        studentAnswerRepository.save(answer);
+    }
+
+    @Transactional
+    public void finishQuiz(Long studentId, UUID quizId) {
+        quizResultService.evaluateQuiz(quizId, studentId);
+    }
+
+    private void validateQuizActive(UUID quizId) {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new EntityNotFoundException("No quiz found with this id"));
 
+        LocalDateTime currentTime = LocalDateTime.now();
+
         LocalDateTime quizStartTime = quiz.getStartTime();
-        Long quizDuration = quiz.getDuration();
-        LocalDateTime quizEndTime = quizStartTime.plusMinutes(quizDuration + 1);
+        LocalDateTime quizEndTime = quiz.getEndTime();
 
         if (currentTime.isBefore(quizStartTime) || currentTime.isAfter(quizEndTime)) {
             throw new IllegalStateException("Quiz is not currently active or has ended");
         }
-
-        WrongAnswersAnalyze wrongAnswersAnalyze = new WrongAnswersAnalyze();
-        Quiz_Results quizResults = new Quiz_Results();
-        long mark = 0L;
-
-        for (Response response : responseList) {
-
-            Question question = questionRepository.findById(response.getQuestion_id()).orElseThrow(() -> new EntityNotFoundException("No question found with this id"));
-
-            if (!question.getType().equals("MCQ")) {
-                WrittenQuestions writtenQuestions = new WrittenQuestions();
-                writtenQuestions.setQuestionId(question.getId());
-                writtenQuestions.setQuizId(quizId);
-                writtenQuestions.setStudentAnswer(response.getAnswer());
-                writtenQuestions.setStudentId(studentId);
-                writtenQuestions.setCorrect_answer(question.getRight_answer());
-                writtenQuestions.setQuestionTitle(question.getTitle());
-                writtenQuestions.setMax_score((long) question.getMark());
-                writtenQuestionsRepository.save(writtenQuestions);
-            } else if (question.getRight_answer().equals(response.getAnswer())) {
-                mark += question.getMark();
-            } else {
-                wrongAnswersAnalyze.setQuestion_id(response.getQuestion_id());
-                wrongAnswersAnalyze.setWrong_answer(response.getAnswer());
-            }
-
-        }
-        wrongAnswersAnalyze.setStudentId(studentId);
-        wrongAnswersAnalyze.setQuiz_id(quizId);
-        wrongAnswersAnalyzeRepository.save(wrongAnswersAnalyze);
-
-        quizResults.setQuiz(quizRepository.findById(quizId).get());
-        quizResults.setMark(mark);
-        quizResults.setStudentId(studentId);
-        quizResults.setCenterId(TenantContext.getCenterId());
-        quizResultsRepository.save(quizResults);
-
-        return "Successfully recorded!";
     }
+
+    private void validateStudentAccess(UUID quizId, Long studentId) {
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
+
+        boolean belongs = student.getGroupings().stream()
+                .anyMatch(g -> g.getId().equals(quiz.getGrouping().getId()));
+
+        if (!belongs) {
+            throw new IllegalStateException("Student is not allowed to take this quiz");
+        }
+    }
+
 
     @Transactional
     public UpcomingTaskInfo getUpcomingQuizInfo() {
@@ -280,3 +269,61 @@ public class QuizService {
 
 
 }
+
+
+
+//    @Transactional
+//    public String submitAndCheckAnswers(List<Response> responseList, Long studentId, UUID quizId) {
+//        LocalDateTime currentTime = LocalDateTime.now();
+//
+//        if (!studentRepository.existsById(studentId)) {
+//            throw new EntityNotFoundException("No student found with this id");
+//        }
+//        Quiz quiz = quizRepository.findById(quizId)
+//                .orElseThrow(() -> new EntityNotFoundException("No quiz found with this id"));
+//
+//        LocalDateTime quizStartTime = quiz.getStartTime();
+//        LocalDateTime quizEndTime = quiz.getEndTime();
+//
+//        if (currentTime.isBefore(quizStartTime) || currentTime.isAfter(quizEndTime)) {
+//            throw new IllegalStateException("Quiz is not currently active or has ended");
+//        }
+//
+//        WrongAnswersAnalyze wrongAnswersAnalyze = new WrongAnswersAnalyze();
+//        QuizResults quizResults = new QuizResults();
+//        long mark = 0L;
+//
+//        for (Response response : responseList) {
+//
+//            Question question = questionRepository.findById(response.getQuestion_id()).orElseThrow(() -> new EntityNotFoundException("No question found with this id"));
+//
+//            if (!question.getType().equals("MCQ")) {
+//                WrittenQuestions writtenQuestions = new WrittenQuestions();
+//                writtenQuestions.setQuestionId(question.getId());
+//                writtenQuestions.setQuizId(quizId);
+//                writtenQuestions.setStudentAnswer(response.getAnswer());
+//                writtenQuestions.setStudentId(studentId);
+//                writtenQuestions.setCorrect_answer(question.getRight_answer());
+//                writtenQuestions.setQuestionTitle(question.getTitle());
+//                writtenQuestions.setMax_score((long) question.getMark());
+//                writtenQuestionsRepository.save(writtenQuestions);
+//            } else if (question.getRight_answer().equals(response.getAnswer())) {
+//                mark += question.getMark();
+//            } else {
+//                wrongAnswersAnalyze.setQuestion_id(response.getQuestion_id());
+//                wrongAnswersAnalyze.setWrong_answer(response.getAnswer());
+//            }
+//
+//        }
+//        wrongAnswersAnalyze.setStudentId(studentId);
+//        wrongAnswersAnalyze.setQuiz_id(quizId);
+//        wrongAnswersAnalyzeRepository.save(wrongAnswersAnalyze);
+//
+//        quizResults.setQuiz(quizRepository.findById(quizId).get());
+//        quizResults.setMark(mark);
+//        quizResults.setStudentId(studentId);
+//        quizResults.setCenterId(TenantContext.getCenterId());
+//        quizResultsRepository.save(quizResults);
+//
+//        return "Successfully recorded!";
+//    }

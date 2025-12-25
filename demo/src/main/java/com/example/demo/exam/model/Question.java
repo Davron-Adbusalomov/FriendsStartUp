@@ -41,6 +41,8 @@ public class Question extends BaseEntity{
 
     private int mark;
 
+    private String topic;
+
     @Column(name = "subject_id")
     private UUID subjectId;
 

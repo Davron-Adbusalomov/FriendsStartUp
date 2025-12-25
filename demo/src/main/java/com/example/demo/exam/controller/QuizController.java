@@ -84,10 +84,25 @@ public class QuizController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
-    @PreAuthorize("hasAnyAuthority('CHECK_QUIZ')")
-    @PostMapping("/checkMultipleChoice/{studentId}/{quizId}")
-    public String checkMultipleChoice(@RequestBody List<Response> responseList, @PathVariable Long studentId, @PathVariable UUID quizId){
-        return quizService.checkingMultipleChoiceQuestions(responseList, studentId, quizId);
+    @PreAuthorize("hasAnyAuthority('GET_QUIZ')")
+    @PostMapping("/submitAnswer")
+    public void submitAnswer(@RequestBody Response response, @RequestParam(name = "studentId") Long studentId, @RequestParam(name = "quizId") UUID quizId){
+        quizService.submitAnswer(quizId, studentId, response);
+    }
+
+    @Operation(
+            summary = "Check multiple choice answers",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
+    @PreAuthorize("hasAnyAuthority('GET_QUIZ')")
+    @PostMapping("/finishQuiz")
+    public void finish(@RequestParam(name = "studentId") Long studentId, @RequestParam(name = "quizId") UUID quizId){
+        quizService.finishQuiz(studentId, quizId);
     }
 
     @Operation(

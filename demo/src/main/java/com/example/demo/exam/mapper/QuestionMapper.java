@@ -24,6 +24,7 @@ public interface QuestionMapper {
         questionDTO.setSubjectId(question.getSubjectId());
         if (question.getSubject() != null) questionDTO.setSubjectName(question.getSubject().getName());
         questionDTO.setImage(question.getImage());
+        questionDTO.setTopic(question.getTopic());
 //                questionDTO.setRight_answer(question.getRight_answer());
         questionDTO.setTeacherId(question.getTeacher().getId());
         if (question.getTeacher() != null) questionDTO.setTeacherName(question.getTeacher().getFullName());
@@ -42,6 +43,7 @@ public interface QuestionMapper {
         questionDTO.setTitle(question.getTitle());
         questionDTO.setType(question.getType());
         questionDTO.setSubjectId(question.getSubjectId());
+        questionDTO.setTopic(question.getTopic());
         if (question.getSubject() != null) questionDTO.setSubjectName(question.getSubject().getName());
         questionDTO.setTeacherId(question.getTeacher().getId());
         if (question.getTeacher() != null) questionDTO.setTeacherName(question.getTeacher().getFullName());

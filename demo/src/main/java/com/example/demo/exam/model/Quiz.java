@@ -72,7 +72,7 @@ public class Quiz extends BaseEntity {
     private Set<Question> questions = new HashSet<>();
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Quiz_Results> quizResult;
+    private List<QuizResults> quizResult;
 
     @Column(name = "center_id", nullable = false)
     private UUID centerId;

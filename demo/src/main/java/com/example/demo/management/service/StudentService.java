@@ -2,8 +2,8 @@ package com.example.demo.management.service;
 
 //import com.example.demo.config.JwtService;
 
-import com.example.demo.exam.model.Quiz_Results;
-import com.example.demo.exam.repository.Quiz_ResultsRepository;
+import com.example.demo.exam.model.QuizResults;
+import com.example.demo.exam.repository.QuizResultsRepository;
 import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.dto.StudentDTO;
 import com.example.demo.management.dto.StudentInfoDTO;
@@ -19,7 +19,6 @@ import com.example.demo.management.repository.UserRepository;
 import com.example.demo.management.specification.StudentSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -38,7 +37,7 @@ public class StudentService {
 
     private final GroupRepository groupRepository;
 
-    private final Quiz_ResultsRepository quizResultsRepository;
+    private final QuizResultsRepository quizResultsRepository;
 
     private final TeacherRepository teacherRepository;
 
@@ -78,8 +77,8 @@ public class StudentService {
             grouping.getStudents().remove(student);
         }
 
-        List<Quiz_Results> quizResults = quizResultsRepository.findByStudentId(studentId);
-        for (Quiz_Results quizResult : quizResults) {
+        List<QuizResults> quizResults = quizResultsRepository.findByStudentId(studentId);
+        for (QuizResults quizResult : quizResults) {
             quizResult.setStudent(null);
         }
 

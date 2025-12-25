@@ -32,6 +32,6 @@ public class QuizDTO {
 
         private Set<QuestionDTO> questions;
 
-       // private Quiz_Results quizResult;
+       // private QuizResults quizResult;
     }
 

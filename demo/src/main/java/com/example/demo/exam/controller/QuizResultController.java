@@ -23,24 +23,24 @@ public class QuizResultController {
 
     private final QuizResultService quizResultsService;
 
-    @Operation(
-            summary = "Getting written questions for a quiz",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
-                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
-                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
-            })
-    @PreAuthorize("hasAnyAuthority('GET_WRITTEN_QUESTIONS')")
-    @GetMapping("getWrittenQuestions/{groupName}/{quizId}")
-    public ResponseEntity<?> getWrittenQuestions(@PathVariable String groupName,@PathVariable UUID quizId){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(quizResultsService.getWrittenQuestions(groupName, quizId));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
+//    @Operation(
+//            summary = "Getting written questions for a quiz",
+//            responses = {
+//                    @ApiResponse(responseCode = "200", description = "Success"),
+//                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+//                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+//                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+//                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+//            })
+//    @PreAuthorize("hasAnyAuthority('GET_WRITTEN_QUESTIONS')")
+//    @GetMapping("getWrittenQuestions/{groupName}/{quizId}")
+//    public ResponseEntity<?> getWrittenQuestions(@PathVariable String groupName,@PathVariable UUID quizId){
+//        try {
+//            return ResponseEntity.status(HttpStatus.OK).body(quizResultsService.getWrittenQuestions(groupName, quizId));
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
 
     @Operation(
             summary = "Recording quiz results",

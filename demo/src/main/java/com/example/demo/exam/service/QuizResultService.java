@@ -1,35 +1,29 @@
 package com.example.demo.exam.service;
 
 import com.example.demo.config.TelegramConfig;
+import com.example.demo.exam.model.*;
+import com.example.demo.exam.repository.*;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.exam.dto.WrittenQuestionsResponseDTO;
 import com.example.demo.exam.dto.Quiz_ResultsDTO;
-import com.example.demo.exam.dto.WrittenQuestionsDTO;
-import com.example.demo.exam.model.Question;
-import com.example.demo.exam.model.Quiz;
-import com.example.demo.exam.model.Quiz_Results;
-import com.example.demo.exam.model.WrittenQuestions;
-import com.example.demo.exam.repository.QuizRepository;
-import com.example.demo.exam.repository.Quiz_ResultsRepository;
-import com.example.demo.exam.repository.WrittenQuestionsRepository;
+import com.example.demo.exam.dto.WrittenAnswerDTO;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class QuizResultService {
-    private final Quiz_ResultsRepository quizResultsRepository;
+    private final QuizResultsRepository quizResultsRepository;
 
     private final QuizRepository quizRepository;
 
@@ -39,36 +33,40 @@ public class QuizResultService {
 
     private final WrittenQuestionsRepository writtenQuestionsRepository;
 
+    private final StudentAnswerRepository studentAnswerRepository;
+
+    private final QuestionRepository questionRepository;
+
     TelegramConfig telegramConfig = new TelegramConfig(this);
 
     public Quiz_ResultsDTO getQuizResult(){
         return null;
     }
 
-    public List<WrittenQuestionsDTO> getWrittenQuestions(String groupName, UUID quizId){
-        Optional<Grouping> grouping = groupRepository.findByName(groupName);
-        if (grouping.isEmpty()){
-            throw new EntityNotFoundException("No group found with this id");
-        }
-
-        List<WrittenQuestions> writtenQuestions = writtenQuestionsRepository.findByQuizId(quizId);
-        List<WrittenQuestionsDTO> writtenQuestionsDTOS = new ArrayList<>();
-
-        for (WrittenQuestions w:writtenQuestions) {
-            WrittenQuestionsDTO writtenQuestionsDTO = new WrittenQuestionsDTO();
-            writtenQuestionsDTO.setId(w.getId());
-            writtenQuestionsDTO.setScore(w.getScore());
-            writtenQuestionsDTO.setQuizId(w.getQuizId());
-            writtenQuestionsDTO.setStudentAnswer(w.getStudentAnswer());
-            writtenQuestionsDTO.setCorrect_answer(w.getCorrect_answer());
-            writtenQuestionsDTO.setStudentId(w.getStudent().getId());
-            writtenQuestionsDTO.setQuestionTitle(w.getQuestionTitle());
-            writtenQuestionsDTO.setMax_score(w.getMax_score());
-            writtenQuestionsDTOS.add(writtenQuestionsDTO);
-        }
-
-        return writtenQuestionsDTOS;
-    }
+//    public List<WrittenAnswerDTO> getWrittenQuestions(String groupName, UUID quizId){
+//        Optional<Grouping> grouping = groupRepository.findByName(groupName);
+//        if (grouping.isEmpty()){
+//            throw new EntityNotFoundException("No group found with this id");
+//        }
+//
+//        List<WrittenQuestions> writtenQuestions = writtenQuestionsRepository.findByQuizId(quizId);
+//        List<WrittenAnswerDTO> writtenAnswerDTOS = new ArrayList<>();
+//
+//        for (WrittenQuestions w:writtenQuestions) {
+//            WrittenAnswerDTO writtenAnswerDTO = new WrittenAnswerDTO();
+//            writtenAnswerDTO.setId(w.getId());
+//            writtenAnswerDTO.setScore(w.getScore());
+//            writtenAnswerDTO.setQuizId(w.getQuizId());
+//            writtenAnswerDTO.setStudentAnswer(w.getStudentAnswer());
+//            writtenAnswerDTO.setCorrectAnswer(w.getCorrect_answer());
+//            writtenAnswerDTO.setStudentId(w.getStudent().getId());
+//            writtenAnswerDTO.setQuestionTitle(w.getQuestionTitle());
+//            writtenAnswerDTO.setMax_score(w.getMax_score());
+//            writtenAnswerDTOS.add(writtenAnswerDTO);
+//        }
+//
+//        return writtenAnswerDTOS;
+//    }
 
     public void assignQuizResult(List<WrittenQuestionsResponseDTO> writtenQuestionsResponseDTO) {
         for (WrittenQuestionsResponseDTO w:writtenQuestionsResponseDTO) {
@@ -80,7 +78,7 @@ public class QuizResultService {
             Long studentId = writtenQuestion.get().getStudent().getId();
             UUID quizId = writtenQuestion.get().getQuizId();
 
-            Quiz_Results quizResult = quizResultsRepository.findByStudentIdAndQuizId(studentId, quizId);
+            QuizResults quizResult = quizResultsRepository.findByStudentIdAndQuizId(studentId, quizId);
 
             quizResult.setMark(quizResult.getMark()+w.getMark());
 
@@ -102,15 +100,15 @@ public class QuizResultService {
         }
 
         for (Student student : quiz.get().getGrouping().getStudents()) {
-            Quiz_Results quizResults = student.getQuizResults().get(student.getQuizResults().size() - 1);
+            QuizResults quizResults = student.getQuizResults().get(student.getQuizResults().size() - 1);
 
             int place = 1;
 
             for (int i = 0; i < quiz.get().getGrouping().getStudents().size(); i++) {
                 Student otherStudent = quiz.get().getGrouping().getStudents().get(i);
-                List<Quiz_Results> otherStudentQuizResults = otherStudent.getQuizResults();
+                List<QuizResults> otherStudentQuizResults = otherStudent.getQuizResults();
 
-                Quiz_Results otherStudentLastResult = otherStudentQuizResults.get(otherStudentQuizResults.size() - 1);
+                QuizResults otherStudentLastResult = otherStudentQuizResults.get(otherStudentQuizResults.size() - 1);
                 if (quizId.equals(otherStudentLastResult.getQuiz().getId()) &&
                         quizResults.getMark() < otherStudentLastResult.getMark()) {
                     place++;
@@ -156,4 +154,39 @@ public class QuizResultService {
             }
         }
     }
+
+    @Transactional
+    public void evaluateQuiz(UUID quizId, Long studentId) {
+
+        List<StudentAnswer> answers =
+                studentAnswerRepository.findByQuizIdAndStudentId(quizId, studentId);
+
+        Map<UUID, Question> questions =
+                questionRepository.findAllById(
+                        answers.stream().map(StudentAnswer::getQuestionId).toList()
+                ).stream().collect(Collectors.toMap(Question::getId, q -> q));
+
+        long totalScore = 0;
+
+        for (StudentAnswer a : answers) {
+            Question q = questions.get(a.getQuestionId());
+
+            if ("MCQ".equals(q.getType())) {
+                boolean correct = q.getRight_answer().equals(a.getAnswer());
+                a.setCorrect(correct);
+                a.setScore(correct ? q.getMark() : 0);
+                totalScore += a.getScore();
+            }
+        }
+
+        studentAnswerRepository.saveAll(answers);
+
+        QuizResults qR = new QuizResults();
+        qR.setStudentId(studentId);
+        qR.setQuizId(quizId);
+        qR.setMark(totalScore);
+
+        quizResultsRepository.save(qR);
+    }
+
 }

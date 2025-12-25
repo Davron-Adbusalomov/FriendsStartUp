@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,11 +19,13 @@ public class QuizDTOForRequest {
 
     private int questions_num;
 
-    private Long startTime;
+    private LocalDateTime startTime;
 
     private UUID groupingId;
 
     private Long teacherId;
 
     private List<UUID> questions;
+
+    public String title;
 }
