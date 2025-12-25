@@ -22,10 +22,22 @@ public class QuestionSpecification {
                 quizId == null ? null : cb.equal(root.get("quizId"), quizId);
     }
 
-    public static Specification<Question> advancedFilter(String level, Long teacherId, UUID quizId) {
+    private static Specification<Question> hasSubjectId(UUID subjectId) {
+        return (root, query, cb) ->
+                subjectId == null ? null : cb.equal(root.get("subjectId"), subjectId);
+    }
+
+    private static Specification<Question> hasTitleLike(String title) {
+        return (root, query, cb) ->
+                title == null ? null : cb.like(cb.lower(root.get("title")), "%" + title.toLowerCase() + "%");
+    }
+
+    public static Specification<Question> advancedFilter(String level, Long teacherId, UUID quizId, String title, UUID subjectId) {
         return Specification
                 .where(hasDifficultyLevel(level))
                 .and(hasTeacherId(teacherId))
-                .and(hasGroupQuizId(quizId));
+                .and(hasGroupQuizId(quizId))
+                .and(hasTitleLike(title)
+                .and(hasSubjectId(subjectId)));
     }
 }

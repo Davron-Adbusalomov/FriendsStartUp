@@ -56,8 +56,8 @@ public class QuestionService {
         return QuestionMapper.toDTO(question.get());
     }
 
-    public Page<QuestionSummaryDTO> getAllQuestions(String level, Long teacherId, UUID quizId, Pageable pageable) {
-        Specification<Question> spec = QuestionSpecification.advancedFilter(level, teacherId, quizId);
+    public Page<QuestionSummaryDTO> getAllQuestions(String level, Long teacherId, UUID quizId, String title, UUID subjectId, Pageable pageable) {
+        Specification<Question> spec = QuestionSpecification.advancedFilter(level, teacherId, quizId, title, subjectId);
 
         Page<Question> page = questionRepository.findAll(spec, pageable);
 

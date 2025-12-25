@@ -67,11 +67,13 @@ public class QuestionController {
             })
     @GetMapping
     @PreAuthorize("hasAuthority('GET_QUESTIONS_LIST')")
-    public Page<QuestionSummaryDTO> getAll(@RequestParam(required = false) String level,
-                                           @RequestParam(required = false) Long teacherId,
-                                           @RequestParam(required = false) UUID quizId,
+    public Page<QuestionSummaryDTO> getAll(@RequestParam(name = "level", required = false) String level,
+                                           @RequestParam(name = "teacherId", required = false) Long teacherId,
+                                           @RequestParam(name = "quizId", required = false) UUID quizId,
+                                           @RequestParam(name = "title", required = false) String title,
+                                           @RequestParam(name = "subjectId", required = false) UUID subjectId,
                                            Pageable pageable) {
-        return questionService.getAllQuestions(level, teacherId, quizId, pageable);
+        return questionService.getAllQuestions(level, teacherId, quizId, title, subjectId, pageable);
     }
 
     @Operation(
