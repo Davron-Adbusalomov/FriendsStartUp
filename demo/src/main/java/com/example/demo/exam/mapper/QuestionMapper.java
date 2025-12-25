@@ -22,12 +22,13 @@ public interface QuestionMapper {
         questionDTO.setTitle(question.getTitle());
         questionDTO.setType(question.getType());
         questionDTO.setSubjectId(question.getSubjectId());
-        if(question.getSubject() != null) questionDTO.setSubjectName(question.getSubject().getName());
+        if (question.getSubject() != null) questionDTO.setSubjectName(question.getSubject().getName());
         questionDTO.setImage(question.getImage());
 //                questionDTO.setRight_answer(question.getRight_answer());
         questionDTO.setTeacherId(question.getTeacher().getId());
-        if(question.getTeacher() != null) questionDTO.setTeacherName(question.getTeacher().getFullName());
-        if(question.getOptions() != null) questionDTO.setOptions(question.getOptions().stream().map(Option::getText).toList());
+        if (question.getTeacher() != null) questionDTO.setTeacherName(question.getTeacher().getFullName());
+        if (question.getOptions() != null)
+            questionDTO.setOptions(question.getOptions().stream().map(Option::getText).toList());
         return questionDTO;
     }
 
@@ -41,9 +42,9 @@ public interface QuestionMapper {
         questionDTO.setTitle(question.getTitle());
         questionDTO.setType(question.getType());
         questionDTO.setSubjectId(question.getSubjectId());
-        if(question.getSubject() != null) questionDTO.setSubjectName(question.getSubject().getName());
+        if (question.getSubject() != null) questionDTO.setSubjectName(question.getSubject().getName());
         questionDTO.setTeacherId(question.getTeacher().getId());
-        if(question.getTeacher() != null) questionDTO.setTeacherName(question.getTeacher().getFullName());
+        if (question.getTeacher() != null) questionDTO.setTeacherName(question.getTeacher().getFullName());
         return questionDTO;
     }
 
