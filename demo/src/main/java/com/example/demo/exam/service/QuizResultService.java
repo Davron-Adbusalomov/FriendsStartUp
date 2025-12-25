@@ -1,6 +1,7 @@
 package com.example.demo.exam.service;
 
 import com.example.demo.config.TelegramConfig;
+import com.example.demo.config.TenantContext;
 import com.example.demo.exam.model.*;
 import com.example.demo.exam.repository.*;
 import com.example.demo.management.model.Grouping;
@@ -177,6 +178,7 @@ public class QuizResultService {
                 a.setScore(correct ? q.getMark() : 0);
                 totalScore += a.getScore();
             }
+            a.setCenterId(TenantContext.getCenterId());
         }
 
         studentAnswerRepository.saveAll(answers);
@@ -185,6 +187,7 @@ public class QuizResultService {
         qR.setStudentId(studentId);
         qR.setQuizId(quizId);
         qR.setMark(totalScore);
+        qR.setCenterId(TenantContext.getCenterId());
 
         quizResultsRepository.save(qR);
     }
