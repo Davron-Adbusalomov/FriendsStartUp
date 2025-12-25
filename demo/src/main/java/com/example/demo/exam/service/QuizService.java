@@ -160,6 +160,7 @@ public class QuizService {
         answer.setQuizId(quizId);
         answer.setQuestionId(question.getId());
         answer.setAnswer(response.getAnswer());
+        answer.setCenterId(TenantContext.getCenterId());
 
         studentAnswerRepository.save(answer);
     }
