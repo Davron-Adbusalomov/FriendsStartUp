@@ -158,7 +158,9 @@ public class QuestionService {
         }
 
         Question saved = questionRepository.save(updatedQuestion);
-        return ResponseEntity.status(HttpStatus.OK).body(QuestionMapper.toDTO(saved));
+        QuestionDTO result = QuestionMapper.toDTO(saved);
+        result.setRight_answer(saved.getRight_answer());
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     public List<Question> getQuestionByLevel(String level) {
