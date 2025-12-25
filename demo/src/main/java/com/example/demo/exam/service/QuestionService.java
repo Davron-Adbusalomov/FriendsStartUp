@@ -49,11 +49,13 @@ public class QuestionService {
     private MediaService mediaService;
 
     public QuestionDTO getQuestionById(UUID id){
-        Optional<Question> question = questionRepository.findById(id);
-        if (question.isEmpty()){
-            throw new EntityNotFoundException("No question found with this id: " + id);
-        }
-        return QuestionMapper.toDTO(question.get());
+        Question question = questionRepository.findById(id).orElseThrow(
+                ()-> new EntityNotFoundException("No question found with this id: " + id)
+        );
+
+        QuestionDTO result = QuestionMapper.toDTO(question);
+        result.setRight_answer(question.getRight_answer());
+        return result;
     }
 
     public Page<QuestionSummaryDTO> getAllQuestions(String level, Long teacherId, UUID quizId, String title, UUID subjectId, Pageable pageable) {
