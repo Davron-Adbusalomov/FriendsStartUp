@@ -131,19 +131,34 @@ public class QuestionService {
 
 
     public ResponseEntity<?> updateQuestion(QuestionDTO questionDTO,UUID id){
-        Optional<Question> question = questionRepository.findById(id);
-        if (question.isEmpty()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is no question with this id: "+id);
+        Question updatedQuestion = questionRepository.findById(id).orElseThrow(
+                ()-> new EntityNotFoundException("No question found with this id: " + id)
+        );
+
+        if (questionDTO.getMark() != null) {
+            updatedQuestion.setMark(questionDTO.getMark());
+        }
+        if (questionDTO.getType() != null) {
+            updatedQuestion.setType(questionDTO.getType());
+        }
+        if (questionDTO.getRight_answer() != null) {
+            updatedQuestion.setRight_answer(questionDTO.getRight_answer());
+        }
+        if (questionDTO.getTitle() != null) {
+            updatedQuestion.setTitle(questionDTO.getTitle());
+        }
+        if (questionDTO.getLevel() != null) {
+            updatedQuestion.setLevel(questionDTO.getLevel());
+        }
+        if (questionDTO.getSubjectId() != null) {
+            updatedQuestion.setSubjectId(questionDTO.getSubjectId());
+        }
+        if (questionDTO.getImage() != null) {
+            updatedQuestion.setImage(questionDTO.getImage());
         }
 
-        Question updatedQuestion = question.get();
-        updatedQuestion.setMark(questionDTO.getMark());
-        updatedQuestion.setType(questionDTO.getType());
-        updatedQuestion.setRight_answer(questionDTO.getRight_answer());
-        updatedQuestion.setTitle(questionDTO.getTitle());
-
-        questionRepository.save(updatedQuestion);
-        return ResponseEntity.status(HttpStatus.OK).body(updatedQuestion);
+        Question saved = questionRepository.save(updatedQuestion);
+        return ResponseEntity.status(HttpStatus.OK).body(QuestionMapper.toDTO(saved));
     }
 
     public List<Question> getQuestionByLevel(String level) {

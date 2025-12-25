@@ -27,7 +27,7 @@ public class QuestionDTO {
 
     private String right_answer;
 
-    private int mark;
+    private Integer mark;
 
     private Long teacherId;
 
