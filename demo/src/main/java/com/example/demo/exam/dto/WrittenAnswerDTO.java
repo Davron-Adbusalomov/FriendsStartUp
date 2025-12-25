@@ -12,4 +12,5 @@ public class WrittenAnswerDTO {
     private Long score;
 
     private String questionTitle;
+
 }
