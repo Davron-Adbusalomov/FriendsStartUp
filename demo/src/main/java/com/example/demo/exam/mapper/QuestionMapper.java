@@ -22,11 +22,11 @@ public interface QuestionMapper {
         questionDTO.setTitle(question.getTitle());
         questionDTO.setType(question.getType());
         questionDTO.setSubjectId(question.getSubjectId());
-        questionDTO.setSubjectName(question.getSubject().getName());
+        if(question.getSubject() != null) questionDTO.setSubjectName(question.getSubject().getName());
         questionDTO.setImage(question.getImage());
 //                questionDTO.setRight_answer(question.getRight_answer());
         questionDTO.setTeacherId(question.getTeacher().getId());
-        questionDTO.setTeacherName(question.getTeacher().getFullName());
+        if(question.getTeacher() != null) questionDTO.setTeacherName(question.getTeacher().getFullName());
         if(question.getOptions() != null) questionDTO.setOptions(question.getOptions().stream().map(Option::getText).toList());
         return questionDTO;
     }
