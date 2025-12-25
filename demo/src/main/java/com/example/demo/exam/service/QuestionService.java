@@ -58,8 +58,8 @@ public class QuestionService {
         return result;
     }
 
-    public Page<QuestionSummaryDTO> getAllQuestions(String level, Long teacherId, UUID quizId, String title, UUID subjectId, Pageable pageable) {
-        Specification<Question> spec = QuestionSpecification.advancedFilter(level, teacherId, quizId, title, subjectId);
+    public Page<QuestionSummaryDTO> getAllQuestions(String level, Long teacherId, UUID quizId, String search, UUID subjectId, Pageable pageable) {
+        Specification<Question> spec = QuestionSpecification.advancedFilter(level, teacherId, quizId, search, subjectId);
 
         Page<Question> page = questionRepository.findAll(spec, pageable);
 

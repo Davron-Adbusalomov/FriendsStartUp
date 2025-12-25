@@ -70,10 +70,10 @@ public class QuestionController {
     public Page<QuestionSummaryDTO> getAll(@RequestParam(name = "level", required = false) String level,
                                            @RequestParam(name = "teacherId", required = false) Long teacherId,
                                            @RequestParam(name = "quizId", required = false) UUID quizId,
-                                           @RequestParam(name = "title", required = false) String title,
+                                           @RequestParam(name = "search", required = false) String search,
                                            @RequestParam(name = "subjectId", required = false) UUID subjectId,
                                            Pageable pageable) {
-        return questionService.getAllQuestions(level, teacherId, quizId, title, subjectId, pageable);
+        return questionService.getAllQuestions(level, teacherId, quizId, search, subjectId, pageable);
     }
 
     @Operation(
