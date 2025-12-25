@@ -1,6 +1,7 @@
 package com.example.demo.exam.service;
 
 import com.example.demo.config.TenantContext;
+import com.example.demo.exam.dto.QuestionSummaryDTO;
 import com.example.demo.exam.mapper.QuestionMapper;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.TeacherRepository;
@@ -55,12 +56,12 @@ public class QuestionService {
         return QuestionMapper.toDTO(question.get());
     }
 
-    public Page<QuestionDTO> getAllQuestions(String level, Long teacherId, UUID quizId, Pageable pageable) {
+    public Page<QuestionSummaryDTO> getAllQuestions(String level, Long teacherId, UUID quizId, Pageable pageable) {
         Specification<Question> spec = QuestionSpecification.advancedFilter(level, teacherId, quizId);
 
         Page<Question> page = questionRepository.findAll(spec, pageable);
 
-        return page.map(QuestionMapper::toDTO);
+        return page.map(QuestionMapper::toSummaryDTO);
     }
 
 

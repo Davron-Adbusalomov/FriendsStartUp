@@ -1,6 +1,7 @@
 package com.example.demo.exam.controller;
 
 import com.example.demo.exam.dto.QuestionDTO;
+import com.example.demo.exam.dto.QuestionSummaryDTO;
 import com.example.demo.exam.service.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -66,10 +67,10 @@ public class QuestionController {
             })
     @GetMapping
     @PreAuthorize("hasAuthority('GET_QUESTIONS_LIST')")
-    public Page<QuestionDTO> getAll(@RequestParam(required = false) String level,
-                                    @RequestParam(required = false) Long teacherId,
-                                    @RequestParam(required = false) UUID quizId,
-                                    Pageable pageable) {
+    public Page<QuestionSummaryDTO> getAll(@RequestParam(required = false) String level,
+                                           @RequestParam(required = false) Long teacherId,
+                                           @RequestParam(required = false) UUID quizId,
+                                           Pageable pageable) {
         return questionService.getAllQuestions(level, teacherId, quizId, pageable);
     }
 
