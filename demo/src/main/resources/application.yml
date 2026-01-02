@@ -29,7 +29,7 @@ server:
     key-store: classpath:certificates/keystore.pfx
     key-store-password: AD0077005
     key-store-type: PKCS12
-    key-alias: te-7235a5b6-ce00-4265-9822-9df597f09da5
+    key-alias: dev-cert
 
 security:
   jwt:
