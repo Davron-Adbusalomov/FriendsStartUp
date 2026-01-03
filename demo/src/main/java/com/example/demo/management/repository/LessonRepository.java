@@ -14,4 +14,5 @@ public interface LessonRepository extends JpaRepository<Lesson, UUID>, JpaSpecif
 
     @Query("SELECT l FROM Lesson l WHERE l.groupId=:groupId ORDER BY l.orderIndex ASC")
     List<Lesson> findAllByGroupIdOrderByOrderIndexAsc(UUID groupId);
+
 }
