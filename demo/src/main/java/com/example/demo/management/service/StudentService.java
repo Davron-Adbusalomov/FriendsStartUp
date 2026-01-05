@@ -55,10 +55,13 @@ public class StudentService {
         Specification<Student> spec = StudentSpecification.advancedFilter(groupId);
 
         Page<Student> studentPage = studentRepository.findAll(spec, pageable);
-        //            dto.setRoles(getRoles(student.getId()));
-        return studentPage.map(studentMapper::toDto);
-    }
 
+        return studentPage.map(student -> {
+            StudentDTO dto = studentMapper.toDto(student);
+            dto.setRoles(getRoles(student.getId()));
+            return dto;
+        });
+    }
 
     public StudentDTO getStudentById(Long studentID) {
         Student student = studentRepository.findById(studentID)

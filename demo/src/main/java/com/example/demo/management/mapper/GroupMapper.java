@@ -2,6 +2,7 @@ package com.example.demo.management.mapper;
 
 import com.example.demo.exam.model.Quiz;
 import com.example.demo.management.dto.GroupDTO;
+import com.example.demo.management.dto.StudentDTO;
 import com.example.demo.management.dto.TeacherSummaryDTO;
 import com.example.demo.management.model.Grouping;
 import org.mapstruct.Mapper;
@@ -14,9 +15,10 @@ import java.util.UUID;
 @Mapper(componentModel = "spring")
 public interface GroupMapper {
 
-    @Mapping(target = "teacher", expression = "java(getTeacher(grouping))")
-    @Mapping(target = "teacherId", expression = "java(getTeacherId(grouping))")
-    @Mapping(target = "quizzes", expression = "java(getQuizIds(grouping))")
+    @Mapping(target = "teacher", expression = "java(this.getTeacher(grouping))")
+    @Mapping(target = "teacherId", expression = "java(this.getTeacherId(grouping))")
+    @Mapping(target = "quizzes", expression = "java(this.getQuizIds(grouping))")
+    @Mapping(target = "students", expression = "java(this.getStudents(grouping))")
     @Mapping(target = "isStudentAccessible", ignore = true)
     GroupDTO toDto(Grouping grouping);
 
@@ -44,6 +46,19 @@ public interface GroupMapper {
     default List<UUID> getQuizIds(Grouping grouping) {
         if (grouping.getQuizzes() == null) return new ArrayList<>();
         return grouping.getQuizzes().stream().map(Quiz::getId).toList();
+    }
+
+    default List<StudentDTO> getStudents(Grouping grouping) {
+        if (grouping.getStudents() == null) return new ArrayList<>();
+        return grouping.getStudents().stream().map(student -> {
+            StudentDTO dto = new StudentDTO();
+            dto.setId(student.getId());
+            dto.setFullName(student.getFullName());
+            dto.setEmail(student.getEmail());
+            dto.setImage(student.getImage());
+            dto.setGroupNames(student.getGroupings().stream().map(Grouping::getName).toList());
+            return dto;
+        }).toList();
     }
 }
 
