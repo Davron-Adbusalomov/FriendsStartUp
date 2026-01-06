@@ -19,4 +19,12 @@ public interface GroupRepository extends JpaRepository<Grouping, UUID>, JpaSpeci
 
     @Query("SELECT g FROM Grouping g JOIN g.students s WHERE s.id = :studentId")
     List<Grouping> findByStudentId(@Param("studentId") Long studentId);
+
+    @Query("""
+    select g from Grouping g
+    left join fetch g.teacher
+    where g.id = :groupId
+    """)
+    Optional<Grouping> findByIdWithTeacher(UUID groupId);
+
 }

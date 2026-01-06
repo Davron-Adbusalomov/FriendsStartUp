@@ -41,7 +41,7 @@ public class GroupService {
     }
 
     public GroupDTO getGroupById(UUID groupId, Long studentId) {
-        Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
+        Grouping grouping = groupRepository.findByIdWithTeacher(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
         GroupDTO group = groupMapper.toDto(grouping);
         if (studentId != null && grouping.getStudents().stream().anyMatch(s -> s.getId().equals(studentId))) {
             group.setIsStudentAccessible(true);

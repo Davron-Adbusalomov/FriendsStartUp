@@ -42,7 +42,7 @@ public class Grouping extends BaseEntity {
     @Column(name = "teacher_id")
     private Long teacherId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", insertable = false, updatable = false)
     private Teacher teacher;
 
