@@ -16,7 +16,6 @@ import java.util.UUID;
 public interface GroupMapper {
 
     @Mapping(target = "teacher", expression = "java(this.getTeacher(grouping))")
-    @Mapping(target = "teacherId", expression = "java(this.getTeacherId(grouping))")
     @Mapping(target = "quizzes", expression = "java(this.getQuizIds(grouping))")
     @Mapping(target = "students", expression = "java(this.getStudents(grouping))")
     @Mapping(target = "isStudentAccessible", ignore = true)
@@ -37,10 +36,6 @@ public interface GroupMapper {
         teacherSummaryDTO.setImage(grouping.getTeacher().getImage());
         teacherSummaryDTO.setTitle(grouping.getTeacher().getTitle());
         return teacherSummaryDTO;
-    }
-
-    default Long getTeacherId(Grouping grouping) {
-        return grouping.getTeacher() != null ? grouping.getTeacher().getId() : null;
     }
 
     default List<UUID> getQuizIds(Grouping grouping) {

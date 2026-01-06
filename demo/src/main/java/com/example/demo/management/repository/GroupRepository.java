@@ -1,6 +1,7 @@
 package com.example.demo.management.repository;
 
 import com.example.demo.management.model.Grouping;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -20,11 +21,9 @@ public interface GroupRepository extends JpaRepository<Grouping, UUID>, JpaSpeci
     @Query("SELECT g FROM Grouping g JOIN g.students s WHERE s.id = :studentId")
     List<Grouping> findByStudentId(@Param("studentId") Long studentId);
 
-    @Query("""
-    select g from Grouping g
-    left join fetch g.teacher
-    where g.id = :groupId
-    """)
+    @EntityGraph(attributePaths = "teacher")
+    @Query("select g from Grouping g where g.id = :groupId")
     Optional<Grouping> findByIdWithTeacher(UUID groupId);
+
 
 }
