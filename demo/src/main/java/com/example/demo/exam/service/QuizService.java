@@ -80,6 +80,19 @@ public class QuizService {
     }
 
     @Transactional
+    public QuizDTO updateQuiz(UUID quizId, QuizSummaryDTO quizDTO) {
+        Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new EntityNotFoundException("No quiz found with this id"));
+
+        quiz.setDuration(quizDTO.getDuration());
+        quiz.setStartTime(quizDTO.getStartTime());
+        quiz.setTitle(quizDTO.getTitle());
+
+        Quiz updatedQuiz = quizRepository.save(quiz);
+
+        return QuizMapper.toDTO(updatedQuiz);
+    }
+
+    @Transactional
     public QuizDTO beginQuiz(UUID quizId) {
 
         Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new EntityNotFoundException("No quiz found with this id"));
