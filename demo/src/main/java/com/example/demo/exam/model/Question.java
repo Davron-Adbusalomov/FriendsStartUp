@@ -50,8 +50,11 @@ public class Question extends BaseEntity{
     @JoinColumn(name = "subject_id", insertable = false, updatable = false)
     private Subject subject;
 
+    @Column(name = "teacher_id")
+    private Long teacherId;
+
     @ManyToOne
-    @JoinColumn(name = "teacher_id")
+    @JoinColumn(name = "teacher_id", insertable = false, updatable = false)
     @JsonIgnoreProperties("questions")
     private Teacher teacher;
 
