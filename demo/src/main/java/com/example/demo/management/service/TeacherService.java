@@ -81,7 +81,7 @@ public class TeacherService {
             grouping.setTeacher(null);
         }
 
-        List<Quiz> quizzes = quizRepository.findByTeacherId(id);
+        List<Quiz> quizzes = quizRepository.findByTeacher_Id(id);
 
         for (Quiz quiz : quizzes) {
             quiz.setTeacher(null);

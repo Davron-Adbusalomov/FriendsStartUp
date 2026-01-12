@@ -1,6 +1,5 @@
 package com.example.demo.exam.repository;
 
-import com.example.demo.exam.model.Question;
 import com.example.demo.exam.model.Quiz;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -20,7 +19,7 @@ public interface QuizRepository extends JpaRepository<Quiz, UUID>, JpaSpecificat
 
     Optional<Quiz> findById(UUID id);
 
-    List<Quiz> findByTeacherId(Long id);
+    List<Quiz> findByTeacher_Id(Long id);
 
     List<Quiz> findByGroupingId(UUID groupId);
 
