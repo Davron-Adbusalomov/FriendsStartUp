@@ -43,6 +43,22 @@ public class QuizController {
     }
 
     @Operation(
+            summary = "Updating a quiz",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
+    @PreAuthorize("hasAnyAuthority('UPDATE_QUIZ')")
+    @PostMapping("/update")
+    public QuizDTO update(@RequestParam(name = "id") UUID id,
+            @RequestBody QuizSummaryDTO quizDTO){
+        return quizService.updateQuiz(id, quizDTO);
+    }
+
+    @Operation(
             summary = "Get quizzes list",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Success"),
