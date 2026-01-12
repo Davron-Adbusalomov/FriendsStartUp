@@ -52,7 +52,7 @@ public class QuizController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAnyAuthority('UPDATE_QUIZ')")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public QuizDTO update(@RequestParam(name = "id") UUID id,
             @RequestBody QuizSummaryDTO quizDTO){
         return quizService.updateQuiz(id, quizDTO);
