@@ -87,7 +87,7 @@ public class TeacherService {
             quiz.setTeacher(null);
         }
 
-        List<Question> questions = questionRepository.findByTeacherId(id);
+        List<Question> questions = questionRepository.findByTeacher_Id(id);
         for (Question question : questions) {
             question.setTeacher(null);
         }
