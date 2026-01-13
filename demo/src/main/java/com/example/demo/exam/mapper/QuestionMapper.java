@@ -45,7 +45,7 @@ public interface QuestionMapper {
         questionDTO.setSubjectId(question.getSubjectId());
         questionDTO.setTopic(question.getTopic());
         if (question.getSubject() != null) questionDTO.setSubjectName(question.getSubject().getName());
-        questionDTO.setTeacherId(question.getTeacher().getId());
+        questionDTO.setTeacherId(question.getTeacherId());
         if (question.getTeacher() != null) questionDTO.setTeacherName(question.getTeacher().getFullName());
         return questionDTO;
     }
