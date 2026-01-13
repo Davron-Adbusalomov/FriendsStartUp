@@ -3,6 +3,7 @@ package com.example.demo.exam.service;
 import com.example.demo.config.CurrentUserUtils;
 import com.example.demo.config.TenantContext;
 import com.example.demo.enums.QuizContentStatus;
+import com.example.demo.enums.Status;
 import com.example.demo.exam.dto.*;
 import com.example.demo.exam.mapper.QuestionMapper;
 import com.example.demo.exam.mapper.QuizMapper;
@@ -86,6 +87,7 @@ public class QuizService {
         quiz.setDuration(quizDTO.getDuration());
         quiz.setStartTime(quizDTO.getStartTime());
         quiz.setTitle(quizDTO.getTitle());
+        if (quizDTO.getStatus().equals(QuizContentStatus.CANCELLED)) quiz.setStatus(Status.INACTIVE);
 
         Quiz updatedQuiz = quizRepository.save(quiz);
 
@@ -261,6 +263,10 @@ public class QuizService {
 
     private QuizSummaryDTO toSummaryDTOWithStatus(Quiz quiz, LocalDateTime now) {
         QuizSummaryDTO dto = QuizMapper.toSummaryDTO(quiz);
+        if (quiz.getStatus() == Status.INACTIVE) {
+            dto.setStatus(QuizContentStatus.CANCELLED);
+            return dto;
+        }
 
         LocalDateTime start = quiz.getStartTime();
         LocalDateTime end = quiz.getEndTime();
