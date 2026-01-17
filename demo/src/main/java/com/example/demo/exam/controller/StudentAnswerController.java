@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,8 +47,8 @@ public class StudentAnswerController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAnyAuthority('GET_WRITTEN_ANSWERS')")
-    @GetMapping("/written")
-    public List<StudentWrittenAnswersDTO> getWrittenAnswers(@RequestParam(name = "quizId") UUID quizId) {
+    @GetMapping("/written/{quizId}")
+    public List<StudentWrittenAnswersDTO> getWrittenAnswers(@PathVariable(name = "quizId") UUID quizId) {
         return studentAnswerService.getWrittenAnswers(quizId);
     }
 }
