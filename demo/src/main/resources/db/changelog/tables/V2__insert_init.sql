@@ -148,7 +148,8 @@ INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('UPDATE_SUBJECT', 'Update subject'),
                                                               ('GET_SUBJECT', 'Get subject by id'),
                                                               ('GET_SUBJECTS_LIST', 'Get subjects list'),
-                                                              ('DELETE_SUBJECT', 'Delete subject')
+                                                              ('DELETE_SUBJECT', 'Delete subject'),
+                                                              ('GET_WRITTEN_ANSWERS', 'Get written answers for evaluation')
 ON CONFLICT (name) DO NOTHING;
 
 
@@ -349,6 +350,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('TEACHER', 'DELETE_LESSON'),
 ('TEACHER', 'GET_SUBJECT'),
 ('TEACHER', 'GET_SUBJECTS_LIST'),
+('TEACHER', 'GET_WRITTEN_ANSWERS'),
 -- ==========================================================
 -- STUDENT → Only view + participate in quizzes
 -- ==========================================================

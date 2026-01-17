@@ -60,5 +60,6 @@ public enum PermissionEnum {
     UPDATE_SUBJECT,
     GET_SUBJECT,
     GET_SUBJECTS_LIST,
-    DELETE_SUBJECT
+    DELETE_SUBJECT,
+    GET_WRITTEN_ANSWERS
 }

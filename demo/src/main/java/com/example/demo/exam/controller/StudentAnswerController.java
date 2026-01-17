@@ -1,6 +1,7 @@
 package com.example.demo.exam.controller;
 
 import com.example.demo.exam.dto.RecordedAnswerDTO;
+import com.example.demo.exam.dto.StudentWrittenAnswersDTO;
 import com.example.demo.exam.service.StudentAnswerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,7 +21,7 @@ public class StudentAnswerController {
     private final StudentAnswerService studentAnswerService;
 
     @Operation(
-            summary = "Get quizzes list",
+            summary = "Get recorded student answers list",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
@@ -33,5 +34,20 @@ public class StudentAnswerController {
     public List<RecordedAnswerDTO> getRecordedAnswers(@RequestParam(name = "quizId") UUID quizId,
                                                         @RequestParam(name = "studentId") Long studentId) {
         return studentAnswerService.getRecordedAnswers(quizId, studentId);
+    }
+
+    @Operation(
+            summary = "Get written questions list",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
+    @PreAuthorize("hasAnyAuthority('GET_WRITTEN_ANSWERS')")
+    @GetMapping("")
+    public List<StudentWrittenAnswersDTO> getWrittenAnswers(@RequestParam(name = "quizId") UUID quizId) {
+        return studentAnswerService.getWrittenAnswers(quizId);
     }
 }
