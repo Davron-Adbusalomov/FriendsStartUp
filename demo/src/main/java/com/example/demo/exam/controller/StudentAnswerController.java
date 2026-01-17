@@ -46,7 +46,7 @@ public class StudentAnswerController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAnyAuthority('GET_WRITTEN_ANSWERS')")
-    @GetMapping("")
+    @GetMapping("/written")
     public List<StudentWrittenAnswersDTO> getWrittenAnswers(@RequestParam(name = "quizId") UUID quizId) {
         return studentAnswerService.getWrittenAnswers(quizId);
     }
