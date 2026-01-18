@@ -11,10 +11,8 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WrittenQuestionsResponseDTO {
-    private UUID id;
+public class WrittenQuestionsEvaluateDTO {
+    private UUID questionId;
 
-    private UUID quizId;
-
-    private Long mark;
+    private Integer mark;
 }

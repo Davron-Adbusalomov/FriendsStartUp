@@ -2,12 +2,12 @@ package com.example.demo.exam.service;
 
 import com.example.demo.config.TelegramConfig;
 import com.example.demo.config.TenantContext;
+import com.example.demo.exam.dto.WrittenQuestionsEvaluateDTO;
 import com.example.demo.exam.model.*;
 import com.example.demo.exam.repository.*;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
-import com.example.demo.exam.dto.WrittenQuestionsResponseDTO;
 import com.example.demo.exam.dto.Quiz_ResultsDTO;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -67,26 +67,18 @@ public class QuizResultService {
 //        return writtenAnswerDTOS;
 //    }
 
-    public void assignQuizResult(List<WrittenQuestionsResponseDTO> writtenQuestionsResponseDTO) {
-        for (WrittenQuestionsResponseDTO w:writtenQuestionsResponseDTO) {
-            Optional<WrittenQuestions> writtenQuestion = writtenQuestionsRepository.findById(w.getId());
-            if (writtenQuestion.isEmpty()){
-                throw new EntityNotFoundException("Not found");
-            }
-
-            Long studentId = writtenQuestion.get().getStudent().getId();
-            UUID quizId = writtenQuestion.get().getQuizId();
-
-            QuizResults quizResult = quizResultsRepository.findByStudentIdAndQuizId(studentId, quizId);
-
-            quizResult.setMark(quizResult.getMark()+w.getMark());
-
-            quizResultsRepository.save(quizResult);
+    public void assignQuizResult(Long studentId, UUID quizId, List<WrittenQuestionsEvaluateDTO> writtenQuestionsEvaluateDTO) {
+        for (WrittenQuestionsEvaluateDTO w: writtenQuestionsEvaluateDTO) {
+            StudentAnswer answer = studentAnswerRepository
+                    .findByStudentIdAndQuizIdAndQuestionId(
+                            studentId, quizId, w.getQuestionId()
+                    )
+                    .orElseThrow(() -> new EntityNotFoundException("No answer found for student " + studentId + " and question " + w.getQuestionId()));
+            answer.setScore(w.getMark());
+            answer.setCorrect(w.getMark() > 0);
+            answer.setCenterId(TenantContext.getCenterId());
+            studentAnswerRepository.save(answer);
         }
-
-//        quizResults.setMark(writtenQuestionsResponseDTO.getMark());
-//
-//        quizResultsRepository.save(quizResults);
     }
 
     public void finalizeQuiz(UUID quizId) throws TelegramApiException {

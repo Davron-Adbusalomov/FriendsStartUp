@@ -1,11 +1,10 @@
 package com.example.demo.exam.controller;
 
-import com.example.demo.exam.dto.WrittenQuestionsResponseDTO;
+import com.example.demo.exam.dto.WrittenQuestionsEvaluateDTO;
 import com.example.demo.exam.service.QuizResultService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,9 +52,11 @@ public class QuizResultController {
             })
     @PreAuthorize("hasAnyAuthority('RECORD_QUIZ_RESULT')")
     @PostMapping("/recordResult")
-    public ResponseEntity<?> recordResult(@RequestBody List<WrittenQuestionsResponseDTO> writtenQuestionsResponseDTO){
+    public ResponseEntity<?> recordResult(@RequestParam(name = "quizId") UUID quizId,
+                                          @RequestParam(name = "studentId") Long studentId,
+                                          @RequestBody List<WrittenQuestionsEvaluateDTO> writtenQuestionsEvaluateDTO){
         try {
-            quizResultsService.assignQuizResult(writtenQuestionsResponseDTO);
+            quizResultsService.assignQuizResult(studentId, quizId, writtenQuestionsEvaluateDTO);
             return ResponseEntity.status(HttpStatus.OK).body("Successfully recorded!");
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
