@@ -28,7 +28,7 @@ public class StudentAnswerController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
-    @PreAuthorize("hasAnyAuthority('BEGIN_QUIZ')")
+    @PreAuthorize("hasAnyAuthority('GET_QUIZ')")
     @GetMapping("")
     public List<RecordedAnswerDTO> getRecordedAnswers(@RequestParam(name = "quizId") UUID quizId,
                                                         @RequestParam(name = "studentId") Long studentId) {
