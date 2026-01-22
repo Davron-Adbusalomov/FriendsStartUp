@@ -86,7 +86,8 @@ VALUES
     (27, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_ATTENDANCE', 1),
     (28, current_timestamp, 1, 'CREATED', NULL, 1, 'UPDATE_ATTENDANCE', 1),
     (29, current_timestamp, 1, 'CREATED', NULL, 1, 'DELETE_ATTENDANCE', 1),
-    (30, current_timestamp, 1, 'CREATED', NULL, 1, 'RESTORE_ATTENDANCE', 1)
+    (30, current_timestamp, 1, 'CREATED', NULL, 1, 'RESTORE_ATTENDANCE', 1),
+    (31, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_RANKINGS', 1)
 ON CONFLICT (id) DO NOTHING;
 SELECT setval('user_permission_seq', COALESCE((SELECT MAX(id) FROM user_permission), 0), true);
 
@@ -132,6 +133,7 @@ INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('GET_QUIZZES_LIST', 'View list of all quizzes'),
                                                               ('GET_QUIZ', 'View details of a single quiz'),
                                                               ('UPDATE_QUIZ', 'Update quiz information'),
+                                                              ('GET_RANKINGS', 'student quiz rank information'),
                                                               ('DELETE_QUIZ', 'Delete a quiz'),
                                                               ('CHECK_QUIZ', 'Check quiz answers and provide results'),
                                                               ('FINALIZE_QUIZ', 'Finalize and submit the quiz for grading'),
@@ -213,6 +215,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('SUPER_ADMIN', 'GET_SUBJECT'),
 ('SUPER_ADMIN', 'GET_SUBJECTS_LIST'),
 ('SUPER_ADMIN', 'DELETE_SUBJECT'),
+('SUPER_ADMIN', 'GET_RANKINGS'),
 -- ==========================================================
 -- DIRECTOR → View, manage, supervise, but fewer destructive permissions
 -- ==========================================================
@@ -257,6 +260,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('DIRECTOR', 'CREATE_SUBJECT'),
 ('DIRECTOR', 'GET_SUBJECT'),
 ('DIRECTOR', 'GET_SUBJECTS_LIST'),
+('DIRECTOR', 'GET_RANKINGS'),
 -- ==========================================================
 -- ADMIN → Full CRUD except quiz checking / advanced logic
 -- (using same permission list structure as your previous ADMIN)
@@ -315,6 +319,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('ADMIN', 'GET_SUBJECT'),
 ('ADMIN', 'GET_SUBJECTS_LIST'),
 ('ADMIN', 'DELETE_SUBJECT'),
+('ADMIN', 'GET_RANKINGS'),
 -- ==========================================================
 -- TEACHER → Create groups, assign students, manage attendance + quizzes
 -- ==========================================================
@@ -351,6 +356,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('TEACHER', 'GET_SUBJECT'),
 ('TEACHER', 'GET_SUBJECTS_LIST'),
 ('TEACHER', 'GET_WRITTEN_ANSWERS'),
+('TEACHER', 'GET_RANKINGS'),
 -- ==========================================================
 -- STUDENT → Only view + participate in quizzes
 -- ==========================================================
@@ -374,6 +380,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('STUDENT', 'PROCESS_ENROLLMENT'),
 ('STUDENT', 'GET_SUBJECT'),
 ('STUDENT', 'GET_SUBJECTS_LIST'),
+('STUDENT', 'GET_RANKINGS'),
 
 -- ==========================================================
 -- ROLE_USER → minimal authentication permissions

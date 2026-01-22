@@ -3,6 +3,7 @@ package com.example.demo.exam.service;
 import com.example.demo.config.TelegramConfig;
 import com.example.demo.config.TenantContext;
 import com.example.demo.exam.dto.WrittenQuestionsEvaluateDTO;
+import com.example.demo.exam.interfaces.StudentRanking;
 import com.example.demo.exam.model.*;
 import com.example.demo.exam.repository.*;
 import com.example.demo.management.model.Student;
@@ -42,32 +43,9 @@ public class QuizResultService {
         return null;
     }
 
-//    public List<WrittenAnswerDTO> getWrittenQuestions(String groupName, UUID quizId){
-//        Optional<Grouping> grouping = groupRepository.findByName(groupName);
-//        if (grouping.isEmpty()){
-//            throw new EntityNotFoundException("No group found with this id");
-//        }
-//
-//        List<WrittenQuestions> writtenQuestions = writtenQuestionsRepository.findByQuizId(quizId);
-//        List<WrittenAnswerDTO> writtenAnswerDTOS = new ArrayList<>();
-//
-//        for (WrittenQuestions w:writtenQuestions) {
-//            WrittenAnswerDTO writtenAnswerDTO = new WrittenAnswerDTO();
-//            writtenAnswerDTO.setId(w.getId());
-//            writtenAnswerDTO.setScore(w.getScore());
-//            writtenAnswerDTO.setQuizId(w.getQuizId());
-//            writtenAnswerDTO.setStudentAnswer(w.getStudentAnswer());
-//            writtenAnswerDTO.setCorrectAnswer(w.getCorrect_answer());
-//            writtenAnswerDTO.setStudentId(w.getStudent().getId());
-//            writtenAnswerDTO.setQuestionTitle(w.getQuestionTitle());
-//            writtenAnswerDTO.setMax_score(w.getMax_score());
-//            writtenAnswerDTOS.add(writtenAnswerDTO);
-//        }
-//
-//        return writtenAnswerDTOS;
-//    }
-
+    @Transactional
     public void assignQuizResult(Long studentId, UUID quizId, List<WrittenQuestionsEvaluateDTO> writtenQuestionsEvaluateDTO) {
+        QuizResults quizResults = quizResultsRepository.findByStudentIdAndQuizId(studentId, quizId).orElse(new QuizResults());
         for (WrittenQuestionsEvaluateDTO w: writtenQuestionsEvaluateDTO) {
             StudentAnswer answer = studentAnswerRepository
                     .findByStudentIdAndQuizIdAndQuestionId(
@@ -78,8 +56,15 @@ public class QuizResultService {
             answer.setCorrect(w.getMark() > 0);
             answer.setCenterId(TenantContext.getCenterId());
             studentAnswerRepository.save(answer);
+
+            quizResults.setMark(quizResults.getMark() + w.getMark());
         }
+        quizResults.setQuizId(quizId);
+        quizResults.setStudentId(studentId);
+        quizResults.setCenterId(TenantContext.getCenterId());
+        quizResultsRepository.save(quizResults);
     }
+
 
     public void finalizeQuiz(UUID quizId) throws TelegramApiException {
         Optional<Quiz> quiz = quizRepository.findById(quizId);
@@ -182,4 +167,8 @@ public class QuizResultService {
         quizResultsRepository.save(qR);
     }
 
+
+    public List<StudentRanking> getRankings(UUID groupingId, UUID quizId) {
+        return quizResultsRepository.findRankings(groupingId, quizId);
+    }
 }

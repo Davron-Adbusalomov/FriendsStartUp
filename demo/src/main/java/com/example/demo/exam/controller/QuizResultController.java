@@ -79,4 +79,24 @@ public class QuizResultController {
         return ResponseEntity.status(HttpStatus.OK).body("finalized successfully!");
     }
 
+    @Operation(
+            summary = "Finalizing a quiz",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
+    @PreAuthorize("hasAnyAuthority('GET_RANKINGS')")
+    @PostMapping("")
+    public ResponseEntity<?> getRankings(
+            @RequestParam(name = "quizId", required = false) UUID quizId,
+            @RequestParam(name = "groupingId", required = false) UUID groupingId) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(quizResultsService.getRankings(groupingId, quizId));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }
