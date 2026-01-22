@@ -89,7 +89,7 @@ public class QuizResultController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAnyAuthority('GET_RANKINGS')")
-    @PostMapping("")
+    @GetMapping("")
     public ResponseEntity<?> getRankings(
             @RequestParam(name = "quizId", required = false) UUID quizId,
             @RequestParam(name = "groupingId", required = false) UUID groupingId) {
