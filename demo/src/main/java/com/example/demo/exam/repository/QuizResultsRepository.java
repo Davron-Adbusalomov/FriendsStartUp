@@ -31,15 +31,15 @@ public interface QuizResultsRepository extends JpaRepository<QuizResults, UUID> 
             ON gs.student_id = s.id
         LEFT JOIN quiz_results sr
             ON sr.student_id = s.id
-            AND (:quizId IS NULL OR sr.quiz_id = :quizId)
+            AND (CAST(:quizId AS UUID) IS NULL OR sr.quiz_id = :quizId)
         WHERE
             (
-                :groupingId IS NOT NULL
+                CAST(:groupingId AS UUID) IS NOT NULL
                 AND gs.group_id = :groupingId
             )
             OR
             (
-                :groupingId IS NULL
+                CAST(:groupingId AS UUID) IS NULL
                 AND sr.quiz_id IS NOT NULL
             )
         GROUP BY s.id, s.full_name
@@ -49,6 +49,7 @@ public interface QuizResultsRepository extends JpaRepository<QuizResults, UUID> 
             @Param("groupingId") UUID groupingId,
             @Param("quizId") UUID quizId
     );
+
 
 
 
