@@ -2,6 +2,7 @@ package com.example.demo.management.specification;
 
 import com.example.demo.enums.QuizContentStatus;
 import com.example.demo.exam.model.Quiz;
+import com.example.demo.management.model.BaseEntity;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,10 @@ public class QuizSpecification {
 
             if (status == null) {
                 return null;
+            }
+
+            if (status == QuizContentStatus.CANCELLED) {
+                return cb.like(root.get("status"), "INACTIVE");
             }
 
             LocalDateTime now = LocalDateTime.now();

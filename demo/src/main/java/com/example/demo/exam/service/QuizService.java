@@ -87,7 +87,9 @@ public class QuizService {
         quiz.setDuration(quizDTO.getDuration());
         quiz.setStartTime(quizDTO.getStartTime());
         quiz.setTitle(quizDTO.getTitle());
-        if (quizDTO.getStatus().equals(QuizContentStatus.CANCELLED)) quiz.setStatus(Status.INACTIVE);
+        if (quizDTO.getStatus() == QuizContentStatus.CANCELLED) {
+            quiz.setStatus(Status.INACTIVE);
+        }
 
         Quiz updatedQuiz = quizRepository.save(quiz);
 
@@ -111,9 +113,9 @@ public class QuizService {
         int numOfHardQuestions = quiz.getQuestionsNum() - numOfMediumQuestions - numOfEasyQuestions;
 
         for (QuestionDTO question : allQuestions) {
-            if (question.getMark() == 1) {
+            if (question.getLevel().equals("1")) {
                 easyQuestions.add(question);
-            } else if (question.getMark() == 2) {
+            } else if (question.getLevel().equals("2")) {
                 mediumQuestions.add(question);
             } else {
                 hardQuestions.add(question);
