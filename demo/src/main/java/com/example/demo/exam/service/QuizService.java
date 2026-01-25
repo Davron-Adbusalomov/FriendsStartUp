@@ -96,66 +96,136 @@ public class QuizService {
         return QuizMapper.toDTO(updatedQuiz);
     }
 
+//    @Transactional
+//    public QuizDTO beginQuiz(UUID quizId) {
+//
+//        Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new EntityNotFoundException("No quiz found with this id"));
+//
+//        validateQuizActive(quizId);
+//
+//        Set<QuestionDTO> allQuestions = quiz.getQuestions().stream().map(QuestionMapper::toDTO).collect(java.util.stream.Collectors.toSet());
+//        List<QuestionDTO> easyQuestions = new ArrayList<>();
+//        List<QuestionDTO> mediumQuestions = new ArrayList<>();
+//        List<QuestionDTO> hardQuestions = new ArrayList<>();
+//
+//        int numOfEasyQuestions = (int) (quiz.getQuestionsNum() * 0.4);
+//        int numOfMediumQuestions = (int) (quiz.getQuestionsNum() * 0.3);
+//        int numOfHardQuestions = quiz.getQuestionsNum() - numOfMediumQuestions - numOfEasyQuestions;
+//
+//        for (QuestionDTO question : allQuestions) {
+//            if (question.getLevel().equals("1")) {
+//                easyQuestions.add(question);
+//            } else if (question.getLevel().equals("2")) {
+//                mediumQuestions.add(question);
+//            } else {
+//                hardQuestions.add(question);
+//            }
+//        }
+//
+//        if (quiz.getQuestionsNum() > 0 && quiz.getQuestionsNum() <= allQuestions.size()) {
+//
+//            Collections.shuffle(easyQuestions);
+//            Collections.shuffle(mediumQuestions);
+//            Collections.shuffle(hardQuestions);
+//
+//            Set<QuestionDTO> selectedQuestions = new HashSet<>();
+//
+//            for (int i = 0; i < numOfEasyQuestions; i++) {
+//                selectedQuestions.add(easyQuestions.get(i));
+//            }
+//
+//            for (int i = 0; i < numOfMediumQuestions; i++) {
+//                selectedQuestions.add(mediumQuestions.get(i));
+//            }
+//
+//            for (int i = 0; i < numOfHardQuestions; i++) {
+//                selectedQuestions.add(hardQuestions.get(i));
+//            }
+//
+//            QuizDTO shuffledQuiz = new QuizDTO();
+//            shuffledQuiz.setId(quiz.getId());
+//            shuffledQuiz.setQuestionsNum(quiz.getQuestionsNum());
+//            shuffledQuiz.setDuration(quiz.getDuration());
+//            shuffledQuiz.setGroupingId(quiz.getGrouping().getId());
+//            shuffledQuiz.setTeacherId(quiz.getTeacher().getId());
+//            shuffledQuiz.setQuestions(selectedQuestions);
+//            shuffledQuiz.setStartTime(quiz.getStartTime());
+//            shuffledQuiz.setTitle(quiz.getTitle());
+//
+//            return shuffledQuiz;
+//        }
+//
+//        return QuizMapper.toDTO(quiz);
+//    }
+
     @Transactional
     public QuizDTO beginQuiz(UUID quizId) {
 
-        Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new EntityNotFoundException("No quiz found with this id"));
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElseThrow(() -> new EntityNotFoundException("No quiz found"));
 
         validateQuizActive(quizId);
 
-        Set<QuestionDTO> allQuestions = quiz.getQuestions().stream().map(QuestionMapper::toDTO).collect(java.util.stream.Collectors.toSet());
-        List<QuestionDTO> easyQuestions = new ArrayList<>();
-        List<QuestionDTO> mediumQuestions = new ArrayList<>();
-        List<QuestionDTO> hardQuestions = new ArrayList<>();
+        List<QuestionDTO> easy = new ArrayList<>();
+        List<QuestionDTO> medium = new ArrayList<>();
+        List<QuestionDTO> hard = new ArrayList<>();
 
-        int numOfEasyQuestions = (int) (quiz.getQuestionsNum() * 0.4);
-        int numOfMediumQuestions = (int) (quiz.getQuestionsNum() * 0.3);
-        int numOfHardQuestions = quiz.getQuestionsNum() - numOfMediumQuestions - numOfEasyQuestions;
-
-        for (QuestionDTO question : allQuestions) {
-            if (question.getLevel().equals("1")) {
-                easyQuestions.add(question);
-            } else if (question.getLevel().equals("2")) {
-                mediumQuestions.add(question);
-            } else {
-                hardQuestions.add(question);
+        // 1️⃣ split in ONE pass (O(n))
+        for (Question q : quiz.getQuestions()) {
+            QuestionDTO dto = QuestionMapper.toDTO(q);
+            switch (dto.getLevel()) {
+                case "1" -> easy.add(dto);
+                case "2" -> medium.add(dto);
+                case "3" -> hard.add(dto);
             }
         }
 
-        if (quiz.getQuestionsNum() > 0 && quiz.getQuestionsNum() <= allQuestions.size()) {
+        int total = quiz.getQuestionsNum();
 
-            Collections.shuffle(easyQuestions);
-            Collections.shuffle(mediumQuestions);
-            Collections.shuffle(hardQuestions);
+        int easyTarget   = Math.round(total * 0.4f);
+        int mediumTarget = Math.round(total * 0.3f);
+        int hardTarget   = total - easyTarget - mediumTarget;
 
-            Set<QuestionDTO> selectedQuestions = new HashSet<>();
+        // 2️⃣ shuffle once (O(n))
+        Collections.shuffle(easy);
+        Collections.shuffle(medium);
+        Collections.shuffle(hard);
 
-            for (int i = 0; i < numOfEasyQuestions; i++) {
-                selectedQuestions.add(easyQuestions.get(i));
-            }
+        List<QuestionDTO> selected = new ArrayList<>(total);
 
-            for (int i = 0; i < numOfMediumQuestions; i++) {
-                selectedQuestions.add(mediumQuestions.get(i));
-            }
+        take(selected, easy, easyTarget);
+        take(selected, medium, mediumTarget);
+        take(selected, hard, hardTarget);
 
-            for (int i = 0; i < numOfHardQuestions; i++) {
-                selectedQuestions.add(hardQuestions.get(i));
-            }
-
-            QuizDTO shuffledQuiz = new QuizDTO();
-            shuffledQuiz.setId(quiz.getId());
-            shuffledQuiz.setQuestionsNum(quiz.getQuestionsNum());
-            shuffledQuiz.setDuration(quiz.getDuration());
-            shuffledQuiz.setGroupingId(quiz.getGrouping().getId());
-            shuffledQuiz.setTeacherId(quiz.getTeacher().getId());
-            shuffledQuiz.setQuestions(selectedQuestions);
-            shuffledQuiz.setStartTime(quiz.getStartTime());
-            shuffledQuiz.setTitle(quiz.getTitle());
-
-            return shuffledQuiz;
+        // 4️⃣ fill missing slots (O(n))
+        if (selected.size() < total) {
+            fill(selected, total, easy, medium, hard);
         }
 
-        return QuizMapper.toDTO(quiz);
+        // 5️⃣ final shuffle for fairness
+        Collections.shuffle(selected);
+
+        QuizDTO dto = QuizMapper.toDTO(quiz);
+        dto.setQuestions(new HashSet<>(selected)); // uniqueness at the end only
+        return dto;
+    }
+
+    private void take(List<QuestionDTO> out, List<QuestionDTO> src, int count) {
+        int limit = Math.min(count, src.size());
+        for (int i = 0; i < limit; i++) {
+            out.add(src.get(i));
+        }
+    }
+
+    private void fill(List<QuestionDTO> out, int total,
+                      List<QuestionDTO>... pools) {
+
+        for (List<QuestionDTO> pool : pools) {
+            for (QuestionDTO q : pool) {
+                if (out.size() == total) return;
+                if (!out.contains(q)) out.add(q);
+            }
+        }
     }
 
     @Transactional
