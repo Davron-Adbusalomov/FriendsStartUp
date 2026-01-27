@@ -383,6 +383,20 @@ CREATE TABLE wrong_answers_analyze
     center_id    UUID                        NOT NULL,
     CONSTRAINT pk_wronganswersanalyze PRIMARY KEY (id)
 );
+CREATE TABLE lesson_comment
+(
+    id         UUID                        NOT NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITHOUT TIME ZONE,
+    status     VARCHAR(255)                NOT NULL,
+    created_by BIGINT,
+    updated_by BIGINT,
+    content    VARCHAR(2000)               NOT NULL,
+    lesson_id  UUID                        NOT NULL,
+    user_id    BIGINT,
+    center_id  UUID                        NOT NULL,
+    CONSTRAINT pk_lesson_comment PRIMARY KEY (id)
+);
 
 ALTER TABLE users
     ADD CONSTRAINT uc_users_username UNIQUE (username);
@@ -518,3 +532,12 @@ ALTER TABLE user_roles
 
 ALTER TABLE user_roles
     ADD CONSTRAINT fk_userol_on_user_entity FOREIGN KEY (user_id) REFERENCES users (id);
+
+ALTER TABLE lesson_comment
+    ADD CONSTRAINT FK_LESSON_COMMENT_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
+
+ALTER TABLE lesson_comment
+    ADD CONSTRAINT FK_LESSON_COMMENT_ON_LESSON FOREIGN KEY (lesson_id) REFERENCES lesson (id);
+
+ALTER TABLE lesson_comment
+    ADD CONSTRAINT FK_LESSON_COMMENT_ON_USER FOREIGN KEY (user_id) REFERENCES users (id);

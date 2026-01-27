@@ -20,4 +20,8 @@ public class LessonDTO {
     private UUID groupId;
 
     private UUID centerId;
+
+    private String inspectorName;
+
+    private String inspectorInfo;
 }

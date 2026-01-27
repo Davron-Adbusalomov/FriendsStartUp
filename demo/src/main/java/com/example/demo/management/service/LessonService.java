@@ -7,7 +7,9 @@ import com.example.demo.management.dto.LessonProgressDTO;
 import com.example.demo.management.dto.StudentLessonProgressDTO;
 import com.example.demo.management.mapper.LessonMapper;
 import com.example.demo.management.model.Lesson;
+import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.LessonRepository;
+import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.management.specification.LessonSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,7 @@ public class LessonService {
     private final LessonRepository lessonRepository;
     private final LessonMapper lessonMapper;
     private final LessonProgressService lessonProgressService;
+    private final TeacherRepository teacherRepository;
 
     public LessonDTO create(LessonDTO dto) {
         Lesson lesson = lessonMapper.toEntity(dto);
@@ -56,7 +59,19 @@ public class LessonService {
         Lesson lesson = lessonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Lesson not found"));
 
-        return lessonMapper.toDto(lesson);
+
+        LessonDTO dto = lessonMapper.toDto(lesson);
+
+        if (lesson.getGrouping() != null
+                && lesson.getGrouping().getTeacherId() != null) {
+            Teacher teacher = teacherRepository.findById(lesson.getGrouping().getTeacherId())
+                    .orElse(new Teacher());
+
+            dto.setInspectorName(teacher.getFullName());
+            dto.setInspectorInfo(teacher.getExperience());
+        }
+
+        return dto;
     }
 
     public Page<LessonDTO> getAll(String title, UUID groupId, Pageable pageable) {
