@@ -1,5 +1,6 @@
 package com.example.demo.exam.mapper;
 
+import com.example.demo.exam.dto.EvaluatedQuestionDetails;
 import com.example.demo.exam.dto.QuestionDTO;
 import com.example.demo.exam.dto.QuestionSummaryDTO;
 import com.example.demo.exam.model.Option;
@@ -50,6 +51,19 @@ public interface QuestionMapper {
         return questionDTO;
     }
 
+    static EvaluatedQuestionDetails toEvaluatedDetailsDTO(Question question) {
+        EvaluatedQuestionDetails dto = new EvaluatedQuestionDetails();
+        dto.setId(question.getId());
+        dto.setTitle(question.getTitle());
+        dto.setType(question.getType());
+        dto.setMark(question.getMark());
+        dto.setRightAnswer(question.getRight_answer());
+        if (question.getSubject() != null) dto.setSubjectName(question.getSubject().getName());
+        dto.setTeacherId(question.getTeacherId());
+        if (question.getOptions() != null)
+            dto.setOptions(question.getOptions().stream().map(Option::getText).toList());
+        return dto;
+    }
 
 //        static Question toModel(QuestionDTO questionDTO){
 //                Question question = new Question();

@@ -1,5 +1,6 @@
 package com.example.demo.exam.controller;
 
+import com.example.demo.exam.dto.EvaluatedQuizDetailsDTO;
 import com.example.demo.exam.dto.RecordedAnswerDTO;
 import com.example.demo.exam.dto.StudentWrittenAnswersDTO;
 import com.example.demo.exam.service.StudentAnswerService;
@@ -48,5 +49,21 @@ public class StudentAnswerController {
     @GetMapping("/written/{quizId}")
     public List<StudentWrittenAnswersDTO> getWrittenAnswers(@PathVariable(name = "quizId") UUID quizId) {
         return studentAnswerService.getWrittenAnswers(quizId);
+    }
+
+    @Operation(
+            summary = "Get quiz details list",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            })
+    @PreAuthorize("hasAnyAuthority('GET_QUIZ')")
+    @GetMapping("/quiz-details")
+    public EvaluatedQuizDetailsDTO getQuizDetails(@RequestParam(name = "quizId") UUID quizId,
+                                                  @RequestParam(name = "studentId") Long studentId) {
+        return studentAnswerService.getEvaluatedQuizDetails(quizId, studentId);
     }
 }

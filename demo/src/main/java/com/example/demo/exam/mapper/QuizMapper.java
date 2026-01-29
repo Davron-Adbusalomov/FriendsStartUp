@@ -1,9 +1,13 @@
 package com.example.demo.exam.mapper;
 
+import com.example.demo.exam.dto.EvaluatedQuestionDetails;
+import com.example.demo.exam.dto.EvaluatedQuizDetailsDTO;
 import com.example.demo.exam.dto.QuizDTO;
 import com.example.demo.exam.dto.QuizSummaryDTO;
 import com.example.demo.exam.model.Quiz;
 import org.mapstruct.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface QuizMapper {
@@ -29,6 +33,23 @@ public interface QuizMapper {
         quizSummaryDTO.setStartTime(quiz.getStartTime());
         return quizSummaryDTO;
     }
+
+    static EvaluatedQuizDetailsDTO toEvaluatedQuizDetail(Quiz quiz){
+            EvaluatedQuizDetailsDTO dto = new EvaluatedQuizDetailsDTO();
+            dto.setId(quiz.getId());
+            dto.setTitle(quiz.getTitle());
+            dto.setDuration(quiz.getDuration());
+            dto.setQuestionsNum(quiz.getQuestionsNum());
+            dto.setGroupingId(quiz.getGrouping().getId());
+            dto.setTeacherId(quiz.getTeacher().getId());
+            dto.setCreatedAt(quiz.getCreatedAt());
+            dto.setStartTime(quiz.getStartTime());
+            if (quiz.getQuestions()!= null) dto.setQuestions(quiz.getQuestions().stream()
+                    .map(QuestionMapper::toEvaluatedDetailsDTO)
+                    .collect(java.util.stream.Collectors.toSet()));
+            return dto;
+    }
+
 //    static Quiz toModel(QuizDTO quizDTO){
 //        Quiz quiz = new Quiz();
 //        quiz.setId(quizDTO.getId());
