@@ -28,4 +28,12 @@ public interface QuizRepository extends JpaRepository<Quiz, UUID>, JpaSpecificat
 
     @Query("SELECT q FROM Quiz q WHERE q.groupingId IN :groupIds AND q.startTime > :now ORDER BY q.startTime ASC")
     Quiz findUpcomingQuizByGroupIds(@Param("groupIds") List<UUID> list, @Param("now") LocalDateTime now);
+
+    @Query("""
+    select q from Quiz q
+    left join fetch q.questions ques
+    where q.id = :quizId
+""")
+    Optional<Quiz> findByIdWithQuestions(UUID quizId);
+
 }

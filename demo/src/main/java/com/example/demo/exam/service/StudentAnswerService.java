@@ -1,6 +1,7 @@
 package com.example.demo.exam.service;
 
 import com.example.demo.exam.dto.*;
+import com.example.demo.exam.mapper.QuestionMapper;
 import com.example.demo.exam.mapper.QuizMapper;
 import com.example.demo.exam.model.Question;
 import com.example.demo.exam.model.Quiz;
@@ -11,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -66,31 +68,48 @@ public class StudentAnswerService {
     }
 
     public EvaluatedQuizDetailsDTO getEvaluatedQuizDetails(UUID quizId, Long studentId) {
+
         List<StudentAnswer> answers =
                 studentAnswerRepository.findByQuizIdAndStudentId(quizId, studentId);
-
-        Quiz quiz = quizRepository.findById(quizId)
-                .orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
-
-        EvaluatedQuizDetailsDTO quizDetailsDTO =
-                QuizMapper.toEvaluatedQuizDetail(quiz);
 
         Map<UUID, StudentAnswer> answerMap = answers.stream()
                 .collect(Collectors.toMap(StudentAnswer::getQuestionId, a -> a));
 
-        Set<EvaluatedQuestionDetails> matchedQuestions = quizDetailsDTO.getQuestions().stream()
-                .filter(q -> answerMap.containsKey(q.getId()))
-                .peek(q -> {
-                    StudentAnswer a = answerMap.get(q.getId());
-                    q.setStudentAnswer(a.getAnswer());
-                    q.setScore(a.getScore());
-                    q.setIsCorrect(a.getCorrect());
-                })
-                .collect(Collectors.toSet());
+        Quiz quiz = quizRepository.findByIdWithQuestions(quizId)
+                .orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
 
-        quizDetailsDTO.setQuestions(matchedQuestions);
+        EvaluatedQuizDetailsDTO dto = QuizMapper.toEvaluatedQuizDetail(quiz);
 
-        return quizDetailsDTO;
+        int maxMark = 0;
+        int obtainedMark = 0;
+
+        Set<EvaluatedQuestionDetails> evaluatedQuestions = new HashSet<>();
+
+        for (Question question : quiz.getQuestions()) {
+
+            maxMark += question.getMark();
+
+            StudentAnswer answer = answerMap.get(question.getId());
+            if (answer == null) continue;
+
+            EvaluatedQuestionDetails qDto =
+                    QuestionMapper.toEvaluatedDetailsDTO(question);
+
+            qDto.setStudentAnswer(answer.getAnswer());
+            qDto.setScore(answer.getScore());
+            qDto.setIsCorrect(answer.getCorrect());
+
+            obtainedMark += answer.getScore();
+
+            evaluatedQuestions.add(qDto);
+        }
+
+        dto.setQuestions(evaluatedQuestions);
+        dto.setMaxMark(maxMark);
+        dto.setObtainedMark(obtainedMark);
+
+        return dto;
     }
+
 
 }

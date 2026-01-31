@@ -44,9 +44,6 @@ public interface QuizMapper {
             dto.setTeacherId(quiz.getTeacher().getId());
             dto.setCreatedAt(quiz.getCreatedAt());
             dto.setStartTime(quiz.getStartTime());
-            if (quiz.getQuestions()!= null) dto.setQuestions(quiz.getQuestions().stream()
-                    .map(QuestionMapper::toEvaluatedDetailsDTO)
-                    .collect(java.util.stream.Collectors.toSet()));
             return dto;
     }
 

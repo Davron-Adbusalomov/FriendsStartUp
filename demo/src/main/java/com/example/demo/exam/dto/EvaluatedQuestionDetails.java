@@ -23,6 +23,7 @@ public class EvaluatedQuestionDetails {
 
     private String rightAnswer;
 
+//    question total mark
     private Integer mark;
 
     private Long teacherId;
@@ -37,5 +38,6 @@ public class EvaluatedQuestionDetails {
 
     private Boolean isCorrect;
 
+//    student obtained score for this question
     private Integer score;
 }

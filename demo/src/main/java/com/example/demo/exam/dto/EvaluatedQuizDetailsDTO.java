@@ -31,5 +31,8 @@ public class EvaluatedQuizDetailsDTO {
 
     private Set<EvaluatedQuestionDetails> questions;
 
+    private Integer maxMark;
+
+    private Integer obtainedMark;
 }
 
