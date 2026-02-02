@@ -1,8 +1,10 @@
 package com.example.demo.management.service;
 
 import com.example.demo.config.TenantContext;
+import com.example.demo.enums.AttachmentOwnerType;
 import com.example.demo.enums.LessonProgressEnum;
 import com.example.demo.management.dto.LessonDTO;
+import com.example.demo.management.dto.LessonDetailsDTO;
 import com.example.demo.management.dto.LessonProgressDTO;
 import com.example.demo.management.dto.StudentLessonProgressDTO;
 import com.example.demo.management.mapper.LessonMapper;
@@ -30,6 +32,7 @@ public class LessonService {
     private final LessonMapper lessonMapper;
     private final LessonProgressService lessonProgressService;
     private final TeacherRepository teacherRepository;
+    private final AttachmentService attachmentService;
 
     public LessonDTO create(LessonDTO dto) {
         Lesson lesson = lessonMapper.toEntity(dto);
@@ -55,13 +58,11 @@ public class LessonService {
         return lessonMapper.toDto(lesson);
     }
 
-    public LessonDTO getById(UUID id) {
+    public LessonDetailsDTO getById(UUID id) {
         Lesson lesson = lessonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Lesson not found"));
 
-
-        LessonDTO dto = lessonMapper.toDto(lesson);
-
+        LessonDetailsDTO dto = lessonMapper.toDetailsDto(lesson);
         if (lesson.getGrouping() != null
                 && lesson.getGrouping().getTeacherId() != null) {
             Teacher teacher = teacherRepository.findById(lesson.getGrouping().getTeacherId())
@@ -69,7 +70,9 @@ public class LessonService {
 
             dto.setInspectorName(teacher.getFullName());
             dto.setInspectorInfo(teacher.getExperience());
+            dto.setInspectorImage(teacher.getImage());
         }
+        dto.setResources(attachmentService.getByOwner(AttachmentOwnerType.LESSON, id));
 
         return dto;
     }
