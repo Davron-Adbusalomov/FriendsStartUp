@@ -1,6 +1,7 @@
 package com.example.demo.management.controller;
 
 import com.example.demo.management.dto.LessonDTO;
+import com.example.demo.management.dto.LessonDetailsDTO;
 import com.example.demo.management.dto.StudentLessonProgressDTO;
 import com.example.demo.management.service.LessonProgressService;
 import com.example.demo.management.service.LessonService;
@@ -68,7 +69,7 @@ public class LessonController {
     )
     @PreAuthorize("hasAuthority('GET_LESSON')")
     @GetMapping("/{id}")
-    public ResponseEntity<LessonDTO> getById(@PathVariable UUID id) {
+    public ResponseEntity<LessonDetailsDTO> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(lessonService.getById(id));
     }
 

@@ -50,4 +50,11 @@ public class Attachment extends BaseEntity{
     private UUID ownerId; // lessonId, homeworkId, etc.
 
     private LocalDateTime uploadedAt;
+
+    @Column(name = "center_id", nullable = false)
+    private UUID centerId;
+
+    @ManyToOne
+    @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Center center;
 }
