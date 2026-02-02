@@ -18,4 +18,5 @@ public interface AttachmentRepository extends JpaRepository<Attachment, UUID> {
             @Param("ownerType") AttachmentOwnerType ownerType,
             @Param("ownerId") UUID ownerId
     );
+
 }
