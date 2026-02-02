@@ -1,8 +1,8 @@
 spring:
   datasource:
-#    url: jdbc:postgresql://localhost:5433/startupdb
+#    url: jdbc:postgresql://localhost:5434/postgres
 #    username: postgres
-#    password: 55555
+#    password: davron_abdusalomov
     url: jdbc:postgresql://postgres1.cz62o2yusm9p.eu-north-1.rds.amazonaws.com:5432/postgres
     username: postgres
     password: davron_abdusalomov
@@ -36,3 +36,8 @@ security:
     secret-key: 923f6ad7deb85d35ab7ed4a6d8691b742d284b16fbd5b69ac97638d550f532bc
     access-token-expiration-time: 3600000  # 1 hour
     refresh-token-expiration-time: 604800000  # 7 days
+
+app:
+  base-url: https://localhost:8443
+  attachments:
+    path: uploads/attachments
