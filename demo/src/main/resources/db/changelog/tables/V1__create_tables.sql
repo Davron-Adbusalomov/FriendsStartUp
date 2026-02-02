@@ -397,6 +397,29 @@ CREATE TABLE lesson_comment
     center_id  UUID                        NOT NULL,
     CONSTRAINT pk_lesson_comment PRIMARY KEY (id)
 );
+CREATE TABLE attachment
+(
+    id            UUID                        NOT NULL,
+    created_at    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at    TIMESTAMP WITHOUT TIME ZONE,
+    status        VARCHAR(255)                NOT NULL,
+    created_by    BIGINT,
+    updated_by    BIGINT,
+    original_name VARCHAR(255)                NOT NULL,
+    stored_name   VARCHAR(255)                NOT NULL,
+    title         VARCHAR(255)                NOT NULL,
+    content_type  VARCHAR(255)                NOT NULL,
+    size          BIGINT                      NOT NULL,
+    type          VARCHAR(255),
+    owner_type    VARCHAR(255),
+    owner_id      UUID,
+    uploaded_at   TIMESTAMP WITHOUT TIME ZONE,
+    center_id     UUID                        NOT NULL,
+    CONSTRAINT pk_attachment PRIMARY KEY (id)
+);
+
+ALTER TABLE attachment
+    ADD CONSTRAINT FK_ATTACHMENT_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
 
 ALTER TABLE users
     ADD CONSTRAINT uc_users_username UNIQUE (username);
