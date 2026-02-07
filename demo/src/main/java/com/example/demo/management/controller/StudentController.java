@@ -2,6 +2,7 @@ package com.example.demo.management.controller;
 
 import com.example.demo.management.dto.StudentDTO;
 import com.example.demo.management.dto.StudentInfoDTO;
+import com.example.demo.management.dto.StudentProfileDTO;
 import com.example.demo.management.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -57,6 +58,22 @@ public class StudentController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(studentService.getStudentById(id));
+    }
+
+    @Operation(
+            summary = "Getting student by student",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
+            }
+    )
+    @PreAuthorize("hasAnyAuthority('GET_STUDENT')")
+    @GetMapping("/profile")
+    public ResponseEntity<StudentProfileDTO> getStudentProfile(@RequestParam Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.getStudentProfile(id));
     }
 
     @Operation(

@@ -5,9 +5,12 @@ package com.example.demo.management.service;
 import com.example.demo.exam.model.QuizResults;
 import com.example.demo.exam.repository.QuizResultsRepository;
 import com.example.demo.management.authentication.enums.RolesEnum;
+import com.example.demo.management.dto.BadgeDTO;
 import com.example.demo.management.dto.StudentDTO;
 import com.example.demo.management.dto.StudentInfoDTO;
+import com.example.demo.management.dto.StudentProfileDTO;
 import com.example.demo.management.mapper.StudentMapper;
+import com.example.demo.management.model.Badge;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.model.UserEntity;
@@ -44,6 +47,8 @@ public class StudentService {
     private final UserRepository userRepository;
 
     private final StudentMapper studentMapper;
+
+    private final BadgeService badgeService;
 
 //    private final JwtService jwtService;
 //
@@ -118,6 +123,23 @@ public class StudentService {
     private List<RolesEnum> getRoles(Long userId) {
         Set<RoleEntity> roles = userRepository.findRolesByUserId(userId);
         return roles == null ? Collections.emptyList() : roles.stream().map(RoleEntity::getName).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    public StudentProfileDTO getStudentProfile(Long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + id));
+
+        StudentProfileDTO profileDTO = new StudentProfileDTO();
+        profileDTO.setId(student.getId());
+        profileDTO.setFullName(student.getFullName());
+        profileDTO.setImage(student.getImage());
+        profileDTO.setGroupNames(student.getGroupings().stream().map(Grouping::getName).toList());
+        profileDTO.setStatus("Top Student");
+        List<BadgeDTO> badges = badgeService.getStudentBadges(student.getId());
+        profileDTO.setBadges(badges);
+        profileDTO.setCoursesCompleted(0);
+        profileDTO.setAverageGrade("A");
+        return profileDTO;
     }
 
 //    public StudentLoginDTO loginStudent(StudentDTO studentDTO) {

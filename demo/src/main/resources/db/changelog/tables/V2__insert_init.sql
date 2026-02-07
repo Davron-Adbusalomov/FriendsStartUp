@@ -155,7 +155,11 @@ INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('UPLOAD_ATTACHMENT', 'Upload attachment'),
                                                               ('DOWNLOAD_ATTACHMENT', 'Download attachment'),
                                                               ('DELETE_ATTACHMENT', 'Delete attachment'),
-                                                              ('GET_ATTACHMENT', 'Get attachment')
+                                                              ('GET_ATTACHMENT', 'Get attachment'),
+                                                              ('GET_BADGE', 'Get badge'),
+                                                              ('DELETE_BADGE', 'Delete badge'),
+                                                              ('UPDATE_BADGE', 'Update badge'),
+                                                              ('CREATE_BADGE', 'Create badge')
 ON CONFLICT (name) DO NOTHING;
 
 
@@ -224,6 +228,10 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('SUPER_ADMIN', 'DOWNLOAD_ATTACHMENT'),
 ('SUPER_ADMIN', 'DELETE_ATTACHMENT'),
 ('SUPER_ADMIN', 'GET_ATTACHMENT'),
+('SUPER_ADMIN', 'GET_BADGE'),
+('SUPER_ADMIN', 'DELETE_BADGE'),
+('SUPER_ADMIN', 'UPDATE_BADGE'),
+('SUPER_ADMIN', 'CREATE_BADGE'),
 -- ==========================================================
 -- DIRECTOR → View, manage, supervise, but fewer destructive permissions
 -- ==========================================================
@@ -273,6 +281,11 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('DIRECTOR', 'DOWNLOAD_ATTACHMENT'),
 ('DIRECTOR', 'DELETE_ATTACHMENT'),
 ('DIRECTOR', 'GET_ATTACHMENT'),
+
+('DIRECTOR', 'GET_BADGE'),
+('DIRECTOR', 'DELETE_BADGE'),
+('DIRECTOR', 'UPDATE_BADGE'),
+('DIRECTOR', 'CREATE_BADGE'),
 -- ==========================================================
 -- ADMIN → Full CRUD except quiz checking / advanced logic
 -- (using same permission list structure as your previous ADMIN)
@@ -336,6 +349,10 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('ADMIN', 'DOWNLOAD_ATTACHMENT'),
 ('ADMIN', 'DELETE_ATTACHMENT'),
 ('ADMIN', 'GET_ATTACHMENT'),
+('ADMIN', 'GET_BADGE'),
+('ADMIN', 'DELETE_BADGE'),
+('ADMIN', 'UPDATE_BADGE'),
+('ADMIN', 'CREATE_BADGE'),
 -- ==========================================================
 -- TEACHER → Create groups, assign students, manage attendance + quizzes
 -- ==========================================================
@@ -377,6 +394,10 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('TEACHER', 'DOWNLOAD_ATTACHMENT'),
 ('TEACHER', 'DELETE_ATTACHMENT'),
 ('TEACHER', 'GET_ATTACHMENT'),
+('TEACHER', 'GET_BADGE'),
+('TEACHER', 'DELETE_BADGE'),
+('TEACHER', 'UPDATE_BADGE'),
+('TEACHER', 'CREATE_BADGE'),
 -- ==========================================================
 -- STUDENT → Only view + participate in quizzes
 -- ==========================================================
@@ -403,7 +424,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('STUDENT', 'GET_RANKINGS'),
 ('STUDENT', 'UPLOAD_ATTACHMENT'),
 ('STUDENT', 'GET_ATTACHMENT'),
-
+('STUDENT', 'GET_BADGE'),
 -- ==========================================================
 -- ROLE_USER → minimal authentication permissions
 -- ==========================================================

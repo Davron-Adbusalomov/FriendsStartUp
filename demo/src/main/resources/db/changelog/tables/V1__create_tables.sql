@@ -417,6 +417,26 @@ CREATE TABLE attachment
     center_id     UUID                        NOT NULL,
     CONSTRAINT pk_attachment PRIMARY KEY (id)
 );
+CREATE TABLE badge
+(
+    id          UUID                        NOT NULL,
+    created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at  TIMESTAMP WITHOUT TIME ZONE,
+    status      VARCHAR(255)                NOT NULL,
+    created_by  BIGINT,
+    updated_by  BIGINT,
+    name        VARCHAR(255),
+    description VARCHAR(255),
+    student_id  BIGINT,
+    center_id   UUID                        NOT NULL,
+    CONSTRAINT pk_badge PRIMARY KEY (id)
+);
+
+ALTER TABLE badge
+    ADD CONSTRAINT FK_BADGE_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
+
+ALTER TABLE badge
+    ADD CONSTRAINT FK_BADGE_ON_STUDENT FOREIGN KEY (student_id) REFERENCES student (id);
 
 ALTER TABLE attachment
     ADD CONSTRAINT FK_ATTACHMENT_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
