@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Locale;
 import java.util.UUID;
 
 @CrossOrigin
@@ -72,8 +73,8 @@ public class StudentController {
     )
     @PreAuthorize("hasAnyAuthority('GET_STUDENT')")
     @GetMapping("/profile")
-    public ResponseEntity<StudentProfileDTO> getStudentProfile(@RequestParam Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(studentService.getStudentProfile(id));
+    public ResponseEntity<StudentProfileDTO> getStudentProfile(@RequestParam Long id, Locale locale){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.getStudentProfile(id, locale));
     }
 
     @Operation(

@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @RestController
@@ -103,10 +104,11 @@ public class BadgeController {
     @PreAuthorize("hasAuthority('GET_BADGE')")
     @GetMapping("/student/{studentId}")
     public ResponseEntity<List<BadgeDTO>> getStudentBadges(
-            @PathVariable Long studentId
+            @PathVariable Long studentId,
+            Locale locale
     ) {
         return ResponseEntity.ok(
-                badgeService.getStudentBadges(studentId)
+                badgeService.getStudentBadges(studentId, locale)
         );
     }
 }

@@ -125,7 +125,7 @@ public class StudentService {
         return roles == null ? Collections.emptyList() : roles.stream().map(RoleEntity::getName).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    public StudentProfileDTO getStudentProfile(Long id) {
+    public StudentProfileDTO getStudentProfile(Long id, Locale locale) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + id));
 
@@ -135,7 +135,7 @@ public class StudentService {
         profileDTO.setImage(student.getImage());
         profileDTO.setGroupNames(student.getGroupings().stream().map(Grouping::getName).toList());
         profileDTO.setStatus("Top Student");
-        List<BadgeDTO> badges = badgeService.getStudentBadges(student.getId());
+        List<BadgeDTO> badges = badgeService.getStudentBadges(student.getId(), locale);
         profileDTO.setBadges(badges);
         profileDTO.setCoursesCompleted(0);
         profileDTO.setAverageGrade("A");

@@ -5,11 +5,14 @@ import com.example.demo.management.dto.request.BadgeRequestDto;
 import com.example.demo.management.mapper.BadgeMapper;
 import com.example.demo.management.model.Badge;
 import com.example.demo.management.repository.BadgeRepository;
+import com.example.demo.utils.MessageSourceConfig;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,6 +24,7 @@ public class BadgeService {
 
     private final BadgeRepository badgeRepository;
     private final BadgeMapper badgeMapper;
+    private final MessageSource messageSource;
 
     public BadgeDTO create(BadgeRequestDto dto) {
 
@@ -55,29 +59,32 @@ public class BadgeService {
         return badgeMapper.toDto(badgeRepository.save(badge));
     }
 
-    public List<BadgeDTO> getStudentBadges(Long studentId) {
+    public List<BadgeDTO> getStudentBadges(Long studentId, Locale locale) {
 
         List<Badge> allBadges = badgeRepository.findAll();
 
-        List<Badge> studentBadges =
-                badgeRepository.findByStudentId(studentId);
+        List<Badge> studentBadges = badgeRepository.findByStudentId(studentId);
 
-        Set<UUID> studentBadgeIds =
-                studentBadges.stream()
-                        .map(Badge::getId)
-                        .collect(Collectors.toSet());
+        Set<UUID> studentBadgeIds = studentBadges.stream()
+                .map(Badge::getId)
+                .collect(Collectors.toSet());
 
         return allBadges.stream()
                 .map(badge -> {
-
                     BadgeDTO dto = badgeMapper.toDto(badge);
 
-                    dto.setActive(
-                            studentBadgeIds.contains(badge.getId())
+                    dto.setActive(studentBadgeIds.contains(badge.getId()));
+
+                    dto.setDescription(
+                            messageSource.getMessage(badge.getDescription(), null, locale)
                     );
 
                     return dto;
                 })
                 .toList();
+    }
+
+    public String translate(String key, Locale locale) {
+        return messageSource.getMessage(key, null, locale);
     }
 }
