@@ -1,11 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5434/postgres
-    username: postgres
-    password: davron_abdusalomov
-#    url: jdbc:postgresql://postgres1.cz62o2yusm9p.eu-north-1.rds.amazonaws.com:5432/postgres
+#    url: jdbc:postgresql://localhost:5434/postgres
 #    username: postgres
 #    password: davron_abdusalomov
+    url: jdbc:postgresql://postgres1.cz62o2yusm9p.eu-north-1.rds.amazonaws.com:5432/postgres
+    username: postgres
+    password: davron_abdusalomov
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
