@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Table(name = "groups")
+@Table(name = "chat_room_member")
 @SQLDelete(sql = "UPDATE chat_room_member SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
 @Filter(name = "centerFilter", condition = "center_id = :centerId")
@@ -43,4 +43,8 @@ public class ChatRoomMember extends BaseEntity {
 
     @Column(name = "center_id")
     private UUID centerId;
+
+    @ManyToOne
+    @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Center center;
 }

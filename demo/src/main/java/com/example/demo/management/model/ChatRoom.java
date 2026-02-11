@@ -13,7 +13,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Table(name = "groups")
+@Table(name = "chat_room")
 @SQLDelete(sql = "UPDATE chat_room SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
 @Filter(name = "centerFilter", condition = "center_id = :centerId")
@@ -23,7 +23,6 @@ public class ChatRoom extends BaseEntity {
     @org.hibernate.annotations.GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(columnDefinition = "UUID")
     private UUID id;
-
 
     @Enumerated(EnumType.STRING)
     private ChatRoomType type; // DIRECT, GROUP
@@ -36,7 +35,4 @@ public class ChatRoom extends BaseEntity {
     @Column(name = "center_id")
     private UUID centerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
 }

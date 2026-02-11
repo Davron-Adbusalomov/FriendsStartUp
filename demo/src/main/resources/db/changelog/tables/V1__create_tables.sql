@@ -431,6 +431,40 @@ CREATE TABLE badge
     center_id   UUID                        NOT NULL,
     CONSTRAINT pk_badge PRIMARY KEY (id)
 );
+CREATE TABLE chat_room
+(
+    id         UUID                        NOT NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITHOUT TIME ZONE,
+    status     VARCHAR(255)                NOT NULL,
+    created_by BIGINT,
+    updated_by BIGINT,
+    type       VARCHAR(255),
+    title      VARCHAR(255),
+    group_id   UUID,
+    center_id  UUID,
+    CONSTRAINT pk_chat_room PRIMARY KEY (id)
+);
+CREATE TABLE chat_room_member
+(
+    id                   UUID                        NOT NULL,
+    created_at           TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at           TIMESTAMP WITHOUT TIME ZONE,
+    status               VARCHAR(255)                NOT NULL,
+    created_by           BIGINT,
+    updated_by           BIGINT,
+    room_id              UUID,
+    user_id              BIGINT,
+    role                 VARCHAR(255),
+    muted                BOOLEAN,
+    pinned               BOOLEAN,
+    last_read_message_id UUID,
+    center_id            UUID,
+    CONSTRAINT pk_chat_room_member PRIMARY KEY (id)
+);
+
+ALTER TABLE chat_room_member
+    ADD CONSTRAINT FK_CHAT_ROOM_MEMBER_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
 
 ALTER TABLE badge
     ADD CONSTRAINT FK_BADGE_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);

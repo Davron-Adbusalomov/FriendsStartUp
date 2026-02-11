@@ -159,7 +159,14 @@ INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('GET_BADGE', 'Get badge'),
                                                               ('DELETE_BADGE', 'Delete badge'),
                                                               ('UPDATE_BADGE', 'Update badge'),
-                                                              ('CREATE_BADGE', 'Create badge')
+                                                              ('CREATE_BADGE', 'Create badge'),
+                                                              ('SEND_MESSAGE', 'Send message in chat room'),
+                                                              ('CHAT_ROOM_LIST', 'View list of chat rooms'),
+                                                              ('CHAT_ROOM_DETAIL', 'View details of a chat room'),
+                                                              ('CHAT_ROOM_MEMBERS', 'View members of a chat room'),
+                                                              ('CHAT_ROOM_PIN', 'Pin a chat room'),
+                                                              ('CHAT_ROOM_MUTE', 'Mute a chat room'),
+                                                              ('CHAT_ROOM_READ', 'Mark messages as read in a chat room')
 ON CONFLICT (name) DO NOTHING;
 
 
@@ -232,6 +239,13 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('SUPER_ADMIN', 'DELETE_BADGE'),
 ('SUPER_ADMIN', 'UPDATE_BADGE'),
 ('SUPER_ADMIN', 'CREATE_BADGE'),
+('SUPER_ADMIN', 'SEND_MESSAGE'),
+('SUPER_ADMIN', 'CHAT_ROOM_LIST'),
+('SUPER_ADMIN', 'CHAT_ROOM_DETAIL'),
+('SUPER_ADMIN', 'CHAT_ROOM_MEMBERS'),
+('SUPER_ADMIN', 'CHAT_ROOM_PIN'),
+('SUPER_ADMIN', 'CHAT_ROOM_MUTE'),
+('SUPER_ADMIN', 'CHAT_ROOM_READ'),
 -- ==========================================================
 -- DIRECTOR → View, manage, supervise, but fewer destructive permissions
 -- ==========================================================
@@ -286,6 +300,14 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('DIRECTOR', 'DELETE_BADGE'),
 ('DIRECTOR', 'UPDATE_BADGE'),
 ('DIRECTOR', 'CREATE_BADGE'),
+
+('DIRECTOR', 'SEND_MESSAGE'),
+('DIRECTOR', 'CHAT_ROOM_LIST'),
+('DIRECTOR', 'CHAT_ROOM_DETAIL'),
+('DIRECTOR', 'CHAT_ROOM_MEMBERS'),
+('DIRECTOR', 'CHAT_ROOM_PIN'),
+('DIRECTOR', 'CHAT_ROOM_MUTE'),
+('DIRECTOR', 'CHAT_ROOM_READ'),
 -- ==========================================================
 -- ADMIN → Full CRUD except quiz checking / advanced logic
 -- (using same permission list structure as your previous ADMIN)
@@ -353,6 +375,13 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('ADMIN', 'DELETE_BADGE'),
 ('ADMIN', 'UPDATE_BADGE'),
 ('ADMIN', 'CREATE_BADGE'),
+('ADMIN', 'SEND_MESSAGE'),
+('ADMIN', 'CHAT_ROOM_LIST'),
+('ADMIN', 'CHAT_ROOM_DETAIL'),
+('ADMIN', 'CHAT_ROOM_MEMBERS'),
+('ADMIN', 'CHAT_ROOM_PIN'),
+('ADMIN', 'CHAT_ROOM_MUTE'),
+('ADMIN', 'CHAT_ROOM_READ'),
 -- ==========================================================
 -- TEACHER → Create groups, assign students, manage attendance + quizzes
 -- ==========================================================
@@ -398,6 +427,13 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('TEACHER', 'DELETE_BADGE'),
 ('TEACHER', 'UPDATE_BADGE'),
 ('TEACHER', 'CREATE_BADGE'),
+('TEACHER', 'SEND_MESSAGE'),
+('TEACHER', 'CHAT_ROOM_LIST'),
+('TEACHER', 'CHAT_ROOM_DETAIL'),
+('TEACHER', 'CHAT_ROOM_MEMBERS'),
+('TEACHER', 'CHAT_ROOM_PIN'),
+('TEACHER', 'CHAT_ROOM_MUTE'),
+('TEACHER', 'CHAT_ROOM_READ'),
 -- ==========================================================
 -- STUDENT → Only view + participate in quizzes
 -- ==========================================================
@@ -425,6 +461,13 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('STUDENT', 'UPLOAD_ATTACHMENT'),
 ('STUDENT', 'GET_ATTACHMENT'),
 ('STUDENT', 'GET_BADGE'),
+('STUDENT', 'SEND_MESSAGE'),
+('STUDENT', 'CHAT_ROOM_LIST'),
+('STUDENT', 'CHAT_ROOM_DETAIL'),
+('STUDENT', 'CHAT_ROOM_MEMBERS'),
+('STUDENT', 'CHAT_ROOM_PIN'),
+('STUDENT', 'CHAT_ROOM_MUTE'),
+('STUDENT', 'CHAT_ROOM_READ'),
 -- ==========================================================
 -- ROLE_USER → minimal authentication permissions
 -- ==========================================================
