@@ -87,11 +87,10 @@ public class ChatService {
 
         // Insert into Supabase
         Map<String, Object> payload = new HashMap<>();
-        payload.put("room_id", roomId);
-        payload.put("sender_id", senderId);
+        payload.put("chat_id", roomId);
         payload.put("center_id", centerId);
         payload.put("content", request.getContent());
-        payload.put("message_type", request.getMessageType() == null ? "TEXT" : request.getMessageType());
+        payload.put("type", request.getMessageType() == null ? "TEXT" : request.getMessageType());
         payload.put("created_at", Instant.now().toString());
 
         if (request.getReplyToMessageId() != null) {
@@ -133,5 +132,62 @@ public class ChatService {
         room.setCenterId(centerId);
 
         return chatRoomRepository.save(room);
+    }
+
+    @Transactional
+    public void editMessage(Long senderId, UUID messageId, String content) {
+
+        if (content == null || content.isBlank()) {
+            throw new RuntimeException("Message content is empty");
+        }
+
+        // check if message belongs to this user
+        Map<String, Object> msg = supabaseMessageService.getMessageById(messageId);
+
+        if (msg == null) {
+            throw new RuntimeException("Message not found");
+        }
+
+        Long dbSenderId = ((Number) msg.get("sender_id")).longValue();
+
+        if (!dbSenderId.equals(senderId)) {
+            throw new RuntimeException("You can edit only your messages");
+        }
+
+        if (Boolean.TRUE.equals(msg.get("is_deleted"))) {
+            throw new RuntimeException("Cannot edit deleted message");
+        }
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("content", content);
+        payload.put("is_edited", true);
+
+        supabaseMessageService.updateMessage(messageId, payload);
+    }
+
+    @Transactional
+    public void deleteMessage(Long senderId, UUID messageId) {
+
+        Map<String, Object> msg = supabaseMessageService.getMessageById(messageId);
+
+        if (msg == null) {
+            throw new RuntimeException("Message not found");
+        }
+
+        Long dbSenderId = ((Number) msg.get("sender_id")).longValue();
+
+        if (!dbSenderId.equals(senderId)) {
+            throw new RuntimeException("You can delete only your messages");
+        }
+
+        if (Boolean.TRUE.equals(msg.get("is_deleted"))) {
+            return; // already deleted
+        }
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("is_deleted", true);
+        payload.put("content", ""); // optional (or keep original content)
+
+        supabaseMessageService.updateMessage(messageId, payload);
     }
 }

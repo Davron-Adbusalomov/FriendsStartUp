@@ -36,4 +36,39 @@ public class ChatController {
 
         return chatService.sendMessage(senderId, centerId, request);
     }
+
+    @Operation(
+            summary = "Get badge",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                    @ApiResponse(responseCode = "403", description = "Forbidden")
+            }
+    )
+    @PreAuthorize("hasAuthority('SEND_MESSAGE')")
+    @PutMapping("/message/{messageId}")
+    public void editMessage(@PathVariable UUID messageId,
+                            @RequestBody String content) {
+
+        Long senderId = CurrentUserUtils.getUserId();
+        chatService.editMessage(senderId, messageId, content);
+    }
+
+    @Operation(
+            summary = "Get badge",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                    @ApiResponse(responseCode = "403", description = "Forbidden")
+            }
+    )
+    @PreAuthorize("hasAuthority('SEND_MESSAGE')")
+    @DeleteMapping("/message/{messageId}")
+    public void deleteMessage(@PathVariable UUID messageId) {
+
+        Long senderId = CurrentUserUtils.getUserId();
+        chatService.deleteMessage(senderId, messageId);
+    }
 }
