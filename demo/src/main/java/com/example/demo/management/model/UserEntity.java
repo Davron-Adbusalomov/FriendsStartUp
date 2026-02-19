@@ -59,6 +59,9 @@ public class UserEntity extends BaseEntity {
     @Column(name = "fcm_token")
     private String fcmToken;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "attempts")
     private Integer attempts = 0;
 

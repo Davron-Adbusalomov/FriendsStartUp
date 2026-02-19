@@ -343,6 +343,7 @@ CREATE TABLE users
     is_blocked        BOOLEAN                     NOT NULL,
     confirmation_code VARCHAR(255),
     fcm_token         VARCHAR(255),
+    image         VARCHAR(255),
     attempts          INTEGER,
     center_id         UUID                        NOT NULL,
     CONSTRAINT pk_users PRIMARY KEY (id)

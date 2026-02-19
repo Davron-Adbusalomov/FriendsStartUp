@@ -13,4 +13,5 @@ public class ChatRoomListResponse {
     private ChatRoomType type;
     private String title;
     private UUID groupId;
+    private String image;
 }

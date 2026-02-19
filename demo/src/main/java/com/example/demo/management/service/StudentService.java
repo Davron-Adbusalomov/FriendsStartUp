@@ -113,6 +113,7 @@ public class StudentService {
             UserEntity user = userRepository.findById(studentID)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + studentID));
             user.setPassword(studentDTO.getPassword());
+            user.setImage(studentDTO.getImage());
             userRepository.save(user);
         }
 

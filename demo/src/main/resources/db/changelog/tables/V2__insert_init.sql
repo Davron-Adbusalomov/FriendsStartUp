@@ -434,6 +434,8 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('TEACHER', 'CHAT_ROOM_PIN'),
 ('TEACHER', 'CHAT_ROOM_MUTE'),
 ('TEACHER', 'CHAT_ROOM_READ'),
+('TEACHER', 'UPDATE_STUDENT'),
+
 -- ==========================================================
 -- STUDENT → Only view + participate in quizzes
 -- ==========================================================
@@ -468,6 +470,8 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('STUDENT', 'CHAT_ROOM_PIN'),
 ('STUDENT', 'CHAT_ROOM_MUTE'),
 ('STUDENT', 'CHAT_ROOM_READ'),
+('STUDENT', 'UPDATE_STUDENT'),
+
 -- ==========================================================
 -- ROLE_USER → minimal authentication permissions
 -- ==========================================================
