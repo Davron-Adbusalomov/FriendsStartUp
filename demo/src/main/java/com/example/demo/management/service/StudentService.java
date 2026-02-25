@@ -27,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +50,8 @@ public class StudentService {
     private final StudentMapper studentMapper;
 
     private final BadgeService badgeService;
+
+    private final PasswordEncoder passwordEncoder;
 
 //    private final JwtService jwtService;
 //
@@ -112,7 +115,7 @@ public class StudentService {
         if(studentDTO.getPassword() != null && !studentDTO.getPassword().isEmpty()) {
             UserEntity user = userRepository.findById(studentID)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + studentID));
-            user.setPassword(studentDTO.getPassword());
+            user.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
             user.setImage(studentDTO.getImage());
             userRepository.save(user);
         }
