@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/chat/rooms/{roomId}/members")
+@RequestMapping("/api/v1/chat/rooms/{roomId}/members")
 @RequiredArgsConstructor
 public class ChatRoomMemberController {
 

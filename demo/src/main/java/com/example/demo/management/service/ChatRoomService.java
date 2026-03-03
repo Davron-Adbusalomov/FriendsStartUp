@@ -1,10 +1,13 @@
 package com.example.demo.management.service;
 
+import com.example.demo.enums.ChatRoomType;
 import com.example.demo.management.dto.response.ChatRoomListResponse;
 import com.example.demo.management.model.ChatRoom;
 import com.example.demo.management.model.ChatRoomMember;
 import com.example.demo.management.repository.ChatRoomRepository;
 import com.example.demo.management.repository.ChatRoomMemberRepository;
+import com.example.demo.management.repository.GroupRepository;
+import com.example.demo.management.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomMemberRepository chatRoomMemberRepository;
+    private final UserRepository userRepository;
+    private final GroupRepository groupingRepository;
 
     public List<ChatRoomListResponse> getMyRooms(Long myUserId) {
 
@@ -24,13 +29,44 @@ public class ChatRoomService {
 
         return memberships.stream()
                 .map(m -> chatRoomRepository.findById(m.getRoomId()).orElseThrow())
-                .map(r -> new ChatRoomListResponse(
-                        r.getId(),
-                        r.getType(),
-                        r.getTitle(),
-                        r.getGroupId()
-                ))
+                .map(room -> mapRoom(room, myUserId))
                 .toList();
+    }
+
+    private ChatRoomListResponse mapRoom(ChatRoom room, Long myUserId) {
+
+        String title = room.getTitle();
+        String image = null;
+
+        if (room.getType() == ChatRoomType.GROUP) {
+            if (room.getGroupId() != null) {
+                var group = groupingRepository.findById(room.getGroupId())
+                        .orElseThrow(() -> new RuntimeException("Group not found"));
+
+                title = group.getName();
+//                image = group.getImage(); // group photo url
+            }
+        }
+
+        else if (room.getType() == ChatRoomType.DIRECT) {
+            ChatRoomMember other = chatRoomMemberRepository
+                    .findOtherMember(room.getId(), myUserId)
+                    .orElseThrow(() -> new RuntimeException("Direct receiver not found"));
+
+            var receiver = userRepository.findById(other.getUserId())
+                    .orElseThrow(() -> new RuntimeException("Receiver not found"));
+
+            title = receiver.getFullName();
+            image = receiver.getImage(); // user photo url
+        }
+
+        return new ChatRoomListResponse(
+                room.getId(),
+                room.getType(),
+                title,
+                room.getGroupId(),
+                image
+        );
     }
 
     public ChatRoom getRoom(UUID roomId, Long myUserId) {
