@@ -45,13 +45,18 @@ jobs:
             cd /home/${{ secrets.SERVER_USER }}/app/
       
             echo "Stopping old app..."
-            pkill -f 'java -jar' || true
+            if pgrep -f "java -jar" > /dev/null; then
+              pkill -f "java -jar"
+              sleep 2
+            fi
       
             echo "Finding latest jar..."
             JAR=$(ls -t demo-*.jar | grep -v plain | head -n 1)
       
-            echo "Starting $JAR ..."
+            echo "Starting $JAR"
             nohup java -jar "$JAR" > app.log 2>&1 < /dev/null &
             disown
+      
+            echo "Deploy finished"
 
 
