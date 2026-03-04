@@ -44,19 +44,21 @@ jobs:
           script: |
             cd /home/${{ secrets.SERVER_USER }}/app/
       
-            echo "Stopping old app..."
-            if pgrep -f "java -jar" > /dev/null; then
-              pkill -f "java -jar"
-              sleep 2
+            echo "Finding running PID..."
+            PID=$(pgrep -f "demo-.*\.jar" || true)
+      
+            if [ -n "$PID" ]; then
+              echo "Stopping PID $PID"
+              kill $PID
+              sleep 3
+            else
+              echo "No running app"
             fi
       
-            echo "Finding latest jar..."
+            echo "Starting new jar..."
             JAR=$(ls -t demo-*.jar | grep -v plain | head -n 1)
       
-            echo "Starting $JAR"
-            nohup java -jar "$JAR" > app.log 2>&1 < /dev/null &
-            disown
+            nohup java -jar "$JAR" > app.log 2>&1 &
+            echo "Started."
       
-            echo "Deploy finished"
-
-
+      
