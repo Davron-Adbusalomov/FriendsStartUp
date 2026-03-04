@@ -43,7 +43,14 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/${{ secrets.SERVER_USER }}/app/
-            JAR=$(ls build/libs/demo-*.jar | head -n 1)
+      
+            echo "Stopping old app..."
+            pkill -f 'java -jar' || true
+      
+            echo "Finding latest jar..."
+            JAR=$(ls -t demo-*.jar | grep -v plain | head -n 1)
+      
+            echo "Starting $JAR ..."
             nohup java -jar "$JAR" > app.log 2>&1 < /dev/null &
             disown
 
