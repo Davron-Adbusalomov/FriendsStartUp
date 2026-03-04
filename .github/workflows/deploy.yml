@@ -35,30 +35,16 @@ jobs:
           target: "/home/${{ secrets.SERVER_USER }}/app/"
           strip_components: 3
 
-      - name: Restart app
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            cd /home/${{ secrets.SERVER_USER }}/app/
-      
-            echo "Finding running PID..."
-            PID=$(pgrep -f "demo-.*\.jar" || true)
-      
-            if [ -n "$PID" ]; then
-              echo "Stopping PID $PID"
-              kill $PID
-              sleep 3
-            else
-              echo "No running app"
-            fi
-      
-            echo "Starting new jar..."
-            JAR=$(ls -t demo-*.jar | grep -v plain | head -n 1)
-      
-            nohup java -jar "$JAR" > app.log 2>&1 &
-            echo "Started."
+      - name: Restart app 
+        uses: appleboy/ssh-action@v1.2.0 
+        with: 
+          host: ${{ secrets.SERVER_HOST }} 
+          username: ${{ secrets.SERVER_USER }} 
+          key: ${{ secrets.SERVER_SSH_KEY }} 
+          script: | 
+            cd /home/ubuntu/app/ 
+            JAR=$(ls demo-*.jar | grep -v plain | head -n 1) 
+            nohup java -jar "$JAR" > app.log 2>&1 < /dev/null & 
+            disown
       
       
