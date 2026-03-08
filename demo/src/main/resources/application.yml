@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/intellecta_db
+    url: jdbc:postgresql://localhost:5432/intelecta_db
     username: postgres
     password: 55555
 #    url: jdbc:postgresql://postgres1.cz62o2yusm9p.eu-north-1.rds.amazonaws.com:5432/postgres
