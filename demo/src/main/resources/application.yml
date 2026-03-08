@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/intellecta_db
     username: postgres
     password: 55555
 #    url: jdbc:postgresql://postgres1.cz62o2yusm9p.eu-north-1.rds.amazonaws.com:5432/postgres
@@ -23,13 +23,7 @@ logging:
     org.springframework: error
 
 server:
-  address: 0.0.0.0
-  port: 8443
-  ssl:
-    key-store: classpath:certificates/keystore.pfx
-    key-store-password: AD0077005
-    key-store-type: PKCS12
-    key-alias: dev-cert
+  port: 8080
 
 security:
   jwt:
@@ -38,7 +32,7 @@ security:
     refresh-token-expiration-time: 604800000  # 7 days
 
 app:
-  base-url: https://localhost:8443
+  base-url: https://localhost:8080
   attachments:
     path: uploads/attachments
 
