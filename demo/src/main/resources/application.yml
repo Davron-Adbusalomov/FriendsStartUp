@@ -23,7 +23,7 @@ logging:
     org.springframework: error
 
 server:
-  port: 8080
+  port: 8081
 
 security:
   jwt:
@@ -32,7 +32,7 @@ security:
     refresh-token-expiration-time: 604800000  # 7 days
 
 app:
-  base-url: https://localhost:8080
+  base-url: https://localhost:8081
   attachments:
     path: uploads/attachments
 
