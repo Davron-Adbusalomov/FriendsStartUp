@@ -360,6 +360,14 @@ public class QuizService {
     }
 
 
+    public QuizSummaryDTO getQuiz(UUID quizId) {
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElseThrow(() -> new EntityNotFoundException("No quiz found with this id"));
+
+        LocalDateTime now = LocalDateTime.now();
+
+        return toSummaryDTOWithStatus(quiz, now);
+    }
 }
 
 
