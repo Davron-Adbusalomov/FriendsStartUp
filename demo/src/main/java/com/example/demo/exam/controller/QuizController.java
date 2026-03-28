@@ -67,7 +67,7 @@ public class QuizController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
-    @PreAuthorize("hasAnyAuthority('GET_QUIZ')")
+    @PreAuthorize("hasAnyAuthority('GET_QUIZZES_LIST')")
     @GetMapping("")
     public Page<QuizSummaryDTO> getQuizzesList(@RequestParam(name = "groupId", required = false) UUID groupId,
                                                @RequestParam(name = "title", required = false) String title,
@@ -100,7 +100,7 @@ public class QuizController {
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
-    @PreAuthorize("hasAnyAuthority('GET_QUIZ_LIST')")
+    @PreAuthorize("hasAnyAuthority('GET_QUIZ')")
     @GetMapping("/{id}")
     public QuizSummaryDTO getQuiz(@PathVariable UUID id) {
         return quizService.getQuiz(id);
