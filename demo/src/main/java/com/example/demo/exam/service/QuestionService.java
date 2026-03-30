@@ -92,7 +92,7 @@ public class QuestionService {
                     question.setSubjectId(questionDTO.getSubjectId());
                     if (img!=null) question.setImage( mediaService.uploadImageToAzureAndGetUrl(img, "question"+ UUID.randomUUID()));
                     question.setTitle(questionDTO.getTitle());
-                    question.setType(questionDTO.getType());
+                    question.setType(questionDTO.getType().toUpperCase());
                     question.setMark(questionDTO.getMark());
                     question.setRight_answer(questionDTO.getRight_answer());
                     question.setTeacher(teacher);

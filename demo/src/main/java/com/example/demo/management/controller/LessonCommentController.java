@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/lesson-comments")
+@RequestMapping("/api/v1/lesson-comments")
 public class LessonCommentController {
 
     private final LessonCommentService lessonCommentService;
