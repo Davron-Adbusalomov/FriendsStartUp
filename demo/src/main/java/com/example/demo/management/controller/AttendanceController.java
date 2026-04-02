@@ -2,6 +2,7 @@ package com.example.demo.management.controller;
 
 import com.example.demo.enums.AttendanceStatus;
 import com.example.demo.management.dto.AttendanceDto;
+import com.example.demo.management.dto.AttendanceMatrixDto;
 import com.example.demo.management.dto.request.AttendanceCreateRequest;
 import com.example.demo.management.model.Attendance;
 import com.example.demo.management.service.AttendanceService;
@@ -68,6 +69,32 @@ public class AttendanceController {
             Pageable pageable
     ) {
         return attendanceService.getAll(fullName, groupName, from, to, studentId, pageable);
+    }
+
+    @Operation(
+            summary = "Get attendance list",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "400", description = "Bad request"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                    @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                    @ApiResponse(responseCode = "404", description = "Not found - Attendance list not found")
+            }
+    )
+    @PreAuthorize("hasAuthority('GET_ATTENDANCE_LIST')")
+    @GetMapping("/matrix")
+    public List<AttendanceMatrixDto> getAllOptimized(
+            @RequestParam(required = false) UUID groupId,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            LocalDateTime from,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            LocalDateTime to,
+            @RequestParam(required = false) Long studentId,
+            Pageable pageable
+    ) {
+        return attendanceService.getAllOptimized(groupId, from, to, pageable);
     }
 
 

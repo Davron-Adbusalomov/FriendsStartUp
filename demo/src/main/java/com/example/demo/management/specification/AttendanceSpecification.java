@@ -5,6 +5,7 @@ import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class AttendanceSpecification {
 
@@ -50,6 +51,16 @@ public class AttendanceSpecification {
                 return cb.greaterThanOrEqualTo(root.get("attendanceTime"), from);
 
             return cb.lessThanOrEqualTo(root.get("attendanceTime"), to);
+        };
+    }
+
+    public static Specification<Attendance> hasGroupId(UUID groupId) {
+        return (root, query, cb) -> {
+            if (groupId == null)
+                return cb.conjunction();
+
+            Join<Object, Object> groupJoin = root.join("grouping");
+            return cb.equal(groupJoin.get("id"), groupId);
         };
     }
 }
