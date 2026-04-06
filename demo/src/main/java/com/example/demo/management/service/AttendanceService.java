@@ -132,6 +132,7 @@ public class AttendanceService {
             Long studentId = att.getStudentId();
 
             String date = att.getAttendanceTime()
+                    .toLocalDate()
                     .toString(); // yyyy-MM-dd
 
             attendanceMap
