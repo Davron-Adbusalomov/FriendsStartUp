@@ -2,6 +2,7 @@ package com.example.demo.management.service;
 
 import com.example.demo.config.TenantContext;
 import com.example.demo.enums.AttendanceStatus;
+import com.example.demo.management.dto.AttendanceCellDto;
 import com.example.demo.management.dto.AttendanceDto;
 import com.example.demo.management.dto.AttendanceMatrixDto;
 import com.example.demo.management.dto.request.AttendanceCreateRequest;
@@ -126,7 +127,7 @@ public class AttendanceService {
         Page<Attendance> attendances = attendanceRepository.findAll(spec, pageable);
 
         // 3. MAP attendance -> studentId -> date -> status
-        Map<Long, Map<String, AttendanceStatus>> attendanceMap = new HashMap<>();
+        Map<Long, Map<String, AttendanceCellDto>> attendanceMap = new HashMap<>();
 
         for (Attendance att : attendances) {
             Long studentId = att.getStudentId();
@@ -137,7 +138,7 @@ public class AttendanceService {
 
             attendanceMap
                     .computeIfAbsent(studentId, k -> new HashMap<>())
-                    .put(date, att.getAttendanceStatus());
+                    .put(date, new AttendanceCellDto(att.getId(), att.getAttendanceStatus()));
         }
 
         // 4. BUILD FINAL RESULT (ALL STUDENTS)
