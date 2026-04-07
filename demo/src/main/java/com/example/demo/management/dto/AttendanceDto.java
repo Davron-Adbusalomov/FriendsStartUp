@@ -21,4 +21,6 @@ public class AttendanceDto {
     private LocalDateTime attendanceTime;
 
     private AttendanceStatus attendanceStatus;
+
+    private UUID centerId;
 }
