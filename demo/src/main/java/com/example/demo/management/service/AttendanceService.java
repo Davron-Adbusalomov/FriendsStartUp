@@ -31,21 +31,19 @@ public class AttendanceService {
     private final StudentRepository studentRepository;
 
     public List<AttendanceDto> create(AttendanceCreateRequest request) {
-
-        List<Attendance> attendances = request.getStudentIds().stream()
-                .map(studentId -> {
+        List<Attendance> attendances = request.getStudentStatuses().stream()
+                .map(item -> {
                     Attendance attendance = new Attendance();
-                    attendance.setStudentId(studentId);
+                    attendance.setStudentId(item.getStudentId());
                     attendance.setGroupId(request.getGroupId());
                     attendance.setAttendanceTime(request.getAttendanceTime());
-                    attendance.setAttendanceStatus(request.getStatus());
+                    attendance.setAttendanceStatus(item.getStatus());
                     attendance.setCenterId(TenantContext.getCenterId());
                     return attendance;
                 })
                 .toList();
 
         List<Attendance> saved = attendanceRepository.saveAll(attendances);
-
         return saved.stream().map(mapper::toDto).toList();
     }
 
