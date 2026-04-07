@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -30,7 +31,12 @@ public class AttendanceService {
     private final AttendanceMapper mapper;
     private final StudentRepository studentRepository;
 
+    @Transactional
     public List<AttendanceDto> create(AttendanceCreateRequest request) {
+        if (request.getStudentStatuses() == null) {
+            return Collections.emptyList();
+        }
+
         List<Attendance> attendances = request.getStudentStatuses().stream()
                 .map(item -> {
                     Attendance attendance = new Attendance();
@@ -43,8 +49,9 @@ public class AttendanceService {
                 })
                 .toList();
 
-        List<Attendance> saved = attendanceRepository.saveAll(attendances);
-        return saved.stream().map(mapper::toDto).toList();
+        return attendanceRepository.saveAll(attendances).stream()
+                .map(mapper::toDto)
+                .toList();
     }
 
     public Page<AttendanceDto> getAll(
