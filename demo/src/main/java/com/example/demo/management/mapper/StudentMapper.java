@@ -35,6 +35,4 @@ public interface StudentMapper {
                 .map(Grouping::getName)
                 .collect(Collectors.toList());
     }
-
-
 }
