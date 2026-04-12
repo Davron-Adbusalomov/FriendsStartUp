@@ -34,7 +34,7 @@ public class UserPermissionsService {
                 .toList();
     }
 
-    public void updateUserPermissions(SaveUserPermissionsDto request) {
+    public void save(SaveUserPermissionsDto request) {
         List<String> userPermissions = findByUserId(request.getUserId());
 
         Set<String> newPermissions = new HashSet<>(request.getPermissions());
