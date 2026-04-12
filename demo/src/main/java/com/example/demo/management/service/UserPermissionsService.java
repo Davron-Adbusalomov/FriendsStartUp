@@ -34,6 +34,7 @@ public class UserPermissionsService {
                 .toList();
     }
 
+    @Transactional
     public void save(SaveUserPermissionsDto request) {
         List<String> userPermissions = findByUserId(request.getUserId());
 
