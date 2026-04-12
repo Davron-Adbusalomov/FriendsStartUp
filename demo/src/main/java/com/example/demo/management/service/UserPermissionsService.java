@@ -10,10 +10,13 @@ import com.example.demo.management.repository.RoleRepository;
 import com.example.demo.management.repository.UserPermissionsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,17 +34,34 @@ public class UserPermissionsService {
                 .toList();
     }
 
+    public void updateUserPermissions(SaveUserPermissionsDto request) {
+        List<String> userPermissions = findByUserId(request.getUserId());
 
-    public void save(SaveUserPermissionsDto userPermissionsDto) {
-        List<UserPermissionEntity> entities = new ArrayList<>();
-        for (String per:userPermissionsDto.getPermissions()) {
+        Set<String> newPermissions = new HashSet<>(request.getPermissions());
+        Set<String> existingPermissions = new HashSet<>(userPermissions);
+
+        // Permissions to add
+        List<String> permissionsToAdd = newPermissions.stream()
+                .filter(permission -> !existingPermissions.contains(permission))
+                .toList();
+
+        // Permissions to remove
+        List<String> permissionsToRemove = existingPermissions.stream()
+                .filter(permission -> !newPermissions.contains(permission))
+                .toList();
+
+        // Add new permissions
+        for (String permission : permissionsToAdd) {
             UserPermissionEntity entity = new UserPermissionEntity();
-            entity.setUserId(userPermissionsDto.getUserId());
-            entity.setName(PermissionEnum.valueOf(per));
-            entity.updateEntity();
-            entities.add(entity);
+            entity.setUserId(request.getUserId());
+            entity.setName(PermissionEnum.valueOf(permission));
+            userPermissionsRepository.save(entity);
         }
-        userPermissionsRepository.saveAll(entities);
+
+        // Remove old permissions
+        for (String permission : permissionsToRemove) {
+            userPermissionsRepository.deleteByUserIdAndName(request.getUserId(), PermissionEnum.valueOf(permission));
+        }
     }
 
     public List<String> findPermissionsByRoleId(Long roleId) {
