@@ -58,5 +58,20 @@ public class UserPermissionsController {
         }
     }
 
-
+        @Operation(
+                summary = "Get permissions by role ID",
+                responses = {
+                        @ApiResponse(responseCode = "200", description = "Success"),
+                        @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"),
+                        @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
+                        @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
+                        @ApiResponse(responseCode = "404", description = "Not found - Role not found"),
+                }
+        )
+        @PreAuthorize("hasAuthority('GET_PERMISSIONS_BY_USER_ID')")
+        @GetMapping("/role/{roleId}")
+        public ResponseEntity<List<String>> getPermissionsByRoleId(@PathVariable Long roleId){
+            List<String> permissions = userPermissionsService.findPermissionsByRoleId(roleId);
+            return ResponseEntity.ok(permissions);
+        }
 }
