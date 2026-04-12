@@ -54,7 +54,7 @@ public class UserPermissionsController {
             userPermissionsService.save(dto);
             return ResponseEntity.status(HttpStatus.OK).body("Saved");
         } catch (Exception e) {
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("failed");
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getCause() != null ? e.getCause().getMessage() : e.getMessage());
         }
     }
 
