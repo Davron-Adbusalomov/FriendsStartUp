@@ -27,4 +27,5 @@ public class DefaultPermissionEntity implements GrantedAuthority {
     public String getAuthority() {
         return name.name();
     }
+
 }
