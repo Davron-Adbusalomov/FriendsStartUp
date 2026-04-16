@@ -77,5 +77,6 @@ public enum PermissionEnum {
     CHAT_ROOM_MEMBERS,
     CHAT_ROOM_PIN,
     CHAT_ROOM_MUTE,
-    CHAT_ROOM_READ
+    CHAT_ROOM_READ,
+    CHAT_ROOM_GROUP_ENABLE
 }

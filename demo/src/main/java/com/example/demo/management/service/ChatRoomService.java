@@ -1,17 +1,22 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.TenantContext;
+import com.example.demo.enums.ChatRole;
 import com.example.demo.enums.ChatRoomType;
 import com.example.demo.management.dto.response.ChatRoomListResponse;
 import com.example.demo.management.model.ChatRoom;
 import com.example.demo.management.model.ChatRoomMember;
-import com.example.demo.management.repository.ChatRoomRepository;
+import com.example.demo.management.model.Grouping;
 import com.example.demo.management.repository.ChatRoomMemberRepository;
+import com.example.demo.management.repository.ChatRoomRepository;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,10 +30,17 @@ public class ChatRoomService {
 
     public List<ChatRoomListResponse> getMyRooms(Long myUserId) {
 
-        List<ChatRoomMember> memberships = chatRoomMemberRepository.findAllByUserId(myUserId);
+        List<ChatRoomMember> memberships =
+                chatRoomMemberRepository.findAllByUserId(myUserId);
 
-        return memberships.stream()
-                .map(m -> chatRoomRepository.findById(m.getRoomId()).orElseThrow())
+        List<UUID> roomIds = memberships.stream()
+                .map(ChatRoomMember::getRoomId)
+                .toList();
+
+        List<ChatRoom> rooms =
+                chatRoomRepository.findAllByIdIn(roomIds);
+
+        return rooms.stream()
                 .map(room -> mapRoom(room, myUserId))
                 .toList();
     }
@@ -46,9 +58,7 @@ public class ChatRoomService {
                 title = group.getName();
 //                image = group.getImage(); // group photo url
             }
-        }
-
-        else if (room.getType() == ChatRoomType.DIRECT) {
+        } else if (room.getType() == ChatRoomType.DIRECT) {
             ChatRoomMember other = chatRoomMemberRepository
                     .findOtherMember(room.getId(), myUserId)
                     .orElseThrow(() -> new RuntimeException("Direct receiver not found"));
@@ -78,5 +88,50 @@ public class ChatRoomService {
 
         return chatRoomRepository.findById(roomId)
                 .orElseThrow(() -> new RuntimeException("Room not found"));
+    }
+
+    @Transactional
+    public ChatRoom createRoomForGroup(UUID groupId, Boolean enable) {
+
+        Grouping group = groupingRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException("Group not found"));
+
+        Optional<ChatRoom> existing =
+                chatRoomRepository.findAnyByGroupId(groupId);
+
+        if (enable) {
+            if (existing.isPresent()) {
+                chatRoomRepository.setActive(groupId);
+                return existing.get();
+            } else {
+                return createChatRoomForGroup(groupId, group);
+            }
+
+        } else {
+            if (existing.isEmpty()) {
+                throw new RuntimeException("Chat room not found");
+            }
+            chatRoomRepository.setPassive(groupId);
+            return existing.get();
+        }
+    }
+
+    private ChatRoom createChatRoomForGroup(UUID groupId, Grouping group) {
+        ChatRoom room = new ChatRoom();
+        room.setType(ChatRoomType.GROUP);
+        room.setGroupId(groupId);
+        room.setTitle(group.getName());
+        room.setCenterId(TenantContext.getCenterId());
+        chatRoomRepository.save(room);
+        List<ChatRoomMember> members = group.getStudents().stream().map(student -> {
+            ChatRoomMember m = new ChatRoomMember();
+            m.setUserId(student.getId());
+            m.setRoomId(room.getId());
+            m.setCenterId(room.getCenterId());
+            m.setRole(ChatRole.MEMBER);
+            return m;
+        }).toList();
+        chatRoomMemberRepository.saveAll(members);
+        return room;
     }
 }

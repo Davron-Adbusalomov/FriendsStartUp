@@ -52,4 +52,20 @@ public class ChatRoomController {
 
         return chatRoomService.getRoom(roomId, myUserId);
     }
+
+    @Operation(
+            summary = "Get room detail",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                    @ApiResponse(responseCode = "403", description = "Forbidden"),
+                    @ApiResponse(responseCode = "404", description = "Not found")
+            }
+    )
+    @PreAuthorize("hasAuthority('CHAT_ROOM_GROUP_ENABLE')")
+    @PostMapping("/enable-group")
+    public ChatRoom enableRoomForGroup(@RequestParam(required = false) UUID groupId,
+                                       @RequestParam(required = false) Boolean enable) {
+        return chatRoomService.createRoomForGroup(groupId, enable);
+    }
 }
