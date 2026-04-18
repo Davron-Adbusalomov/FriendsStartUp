@@ -1,6 +1,7 @@
 package com.example.demo.management.service;
 
 import com.example.demo.enums.PermissionEnum;
+import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.dto.request.SaveUserPermissionsDto;
 import com.example.demo.management.dto.response.UserPermissionsDto;
 import com.example.demo.management.mapper.UserPermissionsMapper;
@@ -65,9 +66,8 @@ public class UserPermissionsService {
         }
     }
 
-    public List<String> findPermissionsByRoleId(Long roleId) {
-        return roleRepository.findById(roleId)
-                .orElseThrow(() -> new RuntimeException("Role not found"))
+    public List<String> findPermissionsByRoleId(RolesEnum roleId) {
+        return roleRepository.findByName(roleId)
                 .getDefaultPermissions()
                 .stream()
                 .map(permission -> permission.getName().name())

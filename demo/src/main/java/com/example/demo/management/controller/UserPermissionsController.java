@@ -1,5 +1,6 @@
 package com.example.demo.management.controller;
 
+import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.dto.request.SaveUserPermissionsDto;
 import com.example.demo.management.service.UserPermissionsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -70,7 +71,7 @@ public class UserPermissionsController {
         )
         @PreAuthorize("hasAuthority('GET_PERMISSIONS_BY_USER_ID')")
         @GetMapping("/role/{roleId}")
-        public ResponseEntity<List<String>> getPermissionsByRoleId(@PathVariable Long roleId){
+        public ResponseEntity<List<String>> getPermissionsByRoleId(@PathVariable RolesEnum roleId){
             List<String> permissions = userPermissionsService.findPermissionsByRoleId(roleId);
             return ResponseEntity.ok(permissions);
         }
