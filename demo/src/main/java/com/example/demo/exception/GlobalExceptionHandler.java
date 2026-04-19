@@ -63,7 +63,6 @@ public class GlobalExceptionHandler {
             Exception ex
     ) {
         ex.printStackTrace();
-
         return Map.of(
                 "status", 500,
                 "message", ex.getMessage(),
