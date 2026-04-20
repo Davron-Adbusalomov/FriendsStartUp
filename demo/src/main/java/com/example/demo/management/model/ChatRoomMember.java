@@ -24,7 +24,6 @@ public class ChatRoomMember extends BaseEntity {
     @Column(columnDefinition = "UUID")
     private UUID id;
 
-
     @Column(name = "room_id")
     private UUID roomId;
 
