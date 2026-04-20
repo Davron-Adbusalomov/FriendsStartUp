@@ -122,7 +122,11 @@ public class ChatRoomService {
         room.setGroupId(groupId);
         room.setTitle(group.getName());
         room.setCenterId(TenantContext.getCenterId());
-        chatRoomRepository.save(room);
+        chatRoomRepository.saveAndFlush(room);
+        if (room.getId() == null) {
+            throw new RuntimeException("Room ID is NULL!");
+        }
+
         List<ChatRoomMember> members = group.getStudents().stream().map(student -> {
             ChatRoomMember m = new ChatRoomMember();
             m.setUserId(student.getId());
