@@ -85,16 +85,27 @@ public class ChatService {
             throw new RuntimeException("roomId OR receiverId OR groupId must be provided");
         }
 
-        // Insert into Supabase
         Map<String, Object> payload = new HashMap<>();
-        payload.put("chat_id", roomId);
-        payload.put("center_id", centerId);
+
+        payload.put("chatId", roomId);
+        payload.put("senderId", senderId);
         payload.put("content", request.getContent());
-        payload.put("type", request.getMessageType() == null ? "TEXT" : request.getMessageType());
-        payload.put("created_at", Instant.now().toString());
+
+        payload.put(
+                "type",
+                request.getMessageType() == null
+                        ? "TEXT"
+                        : request.getMessageType()
+        );
+
+        payload.put("createdAt", Instant.now().toString());
+
+        payload.put("isEdited", false);
+        payload.put("isDeleted", false);
+        payload.put("isRead", false);
 
         if (request.getReplyToMessageId() != null) {
-            payload.put("reply_to_message_id", request.getReplyToMessageId());
+            payload.put("replyMessageId", request.getReplyToMessageId());
         }
 
         supabaseMessageService.insertMessage(payload);
