@@ -7,6 +7,7 @@ import com.example.demo.management.dto.response.ChatRoomListResponse;
 import com.example.demo.management.model.ChatRoom;
 import com.example.demo.management.model.ChatRoomMember;
 import com.example.demo.management.model.Grouping;
+import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.ChatRoomMemberRepository;
 import com.example.demo.management.repository.ChatRoomRepository;
 import com.example.demo.management.repository.GroupRepository;
@@ -135,6 +136,17 @@ public class ChatRoomService {
             m.setRole(ChatRole.MEMBER);
             return m;
         }).toList();
+
+        Teacher teacher = group.getTeacher();
+        if (teacher != null) {
+            ChatRoomMember m = new ChatRoomMember();
+            m.setUserId(teacher.getId());
+            m.setRoomId(room.getId());
+            m.setCenterId(room.getCenterId());
+            m.setRole(ChatRole.ADMIN);
+            members.add(m);
+        }
+
         chatRoomMemberRepository.saveAll(members);
         return room;
     }
