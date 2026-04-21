@@ -42,5 +42,5 @@ springdoc:
     config-url: /v3/api-docs/swagger-config
 
 supabase:
-  url: https://ymwdilsrfyrcfvrbkexl.supabase.co
-  service-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inltd2RpbHNyZnlyY2Z2cmJrZXhsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MDIyMTY0OCwiZXhwIjoyMDg1Nzk3NjQ4fQ.nl_WUDtGatFXicGxnbZStKeUO4Y5eca0bfZgox6JgO0
+  url: https://uzydopnwqfekvnspcttj.supabase.co
+  service-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6eWRvcG53cWZla3Zuc3BjdHRqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MDUzNTkyNSwiZXhwIjoyMDg2MTExOTI1fQ.43HhwmQdvdfEUz0T_8e64m2SL2OZK5Qf_OFmmbvDgKU
