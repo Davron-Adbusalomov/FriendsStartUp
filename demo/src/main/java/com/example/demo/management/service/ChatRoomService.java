@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -128,14 +129,14 @@ public class ChatRoomService {
             throw new RuntimeException("Room ID is NULL!");
         }
 
-        List<ChatRoomMember> members = group.getStudents().stream().map(student -> {
+        List<ChatRoomMember> members = new ArrayList<>(group.getStudents().stream().map(student -> {
             ChatRoomMember m = new ChatRoomMember();
             m.setUserId(student.getId());
             m.setRoomId(room.getId());
             m.setCenterId(room.getCenterId());
             m.setRole(ChatRole.MEMBER);
             return m;
-        }).toList();
+        }).toList());
 
         Teacher teacher = group.getTeacher();
         if (teacher != null) {
