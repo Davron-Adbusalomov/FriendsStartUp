@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.CurrentUserUtils;
 import com.example.demo.management.dto.LessonProgressDTO;
 import com.example.demo.management.mapper.LessonProgressMapper;
 import com.example.demo.management.model.LessonProgress;
@@ -30,5 +31,20 @@ public class LessonProgressService {
         lessonProgress.setCompleted(true);
         lessonProgress.setCompletedAt(new Date());
         lessonProgressRepository.save(lessonProgress);
+    }
+
+    public Double calculateProgressPercentage(UUID groupId) {
+        long totalLessons =
+                lessonProgressRepository.countByGroupId(groupId);
+
+        long completedLessons =
+                lessonProgressRepository
+                        .countByGroupIdAndStudentIdAndCompletedTrue(groupId, CurrentUserUtils.getUserId());
+
+        if (totalLessons == 0) {
+            return 0.0;
+        }
+
+        return (double) completedLessons / totalLessons * 100;
     }
 }

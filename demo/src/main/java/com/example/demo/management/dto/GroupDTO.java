@@ -35,6 +35,8 @@ public class GroupDTO {
 
     private Boolean isStudentAccessible = false;
 
+    private Double progressPercentage;
+
     private TeacherSummaryDTO teacher;
 
     private List<StudentDTO> students = new ArrayList<>();
