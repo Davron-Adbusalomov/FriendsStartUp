@@ -19,7 +19,7 @@ public interface GroupMapper {
     @Mapping(target = "quizzes", expression = "java(this.getQuizIds(grouping))")
     @Mapping(target = "students", expression = "java(this.getStudents(grouping))")
     @Mapping(target = "isStudentAccessible", ignore = true)
-    @Mapping(target = "progressPercentage", expression = "java(lessonProgressService.calculateProgressPercentage(grouping.getId()))")
+    @Mapping(target = "progressPercentage", ignore = true)
     GroupDTO toDto(Grouping grouping);
 
     @Mapping(target = "quizzes", ignore = true)

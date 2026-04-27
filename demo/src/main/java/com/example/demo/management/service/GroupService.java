@@ -32,12 +32,21 @@ public class GroupService {
     private final TeacherRepository teacherRepository;
     private final QuizRepository quizRepository;
     private final GroupMapper groupMapper;
+    private final LessonProgressService lessonProgressService;
 
     public Page<GroupDTO> getGroups(Pageable pageable, Long teacherId, Long studentId, String name, String status) {
         Specification<Grouping> specification = GroupSpecification.advancedFilter(teacherId, studentId, name, status);
 
         Page<Grouping> groups = groupRepository.findAll(specification, pageable);
-        return groups.map(groupMapper::toDto);
+
+        Page<GroupDTO> groupDtos = groups.map(groupMapper::toDto);
+        for(GroupDTO groupDto : groupDtos) {
+            if (studentId != null) {
+                double progressPercentage = lessonProgressService.calculateProgressPercentage(groupDto.getId(), studentId);
+                groupDto.setProgressPercentage(progressPercentage);
+            }
+        }
+        return groupDtos;
     }
 
     public GroupDTO getGroupById(UUID groupId, Long studentId) {

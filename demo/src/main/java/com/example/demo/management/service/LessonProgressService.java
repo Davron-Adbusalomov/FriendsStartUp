@@ -33,13 +33,13 @@ public class LessonProgressService {
         lessonProgressRepository.save(lessonProgress);
     }
 
-    public Double calculateProgressPercentage(UUID groupId) {
+    public Double calculateProgressPercentage(UUID groupId, Long studentId) {
         long totalLessons =
                 lessonProgressRepository.countByGroupId(groupId);
 
         long completedLessons =
                 lessonProgressRepository
-                        .countByGroupIdAndStudentIdAndCompletedTrue(groupId, CurrentUserUtils.getUserId());
+                        .countByGroupIdAndStudentIdAndCompletedTrue(groupId, studentId);
 
         if (totalLessons == 0) {
             return 0.0;
