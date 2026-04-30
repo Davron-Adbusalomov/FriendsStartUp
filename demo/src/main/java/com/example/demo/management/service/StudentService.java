@@ -22,6 +22,7 @@ import com.example.demo.management.repository.UserRepository;
 import com.example.demo.management.specification.StudentSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,7 +31,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,6 +58,12 @@ public class StudentService {
     private final BadgeService badgeService;
 
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${app.attachments.path}")
+    private String uploadDir;
+
+    @Value("${app.base-url}")
+    private String baseUrl;
 
 //    private final JwtService jwtService;
 //
@@ -103,6 +115,7 @@ public class StudentService {
 
     @Transactional
     public ResponseEntity<?> updateStudent(StudentInfoDTO studentDTO, Long studentID) throws Exception {
+
         Student student = studentRepository.findById(studentID)
                 .orElseThrow(() -> new EntityNotFoundException("Not found student with id: " + studentID));
 
@@ -110,18 +123,39 @@ public class StudentService {
         Optional.ofNullable(studentDTO.getParentContact()).ifPresent(student::setParentContact);
         Optional.ofNullable(studentDTO.getPhoneNumber()).ifPresent(student::setPhoneNumber);
         Optional.ofNullable(studentDTO.getEmail()).ifPresent(student::setEmail);
-        Optional.ofNullable(studentDTO.getImage()).ifPresent(student::setImage);
 
-        if(studentDTO.getPassword() != null && !studentDTO.getPassword().isEmpty()) {
+        String imageUrl = null;
+
+        if (studentDTO.getImage() != null && !studentDTO.getImage().isEmpty()) {
+
+            String contentType = studentDTO.getImage().getContentType();
+
+            if (contentType == null ||
+                    (!contentType.equals("image/png") && !contentType.equals("image/jpeg"))) {
+                throw new IllegalArgumentException("Only PNG and JPEG images are allowed");
+            }
+
+            imageUrl = saveImage(studentDTO.getImage());
+            student.setImage(imageUrl);
+        }
+
+        if (studentDTO.getPassword() != null && !studentDTO.getPassword().isEmpty()) {
+
             UserEntity user = userRepository.findById(studentID)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + studentID));
+
             user.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
-            user.setImage(studentDTO.getImage());
+
+            if (imageUrl != null) {
+                user.setImage(imageUrl);
+            }
+
             userRepository.save(user);
         }
 
         studentRepository.save(student);
-        return ResponseEntity.status(HttpStatus.OK).body(studentMapper.toDto(student));
+
+        return ResponseEntity.ok(studentMapper.toDto(student));
     }
 
     private List<RolesEnum> getRoles(Long userId) {
@@ -144,6 +178,31 @@ public class StudentService {
         profileDTO.setCoursesCompleted(0);
         profileDTO.setAverageGrade("A");
         return profileDTO;
+    }
+
+
+    private String saveImage(MultipartFile file) throws IOException {
+        if (file == null || file.isEmpty()) return null;
+
+        String contentType = file.getContentType();
+
+        String extension;
+        if ("image/png".equals(contentType)) {
+            extension = ".png";
+        } else if ("image/jpeg".equals(contentType)) {
+            extension = ".jpg";
+        } else {
+            throw new IllegalArgumentException("Only PNG and JPEG allowed");
+        }
+
+        String fileName = UUID.randomUUID() + extension;
+
+        Path path = Paths.get(uploadDir, fileName);
+
+        Files.createDirectories(path.getParent());
+        Files.write(path, file.getBytes());
+
+        return baseUrl + "/attachments/" + fileName;
     }
 
 //    public StudentLoginDTO loginStudent(StudentDTO studentDTO) {

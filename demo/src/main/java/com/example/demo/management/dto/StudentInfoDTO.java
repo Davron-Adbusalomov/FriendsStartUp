@@ -1,6 +1,7 @@
 package com.example.demo.management.dto;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class StudentInfoDTO {
@@ -9,7 +10,7 @@ public class StudentInfoDTO {
 
     private String fullName;
 
-    private String image;
+    private MultipartFile image;
 
     private String email;
 
@@ -18,5 +19,7 @@ public class StudentInfoDTO {
     private String password;
 
     private String parentContact;
+
+    private String imageUrl;
 
 }

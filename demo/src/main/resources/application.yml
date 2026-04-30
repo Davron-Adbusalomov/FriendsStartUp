@@ -32,9 +32,9 @@ security:
     refresh-token-expiration-time: 604800000  # 7 days
 
 app:
-  base-url: https://localhost:8081
+  base-url: http://193.37.212.76:8081
   attachments:
-    path: uploads/attachments
+    path: /opt/apps/intellecta/uploads
 
 springdoc:
   swagger-ui:
