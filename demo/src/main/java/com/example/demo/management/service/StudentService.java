@@ -155,7 +155,9 @@ public class StudentService {
 
         studentRepository.save(student);
 
-        return ResponseEntity.ok(studentMapper.toDto(student));
+        StudentDTO updatedStudent = studentMapper.toDto(student);
+        updatedStudent.setRoles(getRoles(studentDTO.getId()));
+        return ResponseEntity.ok(updatedStudent);
     }
 
     private List<RolesEnum> getRoles(Long userId) {
