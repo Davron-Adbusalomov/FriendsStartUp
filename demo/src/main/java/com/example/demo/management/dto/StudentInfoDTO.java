@@ -1,5 +1,6 @@
 package com.example.demo.management.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,6 +11,7 @@ public class StudentInfoDTO {
 
     private String fullName;
 
+    @Schema(type = "string", format = "binary") // 🔥 SHU QATOR
     private MultipartFile image;
 
     private String email;
