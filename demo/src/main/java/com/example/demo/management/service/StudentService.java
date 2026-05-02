@@ -139,25 +139,27 @@ public class StudentService {
             student.setImage(imageUrl);
         }
 
-        if (studentDTO.getPassword() != null && !studentDTO.getPassword().isEmpty()) {
-
-            UserEntity user = userRepository.findById(studentID)
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + studentID));
-
-            user.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
-
-            if (imageUrl != null) {
-                user.setImage(imageUrl);
-            }
-
-            userRepository.save(user);
-        }
-
         studentRepository.save(student);
 
         StudentDTO updatedStudent = studentMapper.toDto(student);
         updatedStudent.setRoles(getRoles(studentDTO.getId()));
+
+        updateUser(studentDTO, studentID, imageUrl);
         return ResponseEntity.ok(updatedStudent);
+    }
+
+    private void updateUser(StudentInfoDTO studentDTO, Long studentID, String imageUrl) {
+        UserEntity user = userRepository.findById(studentID)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + studentID));
+
+        if (studentDTO.getPassword() != null && !studentDTO.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
+        }
+
+        if (imageUrl != null) {
+            user.setImage(imageUrl);
+        }
+        userRepository.save(user);
     }
 
     private List<RolesEnum> getRoles(Long userId) {
