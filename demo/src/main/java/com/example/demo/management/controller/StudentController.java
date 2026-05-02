@@ -111,13 +111,13 @@ public class StudentController {
     )
     @PreAuthorize("hasAnyAuthority('UPDATE_STUDENT')")
     @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updateStudent(@ModelAttribute StudentInfoDTO studentDTO,
-                                           @PathVariable Long id) {
-        try {
-            return studentService.updateStudent(studentDTO, id);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<?> updateStudent(
+            @RequestPart("studentDTO") StudentInfoDTO studentDTO,
+            @RequestPart(value = "image", required = false) MultipartFile image,
+            @PathVariable Long id) throws Exception {
+
+        studentDTO.setImage(image);
+        return studentService.updateStudent(studentDTO, id);
     }
 
 
