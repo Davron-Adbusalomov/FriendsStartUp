@@ -83,7 +83,7 @@ public class AuthenticationService {
         userDetailsDto.setId(userEntity.getId());
         userDetailsDto.setUsername(userEntity.getUsername());
         userDetailsDto.setFullName(userEntity.getFullName());
-        userDetailsDto.setImage(userEntity.getImage());
+        userDetailsDto.setImg(userEntity.getImage());
         if (userEntity.getRoles()!=null && !userEntity.getRoles().isEmpty()){
             userDetailsDto.setRoles(userEntity.getRoles().stream().map(e -> e.getName().name()).collect(Collectors.toSet()));
         }

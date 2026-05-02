@@ -18,5 +18,5 @@ public class UserLoginResponseDto {
 
     private Set<String> roles;
 
-    private String image;
+    private String img;
 }
