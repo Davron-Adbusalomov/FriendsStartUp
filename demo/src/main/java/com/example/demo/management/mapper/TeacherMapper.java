@@ -56,5 +56,6 @@ public interface TeacherMapper {
     @Mapping(target = "imageUrl", source = "image")
     @Mapping(target = "image", ignore = true)
     TeacherInfoDTO toInfoDto(Teacher teacher);
+
 }
 
