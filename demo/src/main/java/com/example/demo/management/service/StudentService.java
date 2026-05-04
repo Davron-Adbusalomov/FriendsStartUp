@@ -57,13 +57,10 @@ public class StudentService {
 
     private final BadgeService badgeService;
 
+    private final MediaService mediaService;
+
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${app.attachments.path}")
-    private String uploadDir;
-
-    @Value("${app.base-url}")
-    private String baseUrl;
 
 //    private final JwtService jwtService;
 //
@@ -135,7 +132,7 @@ public class StudentService {
                 throw new IllegalArgumentException("Only PNG and JPEG images are allowed");
             }
 
-            imageUrl = saveImage(studentDTO.getImage());
+            imageUrl = mediaService.saveImage(studentDTO.getImage());
             student.setImage(imageUrl);
         }
 
@@ -184,30 +181,6 @@ public class StudentService {
         return profileDTO;
     }
 
-
-    private String saveImage(MultipartFile file) throws IOException {
-        if (file == null || file.isEmpty()) return null;
-
-        String contentType = file.getContentType();
-
-        String extension;
-        if ("image/png".equals(contentType)) {
-            extension = ".png";
-        } else if ("image/jpeg".equals(contentType)) {
-            extension = ".jpg";
-        } else {
-            throw new IllegalArgumentException("Only PNG and JPEG allowed");
-        }
-
-        String fileName = UUID.randomUUID() + extension;
-
-        Path path = Paths.get(uploadDir, fileName);
-
-        Files.createDirectories(path.getParent());
-        Files.write(path, file.getBytes());
-
-        return baseUrl + "/attachments/" + fileName;
-    }
 
 //    public StudentLoginDTO loginStudent(StudentDTO studentDTO) {
 //        try {
