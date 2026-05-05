@@ -45,9 +45,6 @@ public class QuestionService {
     @Autowired
     private QuizRepository quizRepository;
 
-    @Autowired
-    private MediaService mediaService;
-
     public QuestionDTO getQuestionById(UUID id){
         Question question = questionRepository.findById(id).orElseThrow(
                 ()-> new EntityNotFoundException("No question found with this id: " + id)
@@ -90,7 +87,7 @@ public class QuestionService {
                 Question question = new Question();
                     question.setLevel(questionDTO.getLevel());
                     question.setSubjectId(questionDTO.getSubjectId());
-                    if (img!=null) question.setImage( mediaService.uploadImageToAzureAndGetUrl(img, "question"+ UUID.randomUUID()));
+//                    if (img!=null) question.setImage( mediaService.uploadImageToAzureAndGetUrl(img, "question"+ UUID.randomUUID()));
                     question.setTitle(questionDTO.getTitle());
                     question.setType(questionDTO.getType().toUpperCase());
                     question.setMark(questionDTO.getMark());
