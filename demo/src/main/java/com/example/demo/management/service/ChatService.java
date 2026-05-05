@@ -159,13 +159,13 @@ public class ChatService {
             throw new RuntimeException("Message not found");
         }
 
-        Long dbSenderId = ((Number) msg.get("sender_id")).longValue();
+        Long dbSenderId = ((Number) msg.get("senderId")).longValue();
 
         if (!dbSenderId.equals(senderId)) {
             throw new RuntimeException("You can edit only your messages");
         }
 
-        if (Boolean.TRUE.equals(msg.get("is_deleted"))) {
+        if (Boolean.TRUE.equals(msg.get("isDeleted"))) {
             throw new RuntimeException("Cannot edit deleted message");
         }
 
@@ -185,18 +185,18 @@ public class ChatService {
             throw new RuntimeException("Message not found");
         }
 
-        Long dbSenderId = ((Number) msg.get("sender_id")).longValue();
+        Long dbSenderId = ((Number) msg.get("senderId")).longValue();
 
         if (!dbSenderId.equals(senderId)) {
             throw new RuntimeException("You can delete only your messages");
         }
 
-        if (Boolean.TRUE.equals(msg.get("is_deleted"))) {
+        if (Boolean.TRUE.equals(msg.get("isDeleted"))) {
             return; // already deleted
         }
 
         Map<String, Object> payload = new HashMap<>();
-        payload.put("is_deleted", true);
+        payload.put("isDeleted", true);
         payload.put("content", ""); // optional (or keep original content)
 
         supabaseMessageService.updateMessage(messageId, payload);
