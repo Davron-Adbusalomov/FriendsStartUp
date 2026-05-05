@@ -1,7 +1,8 @@
 package com.example.demo.management.service;
 
-import org.jvnet.hk2.annotations.Service;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class MediaService {
     @Value("${app.attachments.path}")
     private String uploadDir;
