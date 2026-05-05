@@ -47,7 +47,7 @@ public class TeacherService {
     private UserRepository userRepository;
 
     private final TeacherMapper teacherMapper;
-    private final MediaService mediaService;
+    private final PhotoService photoService;
 
 
     public Page<TeacherDTO> getTeachers(Pageable pageable) {
@@ -121,7 +121,7 @@ public class TeacherService {
                 throw new IllegalArgumentException("Only PNG and JPEG images are allowed");
             }
 
-            imageUrl = mediaService.saveImage(teacherDTO.getImage());
+            imageUrl = photoService.saveImage(teacherDTO.getImage());
             teacher.setImage(imageUrl);
         }
 

@@ -10,7 +10,6 @@ import com.example.demo.management.dto.StudentDTO;
 import com.example.demo.management.dto.StudentInfoDTO;
 import com.example.demo.management.dto.StudentProfileDTO;
 import com.example.demo.management.mapper.StudentMapper;
-import com.example.demo.management.model.Badge;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.model.UserEntity;
@@ -22,7 +21,6 @@ import com.example.demo.management.repository.UserRepository;
 import com.example.demo.management.specification.StudentSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -31,6 +29,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -51,7 +50,7 @@ public class StudentService {
 
     private final BadgeService badgeService;
 
-    private final MediaService mediaService;
+    private final PhotoService photoService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -125,7 +124,7 @@ public class StudentService {
                 throw new IllegalArgumentException("Only PNG and JPEG images are allowed");
             }
 
-            imageUrl = mediaService.saveImage(studentDTO.getImage());
+            imageUrl = photoService.saveImage(studentDTO.getImage());
             student.setImage(imageUrl);
         }
 

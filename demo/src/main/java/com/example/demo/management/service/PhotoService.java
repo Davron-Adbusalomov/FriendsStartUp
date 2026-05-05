@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class MediaService {
+public class PhotoService {
     @Value("${app.attachments.path}")
     private String uploadDir;
 
