@@ -171,7 +171,7 @@ public class ChatService {
 
         Map<String, Object> payload = new HashMap<>();
         payload.put("content", content);
-        payload.put("is_edited", true);
+        payload.put("isEdited", true);
 
         supabaseMessageService.updateMessage(messageId, payload);
     }
