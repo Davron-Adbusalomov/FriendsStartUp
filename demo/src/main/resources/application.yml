@@ -20,7 +20,7 @@ logging:
   file:
     name: application.log
   level:
-    org.springframework: error
+    org.springframework: info
 
 server:
   port: 8081
