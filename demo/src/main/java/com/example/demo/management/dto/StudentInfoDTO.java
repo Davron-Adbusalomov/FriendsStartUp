@@ -24,3 +24,4 @@ public class StudentInfoDTO {
 
     private String imageUrl;
 }
+
