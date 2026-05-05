@@ -107,17 +107,19 @@ public class StudentController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
-            }
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @io.swagger.v3.oas.annotations.media.Content(
+                            mediaType = "multipart/form-data"
+                    )
+            )
     )
-    @PreAuthorize("hasAnyAuthority('UPDATE_STUDENT')")
     @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updateStudent(@ModelAttribute StudentInfoDTO studentDTO,
-                                           @PathVariable Long id) {
-        try {
-            return studentService.updateStudent(studentDTO, id);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<?> updateStudent(
+            @ModelAttribute StudentInfoDTO studentDTO,
+            @PathVariable Long id) throws Exception {
+
+        return studentService.updateStudent(studentDTO, id);
     }
 
 

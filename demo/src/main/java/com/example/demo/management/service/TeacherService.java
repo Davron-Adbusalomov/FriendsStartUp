@@ -47,6 +47,7 @@ public class TeacherService {
     private UserRepository userRepository;
 
     private final TeacherMapper teacherMapper;
+    private final MediaService mediaService;
 
 
     public Page<TeacherDTO> getTeachers(Pageable pageable) {
@@ -105,10 +106,24 @@ public class TeacherService {
 
         Optional.ofNullable(teacherDTO.getFullName()).ifPresent(teacher::setFullName);
         Optional.ofNullable(teacherDTO.getExperience()).ifPresent(teacher::setExperience);
-        Optional.ofNullable(teacherDTO.getImage()).ifPresent(teacher::setImage);
         Optional.ofNullable(teacherDTO.getSubjectId()).ifPresent(teacher::setSubjectId);
         Optional.ofNullable(teacherDTO.getPhoneNumber()).ifPresent(teacher::setPhoneNumber);
         Optional.ofNullable(teacherDTO.getEmail()).ifPresent(teacher::setEmail);
+
+        String imageUrl = null;
+
+        if (teacherDTO.getImage() != null && !teacherDTO.getImage().isEmpty()) {
+
+            String contentType = teacherDTO.getImage().getContentType();
+
+            if (contentType == null ||
+                    (!contentType.equals("image/png") && !contentType.equals("image/jpeg"))) {
+                throw new IllegalArgumentException("Only PNG and JPEG images are allowed");
+            }
+
+            imageUrl = mediaService.saveImage(teacherDTO.getImage());
+            teacher.setImage(imageUrl);
+        }
 
         if (teacherDTO.getPassword() != null && !teacherDTO.getPassword().isEmpty()) {
             UserEntity user = userRepository.findById(id)
@@ -131,7 +146,7 @@ public class TeacherService {
             teacherInfoDTO.setId(teacher.getId());
             teacherInfoDTO.setSubject(teacherMapper.getSubjectDto(teacher));
             teacherInfoDTO.setExperience(teacher.getExperience());
-            teacherInfoDTO.setImage(teacher.getImage());
+            teacherInfoDTO.setImageUrl(teacher.getImage());
             teacherInfoDTO.setFullName(teacher.getFullName());
             teacherInfoDTOS.add(teacherInfoDTO);
         }
