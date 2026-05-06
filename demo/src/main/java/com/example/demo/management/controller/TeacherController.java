@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,8 +79,8 @@ public class TeacherController {
             }
     )
     @PreAuthorize("hasAnyAuthority('UPDATE_TEACHER')")
-    @PutMapping("/update/{id}")
-    public TeacherInfoDTO updateTeacher(@RequestBody TeacherInfoDTO teacherDTO, @PathVariable Long id) throws Exception {
+    @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public TeacherInfoDTO updateTeacher(@ModelAttribute TeacherInfoDTO teacherDTO, @PathVariable Long id) throws Exception {
         return teacherService.updateTeacher(teacherDTO, id);
     }
 
