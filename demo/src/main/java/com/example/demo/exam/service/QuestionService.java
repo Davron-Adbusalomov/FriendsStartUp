@@ -73,11 +73,14 @@ public class QuestionService {
     public String createQuestion(QuestionRequestDTO questionDTO) throws IOException {
         List<Option> arrayList = new ArrayList<>();
 
-            for (int i = 0; i < questionDTO.getOptions().size(); i++) {
+        List<String> options = questionDTO.getOptions();
+        if (options != null) {
+            options.forEach(opt -> {
                 Option option = new Option();
-                option.setText(questionDTO.getOptions().get(i));
+                option.setText(opt);
                 arrayList.add(option);
-            }
+            });
+        }
             Optional<Teacher> optionalTeacher = teacherRepository.findById(questionDTO.getTeacherId());
 
             if (optionalTeacher.isPresent()) {
