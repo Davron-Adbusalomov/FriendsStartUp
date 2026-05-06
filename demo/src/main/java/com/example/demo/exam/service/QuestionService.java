@@ -1,6 +1,7 @@
 package com.example.demo.exam.service;
 
 import com.example.demo.config.TenantContext;
+import com.example.demo.exam.dto.QuestionRequestDTO;
 import com.example.demo.exam.dto.QuestionSummaryDTO;
 import com.example.demo.exam.mapper.QuestionMapper;
 import com.example.demo.management.model.Teacher;
@@ -12,8 +13,10 @@ import com.example.demo.exam.model.Quiz;
 import com.example.demo.exam.repository.OptionRepository;
 import com.example.demo.exam.repository.QuestionRepository;
 import com.example.demo.exam.repository.QuizRepository;
+import com.example.demo.management.service.PhotoService;
 import com.example.demo.management.specification.QuestionSpecification;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +35,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
@@ -44,6 +48,8 @@ public class QuestionService {
 
     @Autowired
     private QuizRepository quizRepository;
+
+    private final PhotoService photoService;
 
     public QuestionDTO getQuestionById(UUID id){
         Question question = questionRepository.findById(id).orElseThrow(
@@ -64,7 +70,7 @@ public class QuestionService {
     }
 
 
-    public String createQuestion(QuestionDTO questionDTO) throws IOException {
+    public String createQuestion(QuestionRequestDTO questionDTO) throws IOException {
         List<Option> arrayList = new ArrayList<>();
 
             for (int i = 0; i < questionDTO.getOptions().size(); i++) {
@@ -75,13 +81,6 @@ public class QuestionService {
             Optional<Teacher> optionalTeacher = teacherRepository.findById(questionDTO.getTeacherId());
 
             if (optionalTeacher.isPresent()) {
-                BufferedImage img = null;
-                if (questionDTO.getImage() != null && !questionDTO.getImage().isEmpty()) {
-                    String base64Image = questionDTO.getImage().split(",")[1];
-                    byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-
-                    img = ImageIO.read(new ByteArrayInputStream(imageBytes));
-                }
 
                 Teacher teacher = optionalTeacher.get();
                 Question question = new Question();
@@ -94,7 +93,20 @@ public class QuestionService {
                     question.setRight_answer(questionDTO.getRight_answer());
                     question.setTeacher(teacher);
                     question.setCenterId(TenantContext.getCenterId());
-                    if (questionDTO.getType().equals("MC")){
+
+                if (questionDTO.getImage() != null && !questionDTO.getImage().isEmpty()) {
+
+                    String contentType = questionDTO.getImage().getContentType();
+
+                    if (contentType == null ||
+                            (!contentType.equals("image/png") && !contentType.equals("image/jpeg"))) {
+                        throw new IllegalArgumentException("Only PNG and JPEG images are allowed");
+                    }
+
+                    question.setImage(photoService.saveImage(questionDTO.getImage()));
+                }
+
+                if (questionDTO.getType().equals("MC")){
                         for (Option option:arrayList) {
                             question.assignOption(option);
                         }}
@@ -129,7 +141,7 @@ public class QuestionService {
     }
 
 
-    public ResponseEntity<?> updateQuestion(QuestionDTO questionDTO,UUID id){
+    public ResponseEntity<?> updateQuestion(QuestionRequestDTO questionDTO, UUID id) throws IOException {
         Question updatedQuestion = questionRepository.findById(id).orElseThrow(
                 ()-> new EntityNotFoundException("No question found with this id: " + id)
         );
@@ -152,8 +164,16 @@ public class QuestionService {
         if (questionDTO.getSubjectId() != null) {
             updatedQuestion.setSubjectId(questionDTO.getSubjectId());
         }
-        if (questionDTO.getImage() != null) {
-            updatedQuestion.setImage(questionDTO.getImage());
+        if (questionDTO.getImage() != null && !questionDTO.getImage().isEmpty()) {
+
+            String contentType = questionDTO.getImage().getContentType();
+
+            if (contentType == null ||
+                    (!contentType.equals("image/png") && !contentType.equals("image/jpeg"))) {
+                throw new IllegalArgumentException("Only PNG and JPEG images are allowed");
+            }
+
+            updatedQuestion.setImage(photoService.saveImage(questionDTO.getImage()));
         }
 
         Question saved = questionRepository.save(updatedQuestion);

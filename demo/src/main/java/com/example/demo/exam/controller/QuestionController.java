@@ -1,6 +1,7 @@
 package com.example.demo.exam.controller;
 
 import com.example.demo.exam.dto.QuestionDTO;
+import com.example.demo.exam.dto.QuestionRequestDTO;
 import com.example.demo.exam.dto.QuestionSummaryDTO;
 import com.example.demo.exam.service.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -86,8 +88,8 @@ public class QuestionController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAuthority('CREATE_QUESTION')")
-    @PostMapping("/create")
-    public ResponseEntity<?> creatQuestion(@RequestBody QuestionDTO questionDTO) {
+    @PostMapping(value ="/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> creatQuestion(@ModelAttribute QuestionRequestDTO questionDTO) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(questionService.createQuestion(questionDTO));
         } catch (Exception e) {
@@ -105,9 +107,13 @@ public class QuestionController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     @PreAuthorize("hasAuthority('UPDATE_QUESTION')")
-    @PutMapping("update/{id}")
-    public ResponseEntity<?> updateQuestion(@RequestBody QuestionDTO questionDTO, @PathVariable UUID id) {
-        return questionService.updateQuestion(questionDTO, id);
+    @PutMapping(value ="update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateQuestion(@ModelAttribute QuestionRequestDTO questionDTO, @PathVariable UUID id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(questionService.updateQuestion(questionDTO, id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @Operation(
