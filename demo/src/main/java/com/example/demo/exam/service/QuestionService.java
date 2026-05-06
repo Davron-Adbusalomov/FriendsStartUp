@@ -94,7 +94,7 @@ public class QuestionService {
                     question.setType(questionDTO.getType().toUpperCase());
                     question.setMark(questionDTO.getMark());
                     question.setRight_answer(questionDTO.getRight_answer());
-                    question.setTeacher(teacher);
+                    question.setTeacherId(teacher.getId());
                     question.setCenterId(TenantContext.getCenterId());
 
                 if (questionDTO.getImage() != null && !questionDTO.getImage().isEmpty()) {
