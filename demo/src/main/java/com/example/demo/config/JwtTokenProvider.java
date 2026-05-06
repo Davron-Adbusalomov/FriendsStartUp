@@ -104,7 +104,13 @@ public class JwtTokenProvider {
     }
 
     private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        Date expiration = extractExpiration(token);
+
+        if (expiration == null) {
+            return true;
+        }
+
+        return expiration.before(new Date());
     }
 
     private Date extractExpiration(String token) {
@@ -112,7 +118,22 @@ public class JwtTokenProvider {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(cleanToken(token))
+                    .getBody();
+        } catch (Exception e) {
+            System.err.println("JWT ERROR: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private String cleanToken(String token) {
+        if (token == null) return null;
+        if (token.startsWith("Bearer ")) return token.substring(7);
+        return token;
     }
 
     private Key getSignInKey() { // ✅ Changed return type from SecretKey to Key

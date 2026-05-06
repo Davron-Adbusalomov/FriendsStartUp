@@ -27,7 +27,7 @@ server:
 
 security:
   jwt:
-    secret-key: 923f6ad7deb85d35ab7ed4a6d8691b742d284b16fbd5b69ac97638d550f532bc
+    secret-key: 2DlxFcYXg77MrywoNI/+vZ/SBf0TCZbiA45JRQOAoRt60iPH28qVEXK5CrzIwjOsYPCg6f2UDCmo6eiiPlDdUg==
     access-token-expiration-time: 3600000  # 1 hour
     refresh-token-expiration-time: 604800000  # 7 days
 
