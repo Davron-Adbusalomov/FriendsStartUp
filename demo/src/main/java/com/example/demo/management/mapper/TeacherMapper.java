@@ -54,6 +54,5 @@ public interface TeacherMapper {
 
     @Mapping(target = "subject", expression = "java(getSubjectDto(teacher))")
     TeacherInfoDTO toInfoDto(Teacher teacher);
-
 }
 
