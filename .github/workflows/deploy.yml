@@ -20,7 +20,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build JAR
-        # working-directory: demo
+        working-directory: demo
         run: |
           chmod +x gradlew
           ./gradlew clean build -x test
