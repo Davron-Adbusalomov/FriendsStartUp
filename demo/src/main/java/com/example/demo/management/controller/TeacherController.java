@@ -76,7 +76,12 @@ public class TeacherController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"),
                     @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"),
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
-            }
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @io.swagger.v3.oas.annotations.media.Content(
+                            mediaType = "multipart/form-data"
+                    )
+            )
     )
     @PreAuthorize("hasAnyAuthority('UPDATE_TEACHER')")
     @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
