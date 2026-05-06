@@ -2,6 +2,7 @@ package com.example.demo.management.controller;
 
 import com.example.demo.management.dto.TeacherDTO;
 import com.example.demo.management.dto.TeacherInfoDTO;
+import com.example.demo.management.dto.request.UpdateTeacherRequest;
 import com.example.demo.management.service.TeacherService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -85,7 +86,7 @@ public class TeacherController {
     )
     @PreAuthorize("hasAnyAuthority('UPDATE_TEACHER')")
     @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public TeacherInfoDTO updateTeacher(@ModelAttribute TeacherInfoDTO teacherDTO, @PathVariable Long id) throws Exception {
+    public TeacherInfoDTO updateTeacher(@ModelAttribute UpdateTeacherRequest teacherDTO, @PathVariable Long id) throws Exception {
         return teacherService.updateTeacher(teacherDTO, id);
     }
 

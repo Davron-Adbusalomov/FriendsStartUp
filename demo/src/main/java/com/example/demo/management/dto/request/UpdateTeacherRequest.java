@@ -1,5 +1,6 @@
-package com.example.demo.management.dto;
+package com.example.demo.management.dto.request;
 
+import com.example.demo.management.dto.SubjectDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeacherInfoDTO {
+public class UpdateTeacherRequest {
     private Long id;
 
     private String fullName;
@@ -22,7 +23,8 @@ public class TeacherInfoDTO {
 
     private UUID subjectId;
 
-    private String image;
+    @Schema(type = "string", format = "binary")
+    private MultipartFile image;
 
     private String phoneNumber;
 

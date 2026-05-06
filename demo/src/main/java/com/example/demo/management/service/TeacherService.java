@@ -7,6 +7,7 @@ import com.example.demo.exam.repository.QuizRepository;
 import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.dto.TeacherDTO;
 import com.example.demo.management.dto.TeacherInfoDTO;
+import com.example.demo.management.dto.request.UpdateTeacherRequest;
 import com.example.demo.management.mapper.TeacherMapper;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
@@ -100,7 +101,7 @@ public class TeacherService {
     }
 
     @Transactional
-    public TeacherInfoDTO updateTeacher(TeacherInfoDTO teacherDTO, Long id) throws Exception {
+    public TeacherInfoDTO updateTeacher(UpdateTeacherRequest teacherDTO, Long id) throws Exception {
         Teacher teacher = teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No teacher found with this id: " + id));
 
@@ -146,7 +147,7 @@ public class TeacherService {
             teacherInfoDTO.setId(teacher.getId());
             teacherInfoDTO.setSubject(teacherMapper.getSubjectDto(teacher));
             teacherInfoDTO.setExperience(teacher.getExperience());
-            teacherInfoDTO.setImageUrl(teacher.getImage());
+            teacherInfoDTO.setImage(teacher.getImage());
             teacherInfoDTO.setFullName(teacher.getFullName());
             teacherInfoDTOS.add(teacherInfoDTO);
         }
