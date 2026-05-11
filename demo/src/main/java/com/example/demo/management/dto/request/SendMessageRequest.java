@@ -17,4 +17,8 @@ public class SendMessageRequest {
     private String messageType; // TEXT, IMAGE, FILE etc
 
     private UUID replyToMessageId;
+
+    private String senderName;
+
+    private String senderImage;
 }
