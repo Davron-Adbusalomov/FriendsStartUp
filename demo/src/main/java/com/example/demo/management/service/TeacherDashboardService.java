@@ -1,7 +1,10 @@
 package com.example.demo.management.service;
 
 import com.example.demo.management.dto.*;
+import com.example.demo.management.dto.projection.*;
+import com.example.demo.management.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,67 +13,78 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeacherDashboardService {
 
-    public TeacherDashboardDTO getDashboard() {
+    private final TeacherRepository teacherRepository;
+
+    @Cacheable(value = "teacher-dashboard", key = "#teacherId")
+    public TeacherDashboardDTO getDashboard(Long teacherId) {
+
         TeacherDashboardDTO dto = new TeacherDashboardDTO();
 
-        dto.setStats(getStats());
-//        dto.setAttendance(getAttendance());
+        dto.setStats(getStats(teacherId));
         dto.setPerformance(getPerformance());
-        dto.setActivity(getTeachingActivity());
-//        dto.setTasks(getTasks());
+        dto.setActivity(getTeachingActivity(teacherId));
         dto.setStudentTasks(getStudentTasks());
-        dto.setAgenda(getAgenda());
+        dto.setAgenda(getAgenda(teacherId));
 
         return dto;
     }
 
-    private StatsDTO getStats() {
-        StatsDTO stats = new StatsDTO();
-        stats.setTotalClasses(147);
-        stats.setClassesIncrease(9.18);
-        stats.setTotalStudents(3250);
-        stats.setStudentsIncrease(4.5);
-        stats.setTotalSalary(104687);
-        stats.setSalaryIncrease(6.1);
-        stats.setTotalIncome(1682500);
-        stats.setIncomeIncrease(4.38);
-        return stats;
-    }
+    private StatsDTO getStats(Long teacherId) {
 
-//    private List<AttendanceDTO> getAttendance() {
-//        return List.of(
-//                new AttendanceDTO("Present", 80, "#A387F7"),
-//                new AttendanceDTO("Absent", 20, "#F3F0FE")
-//        );
-//    }
+        TeacherStatsProjection stats =
+                teacherRepository.getStats(teacherId);
+
+        StatsDTO dto = new StatsDTO();
+
+        dto.setTotalClasses(
+                stats.getTotalClasses() != null
+                        ? stats.getTotalClasses().intValue()
+                        : 0
+        );
+
+        dto.setTotalStudents(
+                stats.getTotalStudents() != null
+                        ? stats.getTotalStudents().intValue()
+                        : 0
+        );
+
+        dto.setTotalSalary(0);
+        dto.setTotalIncome(0);
+
+        dto.setClassesIncrease(0);
+        dto.setStudentsIncrease(0);
+        dto.setSalaryIncrease(0);
+        dto.setIncomeIncrease(0);
+
+        return dto;
+    }
 
     private List<PerformanceDTO> getPerformance() {
-        return List.of(
-                new PerformanceDTO("Mon", 75, 85, 65),
-                new PerformanceDTO("Tue", 60, 70, 80),
-                new PerformanceDTO("Wed", 80, 75, 70),
-                new PerformanceDTO("Thu", 70, 90, 75),
-                new PerformanceDTO("Fri", 85, 65, 85)
-        );
+
+        return teacherRepository.getPerformance()
+                .stream()
+                .map(p -> new PerformanceDTO(
+                        p.getDay(),
+                        p.getAssignment(),
+                        p.getMidterm(),
+                        p.getFinalExam()
+                ))
+                .toList();
     }
 
-    private List<TeachingActivityDTO> getTeachingActivity() {
-        return List.of(
-                new TeachingActivityDTO("Jan", 30),
-                new TeachingActivityDTO("Feb", 50),
-                new TeachingActivityDTO("Mar", 45)
-                // continue...
-        );
-    }
+    private List<TeachingActivityDTO> getTeachingActivity(Long teacherId) {
 
-//    private List<TaskDTO> getTasks() {
-//        return List.of(
-//                new TaskDTO(1L, "Grade Student Essays", "2024-04-25", false),
-//                new TaskDTO(2L, "Update Lesson Plan", "2024-04-28", false)
-//        );
-//    }
+        return teacherRepository.getTeachingActivity(teacherId)
+                .stream()
+                .map(a -> new TeachingActivityDTO(
+                        a.getMonth(),
+                        a.getClasses()
+                ))
+                .toList();
+    }
 
     private List<StudentTaskDTO> getStudentTasks() {
+
         return List.of(
                 new StudentTaskDTO(
                         "Emily Peterson",
@@ -83,10 +97,15 @@ public class TeacherDashboardService {
         );
     }
 
-    private List<AgendaDTO> getAgenda() {
-        return List.of(
-                new AgendaDTO("History Class", "08:00 - 09:00", "Room 204"),
-                new AgendaDTO("Lecture", "10:00 - 11:30", "Room 101")
-        );
+    private List<AgendaDTO> getAgenda(Long teacherId) {
+
+        return teacherRepository.getAgenda(teacherId)
+                .stream()
+                .map(a -> new AgendaDTO(
+                        a.getTitle(),
+                        a.getTime(),
+                        a.getRoom()
+                ))
+                .toList();
     }
 }

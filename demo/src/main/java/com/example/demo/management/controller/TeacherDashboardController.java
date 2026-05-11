@@ -1,5 +1,6 @@
 package com.example.demo.management.controller;
 
+import com.example.demo.config.CurrentUserUtils;
 import com.example.demo.management.dto.TeacherDashboardDTO;
 import com.example.demo.management.service.TeacherDashboardService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +33,6 @@ public class TeacherDashboardController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     public ResponseEntity<TeacherDashboardDTO> getDashboard() {
-        return ResponseEntity.ok(dashboardService.getDashboard());
+        return ResponseEntity.ok(dashboardService.getDashboard(CurrentUserUtils.getUserId()));
     }
 }
