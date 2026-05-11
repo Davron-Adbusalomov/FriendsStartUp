@@ -103,8 +103,8 @@ public class ChatService {
         payload.put("isEdited", false);
         payload.put("isDeleted", false);
         payload.put("isRead", false);
-        payload.put("senderName", request.getSenderName() != null ? request.getSenderName() : "Unknown");
-        payload.put("senderImage", request.getSenderName() != null ? request.getSenderImage() : "Unknown");
+        payload.put("senderName", request.getSenderName());
+        payload.put("senderImage", request.getSenderName());
 
         if (request.getReplyToMessageId() != null) {
             payload.put("replyMessageId", request.getReplyToMessageId());
