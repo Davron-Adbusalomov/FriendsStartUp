@@ -61,34 +61,33 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     @Query(value = """
             SELECT
-                'Mon' as day,
-                75 as assignment,
-                85 as midterm,
-                65 as finalExam
-
-            UNION ALL
-
-            SELECT 'Tue', 60, 70, 80
-
-            UNION ALL
-
-            SELECT 'Wed', 80, 75, 70
-
-            UNION ALL
-
-            SELECT 'Thu', 70, 90, 75
-
-            UNION ALL
-
-            SELECT 'Fri', 85, 65, 85
+                q.title as quizTitle,
+                g.name as groupName,
+                q.start_time as quizDate,
+                ROUND(
+                    AVG(
+                        (qr.mark::numeric / NULLIF(
+                            (SELECT SUM(que.mark)
+                             FROM quiz_question qq
+                             JOIN question que ON qq.question_id = que.id
+                             WHERE qq.quiz_id = q.id), 0
+                        )) * 100
+                    )::numeric, 2
+                ) as percentage
+            FROM quiz q
+            JOIN groups g ON q.grouping_id = g.id
+            LEFT JOIN quiz_results qr ON qr.quiz_id = q.id
+            WHERE g.teacher_id = :teacherId
+            GROUP BY q.id, q.title, g.name, q.start_time
+            ORDER BY q.start_time
             """, nativeQuery = true)
-    List<PerformanceProjection> getPerformance();
+    List<PerformanceProjection> getQuizPerformanceData(Long teacherId);
 
     @Query(value = """
             SELECT
                 g.name as title,
                 TO_CHAR(g.time, 'HH24:MI') as time,
-                g.room as room
+                null as room
 
             FROM groups g
 
@@ -99,4 +98,5 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             LIMIT 10
             """, nativeQuery = true)
     List<AgendaProjection> getAgenda(Long teacherId);
+
 }

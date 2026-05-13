@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.CurrentUserUtils;
 import com.example.demo.management.dto.*;
 import com.example.demo.management.dto.projection.*;
 import com.example.demo.management.repository.TeacherRepository;
@@ -7,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +24,7 @@ public class TeacherDashboardService {
         TeacherDashboardDTO dto = new TeacherDashboardDTO();
 
         dto.setStats(getStats(teacherId));
-        dto.setPerformance(getPerformance());
+        dto.setPerformance(getPerformance(CurrentUserUtils.getUserId()));
         dto.setActivity(getTeachingActivity(teacherId));
         dto.setStudentTasks(getStudentTasks());
         dto.setAgenda(getAgenda(teacherId));
@@ -59,16 +62,20 @@ public class TeacherDashboardService {
         return dto;
     }
 
-    private List<PerformanceDTO> getPerformance() {
+    private List<PerformanceDTO> getPerformance(Long teacherId) {
+        List<PerformanceProjection> rawData = teacherRepository.getQuizPerformanceData(teacherId);
 
-        return teacherRepository.getPerformance()
-                .stream()
-                .map(p -> new PerformanceDTO(
-                        p.getDay(),
-                        p.getAssignment(),
-                        p.getMidterm(),
-                        p.getFinalExam()
+        return rawData.stream()
+                .collect(Collectors.groupingBy(
+                        PerformanceProjection::getQuizTitle,
+                        LinkedHashMap::new,
+                        Collectors.toMap(
+                                PerformanceProjection::getGroupName,
+                                p -> p.getPercentage() != null ? p.getPercentage() : 0.0
+                        )
                 ))
+                .entrySet().stream()
+                .map(entry -> new PerformanceDTO(entry.getKey(), entry.getValue()))
                 .toList();
     }
 
