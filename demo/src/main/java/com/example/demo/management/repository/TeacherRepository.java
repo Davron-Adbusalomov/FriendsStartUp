@@ -18,50 +18,29 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     @Query(value = """
             SELECT
                 COUNT(DISTINCT g.id) as totalClasses,
-            
                 COUNT(DISTINCT gs.student_id) as totalStudents,
-            
-                COUNT(DISTINCT CASE
-                    WHEN a.status = 'PRESENT'
-                    THEN a.id
-                END) as totalPresent,
-            
-                COUNT(DISTINCT CASE
-                    WHEN a.status = 'ABSENT'
-                    THEN a.id
-                END) as totalAbsent
-            
+                COUNT(DISTINCT CASE WHEN a.status = 'PRESENT' THEN a.id END) as totalPresent,
+                COUNT(DISTINCT CASE WHEN a.status = 'ABSENT' THEN a.id END) as totalAbsent
             FROM teacher t
-            
-            LEFT JOIN groups g
-                ON g.teacher_id = t.id
-            
-            LEFT JOIN group_student gs
-                ON gs.group_id = g.id
-            
-            LEFT JOIN attendance a
-                ON a.student_id = gs.student_id
-            
+            LEFT JOIN groups g ON g.teacher_id = t.id
+            LEFT JOIN group_student gs ON gs.group_id = g.id
+            LEFT JOIN attendance a ON a.student_id = gs.student_id
             WHERE t.id = :teacherId
             """, nativeQuery = true)
-    TeacherStatsProjection getStats(Long teacherId);
+    TeacherStatsProjection getStats(@Param("teacherId") Long teacherId);
 
     @Query(value = """
             SELECT
                 TO_CHAR(g.created_at, 'Mon') as month,
                 COUNT(g.id) as classes
-            
             FROM groups g
-            
             WHERE g.teacher_id = :teacherId
-            
             GROUP BY
                 TO_CHAR(g.created_at, 'Mon'),
                 DATE_TRUNC('month', g.created_at)
-            
             ORDER BY DATE_TRUNC('month', g.created_at)
             """, nativeQuery = true)
-    List<TeachingActivityProjection> getTeachingActivity(Long teacherId);
+    List<TeachingActivityProjection> getTeachingActivity(@Param("teacherId") Long teacherId);
 
     @Query(value = """
             SELECT
@@ -93,17 +72,13 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     @Query(value = """
             SELECT
                 g.name as title,
-                TO_CHAR(g.time, 'HH24:MI') as time,
+                -- Fix: Cast String to TIME before using TO_CHAR, or just select g.time
+                g.time as time,
                 null as room
-            
             FROM groups g
-            
             WHERE g.teacher_id = :teacherId
-            
             ORDER BY g.time
-            
             LIMIT 10
             """, nativeQuery = true)
-    List<AgendaProjection> getAgenda(Long teacherId);
-
+    List<AgendaProjection> getAgenda(@Param("teacherId") Long teacherId);
 }
