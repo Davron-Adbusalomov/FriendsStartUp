@@ -1,15 +1,14 @@
 package com.example.demo.management.repository;
 
-import com.example.demo.management.dto.projection.AgendaProjection;
-import com.example.demo.management.dto.projection.PerformanceProjection;
-import com.example.demo.management.dto.projection.TeacherStatsProjection;
-import com.example.demo.management.dto.projection.TeachingActivityProjection;
+import com.example.demo.management.dto.AttendanceSummaryDTO;
+import com.example.demo.management.dto.projection.*;
 import com.example.demo.management.model.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -81,4 +80,31 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             LIMIT 10
             """, nativeQuery = true)
     List<AgendaProjection> getAgenda(@Param("teacherId") Long teacherId);
+
+    @Query(value = """
+            SELECT
+                CASE
+                    WHEN COUNT(DISTINCT gs.student_id) = 0 THEN 0
+                    ELSE CAST(ROUND(
+                        COUNT(DISTINCT CASE WHEN a.status = 'PRESENT' THEN a.id END) * 100.0
+                        / COUNT(DISTINCT gs.student_id)
+                    ) AS integer)
+                END as presentPercentage,
+                CASE
+                    WHEN COUNT(DISTINCT gs.student_id) = 0 THEN 0
+                    ELSE CAST(ROUND(
+                        COUNT(DISTINCT CASE WHEN a.status = 'ABSENT' THEN a.id END) * 100.0
+                        / COUNT(DISTINCT gs.student_id)
+                    ) AS integer)
+                END as absentPercentage
+            FROM groups g
+            LEFT JOIN group_student gs ON gs.group_id = g.id
+            LEFT JOIN attendance a ON a.student_id = gs.student_id AND a.date = :date
+            WHERE g.teacher_id = :teacherId AND g.id = :groupId
+            """, nativeQuery = true)
+    AttendanceSummaryProjection findAttendanceByGroupAndDate(
+            @Param("teacherId") Long teacherId,
+            @Param("groupId") String groupId,
+            @Param("date") LocalDate date
+    );
 }

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +29,19 @@ public class TeacherDashboardService {
         dto.setActivity(getTeachingActivity(teacherId));
         dto.setStudentTasks(getStudentTasks());
         dto.setAgenda(getAgenda(teacherId));
+        dto.setAttendance(getGroupAttendanceSummary(teacherId, LocalDate.now(), "Grade 3"));
 
+        return dto;
+    }
+
+    public AttendanceSummaryDTO getGroupAttendanceSummary(Long teacherId, LocalDate date, String grade) {
+        AttendanceSummaryProjection attendance = teacherRepository.findAttendanceByGroupAndDate(teacherId, grade, date);
+
+        AttendanceSummaryDTO dto = new AttendanceSummaryDTO();
+        if (attendance != null) {
+            dto.setPresentPercentage(attendance.presentPercentage() != null ? attendance.presentPercentage() : 0);
+            dto.setAbsentPercentage(attendance.absentPercentage() != null ? attendance.absentPercentage() : 0);
+        }
         return dto;
     }
 

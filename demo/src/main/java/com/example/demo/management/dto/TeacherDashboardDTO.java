@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TeacherDashboardDTO {
     private StatsDTO stats;
-    private AttendanceDto attendance;
+    private AttendanceSummaryDTO attendance;
     private List<PerformanceDTO> performance;
     private List<AgendaDTO> agenda;
     private List<TeachingActivityDTO> activity;
