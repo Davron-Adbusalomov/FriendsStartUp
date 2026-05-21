@@ -86,21 +86,21 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
                 CASE
                     WHEN COUNT(DISTINCT gs.student_id) = 0 THEN 0
                     ELSE CAST(ROUND(
-                        COUNT(DISTINCT CASE WHEN a.status = 'PRESENT' THEN a.id END) * 100.0
+                        COUNT(DISTINCT CASE WHEN a.attendance_status = 'PRESENT' THEN a.id END) * 100.0
                         / COUNT(DISTINCT gs.student_id)
                     ) AS integer)
                 END as presentPercentage,
                 CASE
                     WHEN COUNT(DISTINCT gs.student_id) = 0 THEN 0
                     ELSE CAST(ROUND(
-                        COUNT(DISTINCT CASE WHEN a.status = 'ABSENT' THEN a.id END) * 100.0
+                        COUNT(DISTINCT CASE WHEN a.attendance_status = 'ABSENT' THEN a.id END) * 100.0
                         / COUNT(DISTINCT gs.student_id)
                     ) AS integer)
                 END as absentPercentage
             FROM groups g
             LEFT JOIN group_student gs ON gs.group_id = g.id
-            LEFT JOIN attendance a ON a.student_id = gs.student_id AND a.date = :date
-            WHERE g.teacher_id = :teacherId AND g.id = :groupId
+            LEFT JOIN attendance a ON a.student_id = gs.student_id AND DATE(a.attendance_time) = :date
+            WHERE g.teacher_id = :teacherId AND g.id = CAST(:groupId AS uuid)
             """, nativeQuery = true)
     AttendanceSummaryProjection findAttendanceByGroupAndDate(
             @Param("teacherId") Long teacherId,

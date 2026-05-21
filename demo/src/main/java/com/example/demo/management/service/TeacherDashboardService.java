@@ -19,8 +19,8 @@ public class TeacherDashboardService {
 
     private final TeacherRepository teacherRepository;
 
-    @Cacheable(value = "teacher-dashboard", key = "#teacherId")
-    public TeacherDashboardDTO getDashboard(Long teacherId) {
+    @Cacheable(value = "teacher-dashboard", key = "#teacherId + '_' + #groupId")
+    public TeacherDashboardDTO getDashboard(Long teacherId, String groupId) {
 
         TeacherDashboardDTO dto = new TeacherDashboardDTO();
 
@@ -29,15 +29,19 @@ public class TeacherDashboardService {
         dto.setActivity(getTeachingActivity(teacherId));
         dto.setStudentTasks(getStudentTasks());
         dto.setAgenda(getAgenda(teacherId));
-        dto.setAttendance(getGroupAttendanceSummary(teacherId, LocalDate.now(), "Grade 3"));
+        dto.setAttendance(getGroupAttendanceSummary(teacherId, LocalDate.now(), groupId));
 
         return dto;
     }
 
-    public AttendanceSummaryDTO getGroupAttendanceSummary(Long teacherId, LocalDate date, String grade) {
-        AttendanceSummaryProjection attendance = teacherRepository.findAttendanceByGroupAndDate(teacherId, grade, date);
-
+    public AttendanceSummaryDTO getGroupAttendanceSummary(Long teacherId, LocalDate date, String groupId) {
         AttendanceSummaryDTO dto = new AttendanceSummaryDTO();
+        if (groupId == null || groupId.isBlank()) {
+            return dto;
+        }
+
+        AttendanceSummaryProjection attendance = teacherRepository.findAttendanceByGroupAndDate(teacherId, groupId, date);
+
         if (attendance != null) {
             dto.setPresentPercentage(attendance.presentPercentage() != null ? attendance.presentPercentage() : 0);
             dto.setAbsentPercentage(attendance.absentPercentage() != null ? attendance.absentPercentage() : 0);
