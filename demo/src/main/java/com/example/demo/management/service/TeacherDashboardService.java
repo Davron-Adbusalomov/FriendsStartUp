@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,8 +19,8 @@ public class TeacherDashboardService {
 
     private final TeacherRepository teacherRepository;
 
-    @Cacheable(value = "teacher-dashboard", key = "#teacherId + '_' + #groupId")
-    public TeacherDashboardDTO getDashboard(Long teacherId, String groupId) {
+    @Cacheable(value = "teacher-dashboard", key = "#teacherId + '_' + #groupId + '_' + #month")
+    public TeacherDashboardDTO getDashboard(Long teacherId, String groupId, String month) {
 
         TeacherDashboardDTO dto = new TeacherDashboardDTO();
 
@@ -29,18 +29,23 @@ public class TeacherDashboardService {
         dto.setActivity(getTeachingActivity(teacherId));
         dto.setStudentTasks(getStudentTasks());
         dto.setAgenda(getAgenda(teacherId));
-        dto.setAttendance(getGroupAttendanceSummary(teacherId, LocalDate.now(), groupId));
+        dto.setAttendance(getGroupAttendanceSummary(teacherId, groupId, month));
 
         return dto;
     }
 
-    public AttendanceSummaryDTO getGroupAttendanceSummary(Long teacherId, LocalDate date, String groupId) {
+    public AttendanceSummaryDTO getGroupAttendanceSummary(Long teacherId, String groupId, String month) {
         AttendanceSummaryDTO dto = new AttendanceSummaryDTO();
         if (groupId == null || groupId.isBlank()) {
             return dto;
         }
 
-        AttendanceSummaryProjection attendance = teacherRepository.findAttendanceByGroupAndDate(teacherId, groupId, date);
+        YearMonth ym = (month != null && !month.isBlank())
+                ? YearMonth.parse(month)
+                : YearMonth.now();
+
+        AttendanceSummaryProjection attendance = teacherRepository.findAttendanceByGroupAndMonth(
+                teacherId, groupId, ym.getMonthValue(), ym.getYear());
 
         if (attendance != null) {
             dto.setPresentPercentage(attendance.getPresentPercentage() != null ? attendance.getPresentPercentage() : 0);

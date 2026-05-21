@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -99,12 +98,15 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
                 END as absentPercentage
             FROM groups g
             LEFT JOIN group_student gs ON gs.group_id = g.id
-            LEFT JOIN attendance a ON a.student_id = gs.student_id AND DATE(a.attendance_time) = :date
+            LEFT JOIN attendance a ON a.student_id = gs.student_id
+                AND EXTRACT(MONTH FROM a.attendance_time) = :month
+                AND EXTRACT(YEAR  FROM a.attendance_time) = :year
             WHERE g.teacher_id = :teacherId AND g.id = CAST(:groupId AS uuid)
             """, nativeQuery = true)
-    AttendanceSummaryProjection findAttendanceByGroupAndDate(
+    AttendanceSummaryProjection findAttendanceByGroupAndMonth(
             @Param("teacherId") Long teacherId,
             @Param("groupId") String groupId,
-            @Param("date") LocalDate date
+            @Param("month") int month,
+            @Param("year") int year
     );
 }

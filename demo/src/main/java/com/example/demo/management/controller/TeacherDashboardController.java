@@ -31,7 +31,8 @@ public class TeacherDashboardController {
                     @ApiResponse(responseCode = "404", description = "Not found - Department not found"),
             })
     public ResponseEntity<TeacherDashboardDTO> getDashboard(
-            @RequestParam(required = false) String groupId) {
-        return ResponseEntity.ok(dashboardService.getDashboard(CurrentUserUtils.getUserId(), groupId));
+            @RequestParam(required = false) String groupId,
+            @RequestParam(required = false) String month) {
+        return ResponseEntity.ok(dashboardService.getDashboard(CurrentUserUtils.getUserId(), groupId, month));
     }
 }
