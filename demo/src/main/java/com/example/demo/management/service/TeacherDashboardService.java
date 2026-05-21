@@ -43,8 +43,8 @@ public class TeacherDashboardService {
         AttendanceSummaryProjection attendance = teacherRepository.findAttendanceByGroupAndDate(teacherId, groupId, date);
 
         if (attendance != null) {
-            dto.setPresentPercentage(attendance.presentPercentage() != null ? attendance.presentPercentage() : 0);
-            dto.setAbsentPercentage(attendance.absentPercentage() != null ? attendance.absentPercentage() : 0);
+            dto.setPresentPercentage(attendance.getPresentPercentage() != null ? attendance.getPresentPercentage() : 0);
+            dto.setAbsentPercentage(attendance.getAbsentPercentage() != null ? attendance.getAbsentPercentage() : 0);
         }
         return dto;
     }
