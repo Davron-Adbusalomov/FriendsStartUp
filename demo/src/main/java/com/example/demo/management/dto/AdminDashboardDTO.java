@@ -16,4 +16,5 @@ public class AdminDashboardDTO {
     private List<MonthlyActivityDTO> monthlyActivity;
     private List<AgendaDTO> agenda;
     private List<TopPerformerDTO> topPerformers;
+    private List<GroupPerformanceDTO> groupPerformance;
 }
