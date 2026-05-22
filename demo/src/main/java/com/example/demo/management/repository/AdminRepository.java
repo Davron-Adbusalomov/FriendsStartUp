@@ -24,9 +24,9 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 
     @Query(value = """
             SELECT
-                TO_CHAR(a.attendance_time, 'Dy')                                               AS dayOfWeek,
-                COUNT(CASE WHEN a.attendance_status = 'PRESENT' THEN 1 END)::integer           AS presentCount,
-                COUNT(CASE WHEN a.attendance_status = 'ABSENT'  THEN 1 END)::integer           AS absentCount
+                TO_CHAR(a.attendance_time, 'Dy')                                                        AS dayOfWeek,
+                CAST(COUNT(CASE WHEN a.attendance_status = 'PRESENT' THEN 1 END) AS integer)           AS presentCount,
+                CAST(COUNT(CASE WHEN a.attendance_status = 'ABSENT'  THEN 1 END) AS integer)           AS absentCount
             FROM attendance a
             WHERE a.center_id = :centerId
               AND a.attendance_time >= DATE_TRUNC('week', CURRENT_DATE)
