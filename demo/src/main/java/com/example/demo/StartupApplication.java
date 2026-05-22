@@ -30,4 +30,3 @@ public class StartupApplication {
 		System.out.println("Hello Team");
 	}
 }
-
