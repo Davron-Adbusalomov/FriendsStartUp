@@ -166,7 +166,12 @@ INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('CHAT_ROOM_MEMBERS', 'View members of a chat room'),
                                                               ('CHAT_ROOM_PIN', 'Pin a chat room'),
                                                               ('CHAT_ROOM_MUTE', 'Mute a chat room'),
-                                                              ('CHAT_ROOM_READ', 'Mark messages as read in a chat room')
+                                                              ('CHAT_ROOM_READ', 'Mark messages as read in a chat room'),
+                                                              ('GET_STUDENT_DASHBOARD', 'View student dashboard information'),
+                                                              ('GET_TEACHER_DASHBOARD', 'View teacher dashboard information'),
+                                                              ('GET_ADMIN_DASHBOARD', 'View admin dashboard information'),
+                                                              ('GET_DIRECTOR_DASHBOARD', 'View director dashboard information'),
+                                                              ('GET_SUPER_ADMIN_DASHBOARD', 'View super admin dashboard information')
 ON CONFLICT (name) DO NOTHING;
 
 
@@ -246,6 +251,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('SUPER_ADMIN', 'CHAT_ROOM_PIN'),
 ('SUPER_ADMIN', 'CHAT_ROOM_MUTE'),
 ('SUPER_ADMIN', 'CHAT_ROOM_READ'),
+('SUPER_ADMIN','GET_SUPER_ADMIN_DASHBOARD'),
 -- ==========================================================
 -- DIRECTOR → View, manage, supervise, but fewer destructive permissions
 -- ==========================================================
@@ -308,6 +314,8 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('DIRECTOR', 'CHAT_ROOM_PIN'),
 ('DIRECTOR', 'CHAT_ROOM_MUTE'),
 ('DIRECTOR', 'CHAT_ROOM_READ'),
+('DIRECTOR',   'GET_DIRECTOR_DASHBOARD'),
+
 -- ==========================================================
 -- ADMIN → Full CRUD except quiz checking / advanced logic
 -- (using same permission list structure as your previous ADMIN)
@@ -382,6 +390,8 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('ADMIN', 'CHAT_ROOM_PIN'),
 ('ADMIN', 'CHAT_ROOM_MUTE'),
 ('ADMIN', 'CHAT_ROOM_READ'),
+('ADMIN', 'GET_ADMIN_DASHBOARD'),
+
 -- ==========================================================
 -- TEACHER → Create groups, assign students, manage attendance + quizzes
 -- ==========================================================
@@ -440,6 +450,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('TEACHER', 'UPDATE_QUIZ'),
 ('TEACHER', 'DELETE_QUIZ'),
 ('TEACHER', 'CHAT_ROOM_GROUP_ENABLE'),
+('TEACHER',    'GET_TEACHER_DASHBOARD'),
 
 -- ==========================================================
 -- STUDENT → Only view + participate in quizzes
@@ -476,6 +487,8 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('STUDENT', 'CHAT_ROOM_MUTE'),
 ('STUDENT', 'CHAT_ROOM_READ'),
 ('STUDENT', 'UPDATE_STUDENT'),
+('STUDENT',    'GET_STUDENT_DASHBOARD'),
+
 
 -- ==========================================================
 -- ROLE_USER → minimal authentication permissions
