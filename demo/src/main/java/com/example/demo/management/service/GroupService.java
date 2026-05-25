@@ -147,7 +147,7 @@ public class GroupService {
             throw new IllegalStateException("Teacher already assigned to group");
         }
 
-        grouping.assignTeacher(teacher);
+        grouping.setTeacherId(teacher.getId());
         groupRepository.save(grouping);
         return groupMapper.toDto(grouping);
     }
