@@ -21,6 +21,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
@@ -33,6 +34,7 @@ public class GroupService {
     private final QuizRepository quizRepository;
     private final GroupMapper groupMapper;
     private final LessonProgressService lessonProgressService;
+    private final PhotoService photoService;
 
     public Page<GroupDTO> getGroups(Pageable pageable, Long teacherId, Long studentId, String name, String status) {
         Specification<Grouping> specification = GroupSpecification.advancedFilter(teacherId, studentId, name, status);
@@ -59,12 +61,17 @@ public class GroupService {
     }
 
     @Transactional
-    public GroupDTO registerGroup(GroupDTO groupDTO) {
+    public GroupDTO registerGroup(GroupDTO groupDTO) throws IOException {
         if (groupRepository.findByName(groupDTO.getName()).isPresent()) {
             throw new IllegalArgumentException("Group already existed!");
         }
         Grouping grouping = groupMapper.toEntity(groupDTO);
         grouping.setCenterId(TenantContext.getCenterId());
+
+        if (groupDTO.getImageFile() != null && !groupDTO.getImageFile().isEmpty()) {
+            grouping.setImage(photoService.saveImage(groupDTO.getImageFile()));
+        }
+
         Grouping group = groupRepository.save(grouping);
 
         if (groupDTO.getTeacherId() != null) {
@@ -96,7 +103,7 @@ public class GroupService {
         groupRepository.delete(grouping);
     }
 
-    public GroupDTO updateGroup(GroupDTO groupDTO, UUID groupId) {
+    public GroupDTO updateGroup(GroupDTO groupDTO, UUID groupId) throws IOException {
         Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
 
         if (groupDTO.getName() != null)
@@ -111,6 +118,9 @@ public class GroupService {
             grouping.setStartDate(groupDTO.getStartDate());
         if (groupDTO.getDurationInMonths() != null)
             grouping.setDurationInMonths(groupDTO.getDurationInMonths());
+        if (groupDTO.getImageFile() != null && !groupDTO.getImageFile().isEmpty()) {
+            grouping.setImage(photoService.saveImage(groupDTO.getImageFile()));
+        }
 
         groupRepository.saveAndFlush(grouping);
         return groupMapper.toDto(grouping);

@@ -28,6 +28,8 @@ public class Grouping extends BaseEntity {
 
     private String name;
 
+    private String image;
+
     private String time;
 
     private String description;

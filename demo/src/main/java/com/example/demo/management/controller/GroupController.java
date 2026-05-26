@@ -10,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 import java.util.UUID;
 
@@ -46,8 +49,8 @@ public class GroupController {
 
     @Operation(summary = "Register group", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('CREATE_GROUP')")
-    @PostMapping("/create")
-    public GroupDTO registerGroup(@RequestBody GroupDTO groupDTO) {
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public GroupDTO registerGroup(@ModelAttribute GroupDTO groupDTO) throws IOException {
         return groupService.registerGroup(groupDTO);
     }
 
@@ -65,8 +68,8 @@ public class GroupController {
 
     @Operation(summary = "Update group", responses = {@ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "400", description = "Bad request - Invalid id"), @ApiResponse(responseCode = "401", description = "Unauthorized - Bad credential"), @ApiResponse(responseCode = "403", description = "Access denied - Bad role permission"), @ApiResponse(responseCode = "404", description = "Not found - Department not found"),})
     @PreAuthorize("hasAnyAuthority('UPDATE_GROUP')")
-    @PutMapping("/update/{id}")
-    public GroupDTO updateGroup(@RequestBody GroupDTO groupDTO, @PathVariable UUID id) {
+    @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public GroupDTO updateGroup(@ModelAttribute GroupDTO groupDTO, @PathVariable UUID id) throws IOException {
         return groupService.updateGroup(groupDTO, id);
     }
 

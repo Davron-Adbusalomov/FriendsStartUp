@@ -20,6 +20,7 @@ public interface GroupMapper {
     @Mapping(target = "students", expression = "java(this.getStudents(grouping))")
     @Mapping(target = "isStudentAccessible", ignore = true)
     @Mapping(target = "progressPercentage", ignore = true)
+    @Mapping(target = "imageFile", ignore = true)
     GroupDTO toDto(Grouping grouping);
 
     @Mapping(target = "quizzes", ignore = true)

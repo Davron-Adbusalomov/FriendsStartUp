@@ -87,12 +87,13 @@ CREATE TABLE groups
     updated_by         BIGINT,
     name               VARCHAR(255),
     time               VARCHAR(255),
-    description        VARCHAR(1000),
+    description        VARCHAR(2000),
     start_date         TIMESTAMP WITHOUT TIME ZONE,
     duration_in_months INTEGER,
     subject_id         UUID,
     teacher_id         BIGINT,
     center_id          UUID                        NOT NULL,
+    image              VARCHAR(2000),
     CONSTRAINT pk_groups PRIMARY KEY (id)
 );
 
