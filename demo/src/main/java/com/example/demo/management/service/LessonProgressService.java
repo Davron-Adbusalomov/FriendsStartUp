@@ -27,7 +27,13 @@ public class LessonProgressService {
 
     public void markLessonAsCompleted(UUID lessonId, Long studentId) {
         LessonProgress lessonProgress = lessonProgressRepository.findByLessonIdAndStudentId(lessonId, studentId)
-                .orElseThrow(() -> new IllegalArgumentException("Lesson progress not found for lessonId: " + lessonId + " and studentId: " + studentId));
+                .orElseGet(() -> {
+                    LessonProgress newProgress = new LessonProgress();
+                    newProgress.setLessonId(lessonId);
+                    newProgress.setStudentId(studentId);
+                    newProgress.setCenterId(CurrentUserUtils.getCenterId());
+                    return newProgress;
+                });
         lessonProgress.setCompleted(true);
         lessonProgress.setCompletedAt(new Date());
         lessonProgressRepository.save(lessonProgress);
