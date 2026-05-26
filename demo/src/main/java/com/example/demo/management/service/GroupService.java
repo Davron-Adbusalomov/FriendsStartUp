@@ -105,6 +105,12 @@ public class GroupService {
             grouping.setSubjectId(groupDTO.getSubjectId());
         if (groupDTO.getTime() != null)
             grouping.setTime(groupDTO.getTime());
+        if (groupDTO.getDescription() != null)
+            grouping.setDescription(groupDTO.getDescription());
+        if (groupDTO.getStartDate() != null)
+            grouping.setStartDate(groupDTO.getStartDate());
+        if (groupDTO.getDurationInMonths() != null)
+            grouping.setDurationInMonths(groupDTO.getDurationInMonths());
 
         groupRepository.saveAndFlush(grouping);
         return groupMapper.toDto(grouping);
