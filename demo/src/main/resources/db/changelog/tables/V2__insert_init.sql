@@ -451,6 +451,8 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('TEACHER', 'DELETE_QUIZ'),
 ('TEACHER', 'CHAT_ROOM_GROUP_ENABLE'),
 ('TEACHER',    'GET_TEACHER_DASHBOARD'),
+('TEACHER', 'GET_QUIZZES_LIST'),
+
 
 -- ==========================================================
 -- STUDENT → Only view + participate in quizzes

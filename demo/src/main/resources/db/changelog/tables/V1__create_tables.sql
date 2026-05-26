@@ -51,7 +51,7 @@ CREATE TABLE center
 CREATE TABLE default_permission_entity
 (
     name        VARCHAR(255) NOT NULL,
-    description VARCHAR(255),
+    description VARCHAR(1000),
     CONSTRAINT pk_defaultpermissionentity PRIMARY KEY (name)
 );
 
@@ -87,7 +87,7 @@ CREATE TABLE groups
     updated_by         BIGINT,
     name               VARCHAR(255),
     time               VARCHAR(255),
-    description        VARCHAR(255),
+    description        VARCHAR(1000),
     start_date         TIMESTAMP WITHOUT TIME ZONE,
     duration_in_months INTEGER,
     subject_id         UUID,
@@ -105,7 +105,7 @@ CREATE TABLE lesson
     created_by  BIGINT,
     updated_by  BIGINT,
     title       VARCHAR(255),
-    description VARCHAR(255),
+    description VARCHAR(1000),
     video_url   VARCHAR(255),
     duration    INTEGER,
     order_index INTEGER,
@@ -284,7 +284,7 @@ CREATE TABLE subject
     updated_by  BIGINT,
     name        VARCHAR(255),
     code        VARCHAR(255),
-    description VARCHAR(255),
+    description VARCHAR(1000),
     center_id   UUID                        NOT NULL,
     CONSTRAINT pk_subject PRIMARY KEY (id)
 );
@@ -427,7 +427,7 @@ CREATE TABLE badge
     created_by  BIGINT,
     updated_by  BIGINT,
     name        VARCHAR(255),
-    description VARCHAR(255),
+    description VARCHAR(1000),
     student_id  BIGINT,
     center_id   UUID                        NOT NULL,
     CONSTRAINT pk_badge PRIMARY KEY (id)
