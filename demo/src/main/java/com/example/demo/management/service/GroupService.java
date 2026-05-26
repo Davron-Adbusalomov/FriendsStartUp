@@ -69,7 +69,7 @@ public class GroupService {
         grouping.setCenterId(TenantContext.getCenterId());
 
         if (groupDTO.getImageFile() != null && !groupDTO.getImageFile().isEmpty()) {
-            grouping.setImage(photoService.saveImage(groupDTO.getImageFile()));
+            grouping.setImage(photoService.saveImage(groupDTO.getImageFile(), "group"));
         }
 
         Grouping group = groupRepository.save(grouping);
@@ -119,7 +119,7 @@ public class GroupService {
         if (groupDTO.getDurationInMonths() != null)
             grouping.setDurationInMonths(groupDTO.getDurationInMonths());
         if (groupDTO.getImageFile() != null && !groupDTO.getImageFile().isEmpty()) {
-            grouping.setImage(photoService.saveImage(groupDTO.getImageFile()));
+            grouping.setImage(photoService.saveImage(groupDTO.getImageFile(), "group"));
         }
 
         groupRepository.saveAndFlush(grouping);

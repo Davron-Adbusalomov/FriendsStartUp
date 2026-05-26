@@ -20,7 +20,7 @@ public class PhotoService {
     @Value("${app.base-url}")
     private String baseUrl;
 
-    public String saveImage(MultipartFile file) throws IOException {
+    public String saveImage(MultipartFile file, String folder) throws IOException {
         if (file == null || file.isEmpty()) return null;
 
         String contentType = file.getContentType();
@@ -36,11 +36,11 @@ public class PhotoService {
 
         String fileName = UUID.randomUUID() + extension;
 
-        Path path = Paths.get(uploadDir, fileName);
+        Path path = Paths.get(uploadDir, folder, fileName);
 
         Files.createDirectories(path.getParent());
         Files.write(path, file.getBytes());
 
-        return baseUrl + "/attachments/" + fileName;
+        return baseUrl + "/attachments/" + folder + "/" + fileName;
     }
 }

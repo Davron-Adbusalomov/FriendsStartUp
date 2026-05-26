@@ -124,7 +124,7 @@ public class StudentService {
                 throw new IllegalArgumentException("Only PNG and JPEG images are allowed");
             }
 
-            imageUrl = photoService.saveImage(studentDTO.getImage());
+            imageUrl = photoService.saveImage(studentDTO.getImage(), "student");
             student.setImage(imageUrl);
         }
 

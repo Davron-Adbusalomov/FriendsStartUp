@@ -106,7 +106,7 @@ public class QuestionService {
                         throw new IllegalArgumentException("Only PNG and JPEG images are allowed");
                     }
 
-                    question.setImage(photoService.saveImage(questionDTO.getImage()));
+                    question.setImage(photoService.saveImage(questionDTO.getImage(), "question"));
                 }
 
                 if (questionDTO.getType().equals("MC")){
@@ -176,7 +176,7 @@ public class QuestionService {
                 throw new IllegalArgumentException("Only PNG and JPEG images are allowed");
             }
 
-            updatedQuestion.setImage(photoService.saveImage(questionDTO.getImage()));
+            updatedQuestion.setImage(photoService.saveImage(questionDTO.getImage(), "question"));
         }
 
         Question saved = questionRepository.save(updatedQuestion);
