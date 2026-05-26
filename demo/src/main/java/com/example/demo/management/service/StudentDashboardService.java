@@ -1,7 +1,10 @@
 package com.example.demo.management.service;
 
 import com.example.demo.management.dto.*;
-import com.example.demo.management.dto.projection.*;
+import com.example.demo.management.dto.projection.AttendanceSummaryProjection;
+import com.example.demo.management.dto.projection.StudentGroupLessonProgressProjection;
+import com.example.demo.management.dto.projection.StudentQuizPerformanceProjection;
+import com.example.demo.management.dto.projection.StudentStatsProjection;
 import com.example.demo.management.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,9 +39,9 @@ public class StudentDashboardService {
 
         double avgScore = quizPerformance.isEmpty() ? 0.0
                 : Math.round(quizPerformance.stream()
-                        .mapToDouble(StudentQuizPerformanceDTO::getPercentage)
-                        .average()
-                        .orElse(0.0) * 10) / 10.0;
+                .mapToDouble(StudentQuizPerformanceDTO::getPercentage)
+                .average()
+                .orElse(0.0) * 10) / 10.0;
 
         StudentStatsDTO dto = new StudentStatsDTO();
         dto.setTotalGroups(raw.getTotalGroups() != null ? raw.getTotalGroups() : 0);
