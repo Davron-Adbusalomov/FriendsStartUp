@@ -109,6 +109,8 @@ public class GroupService {
             grouping.setStartDate(groupDTO.getStartDate());
         if (groupDTO.getDurationInMonths() != null)
             grouping.setDurationInMonths(groupDTO.getDurationInMonths());
+        if (groupDTO.getCourseId() != null)
+            grouping.setCourseId(groupDTO.getCourseId());
         if (groupDTO.getImageFile() != null && !groupDTO.getImageFile().isEmpty()) {
             grouping.setImage(photoService.saveImage(groupDTO.getImageFile(), "group"));
         }
