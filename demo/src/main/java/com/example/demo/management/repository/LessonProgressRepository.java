@@ -19,15 +19,15 @@ public interface LessonProgressRepository extends JpaRepository<LessonProgress, 
     Optional<LessonProgress> findByLessonIdAndStudentId(UUID lessonId, Long studentId);
 
     @Query("""
-            SELECT COUNT(lp) FROM LessonProgress lp WHERE lp.lesson.groupId = :groupId
+            SELECT COUNT(lp) FROM LessonProgress lp WHERE lp.lesson.courseId = :courseId
             """)
-    long countByGroupId(UUID groupId);
+    long countByCourseId(UUID courseId);
 
     @Query("""
-            SELECT COUNT(lp) FROM LessonProgress lp WHERE lp.lesson.groupId = :groupId AND lp.studentId = :studentId AND lp.completed = true
+            SELECT COUNT(lp) FROM LessonProgress lp WHERE lp.lesson.courseId = :courseId AND lp.studentId = :studentId AND lp.completed = true
             """)
-    long countByGroupIdAndStudentIdAndCompletedTrue(
-            UUID groupId,
+    long countByCourseIdAndStudentIdAndCompletedTrue(
+            UUID courseId,
             Long studentId
     );
 }

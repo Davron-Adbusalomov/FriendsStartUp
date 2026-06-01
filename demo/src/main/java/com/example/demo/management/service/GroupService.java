@@ -41,7 +41,7 @@ public class GroupService {
         Page<GroupDTO> groupDtos = groups.map(groupMapper::toDto);
         for(GroupDTO groupDto : groupDtos) {
             if (studentId != null) {
-                double progressPercentage = lessonProgressService.calculateProgressPercentage(groupDto.getId(), studentId);
+                double progressPercentage = lessonProgressService.calculateProgressPercentage(groupDto.getCourseId(), studentId);
                 groupDto.setProgressPercentage(progressPercentage);
             }
         }
