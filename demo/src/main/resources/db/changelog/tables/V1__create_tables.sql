@@ -77,6 +77,23 @@ CREATE TABLE group_student
     student_id BIGINT NOT NULL
 );
 
+CREATE TABLE course
+(
+    id                 UUID                        NOT NULL,
+    created_at         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at         TIMESTAMP WITHOUT TIME ZONE,
+    status             VARCHAR(255)                NOT NULL,
+    created_by         BIGINT,
+    updated_by         BIGINT,
+    name               VARCHAR(255),
+    description        VARCHAR(2000),
+    image              VARCHAR(2000),
+    duration_in_months INTEGER,
+    subject_id         UUID,
+    center_id          UUID                        NOT NULL,
+    CONSTRAINT pk_course PRIMARY KEY (id)
+);
+
 CREATE TABLE groups
 (
     id                 UUID                        NOT NULL,
@@ -94,24 +111,27 @@ CREATE TABLE groups
     teacher_id         BIGINT,
     center_id          UUID                        NOT NULL,
     image              VARCHAR(2000),
+    course_id          UUID,
     CONSTRAINT pk_groups PRIMARY KEY (id)
 );
 
 CREATE TABLE lesson
 (
-    id          UUID                        NOT NULL,
-    created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_at  TIMESTAMP WITHOUT TIME ZONE,
-    status      VARCHAR(255)                NOT NULL,
-    created_by  BIGINT,
-    updated_by  BIGINT,
-    title       VARCHAR(255),
-    description VARCHAR(1000),
-    video_url   VARCHAR(255),
-    duration    INTEGER,
-    order_index INTEGER,
-    group_id    UUID,
-    center_id   UUID                        NOT NULL,
+    id             UUID                        NOT NULL,
+    created_at     TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    updated_at     TIMESTAMP WITHOUT TIME ZONE,
+    status         VARCHAR(255)                NOT NULL,
+    created_by     BIGINT,
+    updated_by     BIGINT,
+    title          VARCHAR(255),
+    description    VARCHAR(1000),
+    video_url      VARCHAR(255),
+    duration       INTEGER,
+    order_index    INTEGER,
+    course_id      UUID,
+    inspector_name VARCHAR(255),
+    inspector_info TEXT,
+    center_id      UUID                        NOT NULL,
     CONSTRAINT pk_lesson PRIMARY KEY (id)
 );
 
@@ -179,7 +199,7 @@ CREATE TABLE quiz
     duration      BIGINT,
     start_time    TIMESTAMP WITHOUT TIME ZONE,
     end_time      TIMESTAMP WITHOUT TIME ZONE,
-    grouping_id   UUID,
+    course_id     UUID,
     teacher_id    BIGINT                      NOT NULL,
     center_id     UUID                        NOT NULL,
     CONSTRAINT pk_quiz PRIMARY KEY (id)
@@ -507,11 +527,20 @@ ALTER TABLE groups
 ALTER TABLE groups
     ADD CONSTRAINT FK_GROUPS_ON_TEACHER FOREIGN KEY (teacher_id) REFERENCES teacher (id);
 
+ALTER TABLE groups
+    ADD CONSTRAINT FK_GROUPS_ON_COURSE FOREIGN KEY (course_id) REFERENCES course (id);
+
+ALTER TABLE course
+    ADD CONSTRAINT FK_COURSE_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
+
+ALTER TABLE course
+    ADD CONSTRAINT FK_COURSE_ON_SUBJECT FOREIGN KEY (subject_id) REFERENCES subject (id);
+
 ALTER TABLE lesson
     ADD CONSTRAINT FK_LESSON_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
 
 ALTER TABLE lesson
-    ADD CONSTRAINT FK_LESSON_ON_GROUP FOREIGN KEY (group_id) REFERENCES groups (id);
+    ADD CONSTRAINT FK_LESSON_ON_COURSE FOREIGN KEY (course_id) REFERENCES course (id);
 
 ALTER TABLE lesson_progress
     ADD CONSTRAINT FK_LESSON_PROGRESS_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
@@ -550,7 +579,7 @@ ALTER TABLE quiz
     ADD CONSTRAINT FK_QUIZ_ON_CENTER FOREIGN KEY (center_id) REFERENCES center (id);
 
 ALTER TABLE quiz
-    ADD CONSTRAINT FK_QUIZ_ON_GROUPING FOREIGN KEY (grouping_id) REFERENCES groups (id);
+    ADD CONSTRAINT FK_QUIZ_ON_COURSE FOREIGN KEY (course_id) REFERENCES course (id);
 
 ALTER TABLE quiz
     ADD CONSTRAINT FK_QUIZ_ON_TEACHER FOREIGN KEY (teacher_id) REFERENCES teacher (id);

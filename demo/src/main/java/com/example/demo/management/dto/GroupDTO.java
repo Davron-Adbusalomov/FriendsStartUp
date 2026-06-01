@@ -48,7 +48,7 @@ public class GroupDTO {
 
     private List<StudentDTO> students = new ArrayList<>();
 
-    private List<UUID> quizzes;
+    private UUID courseId;
 
     private UUID centerId;
 }

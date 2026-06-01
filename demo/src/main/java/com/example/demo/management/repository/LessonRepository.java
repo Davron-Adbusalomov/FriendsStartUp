@@ -12,7 +12,6 @@ import java.util.UUID;
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, UUID>, JpaSpecificationExecutor<Lesson> {
 
-    @Query("SELECT l FROM Lesson l WHERE l.groupId=:groupId ORDER BY l.orderIndex ASC")
-    List<Lesson> findAllByGroupIdOrderByOrderIndexAsc(UUID groupId);
-
+    @Query("SELECT l FROM Lesson l WHERE l.courseId = :courseId ORDER BY l.orderIndex ASC")
+    List<Lesson> findAllByCourseIdOrderByOrderIndexAsc(UUID courseId);
 }

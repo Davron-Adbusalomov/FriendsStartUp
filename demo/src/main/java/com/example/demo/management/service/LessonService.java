@@ -9,9 +9,7 @@ import com.example.demo.management.dto.LessonProgressDTO;
 import com.example.demo.management.dto.StudentLessonProgressDTO;
 import com.example.demo.management.mapper.LessonMapper;
 import com.example.demo.management.model.Lesson;
-import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.LessonRepository;
-import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.management.specification.LessonSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,7 +29,6 @@ public class LessonService {
     private final LessonRepository lessonRepository;
     private final LessonMapper lessonMapper;
     private final LessonProgressService lessonProgressService;
-    private final TeacherRepository teacherRepository;
     private final AttachmentService attachmentService;
 
     public LessonDTO create(LessonDTO dto) {
@@ -45,16 +42,17 @@ public class LessonService {
         Lesson lesson = lessonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Lesson not found"));
 
-        if (dto.getTitle() != null)       lesson.setTitle(dto.getTitle());
-        if (dto.getDescription() != null) lesson.setDescription(dto.getDescription());
-        if (dto.getVideoUrl() != null)    lesson.setVideoUrl(dto.getVideoUrl());
-        if (dto.getDuration() != null)    lesson.setDuration(dto.getDuration());
-        if (dto.getOrderIndex() != null)  lesson.setOrderIndex(dto.getOrderIndex());
-        if (dto.getGroupId() != null)     lesson.setGroupId(dto.getGroupId());
-        if (dto.getCenterId() != null)    lesson.setCenterId(dto.getCenterId());
+        if (dto.getTitle() != null)         lesson.setTitle(dto.getTitle());
+        if (dto.getDescription() != null)   lesson.setDescription(dto.getDescription());
+        if (dto.getVideoUrl() != null)      lesson.setVideoUrl(dto.getVideoUrl());
+        if (dto.getDuration() != null)      lesson.setDuration(dto.getDuration());
+        if (dto.getOrderIndex() != null)    lesson.setOrderIndex(dto.getOrderIndex());
+        if (dto.getInspectorName() != null) lesson.setInspectorName(dto.getInspectorName());
+        if (dto.getInspectorInfo() != null) lesson.setInspectorInfo(dto.getInspectorInfo());
+        if (dto.getCourseId() != null)      lesson.setCourseId(dto.getCourseId());
+        if (dto.getCenterId() != null)      lesson.setCenterId(dto.getCenterId());
 
         lessonRepository.save(lesson);
-
         return lessonMapper.toDto(lesson);
     }
 
@@ -63,23 +61,15 @@ public class LessonService {
                 .orElseThrow(() -> new RuntimeException("Lesson not found"));
 
         LessonDetailsDTO dto = lessonMapper.toDetailsDto(lesson);
-        if (lesson.getGrouping() != null
-                && lesson.getGrouping().getTeacherId() != null) {
-            Teacher teacher = teacherRepository.findById(lesson.getGrouping().getTeacherId())
-                    .orElse(new Teacher());
-
-            dto.setInspectorName(teacher.getFullName());
-            dto.setInspectorInfo(teacher.getExperience());
-            dto.setInspectorImage(teacher.getImage());
-        }
+        dto.setInspectorName(lesson.getInspectorName());
+        dto.setInspectorInfo(lesson.getInspectorInfo());
         dto.setResources(attachmentService.getByOwner(AttachmentOwnerType.LESSON, id));
 
         return dto;
     }
 
-    public Page<LessonDTO> getAll(String title, UUID groupId, Pageable pageable) {
-        Specification<Lesson> spec = LessonSpecification.advancedFilter(title, groupId);
-
+    public Page<LessonDTO> getAll(String title, UUID courseId, Pageable pageable) {
+        Specification<Lesson> spec = LessonSpecification.advancedFilter(title, courseId);
         Page<Lesson> page = lessonRepository.findAll(spec, pageable);
         return page.map(lessonMapper::toDto);
     }
@@ -88,9 +78,9 @@ public class LessonService {
         lessonRepository.deleteById(id);
     }
 
-    public List<StudentLessonProgressDTO> getLessonsWithStudentProgress(UUID groupId, Long studentId) {
+    public List<StudentLessonProgressDTO> getLessonsWithStudentProgress(UUID courseId, Long studentId) {
 
-        List<Lesson> lessons = lessonRepository.findAllByGroupIdOrderByOrderIndexAsc(groupId);
+        List<Lesson> lessons = lessonRepository.findAllByCourseIdOrderByOrderIndexAsc(courseId);
 
         List<LessonProgressDTO> progressList =
                 lessonProgressService.getLessonProgressByStudentId(studentId);
@@ -102,41 +92,34 @@ public class LessonService {
         List<StudentLessonProgressDTO> result = new ArrayList<>();
 
         for (int i = 0; i < lessons.size(); i++) {
-
             Lesson lesson = lessons.get(i);
-            StudentLessonProgressDTO dto = new StudentLessonProgressDTO();
+            StudentLessonProgressDTO progressDTO = new StudentLessonProgressDTO();
 
-            dto.setId(lesson.getId());
-            dto.setTitle(lesson.getTitle());
-            dto.setDescription(lesson.getDescription());
-            dto.setVideoUrl(lesson.getVideoUrl());
-            dto.setDuration(lesson.getDuration());
-            dto.setOrderIndex(lesson.getOrderIndex());
+            progressDTO.setId(lesson.getId());
+            progressDTO.setTitle(lesson.getTitle());
+            progressDTO.setDescription(lesson.getDescription());
+            progressDTO.setVideoUrl(lesson.getVideoUrl());
+            progressDTO.setDuration(lesson.getDuration());
+            progressDTO.setOrderIndex(lesson.getOrderIndex());
 
             boolean isCompleted = completedLessonIds.contains(lesson.getId());
             if (isCompleted) {
-                dto.setLockingStatus(LessonProgressEnum.COMPLETED);
-                result.add(dto);
+                progressDTO.setLockingStatus(LessonProgressEnum.COMPLETED);
+                result.add(progressDTO);
                 continue;
             }
 
             if (i == 0) {
-                dto.setLockingStatus(LessonProgressEnum.UNLOCKED);
+                progressDTO.setLockingStatus(LessonProgressEnum.UNLOCKED);
             } else {
                 UUID prevLessonId = lessons.get(i - 1).getId();
                 boolean prevCompleted = completedLessonIds.contains(prevLessonId);
-
-                if (prevCompleted) {
-                    dto.setLockingStatus(LessonProgressEnum.UNLOCKED);
-                } else {
-                    dto.setLockingStatus(LessonProgressEnum.LOCKED);
-                }
+                progressDTO.setLockingStatus(prevCompleted ? LessonProgressEnum.UNLOCKED : LessonProgressEnum.LOCKED);
             }
 
-            result.add(dto);
+            result.add(progressDTO);
         }
 
         return result;
     }
-
 }

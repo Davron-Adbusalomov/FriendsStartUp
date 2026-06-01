@@ -1,7 +1,7 @@
 package com.example.demo.management.model;
 
-import com.example.demo.exam.model.Quiz;
 import jakarta.persistence.*;
+import com.example.demo.management.model.Course;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+// Quiz list removed — quizzes now belong to Course
 
 @Entity
 @Getter
@@ -55,8 +56,12 @@ public class Grouping extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<Student> students = new ArrayList<>();
 
-    @OneToMany(mappedBy = "grouping")
-    private List<Quiz> quizzes;
+    @Column(name = "course_id")
+    private UUID courseId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", insertable = false, updatable = false)
+    private Course course;
 
     @Column(name = "center_id", nullable = false)
     private UUID centerId;

@@ -171,7 +171,12 @@ INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('GET_TEACHER_DASHBOARD', 'View teacher dashboard information'),
                                                               ('GET_ADMIN_DASHBOARD', 'View admin dashboard information'),
                                                               ('GET_DIRECTOR_DASHBOARD', 'View director dashboard information'),
-                                                              ('GET_SUPER_ADMIN_DASHBOARD', 'View super admin dashboard information')
+                                                              ('GET_SUPER_ADMIN_DASHBOARD', 'View super admin dashboard information'),
+                                                              ('GET_COURSES_LIST', 'View list of all courses'),
+                                                              ('GET_COURSE', 'View details of a single course'),
+                                                              ('CREATE_COURSE', 'Create a new course'),
+                                                              ('UPDATE_COURSE', 'Update course information'),
+                                                              ('DELETE_COURSE', 'Delete a course')
 ON CONFLICT (name) DO NOTHING;
 
 
@@ -496,6 +501,32 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 -- ROLE_USER → minimal authentication permissions
 -- ==========================================================
 ('ROLE_USER', 'SIGN_UP'),
-('ROLE_USER', 'GET_PERMISSIONS_BY_USER_ID')
+('ROLE_USER', 'GET_PERMISSIONS_BY_USER_ID'),
+
+-- ==========================================================
+-- COURSE permissions
+-- ==========================================================
+('SUPER_ADMIN', 'GET_COURSES_LIST'),
+('SUPER_ADMIN', 'GET_COURSE'),
+('SUPER_ADMIN', 'CREATE_COURSE'),
+('SUPER_ADMIN', 'UPDATE_COURSE'),
+('SUPER_ADMIN', 'DELETE_COURSE'),
+
+('DIRECTOR', 'GET_COURSES_LIST'),
+('DIRECTOR', 'GET_COURSE'),
+('DIRECTOR', 'CREATE_COURSE'),
+('DIRECTOR', 'UPDATE_COURSE'),
+
+('ADMIN', 'GET_COURSES_LIST'),
+('ADMIN', 'GET_COURSE'),
+('ADMIN', 'CREATE_COURSE'),
+('ADMIN', 'UPDATE_COURSE'),
+('ADMIN', 'DELETE_COURSE'),
+
+('TEACHER', 'GET_COURSES_LIST'),
+('TEACHER', 'GET_COURSE'),
+
+('STUDENT', 'GET_COURSES_LIST'),
+('STUDENT', 'GET_COURSE')
 
 ON CONFLICT (role_id, default_permission_name) DO NOTHING;

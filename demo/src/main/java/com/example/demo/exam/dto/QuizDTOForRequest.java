@@ -23,7 +23,7 @@ public class QuizDTOForRequest {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startTime;
 
-    private UUID groupingId;
+    private UUID courseId;
 
     private Long teacherId;
 

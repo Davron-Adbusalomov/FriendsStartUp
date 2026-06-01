@@ -14,9 +14,9 @@ public class QuizSpecification {
             criteriaBuilder.like(root.get("title"), "%" + title + "%");
     }
 
-    public static Specification<Quiz> hasGroupId(UUID groupId) {
+    public static Specification<Quiz> hasCourseId(UUID courseId) {
         return (root, query, criteriaBuilder) ->
-            criteriaBuilder.equal(root.get("groupingId"), groupId);
+            criteriaBuilder.equal(root.get("courseId"), courseId);
     }
 
     public static Specification<Quiz> hasStatus(QuizContentStatus status) {
@@ -46,9 +46,9 @@ public class QuizSpecification {
         };
     }
 
-    public static Specification<Quiz> advancedFilter(UUID groupId, String title, QuizContentStatus status) {
+    public static Specification<Quiz> advancedFilter(UUID courseId, String title, QuizContentStatus status) {
         return Specification.where(title != null ? hasTitle(title) : null)
-                .and(groupId != null ? hasGroupId(groupId) : null)
+                .and(courseId != null ? hasCourseId(courseId) : null)
                 .and(status != null ? hasStatus(status) : null);
     }
 }

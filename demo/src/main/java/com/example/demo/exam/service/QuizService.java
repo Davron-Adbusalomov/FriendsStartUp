@@ -54,8 +54,8 @@ public class QuizService {
             return ResponseEntity.badRequest().body("No teacher with id " + quizDTO.getTeacherId());
         }
 
-        if (!groupRepository.existsById(quizDTO.getGroupingId())) {
-            return ResponseEntity.badRequest().body("No group with id " + quizDTO.getGroupingId());
+        if (!groupRepository.existsById(quizDTO.getCourseId())) {
+            return ResponseEntity.badRequest().body("No group with id " + quizDTO.getCourseId());
         }
 
         List<Question> questions = questionRepository.findAllById(quizDTO.getQuestions());
@@ -68,7 +68,7 @@ public class QuizService {
         quiz.setTeacherId(quizDTO.getTeacherId());
         quiz.setDuration(quizDTO.getDuration());
         quiz.setStartTime(quizDTO.getStartTime());
-        quiz.setGroupingId(quizDTO.getGroupingId());
+        quiz.setCourseId(quizDTO.getCourseId());
         quiz.setQuestionsNum(quizDTO.getQuestions_num());
         quiz.setTitle(quizDTO.getTitle());
         quiz.setCenterId(TenantContext.getCenterId());
@@ -271,21 +271,21 @@ public class QuizService {
         }
     }
 
-    private void validateStudentAccess(UUID quizId, Long studentId) {
-
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
-
-        Quiz quiz = quizRepository.findById(quizId)
-                .orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
-
-        boolean belongs = student.getGroupings().stream()
-                .anyMatch(g -> g.getId().equals(quiz.getGrouping().getId()));
-
-        if (!belongs) {
-            throw new IllegalStateException("Student is not allowed to take this quiz");
-        }
-    }
+//    private void validateStudentAccess(UUID quizId, Long studentId) {
+//
+//        Student student = studentRepository.findById(studentId)
+//                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+//
+//        Quiz quiz = quizRepository.findById(quizId)
+//                .orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
+//
+//        boolean belongs = student.getGroupings().stream()
+//                .anyMatch(g -> g.getId().equals(quiz.getGrouping().getId()));
+//
+//        if (!belongs) {
+//            throw new IllegalStateException("Student is not allowed to take this quiz");
+//        }
+//    }
 
 
     @Transactional
@@ -311,12 +311,12 @@ public class QuizService {
     }
 
     public Page<QuizSummaryDTO> getQuizzesList(
-            UUID groupId,
+            UUID courseId,
             String title,
             QuizContentStatus status,
             Pageable pageable
     ) {
-        Specification<Quiz> spec = QuizSpecification.advancedFilter(groupId, title, status);
+        Specification<Quiz> spec = QuizSpecification.advancedFilter(courseId, title, status);
 
         Pageable effectivePageable = pageable != null
                 ? PageRequest.of(

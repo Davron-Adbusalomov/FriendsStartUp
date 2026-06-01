@@ -2,7 +2,7 @@ package com.example.demo.exam.model;
 
 import com.example.demo.management.model.BaseEntity;
 import com.example.demo.management.model.Center;
-import com.example.demo.management.model.Grouping;
+import com.example.demo.management.model.Course;
 import com.example.demo.management.model.Teacher;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -47,13 +47,13 @@ public class Quiz extends BaseEntity {
 
     private LocalDateTime endTime;
 
-    @Column(name = "grouping_id")
-    private UUID groupingId;
+    @Column(name = "course_id")
+    private UUID courseId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    @JoinColumn(name = "grouping_id", insertable = false, updatable = false)
-    private Grouping grouping;
+    @JoinColumn(name = "course_id", insertable = false, updatable = false)
+    private Course course;
 
     @Column(name = "teacher_id", nullable = false)
     private Long teacherId;
@@ -84,14 +84,11 @@ public class Quiz extends BaseEntity {
     @Override
     public void handleDerivedFields() {
         if (startTime == null || duration == null) return;
-
         LocalDateTime calculated = startTime.plusMinutes(duration);
-
         if (!calculated.equals(endTime)) {
             endTime = calculated;
         }
     }
-
 
     public void assignQuestion(Question question) {
         questions.add(question);

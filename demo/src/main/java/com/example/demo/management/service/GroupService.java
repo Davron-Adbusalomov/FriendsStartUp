@@ -1,8 +1,6 @@
 package com.example.demo.management.service;
 
 import com.example.demo.config.TenantContext;
-import com.example.demo.exam.model.Quiz;
-import com.example.demo.exam.repository.QuizRepository;
 import com.example.demo.management.dto.AssignUserToGroupDTO;
 import com.example.demo.management.dto.GroupDTO;
 import com.example.demo.management.mapper.GroupMapper;
@@ -31,7 +29,6 @@ public class GroupService {
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
-    private final QuizRepository quizRepository;
     private final GroupMapper groupMapper;
     private final LessonProgressService lessonProgressService;
     private final PhotoService photoService;
@@ -86,18 +83,12 @@ public class GroupService {
     public void deleteGroup(UUID groupId) {
         Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
 
-        // Remove students from groupings
+        // Remove students from group before deleting
         var groupings = studentRepository.findByGroupId(groupId);
         for (Grouping g : groupings) {
             for (Student student : g.getStudents()) {
                 student.getGroupings().remove(g);
             }
-        }
-
-        // Remove quizzes association
-        var quizzes = quizRepository.findByGroupingId(groupId);
-        for (Quiz quiz : quizzes) {
-            quiz.setGrouping(null);
         }
 
         groupRepository.delete(grouping);

@@ -25,80 +25,37 @@ public class LessonController {
     private final LessonService lessonService;
     private final LessonProgressService lessonProgressService;
 
-    @Operation(
-            summary = "create lesson",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
+    @Operation(summary = "create lesson")
     @PreAuthorize("hasAuthority('CREATE_LESSON')")
     @PostMapping("/create")
     public ResponseEntity<LessonDTO> create(@RequestBody LessonDTO dto) {
         return ResponseEntity.ok(lessonService.create(dto));
     }
 
-    @Operation(
-            summary = "UPDATE lesson",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
+    @Operation(summary = "update lesson")
     @PreAuthorize("hasAuthority('UPDATE_LESSON')")
     @PutMapping("/update/{id}")
-    public ResponseEntity<LessonDTO> update(
-            @PathVariable UUID id,
-            @RequestBody LessonDTO dto
-    ) {
+    public ResponseEntity<LessonDTO> update(@PathVariable UUID id, @RequestBody LessonDTO dto) {
         return ResponseEntity.ok(lessonService.update(id, dto));
     }
 
-    @Operation(
-            summary = "get lesson by id",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
+    @Operation(summary = "get lesson by id")
     @PreAuthorize("hasAuthority('GET_LESSON')")
     @GetMapping("/{id}")
     public ResponseEntity<LessonDetailsDTO> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(lessonService.getById(id));
     }
 
-    @Operation(
-            summary = "GET LESSONS LIST",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
+    @Operation(summary = "get lessons list")
     @PreAuthorize("hasAuthority('GET_LESSONS_LIST')")
     @GetMapping
-    public Page<LessonDTO> getAll(@RequestParam(required = false) UUID groupId,
+    public Page<LessonDTO> getAll(@RequestParam(required = false) UUID courseId,
                                   @RequestParam(required = false) String title,
                                   Pageable pageable) {
-        return lessonService.getAll(title, groupId, pageable);
+        return lessonService.getAll(title, courseId, pageable);
     }
 
-    @Operation(
-            summary = "delete lesson by id",
-            responses = {
-                    @ApiResponse(responseCode = "404", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
+    @Operation(summary = "delete lesson by id")
     @PreAuthorize("hasAuthority('DELETE_LESSON')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
@@ -106,31 +63,15 @@ public class LessonController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(
-            summary = "get lessons with student progress by group",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
+    @Operation(summary = "get lessons with student progress by course")
     @PreAuthorize("hasAuthority('GET_LESSONS_LIST')")
     @GetMapping("/student-progress")
-    public ResponseEntity<List<StudentLessonProgressDTO>> getByGroup(@RequestParam(name = "groupId") UUID groupId,
-                                                                     @RequestParam(name = "studentId") Long studentId) {
-        return ResponseEntity.ok(lessonService.getLessonsWithStudentProgress(groupId, studentId));
+    public ResponseEntity<List<StudentLessonProgressDTO>> getByGroup(@RequestParam UUID courseId,
+                                                                     @RequestParam Long studentId) {
+        return ResponseEntity.ok(lessonService.getLessonsWithStudentProgress(courseId, studentId));
     }
 
-    @Operation(
-            summary = "mark lesson as completed",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
+    @Operation(summary = "mark lesson as completed")
     @PreAuthorize("hasAuthority('UPDATE_LESSON_PROGRESS')")
     @PostMapping("/complete-lesson")
     public ResponseEntity<Void> completeLesson(@RequestParam UUID lessonId,

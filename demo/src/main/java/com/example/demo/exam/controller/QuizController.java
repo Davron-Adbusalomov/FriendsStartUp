@@ -69,11 +69,11 @@ public class QuizController {
             })
     @PreAuthorize("hasAnyAuthority('GET_QUIZZES_LIST')")
     @GetMapping("")
-    public Page<QuizSummaryDTO> getQuizzesList(@RequestParam(name = "groupId", required = false) UUID groupId,
+    public Page<QuizSummaryDTO> getQuizzesList(@RequestParam(name = "courseId", required = false) UUID courseId,
                                                @RequestParam(name = "title", required = false) String title,
                                                @RequestParam(name = "status", required = false) QuizContentStatus status,
                                                Pageable pageable){
-        return quizService.getQuizzesList(groupId, title, status, pageable);
+        return quizService.getQuizzesList(courseId, title, status, pageable);
     }
 
     @Operation(
