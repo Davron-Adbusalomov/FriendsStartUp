@@ -6,6 +6,7 @@ import com.example.demo.exam.dto.WrittenQuestionsEvaluateDTO;
 import com.example.demo.exam.interfaces.StudentRanking;
 import com.example.demo.exam.model.*;
 import com.example.demo.exam.repository.*;
+import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
@@ -66,22 +67,23 @@ public class QuizResultService {
     }
 
 
-    public void finalizeQuiz(UUID quizId) throws TelegramApiException {
-        Optional<Quiz> quiz = quizRepository.findById(quizId);
+    public void finalizeQuiz(UUID quizId, UUID groupingId) throws TelegramApiException {
+        Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new EntityNotFoundException("Quiz not found with id: " + quizId));
+        Grouping grouping = groupRepository.findById(groupingId).orElseThrow(() -> new EntityNotFoundException("Grouping not found with id: " + groupingId));
 
         int maxMark = 0;
 
-        for (Question question : quiz.get().getQuestions()) {
+        for (Question question : quiz.getQuestions()) {
             maxMark += question.getMark();
         }
 
-        for (Student student : quiz.get().getGrouping().getStudents()) {
+        for (Student student : grouping.getStudents()) {
             QuizResults quizResults = student.getQuizResults().get(student.getQuizResults().size() - 1);
 
             int place = 1;
 
-            for (int i = 0; i < quiz.get().getGrouping().getStudents().size(); i++) {
-                Student otherStudent = quiz.get().getGrouping().getStudents().get(i);
+            for (int i = 0; i < grouping.getStudents().size(); i++) {
+                Student otherStudent = grouping.getStudents().get(i);
                 List<QuizResults> otherStudentQuizResults = otherStudent.getQuizResults();
 
                 QuizResults otherStudentLastResult = otherStudentQuizResults.get(otherStudentQuizResults.size() - 1);
@@ -97,7 +99,7 @@ public class QuizResultService {
 
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(student.getParentChatId());
-            sendMessage.setText("Assalomu alaykum! Farzandingiz, "+ student.getFullName()+" " + quiz.get().getGrouping().getSubjectId() + " fanidan oxirgi sinov natijasi bilan tanishing:\n o'zlashtirish foizi: " + (quizResults.getMark() * 100.0) / maxMark +"%\n guruhdagi o'rni: " + place + "-o'rin\n ");
+            sendMessage.setText("Assalomu alaykum! Farzandingiz, "+ student.getFullName()+" " + grouping.getSubjectId() + " fanidan oxirgi sinov natijasi bilan tanishing:\n o'zlashtirish foizi: " + (quizResults.getMark() * 100.0) / maxMark +"%\n guruhdagi o'rni: " + place + "-o'rin\n ");
 
         telegramConfig.execute(sendMessage);
         }

@@ -21,7 +21,7 @@ public class EvaluatedQuizDetailsDTO {
 
     private int questionsNum;
 
-    private UUID groupingId;
+    private UUID courseId;
 
     private Long teacherId;
 

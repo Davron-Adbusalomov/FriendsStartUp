@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 public interface LessonMapper {
     LessonDTO toDto(Lesson lesson);
 
-    @Mapping(target = "grouping", ignore = true)
+//    @Mapping(target = "grouping", ignore = true)
     @Mapping(target = "center", ignore = true)
     Lesson toEntity(LessonDTO dto);
 

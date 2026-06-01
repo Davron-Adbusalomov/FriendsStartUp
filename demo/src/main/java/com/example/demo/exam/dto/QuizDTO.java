@@ -32,6 +32,8 @@ public class QuizDTO {
 
         private Set<QuestionDTO> questions;
 
+        private UUID courseId;
+
        // private QuizResults quizResult;
     }
 

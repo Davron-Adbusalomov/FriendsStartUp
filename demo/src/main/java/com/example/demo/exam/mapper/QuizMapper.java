@@ -17,7 +17,7 @@ public interface QuizMapper {
         quizDTO.setDuration(quiz.getDuration());
         quizDTO.setQuestionsNum(quiz.getQuestionsNum());
         quizDTO.setQuestions(quiz.getQuestions().stream().map(QuestionMapper::toDTO).collect(java.util.stream.Collectors.toSet()));
-        quizDTO.setGroupingId(quiz.getGrouping().getId());
+        quizDTO.setCourseId(quiz.getCourseId());
         quizDTO.setTeacherId(quiz.getTeacher().getId());
         quizDTO.setStartTime(quiz.getStartTime());
        // quizDTO.setQuizResult(quiz.getQuizResult());
@@ -40,7 +40,7 @@ public interface QuizMapper {
             dto.setTitle(quiz.getTitle());
             dto.setDuration(quiz.getDuration());
             dto.setQuestionsNum(quiz.getQuestionsNum());
-            dto.setGroupingId(quiz.getGrouping().getId());
+            dto.setCourseId(quiz.getCourseId());
             dto.setTeacherId(quiz.getTeacher().getId());
             dto.setCreatedAt(quiz.getCreatedAt());
             dto.setStartTime(quiz.getStartTime());

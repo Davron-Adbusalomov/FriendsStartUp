@@ -55,8 +55,9 @@ public class QuizResultController {
             })
     @PreAuthorize("hasAnyAuthority('FINALIZE_QUIZ')")
     @PostMapping("/finalize/{quizId}")
-    public ResponseEntity<?> finalizeQuiz(@PathVariable UUID quizId) throws TelegramApiException {
-        quizResultsService.finalizeQuiz(quizId);
+    public ResponseEntity<?> finalizeQuiz(@PathVariable UUID quizId,
+                                          @RequestParam(name = "groupingId", required = false) UUID groupingId) throws TelegramApiException {
+        quizResultsService.finalizeQuiz(quizId, groupingId);
         return ResponseEntity.status(HttpStatus.OK).body("finalized successfully!");
     }
 
