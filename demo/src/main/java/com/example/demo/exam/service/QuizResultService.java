@@ -58,7 +58,8 @@ public class QuizResultService {
             answer.setCenterId(TenantContext.getCenterId());
             studentAnswerRepository.save(answer);
 
-            quizResults.setMark(quizResults.getMark() + w.getMark());
+            long current = quizResults.getMark() != null ? quizResults.getMark() : 0L;
+            quizResults.setMark(current + w.getMark());
         }
         quizResults.setQuizId(quizId);
         quizResults.setStudentId(studentId);

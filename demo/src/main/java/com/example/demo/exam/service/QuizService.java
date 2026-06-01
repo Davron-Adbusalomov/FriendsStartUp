@@ -11,6 +11,7 @@ import com.example.demo.exam.model.*;
 import com.example.demo.exam.repository.*;
 import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
+import com.example.demo.management.repository.CourseRepository;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.repository.TeacherRepository;
@@ -36,6 +37,8 @@ public class QuizService {
 
     private final TeacherRepository teacherRepository;
 
+    private final CourseRepository courseRepository;
+
     private final GroupRepository groupRepository;
 
     private final QuestionRepository questionRepository;
@@ -54,8 +57,8 @@ public class QuizService {
             return ResponseEntity.badRequest().body("No teacher with id " + quizDTO.getTeacherId());
         }
 
-        if (!groupRepository.existsById(quizDTO.getCourseId())) {
-            return ResponseEntity.badRequest().body("No group with id " + quizDTO.getCourseId());
+        if (!courseRepository.existsById(quizDTO.getCourseId())) {
+            return ResponseEntity.badRequest().body("No course with id " + quizDTO.getCourseId());
         }
 
         List<Question> questions = questionRepository.findAllById(quizDTO.getQuestions());
@@ -295,10 +298,12 @@ public class QuizService {
         if (student.getGroupings().isEmpty()) {
             throw new EntityNotFoundException("Student is not assigned to any group");
         }
-        Quiz quiz = quizRepository.findUpcomingQuizByGroupIds(
-                student.getGroupings().stream().map(Grouping::getId).toList(),
-                LocalDateTime.now()
-        );
+        List<UUID> courseIds = student.getGroupings().stream()
+                .map(Grouping::getCourseId)
+                .filter(Objects::nonNull)
+                .distinct()
+                .toList();
+        Quiz quiz = quizRepository.findUpcomingQuizByCourseIds(courseIds, LocalDateTime.now());
         if (quiz == null) {
             return null;
         }
