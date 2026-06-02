@@ -17,12 +17,13 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             SELECT
                 COUNT(DISTINCT g.id) as totalClasses,
                 COUNT(DISTINCT gs.student_id) as totalStudents,
-                COUNT(DISTINCT CASE WHEN a.status = 'PRESENT' THEN a.id END) as totalPresent,
-                COUNT(DISTINCT CASE WHEN a.status = 'ABSENT' THEN a.id END) as totalAbsent
+                COUNT(DISTINCT CASE WHEN a.attendance_status = 'PRESENT' THEN a.id END) as totalPresent,
+                COUNT(DISTINCT CASE WHEN a.attendance_status = 'ABSENT'  THEN a.id END) as totalAbsent
             FROM teacher t
             LEFT JOIN groups g ON g.teacher_id = t.id
             LEFT JOIN group_student gs ON gs.group_id = g.id
             LEFT JOIN attendance a ON a.student_id = gs.student_id
+                AND a.group_id = g.id
             WHERE t.id = :teacherId
             """, nativeQuery = true)
     TeacherStatsProjection getStats(@Param("teacherId") Long teacherId);
@@ -59,9 +60,9 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
                     ), 2
                 ) as percentage
             FROM quiz q
-            JOIN groups g ON q.grouping_id = g.id
+            JOIN groups g ON g.course_id = q.course_id AND g.teacher_id = :teacherId
             LEFT JOIN quiz_results qr ON qr.quiz_id = q.id
-            WHERE g.teacher_id = :teacherId
+            WHERE q.teacher_id = :teacherId
             GROUP BY q.id, q.title, g.name, q.start_time
             ORDER BY q.start_time
             """, nativeQuery = true)
@@ -106,6 +107,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             FROM groups g
             LEFT JOIN group_student gs ON gs.group_id = g.id
             LEFT JOIN attendance a ON a.student_id = gs.student_id
+                AND a.group_id = g.id
                 AND EXTRACT(MONTH FROM a.attendance_time) = :month
                 AND EXTRACT(YEAR  FROM a.attendance_time) = :year
             WHERE g.teacher_id = :teacherId AND g.id = CAST(:groupId AS uuid)
