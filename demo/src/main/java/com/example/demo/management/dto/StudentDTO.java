@@ -31,6 +31,8 @@ public class StudentDTO {
     @Schema(example = "Group A, Group B")
     private List<String> groupNames;
 
+    private List<String> groups;
+
     private List<RolesEnum> roles;
 
     private LocalDateTime createdAt;
