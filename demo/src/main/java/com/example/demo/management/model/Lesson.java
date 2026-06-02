@@ -50,4 +50,5 @@ public class Lesson extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "center_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Center center;
+
 }
