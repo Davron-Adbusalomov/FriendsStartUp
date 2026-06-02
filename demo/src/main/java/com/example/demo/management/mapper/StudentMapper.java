@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public interface StudentMapper {
 
     @Mapping(target = "groupNames", expression = "java(getGroupNames(student))")
+    @Mapping(target = "groups", expression = "java(getGroupIds(student))")
     @Mapping(target = "parentContact", source = "parentContact")
     @Mapping(target = "parentChatId", source = "parentChatId")
     StudentDTO toDto(Student student);
@@ -33,6 +34,16 @@ public interface StudentMapper {
         return student.getGroupings()
                 .stream()
                 .map(Grouping::getName)
+                .collect(Collectors.toList());
+    }
+
+    default List<String> getGroupIds(Student student) {
+        if (student.getGroupings() == null || student.getGroupings().isEmpty()) {
+            return List.of();
+        }
+        return student.getGroupings()
+                .stream()
+                .map(g -> g.getId().toString())
                 .collect(Collectors.toList());
     }
 }
