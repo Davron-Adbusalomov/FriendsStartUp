@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class AttendanceSummaryDTO {
     private int presentPercentage;
     private int absentPercentage;
+    private int latePercentage;
 }

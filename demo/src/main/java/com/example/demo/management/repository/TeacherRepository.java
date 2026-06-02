@@ -83,19 +83,26 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     @Query(value = """
             SELECT
                 CASE
-                    WHEN COUNT(DISTINCT gs.student_id) = 0 THEN 0
+                    WHEN COUNT(a.id) FILTER (WHERE a.attendance_status IN ('PRESENT','ABSENT','LATE')) = 0 THEN 0
                     ELSE CAST(ROUND(
-                        COUNT(DISTINCT CASE WHEN a.attendance_status = 'PRESENT' THEN a.id END) * 100.0
-                        / COUNT(DISTINCT gs.student_id)
+                        COUNT(a.id) FILTER (WHERE a.attendance_status = 'PRESENT') * 100.0
+                        / COUNT(a.id) FILTER (WHERE a.attendance_status IN ('PRESENT','ABSENT','LATE'))
                     ) AS integer)
                 END as presentPercentage,
                 CASE
-                    WHEN COUNT(DISTINCT gs.student_id) = 0 THEN 0
+                    WHEN COUNT(a.id) FILTER (WHERE a.attendance_status IN ('PRESENT','ABSENT','LATE')) = 0 THEN 0
                     ELSE CAST(ROUND(
-                        COUNT(DISTINCT CASE WHEN a.attendance_status = 'ABSENT' THEN a.id END) * 100.0
-                        / COUNT(DISTINCT gs.student_id)
+                        COUNT(a.id) FILTER (WHERE a.attendance_status = 'ABSENT') * 100.0
+                        / COUNT(a.id) FILTER (WHERE a.attendance_status IN ('PRESENT','ABSENT','LATE'))
                     ) AS integer)
-                END as absentPercentage
+                END as absentPercentage,
+                CASE
+                    WHEN COUNT(a.id) FILTER (WHERE a.attendance_status IN ('PRESENT','ABSENT','LATE')) = 0 THEN 0
+                    ELSE CAST(ROUND(
+                        COUNT(a.id) FILTER (WHERE a.attendance_status = 'LATE') * 100.0
+                        / COUNT(a.id) FILTER (WHERE a.attendance_status IN ('PRESENT','ABSENT','LATE'))
+                    ) AS integer)
+                END as latePercentage
             FROM groups g
             LEFT JOIN group_student gs ON gs.group_id = g.id
             LEFT JOIN attendance a ON a.student_id = gs.student_id

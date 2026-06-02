@@ -50,6 +50,7 @@ public class TeacherDashboardService {
         if (attendance != null) {
             dto.setPresentPercentage(attendance.getPresentPercentage() != null ? attendance.getPresentPercentage() : 0);
             dto.setAbsentPercentage(attendance.getAbsentPercentage() != null ? attendance.getAbsentPercentage() : 0);
+            dto.setLatePercentage(attendance.getLatePercentage() != null ? attendance.getLatePercentage() : 0);
         }
         return dto;
     }

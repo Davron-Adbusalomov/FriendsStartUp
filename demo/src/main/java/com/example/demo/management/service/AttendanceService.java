@@ -37,19 +37,31 @@ public class AttendanceService {
             return Collections.emptyList();
         }
 
-        List<Attendance> attendances = request.getStudentStatuses().stream()
+        LocalDateTime day = request.getAttendanceTime().toLocalDate().atStartOfDay();
+        LocalDateTime endOfDay = day.plusDays(1).minusNanos(1);
+
+        // Load all existing records for this group + day in one query
+        List<Attendance> existing = attendanceRepository.findByGroupIdAndDay(
+                request.getGroupId(), day, endOfDay);
+        Map<Long, Attendance> existingByStudent = new HashMap<>();
+        for (Attendance a : existing) {
+            existingByStudent.put(a.getStudentId(), a);
+        }
+
+        List<Attendance> toSave = request.getStudentStatuses().stream()
                 .map(item -> {
-                    Attendance attendance = new Attendance();
+                    Attendance attendance = existingByStudent.getOrDefault(
+                            item.getStudentId(), new Attendance());
                     attendance.setStudentId(item.getStudentId());
                     attendance.setGroupId(request.getGroupId());
-                    attendance.setAttendanceTime(request.getAttendanceTime());
+                    attendance.setAttendanceTime(day);
                     attendance.setAttendanceStatus(item.getStatus());
                     attendance.setCenterId(TenantContext.getCenterId());
                     return attendance;
                 })
                 .toList();
 
-        return attendanceRepository.saveAll(attendances).stream()
+        return attendanceRepository.saveAll(toSave).stream()
                 .map(mapper::toDto)
                 .toList();
     }

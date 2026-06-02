@@ -46,6 +46,7 @@ public interface GroupMapper {
             dto.setImage(student.getImage());
             dto.setPhoneNumber(student.getPhoneNumber());
             dto.setParentContact(student.getParentContact());
+            dto.setParentChatId(student.getParentChatId());
             dto.setGroupNames(student.getGroupings().stream().map(Grouping::getName).toList());
             return dto;
         }).toList();
