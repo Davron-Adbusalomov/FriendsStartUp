@@ -9,7 +9,9 @@ import org.mapstruct.Mapping;
 public interface CourseMapper {
 
     @Mapping(target = "imageFile", ignore = true)
+    @Mapping(target = "teacherName", expression = "java(course.getTeacher() != null ? course.getTeacher().getFullName() : null)")
     CourseDTO toDto(Course course);
 
+    @Mapping(target = "teacher", ignore = true)
     Course toEntity(CourseDTO dto);
 }

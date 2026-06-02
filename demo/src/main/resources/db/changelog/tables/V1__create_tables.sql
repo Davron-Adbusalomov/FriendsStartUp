@@ -91,6 +91,7 @@ CREATE TABLE course
     duration_in_months INTEGER,
     subject_id         UUID,
     center_id          UUID                        NOT NULL,
+    teacher_id         UUID,
     CONSTRAINT pk_course PRIMARY KEY (id)
 );
 

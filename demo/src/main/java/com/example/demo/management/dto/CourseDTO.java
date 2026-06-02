@@ -17,4 +17,6 @@ public class CourseDTO {
     private Integer durationInMonths;
     private UUID subjectId;
     private UUID centerId;
+    private Long teacherId;
+    private String teacherName;
 }

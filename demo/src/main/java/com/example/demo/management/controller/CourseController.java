@@ -32,8 +32,10 @@ public class CourseController {
     )
     @PreAuthorize("hasAuthority('GET_COURSES_LIST')")
     @GetMapping
-    public ResponseEntity<Page<CourseDTO>> getCourses(Pageable pageable) {
-        return ResponseEntity.ok(courseService.getCourses(pageable));
+    public ResponseEntity<Page<CourseDTO>> getCourses(
+            @RequestParam(required = false) Long teacherId,
+            Pageable pageable) {
+        return ResponseEntity.ok(courseService.getCourses(teacherId, pageable));
     }
 
     @Operation(
