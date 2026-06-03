@@ -39,7 +39,7 @@ public class Question extends BaseEntity{
 
     private String right_answer;
 
-    private int mark;
+    private Integer mark;
 
     private String topic;
 

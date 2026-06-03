@@ -87,7 +87,7 @@ public class StudentAnswerService {
 
         for (Question question : quiz.getQuestions()) {
 
-            maxMark += question.getMark();
+            maxMark += question.getMark() != null ? question.getMark() : 0;
 
             StudentAnswer answer = answerMap.get(question.getId());
             if (answer == null) continue;
@@ -99,7 +99,7 @@ public class StudentAnswerService {
             qDto.setScore(answer.getScore());
             qDto.setIsCorrect(answer.getCorrect());
 
-            obtainedMark += answer.getScore();
+            obtainedMark += answer.getScore() != null ? answer.getScore() : 0;
 
             evaluatedQuestions.add(qDto);
         }
