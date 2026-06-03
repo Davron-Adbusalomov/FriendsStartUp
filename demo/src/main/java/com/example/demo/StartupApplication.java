@@ -10,6 +10,8 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+import java.util.TimeZone;
+
 @SpringBootApplication
 public class StartupApplication {
 
@@ -23,6 +25,7 @@ public class StartupApplication {
 	}
 
 	public static void main(String[] args) throws TelegramApiException {
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT+5"));
 		ConfigurableApplicationContext appContext = SpringApplication.run(StartupApplication.class, args);
 //		TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
 //		StartupApplication application = appContext.getBean(StartupApplication.class);
