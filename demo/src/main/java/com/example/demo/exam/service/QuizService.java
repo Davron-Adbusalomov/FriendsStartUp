@@ -269,9 +269,11 @@ public class QuizService {
         LocalDateTime currentTime = LocalDateTime.now();
 
         LocalDateTime quizStartTime = quiz.getStartTime();
-        LocalDateTime quizEndTime = quiz.getEndTime();
+        LocalDateTime quizEndTime = quiz.getEndTime() != null
+                ? quiz.getEndTime()
+                : (quizStartTime != null && quiz.getDuration() != null ? quizStartTime.plusMinutes(quiz.getDuration()) : null);
 
-        if (currentTime.isBefore(quizStartTime) || currentTime.isAfter(quizEndTime)) {
+        if (quizStartTime == null || quizEndTime == null || currentTime.isBefore(quizStartTime) || currentTime.isAfter(quizEndTime)) {
             throw new IllegalStateException("Quiz is not currently active or has ended");
         }
     }
@@ -348,7 +350,9 @@ public class QuizService {
         }
 
         LocalDateTime start = quiz.getStartTime();
-        LocalDateTime end = quiz.getEndTime();
+        LocalDateTime end = quiz.getEndTime() != null
+                ? quiz.getEndTime()
+                : (start != null && quiz.getDuration() != null ? start.plusMinutes(quiz.getDuration()) : null);
 
         if (start == null || end == null) {
             dto.setStatus(QuizContentStatus.PENDING);
