@@ -6,9 +6,7 @@ import com.example.demo.exam.dto.WrittenQuestionsEvaluateDTO;
 import com.example.demo.exam.interfaces.StudentRanking;
 import com.example.demo.exam.model.*;
 import com.example.demo.exam.repository.*;
-import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
-import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.exam.dto.Quiz_ResultsDTO;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,8 +27,6 @@ public class QuizResultService {
     private final QuizRepository quizRepository;
 
     private final StudentRepository studentRepository;
-
-    private final GroupRepository groupRepository;
 
     private final WrittenQuestionsRepository writtenQuestionsRepository;
 
@@ -69,40 +65,50 @@ public class QuizResultService {
 
 
     public void finalizeQuiz(UUID quizId, UUID groupingId) throws TelegramApiException {
-        Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new EntityNotFoundException("Quiz not found with id: " + quizId));
-        Grouping grouping = groupRepository.findById(groupingId).orElseThrow(() -> new EntityNotFoundException("Grouping not found with id: " + groupingId));
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElseThrow(() -> new EntityNotFoundException("Quiz not found with id: " + quizId));
 
-        int maxMark = 0;
+        int maxMark = quiz.getQuestions().stream()
+                .mapToInt(q -> q.getMark() != null ? q.getMark() : 0)
+                .sum();
+        if (maxMark == 0) maxMark = 1;
 
-        for (Question question : quiz.getQuestions()) {
-            maxMark += question.getMark();
-        }
+        // findRankings handles null groupingId — filters by quiz only in that case
+        List<StudentRanking> rankings = quizResultsRepository.findRankings(groupingId, quizId);
+        int totalStudents = rankings.size();
 
-        for (Student student : grouping.getStudents()) {
-            QuizResults quizResults = student.getQuizResults().get(student.getQuizResults().size() - 1);
-
-            int place = 1;
-
-            for (int i = 0; i < grouping.getStudents().size(); i++) {
-                Student otherStudent = grouping.getStudents().get(i);
-                List<QuizResults> otherStudentQuizResults = otherStudent.getQuizResults();
-
-                QuizResults otherStudentLastResult = otherStudentQuizResults.get(otherStudentQuizResults.size() - 1);
-                if (quizId.equals(otherStudentLastResult.getQuiz().getId()) &&
-                        quizResults.getMark() < otherStudentLastResult.getMark()) {
-                    place++;
-                }
-            }
-
-            if (student.getParentChatId().isEmpty()) {
+        for (StudentRanking ranking : rankings) {
+            Student student = studentRepository.findById(ranking.getStudentId()).orElse(null);
+            if (student == null
+                    || student.getParentChatId() == null
+                    || student.getParentChatId().isBlank()) {
                 continue;
             }
 
+            long mark       = ranking.getTotalMark() != null ? ranking.getTotalMark() : 0L;
+            long place      = Long.parseLong(ranking.getRank());
+            double percent  = mark * 100.0 / maxMark;
+
+            String text = String.format(
+                "📊 Assalomu alaykum!\n\n" +
+                "Farzandingiz *%s* ning «%s» sinov natijalari:\n\n" +
+                "✅ To'plagan ball: %d / %d\n" +
+                "📈 O'zlashtirish: %.1f%%\n" +
+                "🏆 Guruhda o'rni: %d / %d\n",
+                student.getFullName(),
+                quiz.getTitle(),
+                mark,
+                maxMark,
+                percent,
+                place,
+                totalStudents
+            );
+
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(student.getParentChatId());
-            sendMessage.setText("Assalomu alaykum! Farzandingiz, "+ student.getFullName()+" " + grouping.getSubjectId() + " fanidan oxirgi sinov natijasi bilan tanishing:\n o'zlashtirish foizi: " + (quizResults.getMark() * 100.0) / maxMark +"%\n guruhdagi o'rni: " + place + "-o'rin\n ");
-
-        telegramConfig.execute(sendMessage);
+            sendMessage.setText(text);
+            sendMessage.enableMarkdown(true);
+            telegramConfig.execute(sendMessage);
         }
     }
 
