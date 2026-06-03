@@ -71,6 +71,7 @@ public class QuizService {
         quiz.setTeacherId(quizDTO.getTeacherId());
         quiz.setDuration(quizDTO.getDuration());
         quiz.setStartTime(quizDTO.getStartTime());
+        quiz.setEndTime(quizDTO.getStartTime().plusMinutes(quizDTO.getDuration()));
         quiz.setCourseId(quizDTO.getCourseId());
         quiz.setQuestionsNum(quizDTO.getQuestions_num());
         quiz.setTitle(quizDTO.getTitle());
@@ -89,6 +90,7 @@ public class QuizService {
 
         quiz.setDuration(quizDTO.getDuration());
         quiz.setStartTime(quizDTO.getStartTime());
+        quiz.setEndTime(quizDTO.getStartTime().plusMinutes(quizDTO.getDuration()));
         quiz.setTitle(quizDTO.getTitle());
         if (quizDTO.getStatus() == QuizContentStatus.CANCELLED) {
             quiz.setStatus(Status.INACTIVE);
