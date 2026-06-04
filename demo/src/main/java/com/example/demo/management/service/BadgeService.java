@@ -76,7 +76,7 @@ public class BadgeService {
                     dto.setActive(studentBadgeIds.contains(badge.getId()));
 
                     dto.setDescription(
-                            messageSource.getMessage(badge.getDescription(), null, locale)
+                            messageSource.getMessage(badge.getDescription(), null, badge.getDescription(), locale)
                     );
 
                     return dto;
