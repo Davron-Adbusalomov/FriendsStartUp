@@ -46,16 +46,16 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
                 COALESCE(g.name, c.name, 'N/A')                            AS groupName,
                 qr.mark                                                     AS score,
                 (SELECT COALESCE(SUM(que.mark), 0)
-                 FROM quiz_question qq
-                 JOIN question que ON qq.question_id = que.id
-                 WHERE qq.quiz_id = q.id)                                   AS totalPoints,
-                ROUND(
+                 FROM student_answer sa
+                 JOIN question que ON sa.question_id = que.id
+                 WHERE sa.quiz_id = q.id AND sa.student_id = qr.student_id) AS totalPoints,
+                LEAST(ROUND(
                     CAST(qr.mark AS numeric) /
                     NULLIF((SELECT SUM(que.mark)
-                            FROM quiz_question qq
-                            JOIN question que ON qq.question_id = que.id
-                            WHERE qq.quiz_id = q.id), 0)
-                    * 100, 2)                                               AS percentage,
+                            FROM student_answer sa
+                            JOIN question que ON sa.question_id = que.id
+                            WHERE sa.quiz_id = q.id AND sa.student_id = qr.student_id), 0)
+                    * 100, 2), 100)                                         AS percentage,
                 q.start_time                                                AS quizDate
             FROM quiz_results qr
             JOIN quiz        q ON qr.quiz_id    = q.id
@@ -72,8 +72,9 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
                 COUNT(DISTINCT CASE WHEN lp.completed = true THEN l.id END)                  AS completedLessons,
                 COUNT(DISTINCT l.id)                                                         AS totalLessons
             FROM group_student gs
-            JOIN groups g  ON gs.group_id = g.id AND g.status != 'DELETED'
-            LEFT JOIN lesson l  ON l.group_id = g.id AND l.status != 'DELETED'
+            JOIN groups g   ON gs.group_id  = g.id  AND g.status != 'DELETED'
+            LEFT JOIN course c  ON c.id         = g.course_id
+            LEFT JOIN lesson l  ON l.course_id  = c.id AND l.status != 'DELETED'
             LEFT JOIN lesson_progress lp ON lp.lesson_id = l.id AND lp.student_id = :studentId
             WHERE gs.student_id = :studentId
             GROUP BY g.id, g.name
