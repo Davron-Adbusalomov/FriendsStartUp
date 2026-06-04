@@ -7,4 +7,6 @@ public class BadgeRequestDto {
     private String name;
 
     private String description;
+
+    private Long studentId;
 }
