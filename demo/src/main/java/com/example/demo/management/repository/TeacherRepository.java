@@ -62,6 +62,10 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             FROM quiz q
             JOIN groups g ON g.course_id = q.course_id AND g.teacher_id = :teacherId
             LEFT JOIN quiz_results qr ON qr.quiz_id = q.id
+                AND EXISTS (
+                    SELECT 1 FROM group_student gs
+                    WHERE gs.group_id = g.id AND gs.student_id = qr.student_id
+                )
             WHERE q.teacher_id = :teacherId
             GROUP BY q.id, q.title, g.name, q.start_time
             ORDER BY q.start_time

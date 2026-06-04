@@ -94,8 +94,7 @@ public class TeacherDashboardService {
                         LinkedHashMap::new,
                         Collectors.toMap(
                                 PerformanceProjection::getGroupName,
-                                p -> p.getPercentage() != null ? p.getPercentage() : 0.0,
-                                (a, b) -> (a + b) / 2.0
+                                p -> p.getPercentage() != null ? p.getPercentage() : 0.0
                         )
                 ))
                 .entrySet().stream()
