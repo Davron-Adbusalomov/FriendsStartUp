@@ -43,7 +43,7 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
     @Query(value = """
             SELECT
                 q.title                                                     AS quizTitle,
-                g.name                                                      AS groupName,
+                COALESCE(g.name, c.name, 'N/A')                            AS groupName,
                 qr.mark                                                     AS score,
                 (SELECT COALESCE(SUM(que.mark), 0)
                  FROM quiz_question qq
@@ -58,11 +58,11 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
                     * 100, 2)                                               AS percentage,
                 q.start_time                                                AS quizDate
             FROM quiz_results qr
-            JOIN quiz   q ON qr.quiz_id     = q.id
-            JOIN groups g ON q.grouping_id  = g.id
+            JOIN quiz        q ON qr.quiz_id    = q.id
+            LEFT JOIN groups g ON q.grouping_id = g.id
+            LEFT JOIN course c ON q.course_id   = c.id
             WHERE qr.student_id = :studentId AND qr.status != 'DELETED'
             ORDER BY q.start_time DESC
-            LIMIT 10
             """, nativeQuery = true)
     List<StudentQuizPerformanceProjection> getQuizPerformance(@Param("studentId") Long studentId);
 
