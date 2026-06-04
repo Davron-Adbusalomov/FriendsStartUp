@@ -15,7 +15,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/badges")
+@RequestMapping("/api/v1/badges")
 @RequiredArgsConstructor
 public class BadgeController {
 
