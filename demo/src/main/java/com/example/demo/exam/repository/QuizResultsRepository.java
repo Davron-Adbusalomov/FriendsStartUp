@@ -24,9 +24,9 @@ public interface QuizResultsRepository extends JpaRepository<QuizResults, UUID> 
         SELECT
             s.id AS studentId,
             s.full_name AS studentName,
-            COALESCE(SUM(sr.mark), 0) AS totalMark,
+            COALESCE(MAX(sr.mark), 0) AS totalMark,
             DENSE_RANK() OVER (
-                ORDER BY COALESCE(SUM(sr.mark), 0) DESC
+                ORDER BY COALESCE(MAX(sr.mark), 0) DESC
             ) AS rank
         FROM student s
         LEFT JOIN group_student gs

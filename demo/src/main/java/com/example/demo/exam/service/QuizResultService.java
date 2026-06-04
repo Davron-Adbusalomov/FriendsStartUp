@@ -73,11 +73,6 @@ public class QuizResultService {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new EntityNotFoundException("Quiz not found with id: " + quizId));
 
-        int maxMark = quiz.getQuestions().stream()
-                .mapToInt(q -> q.getMark() != null ? q.getMark() : 0)
-                .sum();
-        if (maxMark == 0) maxMark = 1;
-
         // Mark quiz as ended so status becomes COMPLETED
         quiz.setEndTime(LocalDateTime.now());
         quizRepository.save(quiz);
@@ -94,9 +89,26 @@ public class QuizResultService {
                 continue;
             }
 
-            long mark       = ranking.getTotalMark() != null ? ranking.getTotalMark() : 0L;
-            long place      = Long.parseLong(ranking.getRank());
-            double percent  = mark * 100.0 / maxMark;
+            // Read mark directly from the DB record — avoids JOIN multiplication in findRankings
+            QuizResults result = quizResultsRepository
+                    .findByStudentIdAndQuizId(ranking.getStudentId(), quizId)
+                    .orElse(null);
+            if (result == null) continue;
+
+            long mark = result.getMark() != null ? result.getMark() : 0L;
+
+            // maxMark = sum of marks for questions this student actually received
+            int studentMaxMark = studentAnswerRepository
+                    .findByQuizIdAndStudentId(quizId, ranking.getStudentId())
+                    .stream()
+                    .mapToInt(a -> questionRepository.findById(a.getQuestionId())
+                            .map(q -> q.getMark() != null ? q.getMark() : 0)
+                            .orElse(0))
+                    .sum();
+            if (studentMaxMark == 0) studentMaxMark = 1;
+
+            long place     = Long.parseLong(ranking.getRank());
+            double percent = Math.min(mark * 100.0 / studentMaxMark, 100.0);
 
             String text = String.format(
                 "📊 Assalomu alaykum!\n\n" +
@@ -107,7 +119,7 @@ public class QuizResultService {
                 student.getFullName(),
                 quiz.getTitle(),
                 mark,
-                maxMark,
+                studentMaxMark,
                 percent,
                 place,
                 totalStudents
