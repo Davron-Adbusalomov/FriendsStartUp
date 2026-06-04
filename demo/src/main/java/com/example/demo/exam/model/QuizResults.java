@@ -37,6 +37,9 @@ public class QuizResults extends BaseEntity {
     @Column(name = "student_id", nullable = false)
     private Long studentId;
 
+    @Column(name = "group_id")
+    private UUID groupId;
+
     @ManyToOne
     @JoinColumn(name = "student_id", insertable = false, updatable = false)
     private Student student;

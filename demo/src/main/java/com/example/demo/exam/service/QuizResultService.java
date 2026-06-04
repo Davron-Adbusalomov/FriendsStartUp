@@ -181,7 +181,7 @@ public class QuizResultService {
     }
 
     @Transactional
-    public void evaluateQuiz(UUID quizId, Long studentId) {
+    public void evaluateQuiz(UUID quizId, Long studentId, UUID groupId) {
 
         List<StudentAnswer> answers =
                 studentAnswerRepository.findByQuizIdAndStudentId(quizId, studentId);
@@ -213,6 +213,7 @@ public class QuizResultService {
         qR.setStudentId(studentId);
         qR.setQuizId(quizId);
         qR.setMark(totalScore);
+        qR.setGroupId(groupId);
         qR.setCenterId(TenantContext.getCenterId());
 
         quizResultsRepository.save(qR);

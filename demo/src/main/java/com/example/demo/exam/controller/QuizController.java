@@ -132,8 +132,10 @@ public class QuizController {
             })
     @PreAuthorize("hasAnyAuthority('GET_QUIZ')")
     @PostMapping("/finishQuiz")
-    public void finish(@RequestParam(name = "studentId") Long studentId, @RequestParam(name = "quizId") UUID quizId){
-        quizService.finishQuiz(studentId, quizId);
+    public void finish(@RequestParam(name = "studentId") Long studentId,
+                       @RequestParam(name = "quizId") UUID quizId,
+                       @RequestParam(name = "groupId", required = false) UUID groupId){
+        quizService.finishQuiz(studentId, quizId, groupId);
     }
 
     @Operation(

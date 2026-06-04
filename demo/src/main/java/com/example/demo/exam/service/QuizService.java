@@ -265,8 +265,8 @@ public class QuizService {
     }
 
     @Transactional
-    public void finishQuiz(Long studentId, UUID quizId) {
-        quizResultService.evaluateQuiz(quizId, studentId);
+    public void finishQuiz(Long studentId, UUID quizId, UUID groupId) {
+        quizResultService.evaluateQuiz(quizId, studentId, groupId);
     }
 
     private void validateQuizActive(UUID quizId) {

@@ -43,10 +43,10 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     @Query(value = """
             SELECT
-                q.title as quizTitle,
-                g.name as groupName,
-                q.start_time as quizDate,
-                ROUND(
+                q.title     AS quizTitle,
+                g.name      AS groupName,
+                q.start_time AS quizDate,
+                LEAST(ROUND(
                     CAST(
                         AVG(
                             CAST(qr.mark AS numeric) /
@@ -58,16 +58,12 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
                             )
                         ) * 100 AS numeric
                     ), 2
-                ) as percentage
-            FROM quiz q
-            JOIN groups g ON g.course_id = q.course_id AND g.teacher_id = :teacherId
-            LEFT JOIN quiz_results qr ON qr.quiz_id = q.id
-                AND EXISTS (
-                    SELECT 1 FROM group_student gs
-                    WHERE gs.group_id = g.id AND gs.student_id = qr.student_id
-                )
-            WHERE q.teacher_id = :teacherId
-            GROUP BY q.id, q.title, g.name, q.start_time
+                ), 100) AS percentage
+            FROM quiz_results qr
+            JOIN quiz   q ON q.id = qr.quiz_id AND q.teacher_id = :teacherId
+            JOIN groups g ON g.id = qr.group_id AND g.teacher_id = :teacherId
+            WHERE qr.group_id IS NOT NULL
+            GROUP BY q.id, q.title, g.id, g.name, q.start_time
             ORDER BY q.start_time
             """, nativeQuery = true)
     List<PerformanceProjection> getQuizPerformanceData(@Param("teacherId") Long teacherId);
