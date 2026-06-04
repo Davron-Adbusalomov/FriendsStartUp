@@ -60,25 +60,13 @@ public class BadgeService {
     }
 
     public List<BadgeDTO> getStudentBadges(Long studentId, Locale locale) {
-
-        List<Badge> allBadges = badgeRepository.findAll();
-
-        List<Badge> studentBadges = badgeRepository.findByStudentId(studentId);
-
-        Set<UUID> studentBadgeIds = studentBadges.stream()
-                .map(Badge::getId)
-                .collect(Collectors.toSet());
-
-        return allBadges.stream()
+        return badgeRepository.findByStudentId(studentId).stream()
                 .map(badge -> {
                     BadgeDTO dto = badgeMapper.toDto(badge);
-
-                    dto.setActive(studentBadgeIds.contains(badge.getId()));
-
+                    dto.setActive(true);
                     dto.setDescription(
                             messageSource.getMessage(badge.getDescription(), null, badge.getDescription(), locale)
                     );
-
                     return dto;
                 })
                 .toList();
