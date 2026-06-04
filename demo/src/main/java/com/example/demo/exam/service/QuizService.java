@@ -47,6 +47,8 @@ public class QuizService {
 
     private final StudentAnswerRepository studentAnswerRepository;
 
+    private final QuizResultsRepository quizResultsRepository;
+
     private final QuizResultService quizResultService;
 
 
@@ -170,6 +172,11 @@ public class QuizService {
                 .orElseThrow(() -> new EntityNotFoundException("No quiz found"));
 
         validateQuizActive(quizId);
+
+        Long studentId = CurrentUserUtils.getUserId();
+        if (quizResultsRepository.existsByStudentIdAndQuizId(studentId, quizId)) {
+            throw new IllegalStateException("You have already completed this quiz");
+        }
 
         List<QuestionDTO> easy = new ArrayList<>();
         List<QuestionDTO> medium = new ArrayList<>();

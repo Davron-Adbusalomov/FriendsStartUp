@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -76,6 +77,10 @@ public class QuizResultService {
                 .mapToInt(q -> q.getMark() != null ? q.getMark() : 0)
                 .sum();
         if (maxMark == 0) maxMark = 1;
+
+        // Mark quiz as ended so status becomes COMPLETED
+        quiz.setEndTime(LocalDateTime.now());
+        quizRepository.save(quiz);
 
         // findRankings handles null groupingId — filters by quiz only in that case
         List<StudentRanking> rankings = quizResultsRepository.findRankings(groupingId, quizId);
@@ -190,7 +195,9 @@ public class QuizResultService {
 
         studentAnswerRepository.saveAll(answers);
 
-        QuizResults qR = new QuizResults();
+        QuizResults qR = quizResultsRepository
+                .findByStudentIdAndQuizId(studentId, quizId)
+                .orElse(new QuizResults());
         qR.setStudentId(studentId);
         qR.setQuizId(quizId);
         qR.setMark(totalScore);

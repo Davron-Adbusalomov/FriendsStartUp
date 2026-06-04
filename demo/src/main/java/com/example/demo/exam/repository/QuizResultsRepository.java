@@ -18,6 +18,8 @@ public interface QuizResultsRepository extends JpaRepository<QuizResults, UUID> 
 
     Optional<QuizResults> findByStudentIdAndQuizId(Long studentId, UUID quizId);
 
+    boolean existsByStudentIdAndQuizId(Long studentId, UUID quizId);
+
     @Query(value = """
         SELECT
             s.id AS studentId,
