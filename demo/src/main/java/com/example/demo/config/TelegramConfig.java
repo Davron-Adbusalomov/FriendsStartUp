@@ -26,7 +26,7 @@ public class TelegramConfig extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "t.me/admissions2023_bot";
+        return "admissions2023_bot";
     }
 
     @Override

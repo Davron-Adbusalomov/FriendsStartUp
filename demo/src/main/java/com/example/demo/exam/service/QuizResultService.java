@@ -11,6 +11,8 @@ import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.exam.dto.Quiz_ResultsDTO;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -34,7 +36,9 @@ public class QuizResultService {
 
     private final QuestionRepository questionRepository;
 
-    TelegramConfig telegramConfig = new TelegramConfig(this);
+    @Lazy
+    @Autowired
+    private TelegramConfig telegramConfig;
 
     public Quiz_ResultsDTO getQuizResult(){
         return null;
@@ -113,31 +117,50 @@ public class QuizResultService {
     }
 
     public void onUpdateReceived(Long chatId, String text) throws TelegramApiException {
-        if (text.equals("/start")){
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(chatId);
-            System.out.println(chatId);
-            sendMessage.setText("Assalomu alaykum. Xush kelibsiz! Iltimos, ro'yxatdan o'tish uchun telefon raqamingizni kiriting:\n(Masalan:934983233)!");
-            telegramConfig.execute(sendMessage);
-        }
-        else {
-            Optional<Student> student = studentRepository.findStudentByParentContact(text);
-            if (student.isEmpty()){
-                SendMessage sendMessage = new SendMessage();
-                sendMessage.setChatId(chatId);
-                sendMessage.setText("Noto'gri raqam kiritdingiz! Raqamingiz administrator tomonidan ro'yxatga olinishi kerak. Iltimos administrator bilan boglaning!");
-                telegramConfig.execute(sendMessage);
+        if (text == null) return;
+
+        if (text.startsWith("/start")) {
+            String[] parts = text.trim().split(" ", 2);
+
+            if (parts.length == 2 && !parts[1].isBlank()) {
+                // Deep link: /start <studentId>
+                try {
+                    Long studentId = Long.parseLong(parts[1].trim());
+                    Optional<Student> studentOpt = studentRepository.findById(studentId);
+                    SendMessage reply = new SendMessage();
+                    reply.setChatId(String.valueOf(chatId));
+
+                    if (studentOpt.isPresent()) {
+                        Student student = studentOpt.get();
+                        student.setParentChatId(String.valueOf(chatId));
+                        studentRepository.save(student);
+                        reply.setText(
+                            "✅ Assalomu alaykum!\n\n" +
+                            "Siz muvaffaqiyatli ro'yxatdan o'tdingiz!\n\n" +
+                            "👦 Farzandingiz: " + student.getFullName() + "\n\n" +
+                            "Bundan buyon farzandingizning sinov natijalari haqida xabar olib turasiz! 📊"
+                        );
+                    } else {
+                        reply.setText("❌ Noto'g'ri havola! Iltimos administrator bilan bog'laning.");
+                    }
+                    telegramConfig.execute(reply);
+                } catch (NumberFormatException e) {
+                    sendWelcome(chatId);
+                }
+            } else {
+                sendWelcome(chatId);
             }
-            else {
-                Student updateStudent = student.get();
-                updateStudent.setParentChatId(String.valueOf(chatId));
-                studentRepository.save(updateStudent);
-                SendMessage sendMessage = new SendMessage();
-                sendMessage.setChatId(chatId);
-                sendMessage.setText("Siz muvaffaqqiyatli ro'yxatdan o'tdingiz! Iltimos bizdan uzoqlashmang. Farzandingizning exam natijalari haqida sizga xabar berib boramiz!");
-                telegramConfig.execute(sendMessage);
-            }
         }
+    }
+
+    private void sendWelcome(Long chatId) throws TelegramApiException {
+        SendMessage msg = new SendMessage();
+        msg.setChatId(String.valueOf(chatId));
+        msg.setText(
+            "Assalomu alaykum! Xush kelibsiz! 👋\n\n" +
+            "Ro'yxatdan o'tish uchun administrator tomonidan yuborilgan havoladan foydalaning."
+        );
+        telegramConfig.execute(msg);
     }
 
     @Transactional

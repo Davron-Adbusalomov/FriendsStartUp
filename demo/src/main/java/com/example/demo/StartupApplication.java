@@ -15,21 +15,19 @@ import java.util.TimeZone;
 @SpringBootApplication
 public class StartupApplication {
 
-	private final QuizResultService quizResultService;
-//	private final TelegramConfig telegramConfig;
+	private final TelegramConfig telegramConfig;
 
 	@Autowired
-	public StartupApplication(QuizResultService quizResultService, TelegramConfig telegramConfig) {
-		this.quizResultService = quizResultService;
-//		this.telegramConfig = telegramConfig;
+	public StartupApplication(TelegramConfig telegramConfig) {
+		this.telegramConfig = telegramConfig;
 	}
 
 	public static void main(String[] args) throws TelegramApiException {
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT+5"));
 		ConfigurableApplicationContext appContext = SpringApplication.run(StartupApplication.class, args);
-//		TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-//		StartupApplication application = appContext.getBean(StartupApplication.class);
-//		telegramBotsApi.registerBot(application.telegramConfig);
+		TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+		StartupApplication application = appContext.getBean(StartupApplication.class);
+		telegramBotsApi.registerBot(application.telegramConfig);
 		System.out.println("Hello Team");
 	}
 }
