@@ -98,6 +98,12 @@ public class QuizService {
             quiz.setStatus(Status.INACTIVE);
         }
 
+        if (quizDTO.getQuestionIds() != null) {
+            List<Question> questions = questionRepository.findAllById(quizDTO.getQuestionIds());
+            quiz.setQuestions(new HashSet<>(questions));
+            quiz.setQuestionsNum(questions.size());
+        }
+
         Quiz updatedQuiz = quizRepository.save(quiz);
 
         return QuizMapper.toDTO(updatedQuiz);
