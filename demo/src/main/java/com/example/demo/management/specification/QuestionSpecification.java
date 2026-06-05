@@ -1,6 +1,9 @@
 package com.example.demo.management.specification;
 
 import com.example.demo.exam.model.Question;
+import com.example.demo.exam.model.Quiz;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.UUID;
@@ -18,8 +21,12 @@ public class QuestionSpecification {
     }
 
     public static Specification<Question> hasGroupQuizId(UUID quizId) {
-        return (root, query, cb) ->
-                quizId == null ? null : cb.equal(root.get("quizId"), quizId);
+        return (root, query, cb) -> {
+            if (quizId == null) return null;
+            query.distinct(true);
+            Join<Question, Quiz> quizJoin = root.join("quizzes", JoinType.INNER);
+            return cb.equal(quizJoin.get("id"), quizId);
+        };
     }
 
     private static Specification<Question> hasSubjectId(UUID subjectId) {
@@ -41,7 +48,7 @@ public class QuestionSpecification {
                 .where(hasDifficultyLevel(level))
                 .and(hasTeacherId(teacherId))
                 .and(hasGroupQuizId(quizId))
-                .and(hasTitleLike(title)
-                .and(hasSubjectId(subjectId)));
+                .and(hasTitleLike(title))
+                .and(hasSubjectId(subjectId));
     }
 }
