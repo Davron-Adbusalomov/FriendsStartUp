@@ -30,8 +30,7 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
                 COUNT(DISTINCT gs.group_id)                                                  AS totalGroups,
                 COUNT(DISTINCT CASE WHEN lp.completed = true THEN l.id END)                  AS completedLessons,
                 COUNT(DISTINCT l.id)                                                         AS totalLessons,
-                (SELECT COUNT(*) FROM badge b WHERE b.student_id = :studentId
-                    AND b.status != 'DELETED')                                               AS totalBadges
+                (SELECT COUNT(*) FROM student_badge sb WHERE sb.student_id = :studentId)        AS totalBadges
             FROM student s
             LEFT JOIN group_student gs ON gs.student_id = s.id
             LEFT JOIN lesson l  ON l.group_id = gs.group_id AND l.status != 'DELETED'

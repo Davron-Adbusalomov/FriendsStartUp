@@ -10,7 +10,7 @@ import java.util.UUID;
 @Repository
 public interface BadgeRepository extends JpaRepository<Badge, UUID> {
 
-    List<Badge> findByStudentId(Long studentId);
+    List<Badge> findByStudentsId(Long studentId);
 
+    List<Badge> findByCenterId(UUID centerId);
 }
-

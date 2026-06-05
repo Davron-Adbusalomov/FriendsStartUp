@@ -39,6 +39,10 @@ public class Student extends BaseEntity{
     @OneToMany(mappedBy = "student")
     private List<QuizResults> quizResults = new ArrayList<>();
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "students")
+    private List<Badge> badges = new ArrayList<>();
+
     @Column(name = "center_id", nullable = false)
     private UUID centerId;
 

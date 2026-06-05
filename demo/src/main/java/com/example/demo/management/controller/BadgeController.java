@@ -21,32 +21,31 @@ public class BadgeController {
 
     private final BadgeService badgeService;
 
-    @Operation(
-            summary = "create badge",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
+    @Operation(summary = "Get all badges for the center")
+    @PreAuthorize("hasAuthority('GET_BADGE')")
+    @GetMapping
+    public ResponseEntity<List<BadgeDTO>> getAll(Locale locale) {
+        return ResponseEntity.ok(badgeService.getAll(locale));
+    }
+
+    @Operation(summary = "Get badges assigned to a student")
+    @PreAuthorize("hasAuthority('GET_BADGE')")
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<List<BadgeDTO>> getStudentBadges(
+            @PathVariable Long studentId,
+            Locale locale
+    ) {
+        return ResponseEntity.ok(badgeService.getStudentBadges(studentId, locale));
+    }
+
+    @Operation(summary = "Create badge")
     @PreAuthorize("hasAuthority('CREATE_BADGE')")
     @PostMapping
-    public ResponseEntity<BadgeDTO> create(
-            @RequestBody BadgeRequestDto dto
-    ) {
+    public ResponseEntity<BadgeDTO> create(@RequestBody BadgeRequestDto dto) {
         return ResponseEntity.ok(badgeService.create(dto));
     }
 
-    @Operation(
-            summary = "Update badge",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
+    @Operation(summary = "Update badge")
     @PreAuthorize("hasAuthority('UPDATE_BADGE')")
     @PutMapping("/{id}")
     public ResponseEntity<BadgeDTO> update(
@@ -56,15 +55,7 @@ public class BadgeController {
         return ResponseEntity.ok(badgeService.update(id, dto));
     }
 
-    @Operation(
-            summary = "Delete badge",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
+    @Operation(summary = "Delete badge")
     @PreAuthorize("hasAuthority('DELETE_BADGE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
@@ -72,44 +63,24 @@ public class BadgeController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(
-            summary = "Get badge",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
-    @PreAuthorize("hasAuthority('GET_BADGE')")
+    @Operation(summary = "Assign badge to student")
+    @PreAuthorize("hasAuthority('UPDATE_BADGE')")
     @PostMapping("/{id}/assign/{studentId}")
     public ResponseEntity<BadgeDTO> assign(
             @PathVariable UUID id,
             @PathVariable Long studentId
     ) {
-        return ResponseEntity.ok(
-                badgeService.assign(id, studentId)
-        );
+        return ResponseEntity.ok(badgeService.assign(id, studentId));
     }
 
-    @Operation(
-            summary = "Get student badges",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Success"),
-                    @ApiResponse(responseCode = "400", description = "Bad request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden")
-            }
-    )
-    @PreAuthorize("hasAuthority('GET_BADGE')")
-    @GetMapping("/student/{studentId}")
-    public ResponseEntity<List<BadgeDTO>> getStudentBadges(
-            @PathVariable Long studentId,
-            Locale locale
+    @Operation(summary = "Unassign badge from student")
+    @PreAuthorize("hasAuthority('UPDATE_BADGE')")
+    @DeleteMapping("/{id}/unassign/{studentId}")
+    public ResponseEntity<Void> unassign(
+            @PathVariable UUID id,
+            @PathVariable Long studentId
     ) {
-        return ResponseEntity.ok(
-                badgeService.getStudentBadges(studentId, locale)
-        );
+        badgeService.unassign(id, studentId);
+        return ResponseEntity.noContent().build();
     }
 }
-

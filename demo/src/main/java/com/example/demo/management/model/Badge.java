@@ -1,22 +1,27 @@
 package com.example.demo.management.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE enrollment SET status = 'DELETED' WHERE id = ?")
+@SQLDelete(sql = "UPDATE badge SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status != 'DELETED'")
-public class Badge extends  BaseEntity {
+@Filter(name = "centerFilter", condition = "center_id = :centerId")
+public class Badge extends BaseEntity {
+
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
@@ -27,14 +32,16 @@ public class Badge extends  BaseEntity {
 
     private String description;
 
-    @Column(name = "student_id")
-    private Long studentId;
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "student_badge",
+            joinColumns = @JoinColumn(name = "badge_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private List<Student> students = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", insertable = false, updatable = false)
-    private Student student;
-
-     @Column(name = "center_id", nullable = false)
+    @Column(name = "center_id", nullable = false)
     private UUID centerId;
 
     @ManyToOne

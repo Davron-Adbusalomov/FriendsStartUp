@@ -12,11 +12,11 @@ public interface BadgeMapper {
     @Mapping(target = "active", ignore = true)
     BadgeDTO toDto(Badge badge);
 
-    @Mapping(target = "student", ignore = true)
+    @Mapping(target = "students", ignore = true)
     @Mapping(target = "center", ignore = true)
     Badge toEntity(BadgeDTO dto);
 
-    @Mapping(target = "student", ignore = true)
+    @Mapping(target = "students", ignore = true)
     @Mapping(target = "center", ignore = true)
     Badge toEntity(BadgeRequestDto dto);
 }
