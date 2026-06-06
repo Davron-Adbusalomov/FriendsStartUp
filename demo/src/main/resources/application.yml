@@ -32,7 +32,7 @@ security:
     refresh-token-expiration-time: 604800000  # 7 days
 
 app:
-  base-url: http://193.37.212.76:8081
+  base-url: https://intellecta.uz
   attachments:
     path: /opt/apps/intellecta/uploads
 
