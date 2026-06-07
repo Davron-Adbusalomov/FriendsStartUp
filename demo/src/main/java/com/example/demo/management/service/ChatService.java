@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.enums.ChatRole;
 import com.example.demo.enums.ChatRoomType;
 import com.example.demo.management.dto.request.SendMessageRequest;
 import com.example.demo.management.model.ChatRoom;
@@ -126,11 +127,13 @@ public class ChatService {
         m1.setRoomId(room.getId());
         m1.setUserId(senderId);
         m1.setCenterId(centerId);
+        m1.setRole(ChatRole.DIRECT);
 
         ChatRoomMember m2 = new ChatRoomMember();
         m2.setRoomId(room.getId());
         m2.setUserId(receiverId);
         m2.setCenterId(centerId);
+        m2.setRole(ChatRole.DIRECT);
 
         chatRoomMemberRepository.saveAll(List.of(m1, m2));
 
