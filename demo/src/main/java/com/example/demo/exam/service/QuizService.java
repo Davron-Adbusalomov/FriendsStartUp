@@ -344,9 +344,9 @@ public class QuizService {
                 ? PageRequest.of(
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
-                pageable.getSort().and(Sort.by("startTime").ascending())
+                pageable.getSort().and(Sort.by("startTime").descending())
         )
-                : PageRequest.of(0, 10, Sort.by("startTime").ascending());
+                : PageRequest.of(0, 10, Sort.by("startTime").descending());
 
         LocalDateTime now = LocalDateTime.now();
 

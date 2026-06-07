@@ -50,7 +50,7 @@ public class AttendanceSpecification {
             if (from != null)
                 return cb.greaterThanOrEqualTo(root.get("attendanceTime"), from);
 
-            return cb.lessThanOrEqualTo(root.get("attendanceTime"), to);
+            return cb.lessThanOrEqualTo(root.get("attendanceTime"), to.plusDays(1).minusNanos(1));
         };
     }
 

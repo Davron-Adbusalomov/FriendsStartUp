@@ -15,7 +15,9 @@ import com.example.demo.management.specification.AttendanceSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,7 +83,15 @@ public class AttendanceService {
                 .and(AttendanceSpecification.dateBetween(from, to))
                 .and(AttendanceSpecification.hasStudentId(studentId));
 
-        Page<Attendance> attendances = attendanceRepository.findAll(spec, pageable);
+        Pageable effectivePageable = pageable != null
+                ? PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort().and(Sort.by("attendanceTime").descending())
+        )
+                : PageRequest.of(0, 10, Sort.by("attendanceTime").descending());
+
+        Page<Attendance> attendances = attendanceRepository.findAll(spec, effectivePageable);
         return attendances.map(mapper::toDto);
     }
 
