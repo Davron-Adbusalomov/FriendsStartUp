@@ -68,4 +68,20 @@ public class ChatRoomController {
                                        @RequestParam(required = false) Boolean enable) {
         return chatRoomService.createRoomForGroup(groupId, enable);
     }
+
+    @Operation(
+            summary = "Get room detail",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Success"),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                    @ApiResponse(responseCode = "403", description = "Forbidden"),
+                    @ApiResponse(responseCode = "404", description = "Not found")
+            }
+    )
+    @PreAuthorize("hasAuthority('CHAT_ROOM_DETAIL)")
+    @GetMapping("/direct")
+    public UUID getRoomOfDirectChat(@RequestParam Long user1,
+                                    @RequestParam Long user2) {
+        return chatRoomService.getRoomOfDirectChat(user1, user2);
+    }
 }

@@ -151,4 +151,9 @@ public class ChatRoomService {
         chatRoomMemberRepository.saveAll(members);
         return room;
     }
+
+    public UUID getRoomOfDirectChat(Long userId1, Long userId2) {
+        Optional<UUID> roomOpt = chatRoomRepository.findDirectRoomBetweenUsers(userId1, userId2);
+        return roomOpt.get();
+    }
 }
