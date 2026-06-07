@@ -30,7 +30,7 @@ public class ChatRoomService {
     private final UserRepository userRepository;
     private final GroupRepository groupingRepository;
 
-    public List<ChatRoomListResponse> getMyRooms(Long myUserId) {
+    public List<ChatRoomListResponse> getMyRooms(Long myUserId, String title) {
 
         List<ChatRoomMember> memberships =
                 chatRoomMemberRepository.findAllByUserId(myUserId);
@@ -44,6 +44,7 @@ public class ChatRoomService {
 
         return rooms.stream()
                 .map(room -> mapRoom(room, myUserId))
+                .filter(r -> title == null || r.getTitle().toLowerCase().contains(title.toLowerCase()))
                 .toList();
     }
 

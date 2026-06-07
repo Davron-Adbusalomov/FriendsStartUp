@@ -30,10 +30,12 @@ public class ChatRoomController {
     )
     @PreAuthorize("hasAuthority('CHAT_ROOM_LIST')")
     @GetMapping
-    public List<ChatRoomListResponse> getMyRooms() {
+    public List<ChatRoomListResponse> getMyRooms(
+            @RequestParam (required = false) String title
+    ) {
         Long myUserId = CurrentUserUtils.getUserId();
 
-        return chatRoomService.getMyRooms(myUserId);
+        return chatRoomService.getMyRooms(myUserId, title);
     }
 
     @Operation(
