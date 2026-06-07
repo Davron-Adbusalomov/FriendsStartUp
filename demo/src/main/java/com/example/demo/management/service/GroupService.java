@@ -80,16 +80,14 @@ public class GroupService {
         return groupMapper.toDto(group);
     }
 
+    @Transactional
     public void deleteGroup(UUID groupId) {
-        Grouping grouping = groupRepository.findById(groupId).orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
+        Grouping grouping = groupRepository.findById(groupId)
+                .orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
 
-        // Remove students from group before deleting
-        var groupings = studentRepository.findByGroupId(groupId);
-        for (Grouping g : groupings) {
-            for (Student student : g.getStudents()) {
-                student.getGroupings().remove(g);
-            }
-        }
+        // break ManyToMany relation properly
+        grouping.getStudents().forEach(student -> student.getGroupings().remove(grouping));
+        grouping.getStudents().clear();
 
         groupRepository.delete(grouping);
     }

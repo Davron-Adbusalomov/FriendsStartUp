@@ -19,8 +19,8 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
     @Query("SELECT s FROM Student s WHERE s.parentContact = :parentContact")
     Optional<Student> findStudentByParentContact(@Param("parentContact") String parentContact);
 
-    @Query("SELECT g FROM Grouping g JOIN g.students s WHERE s.id = :groupId")
-    List<Grouping> findByGroupId(@Param("groupId") UUID groupId);
+//    @Query("SELECT g FROM Grouping g JOIN g.students s WHERE s.id = :groupId")
+//    List<Grouping> findByGroupId(@Param("groupId") UUID groupId);
 
     @Query("SELECT s FROM Student s JOIN s.groupings g WHERE g.id = :groupId")
     List<Student> findAllByGroupId(UUID groupId);
