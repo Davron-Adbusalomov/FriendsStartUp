@@ -108,6 +108,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
             LEFT JOIN group_student gs ON gs.group_id = g.id
             LEFT JOIN attendance a ON a.student_id = gs.student_id
                 AND a.group_id = g.id
+                AND a.status != 'DELETED'
                 AND EXTRACT(MONTH FROM a.attendance_time) = :month
                 AND EXTRACT(YEAR  FROM a.attendance_time) = :year
             WHERE g.teacher_id = :teacherId AND g.id = CAST(:groupId AS uuid)

@@ -5,7 +5,6 @@ import com.example.demo.management.dto.*;
 import com.example.demo.management.dto.projection.*;
 import com.example.demo.management.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.YearMonth;
@@ -19,7 +18,6 @@ public class TeacherDashboardService {
 
     private final TeacherRepository teacherRepository;
 
-    @Cacheable(value = "teacher-dashboard", key = "#teacherId + '_' + #groupId + '_' + #month")
     public TeacherDashboardDTO getDashboard(Long teacherId, String groupId, String month) {
 
         TeacherDashboardDTO dto = new TeacherDashboardDTO();
