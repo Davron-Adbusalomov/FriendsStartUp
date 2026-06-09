@@ -224,7 +224,13 @@ public class QuizService {
         Collections.shuffle(selected);
 
         QuizDTO dto = QuizMapper.toDTO(quiz);
-        dto.setQuestions(new HashSet<>(selected)); // uniqueness at the end only
+        dto.setQuestions(new HashSet<>(selected));
+
+        // Give student only the time remaining until quiz ends, not the full duration
+        long remainingSeconds = java.time.Duration.between(LocalDateTime.now(), quiz.getEndTime()).getSeconds();
+        long effectiveDuration = Math.min(quiz.getDuration(), Math.max(0L, (remainingSeconds + 59) / 60));
+        dto.setDuration(effectiveDuration);
+
         return dto;
     }
 

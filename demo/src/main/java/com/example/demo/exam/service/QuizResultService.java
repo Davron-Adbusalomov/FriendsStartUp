@@ -73,6 +73,13 @@ public class QuizResultService {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new EntityNotFoundException("Quiz not found with id: " + quizId));
 
+        if (quiz.getStartTime() != null && LocalDateTime.now().isBefore(quiz.getStartTime())) {
+            throw new IllegalStateException("Cannot finalize a quiz that has not started yet");
+        }
+        if (quiz.getQuestions() == null || quiz.getQuestions().isEmpty()) {
+            throw new IllegalStateException("Cannot finalize a quiz with no questions");
+        }
+
         // Mark quiz as ended so status becomes COMPLETED
         quiz.setEndTime(LocalDateTime.now());
         quizRepository.save(quiz);
