@@ -355,16 +355,23 @@ public class QuizService {
                 : PageRequest.of(0, 10, Sort.by("startTime").descending());
 
         LocalDateTime now = LocalDateTime.now();
+        Long currentUserId = CurrentUserUtils.getUserId();
 
         return quizRepository.findAll(spec, effectivePageable)
-                .map(quiz -> toSummaryDTOWithStatus(quiz, now));
+                .map(quiz -> toSummaryDTOWithStatus(quiz, now, currentUserId));
     }
 
 
-    private QuizSummaryDTO toSummaryDTOWithStatus(Quiz quiz, LocalDateTime now) {
+    private QuizSummaryDTO toSummaryDTOWithStatus(Quiz quiz, LocalDateTime now, Long currentUserId) {
         QuizSummaryDTO dto = QuizMapper.toSummaryDTO(quiz);
         if (quiz.getStatus() == Status.INACTIVE) {
             dto.setStatus(QuizContentStatus.CANCELLED);
+            return dto;
+        }
+
+        // If current user already has a result for this quiz, show as COMPLETED
+        if (currentUserId != null && quizResultsRepository.existsByStudentIdAndQuizId(currentUserId, quiz.getId())) {
+            dto.setStatus(QuizContentStatus.COMPLETED);
             return dto;
         }
 
@@ -394,9 +401,7 @@ public class QuizService {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new EntityNotFoundException("No quiz found with this id"));
 
-        LocalDateTime now = LocalDateTime.now();
-
-        return toSummaryDTOWithStatus(quiz, now);
+        return toSummaryDTOWithStatus(quiz, LocalDateTime.now(), CurrentUserUtils.getUserId());
     }
 }
 
