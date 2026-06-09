@@ -10,7 +10,9 @@ import com.example.demo.management.dto.StudentLessonProgressDTO;
 import com.example.demo.management.mapper.LessonMapper;
 import com.example.demo.management.model.Lesson;
 import com.example.demo.management.repository.LessonRepository;
+import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.management.specification.LessonSpecification;
+import com.example.demo.utils.ProjectUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,10 +32,20 @@ public class LessonService {
     private final LessonMapper lessonMapper;
     private final LessonProgressService lessonProgressService;
     private final AttachmentService attachmentService;
+    private final TeacherRepository teacherRepository;
 
     public LessonDTO create(LessonDTO dto) {
         Lesson lesson = lessonMapper.toEntity(dto);
         lesson.setCenterId(TenantContext.getCenterId());
+
+        var currentUser = ProjectUtils.getCurrentUserDetails();
+        if (currentUser != null) {
+            teacherRepository.findById(currentUser.getId()).ifPresent(teacher -> {
+                lesson.setInspectorName(teacher.getFullName());
+                lesson.setInspectorInfo(teacher.getPhoneNumber());
+            });
+        }
+
         lessonRepository.save(lesson);
         return lessonMapper.toDto(lesson);
     }
