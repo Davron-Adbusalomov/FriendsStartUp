@@ -25,4 +25,5 @@ public class UsersController {
         userRepository.save(user);
         return ResponseEntity.ok().build();
     }
+
 }
