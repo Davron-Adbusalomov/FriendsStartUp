@@ -112,6 +112,10 @@ public class AuthenticationService {
         UserEntity user = userRepository.findByUsername(signInDto.getUsername())
                 .orElseThrow(() -> new BadCredentialsException("user_not_found"));
 
+        if (Boolean.TRUE.equals(user.getIsBlocked())) {
+            throw new InvalidLoginRequestException("account_blocked");
+        }
+
         if (!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("incorrect_password");
         }

@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum PermissionEnum {
+    TOGGLE_LOGIN,
     CREATE,
     SIGN_UP,
     GET_ADMINS_LIST,
