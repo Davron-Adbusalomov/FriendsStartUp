@@ -32,4 +32,10 @@ public class Center extends BaseEntity {
     private String location;
 
     private String contactInfo;
+
+    @Column(name = "subdomain", unique = true)
+    private String subdomain;
+
+    @Column(name = "logo")
+    private String logo;
 }

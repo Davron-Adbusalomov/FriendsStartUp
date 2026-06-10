@@ -157,6 +157,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/**").permitAll()
                         // Permit specific authentication endpoints
                         .requestMatchers("/api/v1/authentication/sign-in", "/api/v1/authentication/refresh-token", "/attachments/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/center/**").permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
