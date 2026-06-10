@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -94,8 +95,8 @@ public class AdminController {
             }
     )
     @PreAuthorize("hasAnyAuthority('UPDATE_ADMIN')")
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateAdmin(@RequestBody AdminInfoDTO adminDTO, @PathVariable Long id) throws Exception {
+    @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateAdmin(@ModelAttribute AdminInfoDTO adminDTO, @PathVariable Long id) throws Exception {
         try {
             return adminService.updateAdmin(adminDTO, id);
         } catch (Exception e) {

@@ -1,6 +1,8 @@
 package com.example.demo.management.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class AdminInfoDTO {
@@ -8,7 +10,8 @@ public class AdminInfoDTO {
 
     private String fullName;
 
-    private String image;
+    @Schema(type = "string", format = "binary")
+    private MultipartFile image;
 
     private String email;
 

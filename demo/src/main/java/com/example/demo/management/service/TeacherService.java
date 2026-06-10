@@ -5,6 +5,7 @@ import com.example.demo.exam.model.Quiz;
 import com.example.demo.exam.repository.QuestionRepository;
 import com.example.demo.exam.repository.QuizRepository;
 import com.example.demo.management.authentication.enums.RolesEnum;
+import com.example.demo.management.dto.StudentInfoDTO;
 import com.example.demo.management.dto.TeacherDTO;
 import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.dto.request.UpdateTeacherRequest;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +51,8 @@ public class TeacherService {
 
     private final TeacherMapper teacherMapper;
     private final PhotoService photoService;
+
+    private final PasswordEncoder passwordEncoder;
 
 
     public Page<TeacherDTO> getTeachers(Pageable pageable) {
@@ -126,14 +130,23 @@ public class TeacherService {
             teacher.setImage(imageUrl);
         }
 
-        if (teacherDTO.getPassword() != null && !teacherDTO.getPassword().isEmpty()) {
-            UserEntity user = userRepository.findById(id)
-                    .orElseThrow(() -> new EntityNotFoundException("No user found with this id: " + id));
-            user.setPassword(teacherDTO.getPassword());
-            userRepository.save(user);
+        TeacherInfoDTO teacherInfoDTO = teacherMapper.toInfoDto(teacherRepository.save(teacher));
+        updateUser(teacherInfoDTO, id, imageUrl);
+        return teacherInfoDTO;
+    }
+
+    private void updateUser(TeacherInfoDTO teacherDto, Long teacherId, String imageUrl) {
+        UserEntity user = userRepository.findById(teacherId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + teacherId));
+
+        if (teacherDto.getPassword() != null && !teacherDto.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(teacherDto.getPassword()));
         }
 
-        return teacherMapper.toInfoDto(teacherRepository.save(teacher));
+        if (imageUrl != null) {
+            user.setImage(imageUrl);
+        }
+        userRepository.save(user);
     }
 
 

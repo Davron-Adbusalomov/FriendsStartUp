@@ -3,6 +3,7 @@ package com.example.demo.management.service;
 import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.dto.AdminDTO;
 import com.example.demo.management.dto.AdminInfoDTO;
+import com.example.demo.management.dto.TeacherInfoDTO;
 import com.example.demo.management.mapper.AdminMapper;
 import com.example.demo.management.model.Admin;
 import com.example.demo.management.model.UserEntity;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,11 +27,15 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final AdminMapper adminMapper;
     private final UserRepository userRepository;
+    private final PhotoService photoService;
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminService(AdminRepository adminRepository, AdminMapper adminMapper, UserRepository userRepository) {
+    public AdminService(AdminRepository adminRepository, AdminMapper adminMapper, UserRepository userRepository, PhotoService photoService, PasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
         this.adminMapper = adminMapper;
         this.userRepository = userRepository;
+        this.photoService = photoService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Page<AdminDTO> getAdmins(Pageable pageable) {
@@ -68,17 +74,38 @@ public class AdminService {
         Optional.ofNullable(adminDTO.getFullName()).ifPresent(existingAdmin::setFullName);
         Optional.ofNullable(adminDTO.getEmail()).ifPresent(existingAdmin::setEmail);
         Optional.ofNullable(adminDTO.getPhoneNumber()).ifPresent(existingAdmin::setPhoneNumber);
-        Optional.ofNullable(adminDTO.getImage()).ifPresent(existingAdmin::setImage);
+        String imageUrl = null;
 
-        if (adminDTO.getPassword() != null && !adminDTO.getPassword().isEmpty()) {
-            UserEntity userEntity = userRepository.findById(existingAdmin.getId())
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + existingAdmin.getId()));
-            userEntity.setPassword(adminDTO.getPassword());
-            userRepository.save(userEntity);
+        if (adminDTO.getImage() != null && !adminDTO.getImage().isEmpty()) {
+
+            String contentType = adminDTO.getImage().getContentType();
+
+            if (contentType == null ||
+                    (!contentType.equals("image/png") && !contentType.equals("image/jpeg"))) {
+                throw new IllegalArgumentException("Only PNG and JPEG images are allowed");
+            }
+
+            imageUrl = photoService.saveImage(adminDTO.getImage(), "teacher");
+            existingAdmin.setImage(imageUrl);
         }
 
         Admin updatedAdmin = adminRepository.save(existingAdmin);
+        updateUser(adminDTO, id, imageUrl);
         return ResponseEntity.ok(adminMapper.toDTO(updatedAdmin));
+    }
+
+    private void updateUser(AdminInfoDTO admin, Long adminId, String imageUrl) {
+        UserEntity user = userRepository.findById(adminId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + adminId));
+
+        if (admin.getPassword() != null && !admin.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(admin.getPassword()));
+        }
+
+        if (imageUrl != null) {
+            user.setImage(imageUrl);
+        }
+        userRepository.save(user);
     }
 
     private List<RolesEnum> getRoles(Admin admin) {
