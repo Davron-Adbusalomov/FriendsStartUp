@@ -80,7 +80,7 @@ public class ChatRoomController {
                     @ApiResponse(responseCode = "404", description = "Not found")
             }
     )
-    @PreAuthorize("hasAuthority('CHAT_ROOM_DETAIL)")
+    @PreAuthorize("hasAuthority('CHAT_ROOM_DETAIL')")
     @GetMapping("/direct")
     public UUID getRoomOfDirectChat(@RequestParam Long user1,
                                     @RequestParam Long user2) {
