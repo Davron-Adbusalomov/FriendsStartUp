@@ -3,6 +3,7 @@ package com.example.demo.exam.repository;
 import com.example.demo.exam.model.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,8 +15,8 @@ public interface QuestionRepository extends JpaRepository<Question, UUID>, org.s
 
     List<Question> findByTeacher_Id(Long id);
 
-    @Query("SELECT q FROM Question q WHERE q.level = :level")
-    List<Question> findQuestionByLevel(String level);
+    @Query("SELECT q FROM Question q WHERE q.level = :level AND q.centerId = :centerId")
+    List<Question> findQuestionByLevel(@Param("level") String level, @Param("centerId") UUID centerId);
 
     Optional<Question> findById(UUID question_id);
 

@@ -43,9 +43,15 @@ public class QuestionSpecification {
                         );
     }
 
-    public static Specification<Question> advancedFilter(String level, Long teacherId, UUID quizId, String title, UUID subjectId) {
+    private static Specification<Question> hasCenterId(UUID centerId) {
+        return (root, query, cb) ->
+                centerId == null ? null : cb.equal(root.get("centerId"), centerId);
+    }
+
+    public static Specification<Question> advancedFilter(String level, Long teacherId, UUID quizId, String title, UUID subjectId, UUID centerId) {
         return Specification
-                .where(hasDifficultyLevel(level))
+                .where(hasCenterId(centerId))
+                .and(hasDifficultyLevel(level))
                 .and(hasTeacherId(teacherId))
                 .and(hasGroupQuizId(quizId))
                 .and(hasTitleLike(title))

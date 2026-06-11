@@ -1,5 +1,6 @@
 package com.example.demo.exam.service;
 
+import com.example.demo.config.CurrentUserUtils;
 import com.example.demo.config.TenantContext;
 import com.example.demo.exam.dto.QuestionRequestDTO;
 import com.example.demo.exam.dto.QuestionSummaryDTO;
@@ -62,7 +63,7 @@ public class QuestionService {
     }
 
     public Page<QuestionSummaryDTO> getAllQuestions(String level, Long teacherId, UUID quizId, String search, UUID subjectId, Pageable pageable) {
-        Specification<Question> spec = QuestionSpecification.advancedFilter(level, teacherId, quizId, search, subjectId);
+        Specification<Question> spec = QuestionSpecification.advancedFilter(level, teacherId, quizId, search, subjectId, CurrentUserUtils.getCenterId());
 
         Page<Question> page = questionRepository.findAll(spec, pageable);
 
@@ -186,6 +187,6 @@ public class QuestionService {
     }
 
     public List<Question> getQuestionByLevel(String level) {
-        return questionRepository.findQuestionByLevel(level);
+        return questionRepository.findQuestionByLevel(level, CurrentUserUtils.getCenterId());
     }
 }
