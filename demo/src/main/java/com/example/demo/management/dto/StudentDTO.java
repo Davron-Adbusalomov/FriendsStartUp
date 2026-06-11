@@ -42,4 +42,6 @@ public class StudentDTO {
     private String image;
 
     private String email;
+
+    private Boolean isBlocked;
 }

@@ -44,6 +44,7 @@ public class AdminService {
         List<AdminDTO> adminDTOs = adminPage.stream().map(admin -> {
             AdminDTO dto = adminMapper.toDTO(admin);
             dto.setRoles(getRoles(admin));
+            dto.setIsBlocked(getIsBlocked(admin.getId()));
             return dto;
         }).collect(Collectors.toList());
 
@@ -113,6 +114,10 @@ public class AdminService {
 
         Set<RoleEntity> roles = userRepository.findRolesByUserId(admin.getId());
         return roles == null ? Collections.emptyList() : roles.stream().map(RoleEntity::getName).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    private Boolean getIsBlocked(Long userId) {
+        return userRepository.findById(userId).map(UserEntity::getIsBlocked).orElse(false);
     }
 
 //    public StudentDTO registerStudent(StudentDTO studentDTO) throws Exception {

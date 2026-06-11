@@ -68,6 +68,7 @@ public class StudentService {
         return studentPage.map(student -> {
             StudentDTO dto = studentMapper.toDto(student);
             dto.setRoles(getRoles(student.getId()));
+            dto.setIsBlocked(getIsBlocked(student.getId()));
             return dto;
         });
     }
@@ -154,6 +155,10 @@ public class StudentService {
     private List<RolesEnum> getRoles(Long userId) {
         Set<RoleEntity> roles = userRepository.findRolesByUserId(userId);
         return roles == null ? Collections.emptyList() : roles.stream().map(RoleEntity::getName).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    private Boolean getIsBlocked(Long userId) {
+        return userRepository.findById(userId).map(UserEntity::getIsBlocked).orElse(false);
     }
 
     public StudentProfileDTO getStudentProfile(Long id, Locale locale) {

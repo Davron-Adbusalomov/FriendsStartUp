@@ -32,4 +32,6 @@ public class AdminDTO {
     private List<RolesEnum> roles = new ArrayList<>();
 
     private String status;
+
+    private Boolean isBlocked;
 }

@@ -61,6 +61,7 @@ public class TeacherService {
         List<TeacherDTO> teacherDTOs = teacherPage.stream().map(teacher -> {
             TeacherDTO dto = teacherMapper.toDto(teacher);
             dto.setRoles(getRoles(teacher.getId()));
+            dto.setIsBlocked(getIsBlocked(teacher.getId()));
             return dto;
         }).collect(Collectors.toList());
 
@@ -171,6 +172,10 @@ public class TeacherService {
     private List<RolesEnum> getRoles(Long userId) {
         Set<RoleEntity> roles = userRepository.findRolesByUserId(userId);
         return roles == null ? Collections.emptyList() : roles.stream().map(RoleEntity::getName).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    private Boolean getIsBlocked(Long userId) {
+        return userRepository.findById(userId).map(UserEntity::getIsBlocked).orElse(false);
     }
 
 //    public TeacherLoginDTO loginTeacher(TeacherDTO teacherDTO){

@@ -38,4 +38,6 @@ public class TeacherDTO {
 
     private List<RolesEnum> roles;
 
+    private Boolean isBlocked;
+
 }
