@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.lang.NonNull;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
-    private final EntityManager entityManager;
+    private final EntityManagerFactory entityManagerFactory;
 
     @Override
     protected void doFilterInternal(
@@ -62,9 +64,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (centerId != null) {
                 TenantContext.setCenterId(UUID.fromString(centerId));
 
-                session = entityManager.unwrap(Session.class);
-                session.enableFilter("centerFilter")
-                        .setParameter("centerId", UUID.fromString(centerId));
+                // Use EntityManagerFactoryUtils to get the OSIV-bound session (not a new temporary one)
+                EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager(entityManagerFactory);
+                if (em != null) {
+                    session = em.unwrap(Session.class);
+                    session.enableFilter("centerFilter")
+                            .setParameter("centerId", UUID.fromString(centerId));
+                }
             }
 
             filterChain.doFilter(request, response);
