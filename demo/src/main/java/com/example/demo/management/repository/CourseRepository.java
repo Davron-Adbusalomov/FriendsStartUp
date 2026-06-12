@@ -11,4 +11,6 @@ import java.util.UUID;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, UUID> {
     Page<Course> findByTeacherId(Long teacherId, Pageable pageable);
+    Page<Course> findByCenterId(UUID centerId, Pageable pageable);
+    Page<Course> findByTeacherIdAndCenterId(Long teacherId, UUID centerId, Pageable pageable);
 }

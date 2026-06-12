@@ -4,6 +4,7 @@ import com.example.demo.management.dto.AttendanceSummaryDTO;
 import com.example.demo.management.dto.projection.*;
 import com.example.demo.management.model.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TeacherRepository extends JpaRepository<Teacher, Long> {
+public interface TeacherRepository extends JpaRepository<Teacher, Long>, JpaSpecificationExecutor<Teacher> {
 
     @Query(value = """
             SELECT

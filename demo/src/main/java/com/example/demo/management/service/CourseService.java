@@ -28,10 +28,17 @@ public class CourseService {
 
     @Transactional(readOnly = true)
     public Page<CourseDTO> getCourses(Long teacherId, Pageable pageable) {
+        UUID centerId = TenantContext.getCenterId();
         if (teacherId != null) {
-            return courseRepository.findByTeacherId(teacherId, pageable).map(courseMapper::toDto);
+            return (centerId != null
+                    ? courseRepository.findByTeacherIdAndCenterId(teacherId, centerId, pageable)
+                    : courseRepository.findByTeacherId(teacherId, pageable)
+            ).map(courseMapper::toDto);
         }
-        return courseRepository.findAll(pageable).map(courseMapper::toDto);
+        return (centerId != null
+                ? courseRepository.findByCenterId(centerId, pageable)
+                : courseRepository.findAll(pageable)
+        ).map(courseMapper::toDto);
     }
 
     @Transactional(readOnly = true)

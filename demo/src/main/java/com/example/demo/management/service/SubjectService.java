@@ -34,7 +34,7 @@ public class SubjectService {
     }
 
     public Page<SubjectDTO> getAll(String name, String code, Pageable pageable) {
-        Specification<Subject> specification = SubjectSpecification.advancedFilter(name, code);
+        Specification<Subject> specification = SubjectSpecification.advancedFilter(name, code, TenantContext.getCenterId());
 
         Page<Subject> subjects = subjectRepository.findAll(specification, pageable);
         return subjects.map(subjectMapper::toDto);

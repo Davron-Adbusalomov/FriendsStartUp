@@ -21,7 +21,12 @@ public class StudentSpecification {
         };
     }
 
-    public static Specification<Student> advancedFilter(UUID groupId) {
-        return Specification.where(hasGroupId(groupId));
+    public static Specification<Student> hasCenterId(UUID centerId) {
+        return (root, query, cb) ->
+                centerId == null ? null : cb.equal(root.get("centerId"), centerId);
+    }
+
+    public static Specification<Student> advancedFilter(UUID groupId, UUID centerId) {
+        return Specification.where(hasGroupId(groupId)).and(hasCenterId(centerId));
     }
 }

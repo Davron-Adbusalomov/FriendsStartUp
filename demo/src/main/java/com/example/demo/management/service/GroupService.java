@@ -34,7 +34,7 @@ public class GroupService {
     private final PhotoService photoService;
 
     public Page<GroupDTO> getGroups(Pageable pageable, Long teacherId, Long studentId, String name, String status) {
-        Specification<Grouping> specification = GroupSpecification.advancedFilter(teacherId, studentId, name, status);
+        Specification<Grouping> specification = GroupSpecification.advancedFilter(teacherId, studentId, name, status, TenantContext.getCenterId());
 
         Page<Grouping> groups = groupRepository.findAll(specification, pageable);
 

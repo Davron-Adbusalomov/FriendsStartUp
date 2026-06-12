@@ -1,5 +1,6 @@
 package com.example.demo.management.service;
 
+import com.example.demo.config.TenantContext;
 import com.example.demo.management.authentication.enums.RolesEnum;
 import com.example.demo.management.dto.AdminDTO;
 import com.example.demo.management.dto.AdminInfoDTO;
@@ -39,7 +40,10 @@ public class AdminService {
     }
 
     public Page<AdminDTO> getAdmins(Pageable pageable) {
-        Page<Admin> adminPage = adminRepository.findAll(pageable);
+        UUID centerId = TenantContext.getCenterId();
+        Page<Admin> adminPage = centerId != null
+                ? adminRepository.findByCenterId(centerId, pageable)
+                : adminRepository.findAll(pageable);
 
         List<AdminDTO> adminDTOs = adminPage.stream().map(admin -> {
             AdminDTO dto = adminMapper.toDTO(admin);

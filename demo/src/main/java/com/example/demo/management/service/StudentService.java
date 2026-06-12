@@ -18,6 +18,7 @@ import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.management.repository.UserRepository;
+import com.example.demo.config.TenantContext;
 import com.example.demo.management.specification.StudentSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +62,7 @@ public class StudentService {
 //    }
 
     public Page<StudentDTO> getStudents(UUID groupId, Pageable pageable) {
-        Specification<Student> spec = StudentSpecification.advancedFilter(groupId);
+        Specification<Student> spec = StudentSpecification.advancedFilter(groupId, TenantContext.getCenterId());
 
         Page<Student> studentPage = studentRepository.findAll(spec, pageable);
 

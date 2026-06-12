@@ -69,11 +69,17 @@ public class GroupSpecification {
     }
 
 
+    public static Specification<Grouping> hasCenterId(UUID centerId) {
+        return (root, query, criteriaBuilder) -> centerId == null ? null :
+                criteriaBuilder.equal(root.get("centerId"), centerId);
+    }
+
     public static Specification<Grouping> advancedFilter(
             Long teacherId,
             Long studentId,
             String name,
-            String status
+            String status,
+            UUID centerId
     ) {
         Specification<Grouping> spec = (root, query, cb) -> {
             query.distinct(true);
@@ -83,7 +89,8 @@ public class GroupSpecification {
         spec = spec
                 .and(teacherIdEquals(teacherId))
                 .and(nameContains(name))
-                .and(statusEquals(status, studentId));
+                .and(statusEquals(status, studentId))
+                .and(hasCenterId(centerId));
 
         if (!GroupStatus.NOT_JOINED.name().equalsIgnoreCase(status)) {
             spec = spec.and(studentIdEquals(studentId));

@@ -14,15 +14,18 @@ import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Teacher;
 import com.example.demo.management.model.UserEntity;
 import com.example.demo.management.model.rbac.RoleEntity;
+import com.example.demo.config.TenantContext;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.management.repository.UserRepository;
+import com.example.demo.management.specification.TeacherSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +59,8 @@ public class TeacherService {
 
 
     public Page<TeacherDTO> getTeachers(Pageable pageable) {
-        Page<Teacher> teacherPage = teacherRepository.findAll(pageable);
+        Specification<Teacher> spec = TeacherSpecification.advancedFilter(TenantContext.getCenterId());
+        Page<Teacher> teacherPage = teacherRepository.findAll(spec, pageable);
 
         List<TeacherDTO> teacherDTOs = teacherPage.stream().map(teacher -> {
             TeacherDTO dto = teacherMapper.toDto(teacher);

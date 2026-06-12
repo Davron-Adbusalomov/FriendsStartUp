@@ -2,6 +2,8 @@ package com.example.demo.management.repository;
 
 import com.example.demo.management.dto.projection.*;
 import com.example.demo.management.model.Admin;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +14,8 @@ import java.util.UUID;
 
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Long> {
+
+    Page<Admin> findByCenterId(UUID centerId, Pageable pageable);
 
     @Query(value = """
             SELECT
