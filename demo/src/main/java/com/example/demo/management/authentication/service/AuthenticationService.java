@@ -246,8 +246,8 @@ public class AuthenticationService {
         entity.setFullName(request.getFullName());
         entity.setCenterId(TenantContext.getCenterId());
 
-        String rawPassword = PasswordUtil.generatePassword(8);
-        entity.setPassword(passwordEncoder.encode(rawPassword));
+//        String rawPassword = PasswordUtil.generatePassword(8);
+        entity.setPassword(passwordEncoder.encode("password"));
 
         Set<RoleEntity> roles = new HashSet<>();
 
