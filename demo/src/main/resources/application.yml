@@ -7,6 +7,10 @@ spring:
 #    username: postgres
 #    password: davron_abdusalomov
     driver-class-name: org.postgresql.Driver
+  servlet:
+    multipart:
+      max-file-size: 10GB
+      max-request-size: 10GB
   jpa:
     properties:
       hibernate:
@@ -44,3 +48,13 @@ springdoc:
 supabase:
   url: https://uzydopnwqfekvnspcttj.supabase.co
   service-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6eWRvcG53cWZla3Zuc3BjdHRqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MDUzNTkyNSwiZXhwIjoyMDg2MTExOTI1fQ.43HhwmQdvdfEUz0T_8e64m2SL2OZK5Qf_OFmmbvDgKU
+
+youtube:
+  credentials: certificates/client_secret_web.json
+  application-name: Intellecta Backend
+
+google:
+  oauth:
+      client-id: ${YOUTUBE_CLIENT_ID}
+      client-secret: ${YOUTUBE_CLIENT_SECRET}
+      refresh-token: ${YOUTUBE_REFRESH_TOKEN}

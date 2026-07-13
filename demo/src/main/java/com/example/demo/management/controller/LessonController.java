@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,8 @@ public class LessonController {
 
     @Operation(summary = "create lesson")
     @PreAuthorize("hasAuthority('CREATE_LESSON')")
-    @PostMapping("/create")
-    public ResponseEntity<LessonDTO> create(@RequestBody LessonDTO dto) {
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<LessonDTO> create(@ModelAttribute LessonDTO dto) throws Exception {
         return ResponseEntity.ok(lessonService.create(dto));
     }
 

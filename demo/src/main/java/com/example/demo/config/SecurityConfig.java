@@ -156,7 +156,7 @@ public class SecurityConfig {
                         // Explicitly permit OPTIONS requests for CORS preflight checks
                         .requestMatchers(HttpMethod.POST, "/**").permitAll()
                         // Permit specific authentication endpoints
-                        .requestMatchers("/api/v1/authentication/sign-in", "/api/v1/authentication/refresh-token", "/attachments/**").permitAll()
+                        .requestMatchers("/api/v1/authentication/sign-in", "/api/v1/authentication/refresh-token", "/attachments/**", "/api/youtube/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/center/**").permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",

@@ -13,6 +13,7 @@ import com.example.demo.management.repository.LessonRepository;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.management.specification.LessonSpecification;
 import com.example.demo.utils.ProjectUtils;
+import com.example.demo.youtube.YoutubeUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,17 +34,34 @@ public class LessonService {
     private final LessonProgressService lessonProgressService;
     private final AttachmentService attachmentService;
     private final TeacherRepository teacherRepository;
+    private final YoutubeUploadService youtubeUploadService;
 
-    public LessonDTO create(LessonDTO dto) {
+    public LessonDTO create(LessonDTO dto) throws Exception {
         Lesson lesson = lessonMapper.toEntity(dto);
         lesson.setCenterId(TenantContext.getCenterId());
 
-        var currentUser = ProjectUtils.getCurrentUserDetails();
-        if (currentUser != null) {
-            teacherRepository.findById(currentUser.getId()).ifPresent(teacher -> {
-                lesson.setInspectorName(teacher.getFullName());
-                lesson.setInspectorInfo(teacher.getPhoneNumber());
-            });
+//        var currentUser = ProjectUtils.getCurrentUserDetails();
+//        if (currentUser != null) {
+//            teacherRepository.findById(currentUser.getId()).ifPresent(teacher -> {
+//                lesson.setInspectorName(teacher.getFullName());
+//                lesson.setInspectorInfo(teacher.getPhoneNumber());
+//            });
+//        }
+
+        if (dto.getVideo() != null && !dto.getVideo().isEmpty()) {
+            try {
+                String videoUrl = youtubeUploadService.upload(
+                        dto.getVideo(),
+                        dto.getTitle(),
+                        dto.getDescription(),
+                        "unlisted"
+                );
+
+                lesson.setVideoUrl(videoUrl);
+
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to upload video to YouTube", e);
+            }
         }
 
         lessonRepository.save(lesson);
