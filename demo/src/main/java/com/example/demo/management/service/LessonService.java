@@ -48,21 +48,21 @@ public class LessonService {
 //            });
 //        }
 
-        if (dto.getVideo() != null && !dto.getVideo().isEmpty()) {
-            try {
-                String videoUrl = youtubeUploadService.upload(
-                        dto.getVideo(),
-                        dto.getTitle(),
-                        dto.getDescription(),
-                        "unlisted"
-                );
-
-                lesson.setVideoUrl(videoUrl);
-
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to upload video to YouTube", e);
-            }
-        }
+//        if (dto.getVideo() != null && !dto.getVideo().isEmpty()) {
+//            try {
+//                String videoUrl = youtubeUploadService.upload(
+//                        dto.getVideo(),
+//                        dto.getTitle(),
+//                        dto.getDescription(),
+//                        "unlisted"
+//                );
+//
+//                lesson.setVideoUrl(videoUrl);
+//
+//            } catch (Exception e) {
+//                throw new RuntimeException("Failed to upload video to YouTube", e);
+//            }
+//        }
 
         lessonRepository.save(lesson);
         return lessonMapper.toDto(lesson);
