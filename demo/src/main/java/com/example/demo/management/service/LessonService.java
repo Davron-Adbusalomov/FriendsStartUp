@@ -34,7 +34,7 @@ public class LessonService {
     private final LessonProgressService lessonProgressService;
     private final AttachmentService attachmentService;
     private final TeacherRepository teacherRepository;
-    private final YoutubeUploadService youtubeUploadService;
+//    private final YoutubeUploadService youtubeUploadService;
 
     public LessonDTO create(LessonDTO dto) throws Exception {
         Lesson lesson = lessonMapper.toEntity(dto);
