@@ -80,5 +80,4 @@ public class LessonController {
         lessonProgressService.markLessonAsCompleted(lessonId, studentId);
         return ResponseEntity.ok().build();
     }
-
 }

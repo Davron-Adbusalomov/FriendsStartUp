@@ -66,12 +66,19 @@ public class YoutubeUploadService {
 
         // chunk size (10 MB)
         uploader.setChunkSize(
-                10 * 1024 * 1024
+                64 * 1024 * 1024
         );
+
+        long start = System.currentTimeMillis();
 
 
         uploader.setProgressListener(
                 progress -> {
+                    double mb =
+                            progress.getNumBytesUploaded() / 1024d / 1024d;
+
+                    long sec =
+                            (System.currentTimeMillis() - start) / 1000;
 
                     switch (progress.getUploadState()) {
 
@@ -84,11 +91,12 @@ public class YoutubeUploadService {
                             break;
 
                         case MEDIA_IN_PROGRESS:
-                            double percent =
-                                    progress.getProgress() * 100;
 
-                            System.out.println(
-                                    "Progress: " + percent + "%"
+                            System.out.printf(
+                                    "%.1f MB uploaded in %d sec (%.2f MB/s)%n",
+                                    mb,
+                                    sec,
+                                    mb / Math.max(sec,1)
                             );
                             break;
 
