@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/intelecta_db
+    url: jdbc:postgresql://localhost:5433/startupdb
     username: postgres
     password: 55555
 #    url: jdbc:postgresql://postgres1.cz62o2yusm9p.eu-north-1.rds.amazonaws.com:5432/postgres
@@ -25,6 +25,8 @@ logging:
     name: application.log
   level:
     org.springframework: info
+    org.apache.coyote.http11: DEBUG
+    org.springframework.web.multipart: DEBUG
 
 server:
   port: 8081
