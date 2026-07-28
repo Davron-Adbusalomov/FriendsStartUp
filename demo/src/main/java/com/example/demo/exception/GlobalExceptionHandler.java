@@ -7,6 +7,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -24,11 +25,11 @@ public class GlobalExceptionHandler {
             default -> "invalid_credentials";
         };
 
-        return Map.of(
-                "status", 401,
-                "message", message,
-                "centerId", TenantContext.getCenterId()
-        );
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("status", 401);
+        body.put("message", message);
+        body.put("centerId", TenantContext.getCenterId());
+        return body;
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
@@ -37,11 +38,11 @@ public class GlobalExceptionHandler {
             EntityNotFoundException ex
     ) {
 
-        return Map.of(
-                "status", 404,
-                "message", ex.getMessage(),
-                "centerId", TenantContext.getCenterId()
-        );
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("status", 404);
+        body.put("message", ex.getMessage());
+        body.put("centerId", TenantContext.getCenterId());
+        return body;
     }
 
     @ExceptionHandler(AccessDeniedException.class)
@@ -50,11 +51,11 @@ public class GlobalExceptionHandler {
             AccessDeniedException ex
     ) {
 
-        return Map.of(
-                "status", 403,
-                "message", "Access denied",
-                "centerId", TenantContext.getCenterId()
-        );
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("status", 403);
+        body.put("message", "Access denied");
+        body.put("centerId", TenantContext.getCenterId());
+        return body;
     }
 
     @ExceptionHandler(Exception.class)
@@ -63,10 +64,10 @@ public class GlobalExceptionHandler {
             Exception ex
     ) {
         ex.printStackTrace();
-        return Map.of(
-                "status", 500,
-                "message", ex.getMessage(),
-                "centerId", TenantContext.getCenterId()
-        );
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("status", 500);
+        body.put("message", ex.getMessage());
+        body.put("centerId", TenantContext.getCenterId());
+        return body;
     }
 }
