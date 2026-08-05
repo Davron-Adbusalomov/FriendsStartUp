@@ -33,10 +33,13 @@ public class LessonController {
         return ResponseEntity.ok(lessonService.create(dto));
     }
 
-    @Operation(summary = "update lesson")
-    @PreAuthorize("hasAuthority('UPDATE_LESSON')")
-    @PutMapping("/update/{id}")
-    public ResponseEntity<LessonDTO> update(@PathVariable UUID id, @RequestBody LessonDTO dto) {
+    @PutMapping(
+            value = "/update/{id}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public ResponseEntity<LessonDTO> update(
+            @PathVariable UUID id,
+            @ModelAttribute LessonDTO dto) {
         return ResponseEntity.ok(lessonService.update(id, dto));
     }
 

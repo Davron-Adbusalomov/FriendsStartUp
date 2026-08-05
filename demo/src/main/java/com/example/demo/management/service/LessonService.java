@@ -16,7 +16,9 @@ import com.example.demo.utils.ProjectUtils;
 import com.example.demo.youtube.YoutubeUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -100,7 +102,14 @@ public class LessonService {
 
     public Page<LessonDTO> getAll(String title, UUID courseId, Pageable pageable) {
         Specification<Lesson> spec = LessonSpecification.advancedFilter(title, courseId);
-        Page<Lesson> page = lessonRepository.findAll(spec, pageable);
+
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(Sort.Direction.ASC, "id")
+        );
+
+        Page<Lesson> page = lessonRepository.findAll(spec, sortedPageable);
         return page.map(lessonMapper::toDto);
     }
 
