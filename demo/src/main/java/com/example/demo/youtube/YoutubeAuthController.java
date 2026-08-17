@@ -79,13 +79,21 @@ public class YoutubeAuthController {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 
-        // Returned as-is (contains the refresh_token the admin needs to copy into
-        // YOUTUBE_REFRESH_TOKEN) - this endpoint is a one-time setup tool, not something the
-        // frontend calls day-to-day.
-        return restTemplate.postForEntity(
+        ResponseEntity<String> googleResponse = restTemplate.postForEntity(
                 "https://oauth2.googleapis.com/token",
                 request,
                 String.class
         );
+
+        // Build our OWN response instead of returning googleResponse as-is: forwarding Google's
+        // response headers verbatim (in particular its Transfer-Encoding: chunked) made Tomcat add
+        // a second Transfer-Encoding header when it wrote our body, which nginx rejects outright
+        // as a malformed upstream response (502 Bad Gateway) - even though the exchange with
+        // Google itself had already succeeded. Only the body (containing the refresh_token the
+        // admin needs to copy into YOUTUBE_REFRESH_TOKEN) matters here; this endpoint is a
+        // one-time setup tool, not something the frontend calls day-to-day.
+        return ResponseEntity.status(googleResponse.getStatusCode())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(googleResponse.getBody());
     }
 }
