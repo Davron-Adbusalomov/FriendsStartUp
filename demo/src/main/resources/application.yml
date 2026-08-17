@@ -60,4 +60,4 @@ google:
       client-id: ${YOUTUBE_CLIENT_ID:}
       client-secret: ${YOUTUBE_CLIENT_SECRET:}
       refresh-token: ${YOUTUBE_REFRESH_TOKEN:}
-      redirect-uri: ${YOUTUBE_REDIRECT_URI:http://localhost:8081/api/youtube/auth/callback}
+      redirect-uri: ${YOUTUBE_REDIRECT_URI:https://intellecta.uz/api/youtube/auth/callback}

@@ -39,7 +39,7 @@ public class YoutubeAuthController {
     @Value("${google.oauth.client-secret:}")
     private String clientSecret;
 
-    @Value("${google.oauth.redirect-uri:http://localhost:8081/api/youtube/auth/callback}")
+    @Value("${google.oauth.redirect-uri:https://intellecta.uz/api/youtube/auth/callback}")
     private String redirectUri;
 
     private final RestTemplate restTemplate = new RestTemplate();
