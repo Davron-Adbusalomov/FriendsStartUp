@@ -91,7 +91,6 @@ public class YoutubeAuthController {
         // as a malformed upstream response (502 Bad Gateway) - even though the exchange with
         // Google itself had already succeeded. Only the body (containing the refresh_token the
         // admin needs to copy into YOUTUBE_REFRESH_TOKEN) matters here; this endpoint is a
-        // one-time setup tool, not something the frontend calls day-to-day.
         return ResponseEntity.status(googleResponse.getStatusCode())
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(googleResponse.getBody());
