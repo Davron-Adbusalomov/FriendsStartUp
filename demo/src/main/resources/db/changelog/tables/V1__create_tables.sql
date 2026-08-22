@@ -45,6 +45,8 @@ CREATE TABLE center
     name         VARCHAR(255),
     location     VARCHAR(255),
     contact_info VARCHAR(255),
+    subdomain     VARCHAR(255)                NOT NULL,
+    logo         VARCHAR(500),
     CONSTRAINT pk_center PRIMARY KEY (id)
 );
 
@@ -225,6 +227,7 @@ CREATE TABLE quiz_results
     quiz_id    UUID                        NOT NULL,
     student_id BIGINT                      NOT NULL,
     center_id  UUID                        NOT NULL,
+    group_id UUID                          NOT NULL,
     CONSTRAINT pk_quizresults PRIMARY KEY (id)
 );
 
@@ -450,7 +453,6 @@ CREATE TABLE badge
     updated_by  BIGINT,
     name        VARCHAR(255),
     description VARCHAR(1000),
-    student_id  BIGINT,
     center_id   UUID                        NOT NULL,
     CONSTRAINT pk_badge PRIMARY KEY (id)
 );
@@ -484,6 +486,14 @@ CREATE TABLE chat_room_member
     last_read_message_id UUID,
     center_id            UUID,
     CONSTRAINT pk_chat_room_member PRIMARY KEY (id)
+);
+CREATE TABLE student_badge
+(
+    badge_id   UUID   NOT NULL,
+    student_id BIGINT NOT NULL,
+    CONSTRAINT pk_student_badge PRIMARY KEY (badge_id, student_id),
+    CONSTRAINT fk_student_badge_badge   FOREIGN KEY (badge_id)   REFERENCES badge (id),
+    CONSTRAINT fk_student_badge_student FOREIGN KEY (student_id) REFERENCES student (id)
 );
 
 ALTER TABLE chat_room_member

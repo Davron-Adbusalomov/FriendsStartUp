@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +38,10 @@ public class GroupDTO {
     private String description;
 
     private Integer durationInMonths;
+
+    private BigDecimal monthlyFee;
+
+    private Integer trialLessonsCount;
 
     private Date startDate;
 

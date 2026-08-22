@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.*;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Entity
@@ -32,6 +33,9 @@ public class Teacher extends BaseEntity {
     private String phoneNumber;
 
     private String title;
+
+    @Column(name = "monthly_salary")
+    private BigDecimal monthlySalary;
 
     @Column(name = "subject_id")
     private UUID subjectId;

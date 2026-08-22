@@ -1,17 +1,23 @@
 package com.example.demo.management.service;
 
 import com.example.demo.config.TenantContext;
+import com.example.demo.enums.AttendanceStatus;
 import com.example.demo.enums.EnrollmentStatus;
 import com.example.demo.management.dto.EnrollmentDTO;
 import com.example.demo.management.mapper.EnrollmentMapper;
 import com.example.demo.management.model.Enrollment;
+import com.example.demo.management.model.Grouping;
 import com.example.demo.management.repository.EnrollmentRepository;
+import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.specification.EnrollmentSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,11 +25,36 @@ public class EnrollmentService {
 
     private final EnrollmentRepository enrollmentRepository;
     private final EnrollmentMapper enrollmentMapper;
+    private final GroupRepository groupRepository;
 
     public void processEnrollment(EnrollmentDTO enrollmentDTO) {
         Enrollment enrollment = enrollmentMapper.toEntity(enrollmentDTO);
         enrollment.setCenterId(TenantContext.getCenterId());
+
+        groupRepository.findById(enrollment.getGroupId()).map(Grouping::getTrialLessonsCount)
+                .ifPresent(enrollment::setTrialLessonsGranted);
+
         enrollmentRepository.save(enrollment);
+    }
+
+    /**
+     * Attendance PRESENT/LATE deb belgilanganda chaqiriladi: o'quvchining shu guruhdagi sinov
+     * (trial) darslar sonini bittaga kamaytiradi, agar hali sinov tugamagan bo'lsa.
+     */
+    @Transactional
+    public void consumeTrialLessonIfApplicable(Long studentId, UUID groupId, AttendanceStatus attendanceStatus) {
+        if (attendanceStatus != AttendanceStatus.PRESENT && attendanceStatus != AttendanceStatus.LATE) {
+            return;
+        }
+        enrollmentRepository.findByStudentIdAndGroupIdAndEnrollmentStatus(studentId, groupId, EnrollmentStatus.APPROVED)
+                .ifPresent(enrollment -> {
+                    Integer granted = enrollment.getTrialLessonsGranted();
+                    Integer used = enrollment.getTrialLessonsUsed();
+                    if (granted != null && used != null && used < granted) {
+                        enrollment.setTrialLessonsUsed(used + 1);
+                        enrollmentRepository.save(enrollment);
+                    }
+                });
     }
 
     public Page<EnrollmentDTO> getEnrollmentsByStatus(EnrollmentStatus status, Long studentId, Pageable pageable) {

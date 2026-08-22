@@ -87,7 +87,8 @@ VALUES
     (28, current_timestamp, 1, 'CREATED', NULL, 1, 'UPDATE_ATTENDANCE', 1),
     (29, current_timestamp, 1, 'CREATED', NULL, 1, 'DELETE_ATTENDANCE', 1),
     (30, current_timestamp, 1, 'CREATED', NULL, 1, 'RESTORE_ATTENDANCE', 1),
-    (31, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_RANKINGS', 1)
+    (31, current_timestamp, 1, 'CREATED', NULL, 1, 'GET_RANKINGS', 1),
+    (32, current_timestamp, 1, 'CREATED', NULL, 1, 'TOGGLE_LOGIN', 1),
 ON CONFLICT (id) DO NOTHING;
 SELECT setval('user_permission_seq', COALESCE((SELECT MAX(id) FROM user_permission), 0), true);
 
@@ -95,6 +96,7 @@ SELECT setval('user_permission_seq', COALESCE((SELECT MAX(id) FROM user_permissi
 -- role permission
 INSERT INTO default_permission_entity (name, description) VALUES
                                                               ('CREATE', 'Create new resources'),
+                                                              ('TOGGLE_LOGIN', 'Block or open user login access'),
                                                               ('SIGN_UP', 'User sign-up or registration'),
                                                               ('GET_ADMINS_LIST', 'View list of all students'),
                                                               ('GET_ADMIN', 'View details of a single student'),
@@ -257,6 +259,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('SUPER_ADMIN', 'CHAT_ROOM_MUTE'),
 ('SUPER_ADMIN', 'CHAT_ROOM_READ'),
 ('SUPER_ADMIN','GET_SUPER_ADMIN_DASHBOARD'),
+('SUPER_ADMIN','TOGGLE_LOGIN'),
 -- ==========================================================
 -- DIRECTOR → View, manage, supervise, but fewer destructive permissions
 -- ==========================================================
@@ -320,6 +323,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('DIRECTOR', 'CHAT_ROOM_MUTE'),
 ('DIRECTOR', 'CHAT_ROOM_READ'),
 ('DIRECTOR',   'GET_DIRECTOR_DASHBOARD'),
+('DIRECTOR',   'TOGGLE_LOGIN'),
 
 -- ==========================================================
 -- ADMIN → Full CRUD except quiz checking / advanced logic
@@ -396,6 +400,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('ADMIN', 'CHAT_ROOM_MUTE'),
 ('ADMIN', 'CHAT_ROOM_READ'),
 ('ADMIN', 'GET_ADMIN_DASHBOARD'),
+('ADMIN', 'TOGGLE_LOGIN'),
 
 -- ==========================================================
 -- TEACHER → Create groups, assign students, manage attendance + quizzes
@@ -457,6 +462,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('TEACHER', 'CHAT_ROOM_GROUP_ENABLE'),
 ('TEACHER',    'GET_TEACHER_DASHBOARD'),
 ('TEACHER', 'GET_QUIZZES_LIST'),
+('TEACHER', 'GET_PERMISSIONS_BY_USER_ID'),
 
 
 -- ==========================================================
@@ -495,6 +501,7 @@ INSERT INTO role_default_permissions (role_id, default_permission_name) VALUES
 ('STUDENT', 'CHAT_ROOM_READ'),
 ('STUDENT', 'UPDATE_STUDENT'),
 ('STUDENT',    'GET_STUDENT_DASHBOARD'),
+('STUDENT', 'GET_PERMISSIONS_BY_USER_ID'),
 
 
 -- ==========================================================

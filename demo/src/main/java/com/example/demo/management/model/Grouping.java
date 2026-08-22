@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +39,12 @@ public class Grouping extends BaseEntity {
     private Date startDate;
 
     private Integer durationInMonths;
+
+    @Column(name = "monthly_fee")
+    private BigDecimal monthlyFee;
+
+    @Column(name = "trial_lessons_count")
+    private Integer trialLessonsCount;
 
     @Column(name = "subject_id")
     private UUID subjectId;

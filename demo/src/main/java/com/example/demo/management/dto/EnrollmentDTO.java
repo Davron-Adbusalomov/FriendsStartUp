@@ -4,6 +4,7 @@ import com.example.demo.enums.EnrollmentStatus;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -19,6 +20,12 @@ public class EnrollmentDTO {
     private EnrollmentStatus enrollmentStatus = EnrollmentStatus.REQUESTED;
 
     private Date enrollmentDate;
+
+    private BigDecimal customFee;
+
+    private Integer trialLessonsGranted;
+
+    private Integer trialLessonsUsed;
 
     private StudentDTO student;
 

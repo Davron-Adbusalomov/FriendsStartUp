@@ -38,4 +38,8 @@ public class Center extends BaseEntity {
 
     @Column(name = "logo")
     private String logo;
+
+    /** Oyning nechinchi kunida oylik invoice/oylik generatsiyasi ishga tushishi (1-31, default 1). */
+    @Column(name = "billing_day")
+    private Integer billingDay = 1;
 }

@@ -3,10 +3,13 @@ package com.example.demo.management.service;
 import com.example.demo.config.CurrentUserUtils;
 import com.example.demo.management.dto.*;
 import com.example.demo.management.dto.projection.*;
+import com.example.demo.management.model.Teacher;
 import com.example.demo.management.repository.TeacherRepository;
+import com.example.demo.payment.service.FinanceReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.YearMonth;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
 public class TeacherDashboardService {
 
     private final TeacherRepository teacherRepository;
+    private final FinanceReportService financeReportService;
 
     public TeacherDashboardDTO getDashboard(Long teacherId, String groupId, String month) {
 
@@ -72,8 +76,11 @@ public class TeacherDashboardService {
                         : 0
         );
 
-        dto.setTotalSalary(0);
-        dto.setTotalIncome(0);
+        Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
+        dto.setTotalSalary(teacher != null && teacher.getMonthlySalary() != null
+                ? teacher.getMonthlySalary().doubleValue() : 0);
+        BigDecimal monthlyIncome = financeReportService.monthlyIncomeForTeacher(teacherId, YearMonth.now());
+        dto.setTotalIncome(monthlyIncome != null ? monthlyIncome.doubleValue() : 0);
 
         dto.setClassesIncrease(0);
         dto.setStudentsIncrease(0);

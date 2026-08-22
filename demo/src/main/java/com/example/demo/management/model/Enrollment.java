@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -44,6 +45,15 @@ public class Enrollment extends BaseEntity {
 
     @Column(name = "enrollment_date")
     private Date enrollmentDate;
+
+    @Column(name = "custom_fee")
+    private BigDecimal customFee;
+
+    @Column(name = "trial_lessons_granted")
+    private Integer trialLessonsGranted = 0;
+
+    @Column(name = "trial_lessons_used")
+    private Integer trialLessonsUsed = 0;
 
     @Column(name = "center_id", nullable = false)
     private UUID centerId;
