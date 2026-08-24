@@ -1,5 +1,6 @@
 package com.example.demo.management.repository;
 
+import com.example.demo.enums.AttendanceStatus;
 import com.example.demo.management.model.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,6 +14,11 @@ import java.util.UUID;
 
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance, UUID>, org.springframework.data.jpa.repository.JpaSpecificationExecutor<Attendance> {
+
+    /** Trial-lesson hisoblash uchun: shu student shu guruhda berilgan sanagacha nechta darsga qatnashgan (PRESENT/LATE). */
+    long countByStudentIdAndGroupIdAndAttendanceStatusInAndAttendanceTimeBefore(
+            Long studentId, UUID groupId, List<AttendanceStatus> statuses, LocalDateTime before);
+
     @Query("""
        SELECT a FROM Attendance a
        WHERE a.student.id = :studentId

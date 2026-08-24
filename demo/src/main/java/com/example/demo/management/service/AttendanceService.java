@@ -32,7 +32,6 @@ public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
     private final AttendanceMapper mapper;
     private final StudentRepository studentRepository;
-    private final EnrollmentService enrollmentService;
 
     @Transactional
     public List<AttendanceDto> create(AttendanceCreateRequest request) {
@@ -65,10 +64,6 @@ public class AttendanceService {
                 .toList();
 
         List<Attendance> saved = attendanceRepository.saveAll(toSave);
-        for (Attendance attendance : saved) {
-            enrollmentService.consumeTrialLessonIfApplicable(
-                    attendance.getStudentId(), attendance.getGroupId(), attendance.getAttendanceStatus());
-        }
 
         return saved.stream()
                 .map(mapper::toDto)

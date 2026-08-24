@@ -1,14 +1,14 @@
 package com.example.demo.payment.service;
 
-import com.example.demo.enums.EnrollmentStatus;
+import com.example.demo.enums.AttendanceStatus;
 import com.example.demo.enums.InvoiceStatus;
 import com.example.demo.enums.InvoiceType;
 import com.example.demo.management.model.Center;
-import com.example.demo.management.model.Enrollment;
 import com.example.demo.management.model.Grouping;
+import com.example.demo.management.model.Student;
 import com.example.demo.management.model.Teacher;
+import com.example.demo.management.repository.AttendanceRepository;
 import com.example.demo.management.repository.CenterRepository;
-import com.example.demo.management.repository.EnrollmentRepository;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.TeacherRepository;
 import com.example.demo.payment.model.Invoice;
@@ -23,7 +23,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -31,11 +30,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class InvoiceGenerationService {
 
-    private final EnrollmentRepository enrollmentRepository;
+    private static final List<AttendanceStatus> TRIAL_CONSUMING_STATUSES = List.of(AttendanceStatus.PRESENT, AttendanceStatus.LATE);
+
     private final GroupRepository groupRepository;
     private final TeacherRepository teacherRepository;
     private final CenterRepository centerRepository;
     private final InvoiceRepository invoiceRepository;
+    private final AttendanceRepository attendanceRepository;
 
     /**
      * Har kuni 01:00 (server GMT+5) ishlaydi, lekin har center faqat o'zining {@code billingDay}
@@ -67,58 +68,76 @@ public class InvoiceGenerationService {
         return generateStudentTuitionInvoices(centerId, month);
     }
 
+    /**
+     * Student-guruh bog'lanishi {@code group_student} jadvali (Grouping.students) orqali yuritiladi —
+     * bu yerda ham shu manbadan foydalaniladi (Enrollment jadvali real assign-student oqimida
+     * hech qachon to'ldirilmaydi, shu sabab u yerdan o'qish invoice generatsiyasini doim bo'sh qoldirar edi).
+     * Trial (sinov) darslar ham shu sababli statik counterga emas, balki haqiqiy {@code attendance}
+     * tarixiga qarab hisoblanadi — pastdagi {@link #isStillOnTrial} metodiga qarang.
+     */
     private int generateStudentTuitionInvoices(UUID centerId, YearMonth month) {
         LocalDate period = month.atDay(1);
         int count = 0;
-        List<Enrollment> enrollments = enrollmentRepository.findByCenterIdAndEnrollmentStatus(centerId, EnrollmentStatus.APPROVED);
+        List<Grouping> groups = groupRepository.findByCenterId(centerId);
 
-        for (Enrollment enrollment : enrollments) {
-            if (invoiceRepository.existsByTypeAndUserIdAndGroupIdAndPeriod(
-                    InvoiceType.STUDENT_TUITION, enrollment.getStudentId(), enrollment.getGroupId(), period)) {
-                continue;
-            }
-
-            Optional<Grouping> groupOpt = groupRepository.findById(enrollment.getGroupId());
-            if (groupOpt.isEmpty()) {
-                continue;
-            }
-            Grouping group = groupOpt.get();
-
-            BigDecimal fee = enrollment.getCustomFee() != null ? enrollment.getCustomFee() : group.getMonthlyFee();
+        for (Grouping group : groups) {
+            BigDecimal fee = group.getMonthlyFee();
             if (fee == null) {
-                log.warn("Guruh '{}' (id={}) uchun monthlyFee belgilanmagan, invoice yaratilmadi (studentId={})",
-                        group.getName(), group.getId(), enrollment.getStudentId());
+                log.warn("Guruh '{}' (id={}) uchun monthlyFee belgilanmagan, invoice yaratilmadi", group.getName(), group.getId());
                 continue;
             }
 
-            boolean onTrial = enrollment.getTrialLessonsUsed() != null && enrollment.getTrialLessonsGranted() != null
-                    && enrollment.getTrialLessonsUsed() < enrollment.getTrialLessonsGranted();
+            for (Student student : group.getStudents()) {
+                if (invoiceRepository.existsByTypeAndUserIdAndGroupIdAndPeriod(
+                        InvoiceType.STUDENT_TUITION, student.getId(), group.getId(), period)) {
+                    continue;
+                }
 
-            Invoice invoice = new Invoice();
-            invoice.setType(InvoiceType.STUDENT_TUITION);
-            invoice.setUserId(enrollment.getStudentId());
-            invoice.setGroupId(enrollment.getGroupId());
-            invoice.setPeriod(period);
-            invoice.setDueDate(period);
-            invoice.setCenterId(centerId);
-            invoice.setIsTrial(onTrial);
 
-            if (onTrial) {
-                invoice.setAmount(BigDecimal.ZERO);
-                invoice.setInvoiceStatus(InvoiceStatus.PAID);
-            } else {
-                invoice.setAmount(fee);
-                invoice.setInvoiceStatus(InvoiceStatus.PENDING);
+                boolean onTrial = isStillOnTrial(student.getId(), group, period);
+
+                Invoice invoice = new Invoice();
+                invoice.setType(InvoiceType.STUDENT_TUITION);
+                invoice.setUserId(student.getId());
+                invoice.setGroupId(group.getId());
+                invoice.setPeriod(period);
+                invoice.setDueDate(period);
+                invoice.setCenterId(centerId);
+                invoice.setIsTrial(onTrial);
+
+                if (onTrial) {
+                    invoice.setAmount(BigDecimal.ZERO);
+                    invoice.setInvoiceStatus(InvoiceStatus.PAID);
+                } else {
+                    invoice.setAmount(fee);
+                    invoice.setInvoiceStatus(InvoiceStatus.PENDING);
+                }
+
+                invoiceRepository.save(invoice);
+                count++;
+                // E'TIBOR: bu yerda avvalgi ortiqcha to'lov avtomatik "credit" sifatida qo'llanilmaydi —
+                // qaysi pul aslida nimaga mo'ljallangani noaniq bo'lishi mumkin. Agar student haqiqatan
+                // ham oldindan to'lagan bo'lsa, admin buni ko'rib (balans/to'lovlar orqali) ataylab
+                // POST /payments/{id}/allocate bilan shu invoice'ga bog'laydi.
             }
-
-            invoice = invoiceRepository.save(invoice);
-            count++;
-            // E'TIBOR: bu yerda avvalgi ortiqcha to'lov avtomatik "credit" sifatida qo'llanilmaydi —
-            // qaysi pul aslida nimaga mo'ljallangani noaniq bo'lishi mumkin. Agar student haqiqatan
-            // ham oldindan to'lagan bo'lsa, admin buni ko'rib (balans/to'lovlar orqali) ataylab
-            // POST /payments/{id}/allocate bilan shu invoice'ga bog'laydi.
         }
         return count;
+    }
+
+    /**
+     * Statik counter (avvalgi Enrollment.trialLessonsUsed) o'rniga real {@code attendance} tarixidan
+     * hisoblanadi: student shu guruhda, shu davrgacha nechta darsga PRESENT/LATE belgilangan bo'lsa,
+     * shuni guruhning {@code trialLessonsCount}i bilan solishtiradi. Hech qanday qo'shimcha jadval/ustun
+     * kerak emas — group_student hali ham yagona haqiqat manbai bo'lib qoladi.
+     */
+    private boolean isStillOnTrial(Long studentId, Grouping group, LocalDate period) {
+        Integer trialLessonsCount = group.getTrialLessonsCount();
+        if (trialLessonsCount == null || trialLessonsCount <= 0) {
+            return false;
+        }
+        long attended = attendanceRepository.countByStudentIdAndGroupIdAndAttendanceStatusInAndAttendanceTimeBefore(
+                studentId, group.getId(), TRIAL_CONSUMING_STATUSES, period.plusMonths(1).atStartOfDay());
+        return attended < trialLessonsCount;
     }
 
     private int generateTeacherSalaryInvoices(UUID centerId, YearMonth month) {
