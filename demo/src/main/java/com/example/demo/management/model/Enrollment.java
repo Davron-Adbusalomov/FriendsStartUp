@@ -17,8 +17,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@SQLDelete(sql = "UPDATE enrollment SET deleted = true WHERE id = ?")
-@Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE enrollment SET status = 'DELETED' WHERE id = ?")
+@Where(clause = "status != 'DELETED'")
 public class Enrollment extends BaseEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
