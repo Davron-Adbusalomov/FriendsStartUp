@@ -5,6 +5,7 @@ import com.example.demo.enums.InvoiceType;
 import com.example.demo.management.model.BaseEntity;
 import com.example.demo.management.model.Center;
 import com.example.demo.management.model.Grouping;
+import com.example.demo.management.model.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +39,10 @@ public class Invoice extends BaseEntity {
 
     @Column(name = "user_id")
     private Long userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private UserEntity user;
 
     @Column(name = "group_id")
     private UUID groupId;

@@ -4,7 +4,9 @@ import com.example.demo.config.CurrentUserUtils;
 import com.example.demo.config.TenantContext;
 import com.example.demo.enums.*;
 import com.example.demo.management.model.Grouping;
+import com.example.demo.management.model.UserEntity;
 import com.example.demo.management.repository.GroupRepository;
+import com.example.demo.management.repository.UserRepository;
 import com.example.demo.payment.dto.*;
 import com.example.demo.payment.mapper.PaymentMapper;
 import com.example.demo.payment.model.Invoice;
@@ -34,6 +36,7 @@ public class PaymentService {
     private final PaymentAllocationRepository allocationRepository;
     private final PaymentMapper paymentMapper;
     private final GroupRepository groupRepository;
+    private final UserRepository userRepository;
 
     /**
      * Payment yaratadi.
@@ -805,6 +808,11 @@ public class PaymentService {
         response.setTotalOwed(totalOwed);
         response.setNetBalance(netBalance);
         response.setGroups(items);
+        response.setStudentFullName(
+                userRepository.findById(studentId)
+                        .map(UserEntity::getFullName)
+                        .orElse(null)
+        );
 
         return response;
     }

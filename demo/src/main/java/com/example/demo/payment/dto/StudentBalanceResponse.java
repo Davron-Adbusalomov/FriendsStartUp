@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 public class StudentBalanceResponse {
     private Long studentId;
+    private String studentFullName;
     private BigDecimal totalCredit;
     private BigDecimal totalOwed;
     private BigDecimal netBalance;
