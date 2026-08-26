@@ -129,8 +129,11 @@ public class InvoiceGenerationService {
      * hisoblanadi: student shu guruhda, shu davrgacha nechta darsga PRESENT/LATE belgilangan bo'lsa,
      * shuni guruhning {@code trialLessonsCount}i bilan solishtiradi. Hech qanday qo'shimcha jadval/ustun
      * kerak emas — group_student hali ham yagona haqiqat manbai bo'lib qoladi.
+     * <p>
+     * Public: invoice generatsiyasidan tashqari (masalan attendance matrix'da studentType'ni
+     * hisoblash uchun) ham shared holda ishlatiladi.
      */
-    private boolean isStillOnTrial(Long studentId, Grouping group, LocalDate period) {
+    public boolean isStillOnTrial(Long studentId, Grouping group, LocalDate period) {
         Integer trialLessonsCount = group.getTrialLessonsCount();
         if (trialLessonsCount == null || trialLessonsCount <= 0) {
             return false;

@@ -274,6 +274,7 @@ CREATE TABLE student
     email          VARCHAR(255),
     image          VARCHAR(255),
     parent_contact VARCHAR(255),
+    parent_name    VARCHAR(255),
     parent_chat_id VARCHAR(255),
     center_id      UUID                        NOT NULL,
     CONSTRAINT pk_student PRIMARY KEY (id)

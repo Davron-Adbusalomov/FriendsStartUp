@@ -2,16 +2,22 @@ package com.example.demo.management.service;
 
 import com.example.demo.config.TenantContext;
 import com.example.demo.enums.AttendanceStatus;
+import com.example.demo.enums.StudentType;
 import com.example.demo.management.dto.AttendanceCellDto;
 import com.example.demo.management.dto.AttendanceDto;
 import com.example.demo.management.dto.AttendanceMatrixDto;
 import com.example.demo.management.dto.request.AttendanceCreateRequest;
 import com.example.demo.management.mapper.AttendanceMapper;
 import com.example.demo.management.model.Attendance;
+import com.example.demo.management.model.Grouping;
 import com.example.demo.management.model.Student;
 import com.example.demo.management.repository.AttendanceRepository;
+import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.specification.AttendanceSpecification;
+import com.example.demo.payment.dto.StudentBalanceResponse;
+import com.example.demo.payment.service.InvoiceGenerationService;
+import com.example.demo.payment.service.PaymentService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +28,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.*;
 
 @Service
@@ -32,6 +40,9 @@ public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
     private final AttendanceMapper mapper;
     private final StudentRepository studentRepository;
+    private final GroupRepository groupRepository;
+    private final InvoiceGenerationService invoiceGenerationService;
+    private final PaymentService paymentService;
 
     @Transactional
     public List<AttendanceDto> create(AttendanceCreateRequest request) {
@@ -144,16 +155,29 @@ public class AttendanceService {
             LocalDateTime to,
             Pageable pageable
     ) {
+        if (groupId == null) {
+            throw new IllegalArgumentException("groupId is required");
+        }
 
-        // 1. GET ALL STUDENTS IN GROUP
-        List<Student> students = studentRepository.findAllByGroupId(groupId);
+        Grouping group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
 
-        // 2. GET ALL ATTENDANCE IN RANGE
+        // 1. GET ALL STUDENTS IN GROUP, PAGINATED
+        // (page/size describe a page of STUDENTS, not attendance rows — the attendance
+        // range below is fetched in full for whichever students land on the page)
+        List<Student> allStudents = studentRepository.findAllByGroupId(groupId);
+
+        Pageable effectivePageable = pageable != null ? pageable : PageRequest.of(0, 100);
+        int fromIndex = Math.min((int) effectivePageable.getOffset(), allStudents.size());
+        int toIndex = Math.min(fromIndex + effectivePageable.getPageSize(), allStudents.size());
+        List<Student> students = allStudents.subList(fromIndex, toIndex);
+
+        // 2. GET ALL ATTENDANCE IN RANGE FOR THE GROUP
         Specification<Attendance> spec = Specification
                 .where(AttendanceSpecification.hasGroupId(groupId))
                 .and(AttendanceSpecification.dateBetween(from, to));
 
-        Page<Attendance> attendances = attendanceRepository.findAll(spec, pageable);
+        List<Attendance> attendances = attendanceRepository.findAll(spec);
 
         // 3. MAP attendance -> studentId -> date -> status
         Map<Long, Map<String, AttendanceCellDto>> attendanceMap = new HashMap<>();
@@ -170,7 +194,8 @@ public class AttendanceService {
                     .put(date, new AttendanceCellDto(att.getId(), att.getAttendanceStatus()));
         }
 
-        // 4. BUILD FINAL RESULT (ALL STUDENTS)
+        // 4. BUILD FINAL RESULT (STUDENTS ON THE CURRENT PAGE)
+        LocalDate currentPeriod = YearMonth.now().atDay(1);
         List<AttendanceMatrixDto> result = new ArrayList<>();
 
         for (Student student : students) {
@@ -178,6 +203,16 @@ public class AttendanceService {
 
             dto.setStudentId(student.getId());
             dto.setStudentName(student.getFullName());
+            dto.setPhone(student.getPhoneNumber());
+            dto.setParentName(student.getParentName());
+            dto.setParentPhone(student.getParentContact());
+
+            boolean onTrial = invoiceGenerationService.isStillOnTrial(student.getId(), group, currentPeriod);
+            dto.setStudentType(onTrial ? StudentType.TRIAL : StudentType.REGULAR);
+
+            StudentBalanceResponse balance = paymentService.getStudentBalance(student.getId());
+            dto.setBalance(balance.getTotalCredit());
+            dto.setDebt(balance.getTotalOwed());
 
             dto.setAttendance(
                     attendanceMap.getOrDefault(student.getId(), new HashMap<>())

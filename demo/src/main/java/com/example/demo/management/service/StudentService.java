@@ -112,6 +112,7 @@ public class StudentService {
 
         Optional.ofNullable(studentDTO.getFullName()).ifPresent(student::setFullName);
         Optional.ofNullable(studentDTO.getParentContact()).ifPresent(student::setParentContact);
+        Optional.ofNullable(studentDTO.getParentName()).ifPresent(student::setParentName);
         Optional.ofNullable(studentDTO.getPhoneNumber()).ifPresent(student::setPhoneNumber);
         Optional.ofNullable(studentDTO.getEmail()).ifPresent(student::setEmail);
 

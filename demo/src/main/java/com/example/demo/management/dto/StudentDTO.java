@@ -28,6 +28,9 @@ public class StudentDTO {
     @Schema(example = "chat123")
     private String parentChatId;
 
+    @Schema(example = "Karim Valiyev")
+    private String parentName;
+
     @Schema(example = "Group A, Group B")
     private List<String> groupNames;
 

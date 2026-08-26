@@ -22,6 +22,8 @@ public class StudentInfoDTO {
 
     private String parentContact;
 
+    private String parentName;
+
     private String imageUrl;
 }
 

@@ -31,6 +31,8 @@ public class Student extends BaseEntity{
 
     private String parentChatId;
 
+    private String parentName;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "students")
     private List<Grouping> groupings = new ArrayList<>();
