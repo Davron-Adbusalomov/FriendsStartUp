@@ -6,6 +6,7 @@ import com.example.demo.enums.StudentType;
 import com.example.demo.management.dto.AttendanceCellDto;
 import com.example.demo.management.dto.AttendanceDto;
 import com.example.demo.management.dto.AttendanceMatrixDto;
+import com.example.demo.management.dto.projection.StudentGroupIdProjection;
 import com.example.demo.management.dto.request.AttendanceCreateRequest;
 import com.example.demo.management.mapper.AttendanceMapper;
 import com.example.demo.management.model.Attendance;
@@ -15,6 +16,7 @@ import com.example.demo.management.repository.AttendanceRepository;
 import com.example.demo.management.repository.GroupRepository;
 import com.example.demo.management.repository.StudentRepository;
 import com.example.demo.management.specification.AttendanceSpecification;
+import com.example.demo.management.specification.GroupSpecification;
 import com.example.demo.payment.dto.StudentBalanceResponse;
 import com.example.demo.payment.service.InvoiceGenerationService;
 import com.example.demo.payment.service.PaymentService;
@@ -32,6 +34,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -151,58 +154,91 @@ public class AttendanceService {
 
     public List<AttendanceMatrixDto> getAllOptimized(
             UUID groupId,
+            Long teacherId,
             LocalDateTime from,
             LocalDateTime to,
             Pageable pageable
     ) {
-        if (groupId == null) {
-            throw new IllegalArgumentException("groupId is required");
+        // groupId is optional — when it's null, every group in the current center is in
+        // scope (further narrowed to a teacher's own groups when teacherId is given). When a
+        // specific groupId IS given, confirm it actually resolves (exists, right center/teacher)
+        // with a cheap EXISTS check so an invalid id still 404s instead of silently coming back empty.
+        if (groupId != null) {
+            Specification<Grouping> existsSpec = Specification
+                    .where(GroupSpecification.hasCenterId(TenantContext.getCenterId()))
+                    .and(GroupSpecification.teacherIdEquals(teacherId))
+                    .and(GroupSpecification.idEquals(groupId));
+            if (!groupRepository.exists(existsSpec)) {
+                throw new EntityNotFoundException("Group not found with id: " + groupId);
+            }
         }
 
-        Grouping group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new EntityNotFoundException("Group not found with id: " + groupId));
+        // 1. PAGE OVER (student, group) PAIRS AT THE DATABASE LEVEL.
+        // A student enrolled in several groups gets one row per group so per-group stats
+        // don't collide. Paging here — instead of loading every matched student into memory —
+        // is what keeps this cheap once groupId/teacherId are omitted and the scope is a whole center.
+        Pageable effectivePageable = pageable != null
+                ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize())
+                : PageRequest.of(0, 100);
 
-        // 1. GET ALL STUDENTS IN GROUP, PAGINATED
-        // (page/size describe a page of STUDENTS, not attendance rows — the attendance
-        // range below is fetched in full for whichever students land on the page)
-        List<Student> allStudents = studentRepository.findAllByGroupId(groupId);
+        Page<StudentGroupIdProjection> page = groupRepository.findStudentGroupPairs(
+                TenantContext.getCenterId(), teacherId, groupId, effectivePageable);
 
-        Pageable effectivePageable = pageable != null ? pageable : PageRequest.of(0, 100);
-        int fromIndex = Math.min((int) effectivePageable.getOffset(), allStudents.size());
-        int toIndex = Math.min(fromIndex + effectivePageable.getPageSize(), allStudents.size());
-        List<Student> students = allStudents.subList(fromIndex, toIndex);
+        List<StudentGroupIdProjection> pairs = page.getContent();
+        if (pairs.isEmpty()) {
+            return Collections.emptyList();
+        }
 
-        // 2. GET ALL ATTENDANCE IN RANGE FOR THE GROUP
+        // 2. BATCH-FETCH ONLY THE STUDENTS/GROUPS THAT ACTUALLY LAND ON THIS PAGE
+        List<Long> studentIds = pairs.stream().map(StudentGroupIdProjection::getStudentId).distinct().toList();
+        List<UUID> groupIds = pairs.stream().map(StudentGroupIdProjection::getGroupId).distinct().toList();
+
+        Map<Long, Student> studentsById = studentRepository.findAllById(studentIds).stream()
+                .collect(Collectors.toMap(Student::getId, s -> s));
+        Map<UUID, Grouping> groupsById = groupRepository.findAllById(groupIds).stream()
+                .collect(Collectors.toMap(Grouping::getId, g -> g));
+
+        // 3. GET ATTENDANCE IN RANGE, SCOPED TO ONLY THOSE STUDENTS/GROUPS — not the whole center
         Specification<Attendance> spec = Specification
-                .where(AttendanceSpecification.hasGroupId(groupId))
+                .where(AttendanceSpecification.hasGroupIdIn(groupIds))
+                .and(AttendanceSpecification.hasStudentIdIn(studentIds))
                 .and(AttendanceSpecification.dateBetween(from, to));
 
         List<Attendance> attendances = attendanceRepository.findAll(spec);
 
-        // 3. MAP attendance -> studentId -> date -> status
-        Map<Long, Map<String, AttendanceCellDto>> attendanceMap = new HashMap<>();
+        // 4. MAP attendance -> (studentId, groupId) -> date -> status
+        Map<String, Map<String, AttendanceCellDto>> attendanceMap = new HashMap<>();
 
         for (Attendance att : attendances) {
-            Long studentId = att.getStudentId();
+            String key = attendanceKey(att.getStudentId(), att.getGroupId());
 
             String date = att.getAttendanceTime()
                     .toLocalDate()
                     .toString(); // yyyy-MM-dd
 
             attendanceMap
-                    .computeIfAbsent(studentId, k -> new HashMap<>())
+                    .computeIfAbsent(key, k -> new HashMap<>())
                     .put(date, new AttendanceCellDto(att.getId(), att.getAttendanceStatus()));
         }
 
-        // 4. BUILD FINAL RESULT (STUDENTS ON THE CURRENT PAGE)
+        // 5. BUILD FINAL RESULT (ROWS ON THE CURRENT PAGE, IN DB ORDER)
         LocalDate currentPeriod = YearMonth.now().atDay(1);
+        Map<Long, StudentBalanceResponse> balanceCache = new HashMap<>();
         List<AttendanceMatrixDto> result = new ArrayList<>();
 
-        for (Student student : students) {
+        for (StudentGroupIdProjection pair : pairs) {
+            Student student = studentsById.get(pair.getStudentId());
+            Grouping group = groupsById.get(pair.getGroupId());
+            if (student == null || group == null) {
+                continue; // deleted/renamed between the pair query and the batch fetch
+            }
+
             AttendanceMatrixDto dto = new AttendanceMatrixDto();
 
             dto.setStudentId(student.getId());
             dto.setStudentName(student.getFullName());
+            dto.setGroupId(group.getId());
+            dto.setGroupName(group.getName());
             dto.setPhone(student.getPhoneNumber());
             dto.setParentName(student.getParentName());
             dto.setParentPhone(student.getParentContact());
@@ -210,17 +246,22 @@ public class AttendanceService {
             boolean onTrial = invoiceGenerationService.isStillOnTrial(student.getId(), group, currentPeriod);
             dto.setStudentType(onTrial ? StudentType.TRIAL : StudentType.REGULAR);
 
-            StudentBalanceResponse balance = paymentService.getStudentBalance(student.getId());
+            StudentBalanceResponse balance = balanceCache.computeIfAbsent(
+                    student.getId(), paymentService::getStudentBalance);
             dto.setBalance(balance.getTotalCredit());
             dto.setDebt(balance.getTotalOwed());
 
             dto.setAttendance(
-                    attendanceMap.getOrDefault(student.getId(), new HashMap<>())
+                    attendanceMap.getOrDefault(attendanceKey(student.getId(), group.getId()), new HashMap<>())
             );
 
             result.add(dto);
         }
 
         return result;
+    }
+
+    private static String attendanceKey(Long studentId, UUID groupId) {
+        return studentId + "_" + groupId;
     }
 }

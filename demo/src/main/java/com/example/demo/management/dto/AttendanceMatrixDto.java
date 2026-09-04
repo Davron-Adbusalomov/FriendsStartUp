@@ -5,11 +5,15 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.UUID;
 
 @Data
 public class AttendanceMatrixDto {
     private Long studentId;
     private String studentName;
+
+    private UUID groupId;
+    private String groupName;
 
     private String phone;
     private String parentName;

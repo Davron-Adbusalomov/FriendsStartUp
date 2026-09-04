@@ -69,6 +69,11 @@ public class GroupSpecification {
     }
 
 
+    public static Specification<Grouping> idEquals(UUID groupId) {
+        return (root, query, cb) -> groupId == null ? null :
+                cb.equal(root.get("id"), groupId);
+    }
+
     public static Specification<Grouping> hasCenterId(UUID centerId) {
         return (root, query, criteriaBuilder) -> centerId == null ? null :
                 criteriaBuilder.equal(root.get("centerId"), centerId);

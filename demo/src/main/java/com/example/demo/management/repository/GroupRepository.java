@@ -1,6 +1,9 @@
 package com.example.demo.management.repository;
 
+import com.example.demo.management.dto.projection.StudentGroupIdProjection;
 import com.example.demo.management.model.Grouping;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -30,5 +33,41 @@ public interface GroupRepository extends JpaRepository<Grouping, UUID>, JpaSpeci
     @Query("select g from Grouping g where g.id = :groupId")
     Optional<Grouping> findByIdWithTeacher(UUID groupId);
 
-
+    /**
+     * Paginated (studentId, groupId) pairs for the attendance matrix, filtered directly
+     * in the database (center-scoped, optionally by teacher and/or a single group) — avoids
+     * loading every student of every matched group into memory just to paginate in Java.
+     */
+    @Query(
+            value = """
+                    SELECT gs.student_id AS studentId, gs.group_id AS groupId
+                    FROM group_student gs
+                    JOIN groups  g ON g.id = gs.group_id
+                    JOIN student st ON st.id = gs.student_id
+                    WHERE g.status != 'DELETED'
+                      AND st.status != 'DELETED'
+                      AND g.center_id = :centerId
+                      AND (:teacherId IS NULL OR g.teacher_id = :teacherId)
+                      AND (CAST(:groupId AS UUID) IS NULL OR g.id = :groupId)
+                    ORDER BY g.name, st.full_name
+                    """,
+            countQuery = """
+                    SELECT COUNT(*)
+                    FROM group_student gs
+                    JOIN groups  g ON g.id = gs.group_id
+                    JOIN student st ON st.id = gs.student_id
+                    WHERE g.status != 'DELETED'
+                      AND st.status != 'DELETED'
+                      AND g.center_id = :centerId
+                      AND (:teacherId IS NULL OR g.teacher_id = :teacherId)
+                      AND (CAST(:groupId AS UUID) IS NULL OR g.id = :groupId)
+                    """,
+            nativeQuery = true
+    )
+    Page<StudentGroupIdProjection> findStudentGroupPairs(
+            @Param("centerId") UUID centerId,
+            @Param("teacherId") Long teacherId,
+            @Param("groupId") UUID groupId,
+            Pageable pageable
+    );
 }

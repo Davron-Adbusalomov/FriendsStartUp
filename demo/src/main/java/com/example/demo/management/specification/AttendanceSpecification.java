@@ -5,6 +5,7 @@ import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.UUID;
 
 public class AttendanceSpecification {
@@ -61,6 +62,24 @@ public class AttendanceSpecification {
 
             Join<Object, Object> groupJoin = root.join("grouping");
             return cb.equal(groupJoin.get("id"), groupId);
+        };
+    }
+
+    public static Specification<Attendance> hasGroupIdIn(Collection<UUID> groupIds) {
+        return (root, query, cb) -> {
+            if (groupIds == null || groupIds.isEmpty())
+                return cb.disjunction();
+
+            return root.get("groupId").in(groupIds);
+        };
+    }
+
+    public static Specification<Attendance> hasStudentIdIn(Collection<Long> studentIds) {
+        return (root, query, cb) -> {
+            if (studentIds == null || studentIds.isEmpty())
+                return cb.disjunction();
+
+            return root.get("studentId").in(studentIds);
         };
     }
 }

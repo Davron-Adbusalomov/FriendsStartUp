@@ -72,7 +72,7 @@ public class AttendanceController {
     }
 
     @Operation(
-            summary = "Get attendance list",
+            summary = "Get attendance matrix (group optional — omit to see all groups; use teacherId to scope to a teacher's own groups)",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -85,6 +85,7 @@ public class AttendanceController {
     @GetMapping("/matrix")
     public List<AttendanceMatrixDto> getAllOptimized(
             @RequestParam(required = false) UUID groupId,
+            @RequestParam(required = false) Long teacherId,
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             LocalDateTime from,
@@ -94,7 +95,7 @@ public class AttendanceController {
             @RequestParam(required = false) Long studentId,
             Pageable pageable
     ) {
-        return attendanceService.getAllOptimized(groupId, from, to, pageable);
+        return attendanceService.getAllOptimized(groupId, teacherId, from, to, pageable);
     }
 
 
