@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,6 +38,10 @@ public interface GroupRepository extends JpaRepository<Grouping, UUID>, JpaSpeci
      * Paginated (studentId, groupId) pairs for the attendance matrix, filtered directly
      * in the database (center-scoped, optionally by teacher and/or a single group) — avoids
      * loading every student of every matched group into memory just to paginate in Java.
+     * <p>
+     * {@code todayStatus} additionally narrows the result to students whose attendance
+     * *for today* (in that group) matches the given status — {@code NOT_MARKED} means no
+     * attendance row exists for today at all. Pass {@code null} to skip this filter.
      */
     @Query(
             value = """
@@ -49,6 +54,28 @@ public interface GroupRepository extends JpaRepository<Grouping, UUID>, JpaSpeci
                       AND g.center_id = :centerId
                       AND (:teacherId IS NULL OR g.teacher_id = :teacherId)
                       AND (CAST(:groupId AS UUID) IS NULL OR g.id = :groupId)
+                      AND (
+                            :todayStatus IS NULL
+                            OR (
+                                 :todayStatus = 'NOT_MARKED' AND NOT EXISTS (
+                                     SELECT 1 FROM attendance a
+                                     WHERE a.student_id = gs.student_id
+                                       AND a.group_id = gs.group_id
+                                       AND a.status != 'DELETED'
+                                       AND a.attendance_time BETWEEN :todayStart AND :todayEnd
+                                 )
+                               )
+                            OR (
+                                 :todayStatus <> 'NOT_MARKED' AND EXISTS (
+                                     SELECT 1 FROM attendance a
+                                     WHERE a.student_id = gs.student_id
+                                       AND a.group_id = gs.group_id
+                                       AND a.status != 'DELETED'
+                                       AND a.attendance_time BETWEEN :todayStart AND :todayEnd
+                                       AND a.attendance_status = :todayStatus
+                                 )
+                               )
+                          )
                     ORDER BY g.name, st.full_name
                     """,
             countQuery = """
@@ -61,6 +88,28 @@ public interface GroupRepository extends JpaRepository<Grouping, UUID>, JpaSpeci
                       AND g.center_id = :centerId
                       AND (:teacherId IS NULL OR g.teacher_id = :teacherId)
                       AND (CAST(:groupId AS UUID) IS NULL OR g.id = :groupId)
+                      AND (
+                            :todayStatus IS NULL
+                            OR (
+                                 :todayStatus = 'NOT_MARKED' AND NOT EXISTS (
+                                     SELECT 1 FROM attendance a
+                                     WHERE a.student_id = gs.student_id
+                                       AND a.group_id = gs.group_id
+                                       AND a.status != 'DELETED'
+                                       AND a.attendance_time BETWEEN :todayStart AND :todayEnd
+                                 )
+                               )
+                            OR (
+                                 :todayStatus <> 'NOT_MARKED' AND EXISTS (
+                                     SELECT 1 FROM attendance a
+                                     WHERE a.student_id = gs.student_id
+                                       AND a.group_id = gs.group_id
+                                       AND a.status != 'DELETED'
+                                       AND a.attendance_time BETWEEN :todayStart AND :todayEnd
+                                       AND a.attendance_status = :todayStatus
+                                 )
+                               )
+                          )
                     """,
             nativeQuery = true
     )
@@ -68,6 +117,9 @@ public interface GroupRepository extends JpaRepository<Grouping, UUID>, JpaSpeci
             @Param("centerId") UUID centerId,
             @Param("teacherId") Long teacherId,
             @Param("groupId") UUID groupId,
+            @Param("todayStatus") String todayStatus,
+            @Param("todayStart") LocalDateTime todayStart,
+            @Param("todayEnd") LocalDateTime todayEnd,
             Pageable pageable
     );
 }

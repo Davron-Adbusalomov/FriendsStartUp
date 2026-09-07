@@ -72,7 +72,7 @@ public class AttendanceController {
     }
 
     @Operation(
-            summary = "Get attendance matrix (group optional — omit to see all groups; use teacherId to scope to a teacher's own groups)",
+            summary = "Get attendance matrix (group optional — omit to see all groups; use teacherId to scope to a teacher's own groups; todayStatus filters to students whose today's attendance matches the given status, NOT_MARKED included)",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Success"),
                     @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -93,9 +93,10 @@ public class AttendanceController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             LocalDateTime to,
             @RequestParam(required = false) Long studentId,
+            @RequestParam(required = false) AttendanceStatus todayStatus,
             Pageable pageable
     ) {
-        return attendanceService.getAllOptimized(groupId, teacherId, from, to, pageable);
+        return attendanceService.getAllOptimized(groupId, teacherId, from, to, todayStatus, pageable);
     }
 
 

@@ -157,6 +157,7 @@ public class AttendanceService {
             Long teacherId,
             LocalDateTime from,
             LocalDateTime to,
+            AttendanceStatus todayStatus,
             Pageable pageable
     ) {
         // groupId is optional — when it's null, every group in the current center is in
@@ -181,8 +182,14 @@ public class AttendanceService {
                 ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize())
                 : PageRequest.of(0, 100);
 
+        LocalDateTime todayStart = LocalDate.now().atStartOfDay();
+        LocalDateTime todayEnd = todayStart.plusDays(1).minusNanos(1);
+
         Page<StudentGroupIdProjection> page = groupRepository.findStudentGroupPairs(
-                TenantContext.getCenterId(), teacherId, groupId, effectivePageable);
+                TenantContext.getCenterId(), teacherId, groupId,
+                todayStatus != null ? todayStatus.name() : null,
+                todayStart, todayEnd,
+                effectivePageable);
 
         List<StudentGroupIdProjection> pairs = page.getContent();
         if (pairs.isEmpty()) {
