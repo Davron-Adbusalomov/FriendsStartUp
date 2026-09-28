@@ -35,7 +35,7 @@ public class StudentSpecification {
             String value = "%" + search.trim().toLowerCase() + "%";
 
             return cb.or(
-                    cb.like(cb.lower(root.get("name")), value),
+                    cb.like(cb.lower(root.get("fullName")), value),
                     cb.like(cb.lower(root.get("phoneNumber")), value)
             );
         };
