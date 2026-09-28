@@ -26,7 +26,29 @@ public class StudentSpecification {
                 centerId == null ? null : cb.equal(root.get("centerId"), centerId);
     }
 
-    public static Specification<Student> advancedFilter(UUID groupId, UUID centerId) {
-        return Specification.where(hasGroupId(groupId)).and(hasCenterId(centerId));
+    public static Specification<Student> hasSearch(String search) {
+        return (root, query, cb) -> {
+            if (search == null || search.trim().isEmpty()) {
+                return null;
+            }
+
+            String value = "%" + search.trim().toLowerCase() + "%";
+
+            return cb.or(
+                    cb.like(cb.lower(root.get("name")), value),
+                    cb.like(cb.lower(root.get("phoneNumber")), value)
+            );
+        };
+    }
+
+    public static Specification<Student> advancedFilter(
+            UUID groupId,
+            String search,
+            UUID centerId
+    ) {
+        return Specification
+                .where(hasGroupId(groupId))
+                .and(hasCenterId(centerId))
+                .and(hasSearch(search));
     }
 }

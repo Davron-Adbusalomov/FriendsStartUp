@@ -61,8 +61,8 @@ public class StudentService {
 //        this.jwtService = jwtService;
 //    }
 
-    public Page<StudentDTO> getStudents(UUID groupId, Pageable pageable) {
-        Specification<Student> spec = StudentSpecification.advancedFilter(groupId, TenantContext.getCenterId());
+    public Page<StudentDTO> getStudents(UUID groupId, String search, Pageable pageable) {
+        Specification<Student> spec = StudentSpecification.advancedFilter(groupId, search, TenantContext.getCenterId());
 
         Page<Student> studentPage = studentRepository.findAll(spec, pageable);
 

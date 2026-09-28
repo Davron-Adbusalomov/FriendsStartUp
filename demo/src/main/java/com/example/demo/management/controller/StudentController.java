@@ -42,9 +42,10 @@ public class StudentController {
             })
     public ResponseEntity<?> getAllStudents(
             @RequestParam(name = "groupId", required = false) UUID groupId,
+            @RequestParam(name = "search", required = false) String search,
             Pageable pageable) {
         try {
-            return ResponseEntity.ok(studentService.getStudents(groupId, pageable));
+            return ResponseEntity.ok(studentService.getStudents(groupId, search, pageable));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
