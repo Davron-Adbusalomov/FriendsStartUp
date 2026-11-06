@@ -34,6 +34,7 @@ public interface GroupRepository extends JpaRepository<Grouping, UUID>, JpaSpeci
     @Query("select g from Grouping g where g.id = :groupId")
     Optional<Grouping> findByIdWithTeacher(UUID groupId);
 
+
     /**
      * Paginated (studentId, groupId) pairs for the attendance matrix, filtered directly
      * in the database (center-scoped, optionally by teacher and/or a single group) — avoids
